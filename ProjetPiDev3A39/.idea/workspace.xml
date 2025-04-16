@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="58252d4e-db68-4e77-984b-e452b11cfbb9" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/ProjetPiDev3A39/target/classes/util/DataSource.class" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2uv1xA7QYRQ6H0yMUepxS91MIBi" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CommentaireMain.executor": "Run",
+    "Application.ConsultationMain.executor": "Run",
+    "Application.CreateStoreItemMain.executor": "Run",
+    "Application.CreateTitleMain.executor": "Run",
+    "Application.DisplayPexelWordsMain.executor": "Run",
+    "Application.DisplayStoreItemsMain.executor": "Run",
+    "Application.FXMLTestMain.executor": "Run",
+    "Application.Main.DisplayPexelWordsMain.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MainApp.executor": "Run",
+    "Application.Mainx.executor": "Run",
+    "Application.PexelWordMain.executor": "Run",
+    "Application.ProfileMain.executor": "Run",
+    "Application.StoreItemMain.executor": "Run",
+    "Application.TitleMain.executor": "Run",
+    "Application.UserMain.executor": "Run",
+    "Application.UserTitlesMain.executor": "Run",
+    "JavaScript Debug.footer.html.executor": "Run",
+    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [package].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/hamza/OneDrive/Desktop/Pidev-Java-Hamza/ProjetPiDev3A39/ProjetPiDev3A39/src/main/java/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.46206897",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\java\test" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\resources\css" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\resources\css" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\java\test" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\resources" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\resources\html" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\Pidev-Java-Hamza\ProjetPiDev3A39\ProjetPiDev3A39\src\main\resources\fxml" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.UserTitlesMain">
+    <configuration name="CreateStoreItemMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.CreateStoreItemMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateTitleMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.CreateTitleMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayPexelWordsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayPexelWordsMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayStoreItemsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayStoreItemsMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApp" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayTitlesMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApp" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.MainApp" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml " />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTitlesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.UserTitlesMain" />
+      <module name="ProjetPiDev3A39" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <module name="ProjetPiDev3A39" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MainApp" />
+      <item itemvalue="Application.UserTitlesMain" />
+      <item itemvalue="Application.DisplayPexelWordsMain" />
+      <item itemvalue="Application.CreateStoreItemMain" />
+      <item itemvalue="Application.CreateTitleMain" />
+      <item itemvalue="Application.DisplayStoreItemsMain" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.UserTitlesMain" />
+        <item itemvalue="Application.DisplayPexelWordsMain" />
+        <item itemvalue="Application.CreateTitleMain" />
+        <item itemvalue="Application.CreateStoreItemMain" />
+        <item itemvalue="Application.DisplayStoreItemsMain" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\hamza\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="58252d4e-db68-4e77-984b-e452b11cfbb9" name="Changes" comment="" />
+      <created>1743114477216</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743114477216</updated>
+      <workItem from="1743114478310" duration="696000" />
+      <workItem from="1743115249053" duration="824000" />
+      <workItem from="1743116080269" duration="5400000" />
+      <workItem from="1743187135853" duration="1977000" />
+      <workItem from="1743505535242" duration="5077000" />
+      <workItem from="1743709461528" duration="713000" />
+      <workItem from="1744220399175" duration="1990000" />
+      <workItem from="1744315937856" duration="734000" />
+      <workItem from="1744454553319" duration="9941000" />
+      <workItem from="1744465592548" duration="4291000" />
+      <workItem from="1744480978880" duration="10262000" />
+      <workItem from="1744540096785" duration="8455000" />
+      <workItem from="1744568560947" duration="6997000" />
+      <workItem from="1744746724653" duration="2231000" />
+      <workItem from="1744750479500" duration="84000" />
+      <workItem from="1744750575565" duration="2000" />
+      <workItem from="1744750669446" duration="7702000" />
+      <workItem from="1744824142563" duration="16701000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
