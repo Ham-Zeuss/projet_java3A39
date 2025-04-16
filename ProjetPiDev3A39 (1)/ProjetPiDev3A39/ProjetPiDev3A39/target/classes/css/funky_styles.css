@@ -1,0 +1,123 @@
+/* Root VBox */
+VBox {
+    -fx-background-color: linear-gradient(to bottom right, #FF6F61, #6B728E);
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 20;
+}
+
+/* ScrollPane */
+.funky-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+/* ScrollPane Viewport */
+.funky-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Profiles Container */
+.profiles-container {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* Profile Card */
+.profile-card {
+    -fx-background-color: #FFF5E1;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #FF69B4;
+    -fx-border-width: 2;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, #FF69B4, 10, 0.5, 2, 2);
+    -fx-font-family: "Poppins", "Comic Sans MS", sans-serif;
+    -fx-font-size: 14px;
+    -fx-max-width: 400;
+}
+
+/* Profile Card Hover Effect */
+.profile-card:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #FFE4E1;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Profile Field Labels */
+.profile-field {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+/* Action Icons Container */
+.action-icons {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+/* Action Icon Button */
+.action-icon {
+    -fx-background-color: #FFD700;
+    -fx-background-radius: 50%;
+    -fx-text-fill: #000000;
+    -fx-font-size: 16px;
+    -fx-padding: 8;
+    -fx-effect: dropshadow(gaussian, #FF69B4, 5, 0.5, 1, 1);
+}
+
+/* Action Icon Hover Effect */
+.action-icon:hover {
+    -fx-background-color: #00FFFF;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-rotate: 10;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Action Icon Pressed Effect */
+.action-icon:pressed {
+    -fx-background-color: #FF69B4;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-rotate: 0;
+}
+
+/* Funky Button (Add Profile) */
+.funky-button {
+    -fx-background-color: #FFD700;
+    -fx-text-fill: #000000;
+    -fx-font-family: "Poppins", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25;
+    -fx-padding: 10 20 10 20;
+    -fx-effect: dropshadow(gaussian, #FF69B4, 10, 0.5, 2, 2);
+}
+
+/* Funky Button Hover Effect */
+.funky-button:hover {
+    -fx-background-color: #00FFFF;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-rotate: 5;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Funky Button Pressed Effect */
+.funky-button:pressed {
+    -fx-background-color: #FF69B4;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+    -fx-rotate: 0;
+}
+
+/* Error Label */
+.error-label {
+    -fx-text-fill: #FF4500;
+    -fx-font-family: "Comic Sans MS", sans-serif;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, #FFFFFF, 5, 0.5, 1, 1);
+}

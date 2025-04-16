@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.FrontDisplayProfilesController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text text="Public Profiles" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="profilesTable">
+        <columns>
+            <TableColumn fx:id="userIdColumn" text="Name" prefWidth="150"/>
+            <TableColumn fx:id="biographyColumn" text="Biography" prefWidth="200"/>
+            <TableColumn fx:id="specialtyColumn" text="Specialty" prefWidth="150"/>
+            <TableColumn fx:id="consultationPriceColumn" text="Consultation Price" prefWidth="120"/>
+            <TableColumn fx:id="resourcesColumn" text="Resources" prefWidth="100"/>
+            <TableColumn fx:id="commentColumn" text="Comments" prefWidth="100"/>
+            <TableColumn fx:id="addCommentColumn" text="Add Comment" prefWidth="100"/>
+            <TableColumn fx:id="bookConsultationColumn" text="Book" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+</VBox>
