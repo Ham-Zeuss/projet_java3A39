@@ -25,7 +25,7 @@ public class mes_rendezvous extends Application {
                 throw new IOException("Cannot find header.fxml at /header.fxml");
             }
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100); // Adjusted height for header.fxml
+            headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
             System.out.println("header.fxml loaded successfully");
 
@@ -40,7 +40,7 @@ public class mes_rendezvous extends Application {
                 System.err.println("Error: header.html not found");
                 headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
             }
-            headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
+            headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
             System.out.println("header.html loaded successfully");
 
@@ -52,7 +52,7 @@ public class mes_rendezvous extends Application {
             }
             FXMLLoader bodyLoader = new FXMLLoader(bodyUrl);
             VBox bodyContent = bodyLoader.load();
-            bodyContent.setPrefHeight(600); // Adjusted to match previous scene height
+            bodyContent.setPrefHeight(600);
             bodyContent.setMaxHeight(600);
             mainContent.getChildren().add(bodyContent);
             System.out.println("UserConsultations.fxml loaded successfully");
@@ -78,7 +78,7 @@ public class mes_rendezvous extends Application {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            // Set up the scene and apply CSS safely
+            // Set up the scene and apply CSS
             Scene scene = new Scene(scrollPane, 600, 400);
             URL cssUrl = getClass().getResource("/css/styles.css");
             if (cssUrl != null) {
@@ -87,13 +87,19 @@ public class mes_rendezvous extends Application {
             } else {
                 System.err.println("Error: styles.css not found in resources at /css/styles.css");
             }
-            // Add UserTitlesStyle.css for title cards
             URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
             if (userTitlesCssUrl != null) {
                 scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
                 System.out.println("UserTitlesStyle.css applied successfully");
             } else {
                 System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
+            }
+            URL consultationsCssUrl = getClass().getResource("/css/ConsultationsStyle.css");
+            if (consultationsCssUrl != null) {
+                scene.getStylesheets().add(consultationsCssUrl.toExternalForm());
+                System.out.println("ConsultationsStyle.css applied successfully");
+            } else {
+                System.err.println("Error: ConsultationsStyle.css not found in resources at /css/ConsultationsStyle.css");
             }
 
             primaryStage.setTitle("JavaFX Scrollable Window - User Appointments");

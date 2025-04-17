@@ -36,8 +36,10 @@
 
         <GridPane hgap="10.0" vgap="10.0">
             <Label text="Resources:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextArea fx:id="resourcesTextArea" promptText="Enter resources (optional)" wrapText="true"
-                      GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200.0" prefHeight="100.0"/>
+            <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="5.0">
+                <TextField fx:id="resourcesTextField" promptText="Select a PDF file (optional)" prefWidth="150.0" editable="false"/>
+                <Button fx:id="chooseFileButton" text="Browse" onAction="#chooseResourceFile"/>
+            </HBox>
 
             <Label text="Consultation Price:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <TextField fx:id="priceTextField" promptText="Enter price (e.g., 50.0)" GridPane.rowIndex="1" GridPane.columnIndex="1"

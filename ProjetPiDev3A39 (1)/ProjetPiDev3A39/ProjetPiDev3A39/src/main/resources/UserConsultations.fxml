@@ -3,28 +3,25 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER" spacing="20.0" styleClass="appointments-container" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.UserConsultationsController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text text="My Appointments" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Text fx:id="title" text="My Appointments" styleClass="appointments-title"/>
 
-    <TableView fx:id="consultationsTable" prefWidth="600.0">
-        <columns>
-            <TableColumn fx:id="dateColumn" text="Date" prefWidth="150.0"/>
-            <TableColumn fx:id="timeColumn" text="Time" prefWidth="100.0"/>
-            <TableColumn fx:id="profileColumn" text="Profile" prefWidth="200.0"/>
-            <TableColumn fx:id="completedColumn" text="Completed" prefWidth="100.0"/>
-        </columns>
-    </TableView>
+    <ScrollPane fitToWidth="true" styleClass="appointments-scroll-pane">
+        <content>
+            <VBox fx:id="appointmentsList" spacing="10" styleClass="appointments-list">
+                <!-- Appointments will be added dynamically as bullet points -->
+            </VBox>
+        </content>
+    </ScrollPane>
 
-    <Button fx:id="closeButton" text="Close" onAction="#close"/>
+    <Button fx:id="closeButton" text="Close" onAction="#close" styleClass="close-button"/>
 </VBox>
-

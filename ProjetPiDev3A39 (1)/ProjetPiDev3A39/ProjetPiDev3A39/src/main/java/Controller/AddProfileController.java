@@ -5,10 +5,12 @@ import entite.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import service.ProfileService;
 import service.UserService;
 
+import java.io.File;
 import java.util.List;
 
 public class AddProfileController {
@@ -20,7 +22,9 @@ public class AddProfileController {
     @FXML
     private ComboBox<String> specialtyComboBox;
     @FXML
-    private TextArea resourcesTextArea;
+    private TextField resourcesTextField;
+    @FXML
+    private Button chooseFileButton;
     @FXML
     private TextField priceTextField;
     @FXML
@@ -67,6 +71,20 @@ public class AddProfileController {
     }
 
     @FXML
+    private void chooseResourceFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Resource File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
+        Stage stage = (Stage) chooseFileButton.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            resourcesTextField.setText(selectedFile.getAbsolutePath());
+        }
+    }
+
+    @FXML
     private void addProfile() {
         try {
             feedbackLabel.setText("");
@@ -95,7 +113,6 @@ public class AddProfileController {
                     feedbackLabel.setText("Price cannot be negative.");
                     return;
                 }
-                // New validation: Price must be between 50 and 100
                 if (price < 50 || price > 100) {
                     feedbackLabel.setText("Price must be between 50 and 100.");
                     return;
@@ -110,9 +127,8 @@ public class AddProfileController {
                 biography = null;
             }
 
-            String resources = resourcesTextArea.getText().trim();
+            String resources = resourcesTextField.getText().trim();
             if (!resources.isEmpty()) {
-                // New validation: Resources must end with .pdf
                 if (!resources.toLowerCase().endsWith(".pdf")) {
                     feedbackLabel.setText("Resources must be a .pdf file.");
                     return;
