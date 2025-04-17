@@ -2,25 +2,25 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER" spacing="20.0" styleClass="popup-container" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.FrontDisplayCommentsController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text fx:id="title" text="Comments for Profile" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Text fx:id="title" text="Comments for Profile" styleClass="popup-title"/>
 
-    <TableView fx:id="commentsTable">
-        <columns>
-            <TableColumn fx:id="userNameColumn" text="User Name" prefWidth="150"/>
-            <TableColumn fx:id="commentColumn" text="Comment" prefWidth="300"/>
-        </columns>
-    </TableView>
+    <ScrollPane fitToWidth="true" styleClass="table-scroll-pane">
+        <content>
+            <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container">
+                <!-- Comment boxes will be added dynamically by the controller -->
+            </VBox>
+        </content>
+    </ScrollPane>
 
-    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+    <Label fx:id="errorLabel" text="" styleClass="error-label"/>
 </VBox>

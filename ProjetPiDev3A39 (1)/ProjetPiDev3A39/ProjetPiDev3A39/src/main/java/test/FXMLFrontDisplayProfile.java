@@ -52,7 +52,7 @@ public class FXMLFrontDisplayProfile extends Application {
             System.err.println("Error: footer.html not found");
             footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
         }
-        footerWebView.setPrefSize(1000, 830);
+        footerWebView.setPrefSize(1000, 1080);
         mainContent.getChildren().add(footerWebView);
 
         // Wrap the VBox in a ScrollPane
@@ -69,12 +69,12 @@ public class FXMLFrontDisplayProfile extends Application {
         } else {
             System.err.println("Error: styles.css not found in resources at /css/styles.css");
         }
-        // Add UserTitlesStyle.css for title cards
-        URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+        // Add affichageprofilefront.css for title cards
+        URL userTitlesCssUrl = getClass().getResource("/css/affichageprofilefront.css");
         if (userTitlesCssUrl != null) {
             scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
         } else {
-            System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
+            System.err.println("Error: affichageprofilefront.css not found in resources at /css/affichageprofilefront.css");
         }
 
         primaryStage.setTitle("JavaFX Scrollable Window");

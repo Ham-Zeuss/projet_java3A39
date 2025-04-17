@@ -8,7 +8,6 @@ service\PexelWordService.class
 test\FXMLaddprofile.class
 test\StoreItemMain.class
 Controller\DisplayCommentsController.class
-Controller\FrontDisplayProfilesController$1.class
 service\CommentaireService.class
 test\TestAddProfileApp.class
 Controller\DisplayCommentsController$1.class
@@ -27,7 +26,6 @@ service\IService.class
 Controller\UpdateConsultationController$3.class
 Controller\UpdateConsultationController.class
 Controller\UserConsultationsController.class
-Controller\FrontDisplayProfilesController$4.class
 Controller\DisplayProfilesController$2.class
 service\ConsultationService.class
 test\ConsultationMain.class
@@ -36,7 +34,6 @@ Controller\FrontAddConsultationController.class
 Controller\FrontDisplayCommentsController.class
 test\UserMain.class
 test\CommentaireMain.class
-test\JavaFXBridge.class
 test\Mainx.class
 entite\Profile.class
 Controller\AddProfileController$1.class
@@ -48,7 +45,6 @@ test\mes_rendezvous.class
 Controller\AddCommentController.class
 entite\Commentaire.class
 Controller\AddProfileController$2.class
-Controller\FrontDisplayProfilesController$3.class
 entite\PexelWord.class
 Controller\UpdateConsultationController$4.class
 test\FXMLFrontDisplayProfile.class
@@ -61,5 +57,4 @@ Controller\FrontAddConsultationController$2.class
 Controller\AddProfileController.class
 entite\Consultation.class
 Controller\DisplayProfilesController$4.class
-Controller\FrontDisplayProfilesController$2.class
 test\TitleMain.class

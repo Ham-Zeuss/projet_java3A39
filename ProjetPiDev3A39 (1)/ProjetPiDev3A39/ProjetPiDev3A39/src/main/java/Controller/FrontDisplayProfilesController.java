@@ -2,12 +2,14 @@ package Controller;
 
 import entite.Profile;
 import entite.User;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.ProfileService;
@@ -17,31 +19,7 @@ import java.io.IOException;
 public class FrontDisplayProfilesController {
 
     @FXML
-    private TableView<Profile> profilesTable;
-
-    @FXML
-    private TableColumn<Profile, String> userIdColumn;
-
-    @FXML
-    private TableColumn<Profile, String> biographyColumn;
-
-    @FXML
-    private TableColumn<Profile, String> specialtyColumn;
-
-    @FXML
-    private TableColumn<Profile, Number> consultationPriceColumn;
-
-    @FXML
-    private TableColumn<Profile, Void> resourcesColumn;
-
-    @FXML
-    private TableColumn<Profile, Void> commentColumn;
-
-    @FXML
-    private TableColumn<Profile, Void> addCommentColumn;
-
-    @FXML
-    private TableColumn<Profile, Void> bookConsultationColumn;
+    private FlowPane profilesContainer;
 
     @FXML
     private Label errorLabel;
@@ -55,88 +33,74 @@ public class FrontDisplayProfilesController {
             profileService = new ProfileService();
             System.out.println("ProfileService initialized");
 
-            // Configure table columns
-            userIdColumn.setCellValueFactory(cellData -> {
-                User user = cellData.getValue().getUserId();
+            // Load profiles
+            var profiles = profileService.readAll();
+            System.out.println("Profiles loaded: " + profiles.size());
+
+            if (profiles.isEmpty()) {
+                errorLabel.setText("No profiles found in the database.");
+                return;
+            }
+
+            // Dynamically create a card for each profile
+            for (Profile profile : profiles) {
+                // Create a VBox for each profile card
+                VBox profileCard = new VBox();
+                profileCard.getStyleClass().add("profile-card");
+                profileCard.setSpacing(5);
+                profileCard.setAlignment(Pos.CENTER);
+
+                // Extract user info
+                User user = profile.getUserId();
                 String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
                         (user.getPrenom() != null ? user.getPrenom() : "");
-                return new SimpleStringProperty(fullName.trim());
-            });
-            biographyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBiographie()));
-            specialtyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSpecialite()));
-            consultationPriceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrixConsultation()));
 
-            resourcesColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button resourcesButton = new Button("View PDF");
+                // Add profile details as Labels
+                Label nameLabel = new Label(fullName.trim());
+                nameLabel.getStyleClass().add("title-label");
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Profile profile = getTableView().getItems().get(getIndex());
-                        resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
-                        setGraphic(resourcesButton);
-                    }
-                }
-            });
+                Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
+                Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
+                Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
 
-            commentColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button commentButton = new Button("View Comments");
+                // Create buttons with icons and tooltips
+                Button resourcesButton = new Button("View PDF");
+                resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Profile profile = getTableView().getItems().get(getIndex());
-                        commentButton.setOnAction(event -> openCommentsWindow(profile));
-                        setGraphic(commentButton);
-                    }
-                }
-            });
+                Button commentButton = new Button("👀");
+                commentButton.getStyleClass().add("icon-button");
+                commentButton.setOnAction(event -> openCommentsWindow(profile));
+                Tooltip viewTooltip = new Tooltip("View Comments");
+                commentButton.setTooltip(viewTooltip);
 
-            addCommentColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button addCommentButton = new Button("Add Comment");
+                Button addCommentButton = new Button("✍️");
+                addCommentButton.getStyleClass().add("icon-button");
+                addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
+                Tooltip addTooltip = new Tooltip("Add Comment");
+                addCommentButton.setTooltip(addTooltip);
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Profile profile = getTableView().getItems().get(getIndex());
-                        addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
-                        setGraphic(addCommentButton);
-                    }
-                }
-            });
+                Button bookButton = new Button("📅");
+                bookButton.getStyleClass().add("icon-button");
+                bookButton.setOnAction(event -> openBookConsultationWindow(profile));
+                Tooltip bookTooltip = new Tooltip("Book Consultation");
+                bookButton.setTooltip(bookTooltip);
 
-            bookConsultationColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button bookButton = new Button("Book Consultation");
+                // Create an HBox to hold the icon buttons side by side
+                HBox iconButtonsContainer = new HBox();
+                iconButtonsContainer.setSpacing(10);
+                iconButtonsContainer.setAlignment(Pos.CENTER);
+                iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Profile profile = getTableView().getItems().get(getIndex());
-                        bookButton.setOnAction(event -> openBookConsultationWindow(profile));
-                        setGraphic(bookButton);
-                    }
-                }
-            });
+                // Add all elements to the card
+                profileCard.getChildren().addAll(
+                        nameLabel, bioLabel, specialtyLabel, priceLabel,
+                        resourcesButton, iconButtonsContainer
+                );
 
-            // Load profiles
-            profilesTable.getItems().setAll(profileService.readAll());
-            System.out.println("Profiles loaded: " + profilesTable.getItems().size());
-
-            if (profilesTable.getItems().isEmpty()) {
-                errorLabel.setText("No profiles found in the database.");
+                // Add the card to the container
+                profilesContainer.getChildren().add(profileCard);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             errorLabel.setText("Error loading profiles: " + e.getMessage());
@@ -166,7 +130,9 @@ public class FrontDisplayProfilesController {
                 throw new IOException("FXML file not found: /FrontDisplayComments.fxml");
             }
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            Scene scene = new Scene(loader.load(), 500, 400); // Added size for better visibility
+            scene.getStylesheets().add(getClass().getResource("/css/CommentsStyle.css").toExternalForm()); // Load CSS
+            stage.setScene(scene);
             stage.setTitle("Comments for Profile");
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -238,15 +204,68 @@ public class FrontDisplayProfilesController {
 
     public void refreshTable() {
         try {
-            profilesTable.getItems().setAll(profileService.readAll());
-            if (profilesTable.getItems().isEmpty()) {
+            profilesContainer.getChildren().clear(); // Clear existing cards
+            var profiles = profileService.readAll();
+            if (profiles.isEmpty()) {
                 errorLabel.setText("No profiles found in the database.");
-            } else {
-                errorLabel.setText("");
+                return;
             }
+
+            // Recreate profile cards
+            for (Profile profile : profiles) {
+                VBox profileCard = new VBox();
+                profileCard.getStyleClass().add("profile-card");
+                profileCard.setSpacing(5);
+                profileCard.setAlignment(Pos.CENTER);
+
+                User user = profile.getUserId();
+                String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
+                        (user.getPrenom() != null ? user.getPrenom() : "");
+
+                Label nameLabel = new Label(fullName.trim());
+                nameLabel.getStyleClass().add("title-label");
+                Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
+                Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
+                Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
+
+                Button resourcesButton = new Button("View PDF");
+                resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
+
+                Button commentButton = new Button("👀");
+                commentButton.getStyleClass().add("icon-button");
+                commentButton.setOnAction(event -> openCommentsWindow(profile));
+                Tooltip viewTooltip = new Tooltip("View Comments");
+                commentButton.setTooltip(viewTooltip);
+
+                Button addCommentButton = new Button("✍️");
+                addCommentButton.getStyleClass().add("icon-button");
+                addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
+                Tooltip addTooltip = new Tooltip("Add Comment");
+                addCommentButton.setTooltip(addTooltip);
+
+                Button bookButton = new Button("📅");
+                bookButton.getStyleClass().add("icon-button");
+                bookButton.setOnAction(event -> openBookConsultationWindow(profile));
+                Tooltip bookTooltip = new Tooltip("Book Consultation");
+                bookButton.setTooltip(bookTooltip);
+
+                // Create an HBox to hold the icon buttons side by side
+                HBox iconButtonsContainer = new HBox();
+                iconButtonsContainer.setSpacing(10);
+                iconButtonsContainer.setAlignment(Pos.CENTER);
+                iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
+
+                profileCard.getChildren().addAll(
+                        nameLabel, bioLabel, specialtyLabel, priceLabel,
+                        resourcesButton, iconButtonsContainer
+                );
+
+                profilesContainer.getChildren().add(profileCard);
+            }
+            errorLabel.setText("");
         } catch (Exception e) {
             e.printStackTrace();
-            errorLabel.setText("Error refreshing table: " + e.getMessage());
+            errorLabel.setText("Error refreshing profiles: " + e.getMessage());
         }
     }
 
