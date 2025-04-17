@@ -23,7 +23,11 @@
                 <ComboBox fx:id="coursComboBox" prefWidth="200.0" />
             </HBox>
 
-            <Button fx:id="createButton" text="Créer Quiz" onAction="#handleCreateQuiz" />        </children>
+            <HBox spacing="10.0" alignment="CENTER">
+                <Button fx:id="createButton" text="Créer Quiz" onAction="#handleCreateQuiz" />
+                <Button fx:id="returnButton" text="Retour" onAction="#goBackToQuizList" />
+            </HBox>
+        </children>
         <padding>
             <Insets top="20" right="20" bottom="20" left="20" />
         </padding>

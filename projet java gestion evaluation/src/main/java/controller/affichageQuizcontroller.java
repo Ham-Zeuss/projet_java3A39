@@ -16,9 +16,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import service.QuizService;
-
-import java.io.IOException;
+import javafx.scene.web.WebView;
 import java.net.URL;
+import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -109,18 +109,66 @@ public class affichageQuizcontroller implements Initializable {
 
     private void goToUpdateQuiz(Quiz quiz) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateQuiz.fxml"));
-            Parent root = loader.load();
+            Stage stage = (Stage) addQuizButton.getScene().getWindow();
+            VBox mainContent = new VBox();
 
-            UpdateQuizController controller = loader.getController();
+            // Load header.fxml
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header.html
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            // Load body (updateQuiz.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/updateQuiz.fxml"));
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Set controller data
+            UpdateQuizController controller = bodyLoader.getController();
             controller.setQuizToUpdate(quiz);
 
-            Stage stage = (Stage) addQuizButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+            // Load footer.html
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 600, 400);
+            URL cssUrl = getClass().getResource("/styles.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+
             stage.setScene(scene);
             stage.setTitle("Modifier le Quiz");
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement du quiz : " + e.getMessage());
             alert.showAndWait();
@@ -130,13 +178,62 @@ public class affichageQuizcontroller implements Initializable {
     @FXML
     private void goToAddQuiz() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/addQuiz.fxml"));
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+            VBox mainContent = new VBox();
+
+            // Load header.fxml
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header.html
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            // Load body (addQuiz.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/addQuiz.fxml"));
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Load footer.html
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 600, 400);
+            URL cssUrl = getClass().getResource("/styles.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+
             stage.setScene(scene);
             stage.setTitle("Ajouter un Quiz");
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de l'ajout de quiz : " + e.getMessage());
             alert.showAndWait();
@@ -145,18 +242,66 @@ public class affichageQuizcontroller implements Initializable {
 
     private void goToQuestionList(int quizId) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherQuestions.fxml"));
-            Parent root = loader.load();
+            Stage stage = (Stage) addQuizButton.getScene().getWindow();
+            VBox mainContent = new VBox();
 
-            AfficherQuestionsController controller = loader.getController();
+            // Load header.fxml
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header.html
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            // Load body (afficherQuestions.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/afficherQuestions.fxml"));
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Set controller data
+            AfficherQuestionsController controller = bodyLoader.getController();
             controller.setQuizId(quizId);
 
-            Stage stage = (Stage) addQuizButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+            // Load footer.html
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 600, 400);
+            URL cssUrl = getClass().getResource("/styles.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+
             stage.setScene(scene);
             stage.setTitle("Questions du Quiz");
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des questions : " + e.getMessage());
             alert.showAndWait();

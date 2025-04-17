@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.CoursService;
 import service.QuizService;
@@ -27,6 +29,7 @@ public class UpdateQuizController implements Initializable {
 
     @FXML
     private TextField durationField;
+
     @FXML
     private Button returnButton;
 
@@ -82,7 +85,14 @@ public class UpdateQuizController implements Initializable {
         if (quizToUpdate != null) {
             String title = titleField.getText();
             String description = descriptionArea.getText();
-            int duration = Integer.parseInt(durationField.getText());
+            int duration;
+            try {
+                duration = Integer.parseInt(durationField.getText());
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "La durée doit être un nombre valide.");
+                alert.showAndWait();
+                return;
+            }
             Cours selectedCourse = courseComboBox.getSelectionModel().getSelectedItem();
 
             // Update the quiz object
@@ -95,45 +105,130 @@ public class UpdateQuizController implements Initializable {
             quizService.update(quizToUpdate);
 
             try {
-                // Load the AffichageQuiz FXML file
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
-                Parent root = loader.load();
-
-                // Create a new scene with the loaded FXML
-                Scene scene = new Scene(root);
-
-                // Get the current stage (window)
+                // Get the current stage
                 Stage currentStage = (Stage) updateButton.getScene().getWindow();
+                VBox mainContent = new VBox();
 
-                // Set the new scene to the stage
+                // Load header.fxml
+                FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                VBox headerFxmlContent = headerFxmlLoader.load();
+                headerFxmlContent.setPrefSize(1000, 100);
+                mainContent.getChildren().add(headerFxmlContent);
+
+                // Load header.html
+                WebView headerWebView = new WebView();
+                URL headerUrl = getClass().getResource("/header.html");
+                if (headerUrl != null) {
+                    headerWebView.getEngine().load(headerUrl.toExternalForm());
+                } else {
+                    headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+                }
+                headerWebView.setPrefSize(1000, 490);
+                mainContent.getChildren().add(headerWebView);
+
+                // Load body (affichageQuiz.fxml)
+                FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
+                Parent bodyContent = bodyLoader.load();
+                bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+                mainContent.getChildren().add(bodyContent);
+
+                // Load footer.html
+                WebView footerWebView = new WebView();
+                URL footerUrl = getClass().getResource("/footer.html");
+                if (footerUrl != null) {
+                    footerWebView.getEngine().load(footerUrl.toExternalForm());
+                } else {
+                    footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+                }
+                footerWebView.setPrefSize(1000, 830);
+                mainContent.getChildren().add(footerWebView);
+
+                ScrollPane scrollPane = new ScrollPane(mainContent);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+                Scene scene = new Scene(scrollPane, 600, 400);
+                URL cssUrl = getClass().getResource("/styles.css");
+                if (cssUrl != null) {
+                    scene.getStylesheets().add(cssUrl.toExternalForm());
+                }
+                URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+                if (userTitlesCssUrl != null) {
+                    scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+                }
+
                 currentStage.setScene(scene);
                 currentStage.setTitle("Liste des Quiz");
                 currentStage.show();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la liste des quiz : " + e.getMessage());
                 alert.showAndWait();
             }
         }
     }
+
     @FXML
     private void returnToAffichageQuiz() {
         try {
-            // Load the AffichageQuiz FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
-            Parent root = loader.load();
-
-            // Create a new scene with the loaded FXML
-            Scene scene = new Scene(root);
-
-            // Get the current stage (window)
+            // Get the current stage
             Stage currentStage = (Stage) returnButton.getScene().getWindow();
+            VBox mainContent = new VBox();
 
-            // Set the new scene to the stage
+            // Load header.fxml
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header.html
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            // Load body (affichageQuiz.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Load footer.html
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 600, 400);
+            URL cssUrl = getClass().getResource("/styles.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+
             currentStage.setScene(scene);
             currentStage.setTitle("Liste des Quiz");
             currentStage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la liste des quiz : " + e.getMessage());
             alert.showAndWait();

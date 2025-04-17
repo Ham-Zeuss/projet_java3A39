@@ -8,15 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.QuestionService;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class AfficherQuestionsController {
 
@@ -28,8 +29,6 @@ public class AfficherQuestionsController {
 
     @FXML
     private Button submitAllButton;
-
-
 
     private final QuestionService questionService = new QuestionService();
     private int quizId;
@@ -93,7 +92,7 @@ public class AfficherQuestionsController {
                 CheckBox checkBox = new CheckBox((char) ('A' + i) + ") " + options[i]);
                 checkBox.getStyleClass().add("check-box");
                 checkBoxes.add(checkBox);
-                box.getChildren().add(checkBox); // Ajouter les options directement
+                box.getChildren().add(checkBox);
             }
             questionCheckBoxes.put(question, checkBoxes);
         } else if ("radio".equals(optionType) || "radiobox".equals(optionType)) {
@@ -102,7 +101,7 @@ public class AfficherQuestionsController {
                 radioButton.setToggleGroup(toggleGroup);
                 radioButton.getStyleClass().add("radio-button");
                 radioButtons.add(radioButton);
-                box.getChildren().add(radioButton); // Ajouter les options directement
+                box.getChildren().add(radioButton);
             }
             questionRadioButtons.put(question, radioButtons);
         } else {
@@ -129,10 +128,9 @@ public class AfficherQuestionsController {
         HBox buttonContainer = new HBox(10, updateButton, deleteButton);
         buttonContainer.setStyle("-fx-alignment: center;");
 
-        // Ajouter les éléments dans l'ordre : texte, options (déjà ajoutées), boutons
-        box.getChildren().add(0, questionText); // Assurer que le texte est en premier
-        // Les options sont déjà ajoutées dans la boucle ci-dessus (positions 1 à 4)
-        box.getChildren().add(buttonContainer); // Boutons ajoutés à la fin
+        // Ajouter les éléments dans l'ordre : texte, options, boutons
+        box.getChildren().add(0, questionText);
+        box.getChildren().add(buttonContainer);
 
         return box;
     }
@@ -169,7 +167,6 @@ public class AfficherQuestionsController {
             StringBuilder reponseSoumise = new StringBuilder("[");
             String optionType = question.getOptionType() != null ? question.getOptionType().toLowerCase() : "";
 
-            // Récupérer les options sous forme de texte
             String[] options = {
                     safeText(question.getOption1()),
                     safeText(question.getOption2()),
@@ -205,7 +202,6 @@ public class AfficherQuestionsController {
             question.setReponseSoumise(reponseSoumise.toString());
             questionService.update(question);
 
-            // Ajouter au résultat pour l'affichage
             if (!reponseSoumise.toString().equals("[]")) {
                 result.append("Question: ").append(question.getText()).append("\nRéponse: ").append(reponseSoumise).append("\n");
                 hasAnswers = true;
@@ -233,14 +229,59 @@ public class AfficherQuestionsController {
                 throw new IllegalStateException("backButton est null");
             }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
-            if (loader.getLocation() == null) {
-                throw new IOException("Fichier FXML introuvable : /affichageQuiz.fxml");
-            }
-            Parent root = loader.load();
-
+            // Get the current stage
             Stage stage = (Stage) backButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+            VBox mainContent = new VBox();
+
+            // Load header.fxml
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header.html
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            // Load body (affichageQuiz.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Load footer.html
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 600, 400);
+            URL cssUrl = getClass().getResource("/styles.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+
             stage.setScene(scene);
             stage.setTitle("Liste des Quiz");
             stage.show();
@@ -250,5 +291,4 @@ public class AfficherQuestionsController {
             alert.showAndWait();
         }
     }
-
 }
