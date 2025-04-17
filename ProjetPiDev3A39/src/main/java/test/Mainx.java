@@ -7,6 +7,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 
 public class Mainx extends Application {
@@ -18,8 +19,8 @@ public class Mainx extends Application {
 
         // Load header.fxml (additional section below header.html)
         FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-        VBox headerFxmlContent = headerFxmlLoader.load();
-        headerFxmlContent.setPrefSize(1000, 100); // Adjusted height for header.fxml
+        VBox headerFxmlContent = headerFxmlLoader.load(); // Ensure header.fxml has VBox root
+        headerFxmlContent.setPrefSize(1000, 100);
         mainContent.getChildren().add(headerFxmlContent);
 
         // Load header (header.html) using WebView
@@ -32,13 +33,13 @@ public class Mainx extends Application {
             System.err.println("Error: header.html not found");
             headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
         }
-        headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
+        headerWebView.setPrefSize(1000, 490);
         mainContent.getChildren().add(headerWebView);
 
-        // Load body (UserTitles.fxml)
-        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/AffichageCours.fxml"));
-        VBox bodyContent = bodyLoader.load();
-        bodyContent.setPrefHeight(600); // Adjusted to match UserTitlesMain scene height
+        // Load body (AffichageCours.fxml)
+        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/AffichageModule.fxml"));
+        AnchorPane bodyContent = bodyLoader.load(); // Changed to AnchorPane
+        bodyContent.setPrefHeight(600);
         bodyContent.setMaxHeight(600);
         mainContent.getChildren().add(bodyContent);
 
@@ -54,7 +55,8 @@ public class Mainx extends Application {
         }
         footerWebView.setPrefSize(1000, 830);
         mainContent.getChildren().add(footerWebView);
-// Wrap the VBox in a ScrollPane
+
+        // Wrap the VBox in a ScrollPane
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
