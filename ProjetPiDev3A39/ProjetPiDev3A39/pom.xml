@@ -17,22 +17,22 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -45,21 +45,21 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
 
         <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
 
         <!-- JavaFX WebView (for WebView support) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>23.0.1</version>
+            <version>24.0.1</version>
         </dependency>
 
 
