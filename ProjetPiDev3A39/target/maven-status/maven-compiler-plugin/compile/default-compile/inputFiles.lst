@@ -21,6 +21,17 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Co
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\ListStoreItemsController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\ListStoreItemsFrontController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\ListTitlesController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\addQuestionBackController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\addQuestioncontroller.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\AddQuizBackendController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\addQuizcontroller.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\AffichageBackQuizController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\affichageQuestionBack.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\affichageQuizcontroller.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\AfficherQuestionsController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\UpdateQuestionBackController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\UpdateQuestionController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\Oumaima\UpdateQuizController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\PexelWordFormController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\UpdateConsultationController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\Controller\UpdateProfileController.java
@@ -32,6 +43,9 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\en
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Consultation.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Cours.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Module.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Oumaima\Cours.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Oumaima\Question.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Oumaima\Quiz.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\PexelWord.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\Profile.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\entite\StoreItem.java
@@ -43,6 +57,9 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\se
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\CoursService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\IService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\ModuleService.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\Oumaima\CoursService.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\Oumaima\QuestionService.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\Oumaima\QuizService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\PexelWordService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\ProfileService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\service\StoreItemService.java
@@ -65,5 +82,7 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\te
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\LeaderboardMain.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\Mainx.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\mes_rendezvous.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\Oumaima\FXMLAffichageBackQuizQuestionMain.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\Oumaima\FXMLAffichageQuizFront.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\test\UserTitlesMain.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\java\util\DataSource.java

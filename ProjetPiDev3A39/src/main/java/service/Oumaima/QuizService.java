@@ -21,6 +21,11 @@ public class QuizService implements IService<Quiz> {
     }
 
     @Override
+    public void createPst(Quiz quiz){
+
+    }
+
+    @Override
     public void create(Quiz quiz) {
         String requete = "INSERT INTO quiz (course_id, title, description, duration, created_at, note) VALUES (?, ?, ?, ?, ?, ?)";
         try {

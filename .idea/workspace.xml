@@ -26,11 +26,14 @@
     "Application.DisplayStoreItemsAdminMain.executor": "Run",
     "Application.DisplayStoreItemsMain.executor": "Run",
     "Application.DisplayTitlesMain.executor": "Run",
+    "Application.FXMLAffichageBackQuizQuestionMain.executor": "Run",
+    "Application.FXMLAffichageQuizFront.executor": "Run",
     "Application.FXMLDisplayConsultations.executor": "Run",
     "Application.FXMLFrontDisplayProfile.executor": "Run",
     "Application.FXMLTestMain.executor": "Run",
     "Application.FXMLaddprofile.executor": "Run",
     "Application.FXMLdisplayprofile.executor": "Run",
+    "Application.GestionCoursMain.executor": "Run",
     "Application.LeaderboardMain.executor": "Run",
     "Application.Mainx.executor": "Run",
     "Application.PexelWordMain.executor": "Run",
@@ -40,11 +43,12 @@
     "Application.TitleMain.executor": "Run",
     "Application.UserMain.executor": "Run",
     "Application.UserTitlesMain.executor": "Run",
+    "Application.mes_rendezvous.executor": "Run",
     "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
     "Maven.projet_java_gestion_evaluation [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar",
+    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/gson-2.10.1.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -55,42 +59,34 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\resources\MaryemFXML" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\ProjetPiDev3A39\src\main\resources\HedyFXML" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.Mainx">
-    <configuration name="CreateTitleMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.CreateTitleMain" />
-      <module name="projet_java_gestion_evaluation" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DisplayPexelWordsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.DisplayPexelWordsMain" />
-      <module name="projet_java_gestion_evaluation" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DisplayStoreItemsAdminMain" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.DisplayStoreItemsAdminMain" />
+      <option name="MAIN_CLASS_NAME" value="test.Ham.DisplayStoreItemsAdminMain" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayStoreItemsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Ham.DisplayStoreItemsMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Ham.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -99,12 +95,40 @@
       </method>
     </configuration>
     <configuration name="DisplayTitlesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.DisplayTitlesMain" />
+      <option name="MAIN_CLASS_NAME" value="test.Ham.DisplayTitlesMain" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLAffichageBackQuizQuestionMain" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Oumaima.FXMLAffichageBackQuizQuestionMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Oumaima.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLAffichageQuizFront" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Oumaima.FXMLAffichageQuizFront" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Oumaima.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -113,12 +137,12 @@
       </method>
     </configuration>
     <configuration name="FXMLDisplayConsultations" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.FXMLDisplayConsultations" />
+      <option name="MAIN_CLASS_NAME" value="test.Maryem.FXMLDisplayConsultations" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -127,12 +151,12 @@
       </method>
     </configuration>
     <configuration name="FXMLFrontDisplayProfile" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.FXMLFrontDisplayProfile" />
+      <option name="MAIN_CLASS_NAME" value="test.Maryem.FXMLFrontDisplayProfile" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -141,12 +165,12 @@
       </method>
     </configuration>
     <configuration name="FXMLaddprofile" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.FXMLaddprofile" />
+      <option name="MAIN_CLASS_NAME" value="test.Maryem.FXMLaddprofile" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -155,12 +179,26 @@
       </method>
     </configuration>
     <configuration name="FXMLdisplayprofile" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.FXMLdisplayprofile" />
+      <option name="MAIN_CLASS_NAME" value="test.Maryem.FXMLdisplayprofile" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GestionCoursMain" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.GestionCoursMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -169,12 +207,12 @@
       </method>
     </configuration>
     <configuration name="LeaderboardMain" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.LeaderboardMain" />
+      <option name="MAIN_CLASS_NAME" value="test.Ham.LeaderboardMain" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -183,12 +221,12 @@
       </method>
     </configuration>
     <configuration name="Mainx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.Mainx" />
+      <option name="MAIN_CLASS_NAME" value="test.hedy.Mainx" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -197,12 +235,25 @@
       </method>
     </configuration>
     <configuration name="UserTitlesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.UserTitlesMain" />
+      <option name="MAIN_CLASS_NAME" value="test.Ham.UserTitlesMain" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mes_rendezvous" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Maryem.mes_rendezvous" />
+      <module name="projet_java_gestion_evaluation" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Maryem.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -211,25 +262,28 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.FXMLAffichageBackQuizQuestionMain" />
+      <item itemvalue="Application.FXMLAffichageQuizFront" />
+      <item itemvalue="Application.GestionCoursMain" />
       <item itemvalue="Application.DisplayStoreItemsAdminMain" />
       <item itemvalue="Application.FXMLDisplayConsultations" />
       <item itemvalue="Application.FXMLFrontDisplayProfile" />
       <item itemvalue="Application.FXMLaddprofile" />
       <item itemvalue="Application.FXMLdisplayprofile" />
       <item itemvalue="Application.LeaderboardMain" />
+      <item itemvalue="Application.DisplayStoreItemsMain" />
+      <item itemvalue="Application.mes_rendezvous" />
       <item itemvalue="Application.Mainx" />
       <item itemvalue="Application.DisplayTitlesMain" />
       <item itemvalue="Application.UserTitlesMain" />
-      <item itemvalue="Application.DisplayPexelWordsMain" />
-      <item itemvalue="Application.CreateTitleMain" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Mainx" />
+        <item itemvalue="Application.mes_rendezvous" />
+        <item itemvalue="Application.DisplayStoreItemsMain" />
         <item itemvalue="Application.DisplayTitlesMain" />
         <item itemvalue="Application.UserTitlesMain" />
-        <item itemvalue="Application.DisplayPexelWordsMain" />
-        <item itemvalue="Application.CreateTitleMain" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +305,8 @@
       <updated>1744845727884</updated>
       <workItem from="1744845729092" duration="98000" />
       <workItem from="1745073820878" duration="975000" />
-      <workItem from="1745075248177" duration="1399000" />
+      <workItem from="1745075248177" duration="2266000" />
+      <workItem from="1745079273899" duration="2278000" />
     </task>
     <servers />
   </component>
@@ -275,6 +330,16 @@
           <url>file://$PROJECT_DIR$/ProjetPiDev3A39/ProjetPiDev3A39/src/main/java/test/FXMLDisplayConsultations.java</url>
           <line>12</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ProjetPiDev3A39/src/main/java/test/Ham/UserTitlesMain.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ProjetPiDev3A39/src/main/java/test/Oumaima/FXMLAffichageBackQuizQuestionMain.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

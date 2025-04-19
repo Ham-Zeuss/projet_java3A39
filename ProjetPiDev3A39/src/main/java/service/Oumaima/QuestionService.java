@@ -16,6 +16,14 @@ public class QuestionService implements IService<Question> {
     private Statement ste;
     private ResultSet rs;
 
+
+    @Override
+    public void createPst(Question question){
+
+    }
+
+
+
     public QuestionService() {
         cnx = DataSource.getInstance().getConnection();
         if (cnx == null) {
