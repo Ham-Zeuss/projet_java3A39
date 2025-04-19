@@ -1,8 +1,11 @@
 package org.example;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.gluonhq.charm.glisten.control.TextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,32 +27,17 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class SecurityController implements Initializable {
+public class SecurityController {
 
     @FXML
     private Button annuler;
     @FXML
     private Label connAlerte;
     @FXML
-    private ImageView imageView;
-    @FXML
-    private ImageView logoImageView;
-    @FXML
     private PasswordField _password;
     @FXML
     private TextField _username;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // Chargement des images
-        File brandingFile = new File("Images/contact_1.png");
-        Image brandingImage = new Image(brandingFile.toURI().toString());
-        imageView.setImage(brandingImage);
-
-        File viewFile = new File("Images/kidslightlogo.png");
-        Image viewImage = new Image(viewFile.toURI().toString());
-        logoImageView.setImage(viewImage);
-    }
 
     public void connexionButtonAction(ActionEvent event) {
         if (_password.getText().trim().isEmpty() || _username.getText().trim().isEmpty()) {
@@ -65,44 +53,45 @@ public class SecurityController implements Initializable {
     }
 
     public void validateloginButtonClicked(ActionEvent event) {
-        // 🔹 Récupération de la connexion
         Connection connectDB = DataSource.getInstance().getConnection();
-        String verifyLogin = "SELECT count(1) FROM user WHERE email = ? AND password = ?";
-
+        String verifyLogin = "SELECT password FROM user WHERE email = ?";
         try (PreparedStatement statement = connectDB.prepareStatement(verifyLogin)) {
             statement.setString(1, _username.getText().trim());
-            statement.setString(2, _password.getText().trim());
 
             try (ResultSet queryResult = statement.executeQuery()) {
-                if (queryResult.next() && queryResult.getInt(1) == 1) {
-                    //connAlerte.setText("✅ Connexion réussie !");
-                    createAccountForm();
+                if (queryResult.next()) {
+                    String storedHashedPassword = queryResult.getString("password");
+                    if (BCrypt.verifyer().verify(_password.getText().trim().toCharArray(), storedHashedPassword).verified) {
+                        showAlert(Alert.AlertType.INFORMATION, "Connexion", "Connexion réussie !!");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Connexion", "Échec de connexion");
+                    }
                 } else {
-                    connAlerte.setText("❌ Identifiants incorrects, veuillez réessayer.");
+                    showAlert(Alert.AlertType.ERROR, "Connexion", "Échec de connexion");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            connAlerte.setText("⚠️ Erreur de connexion à la base de données.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de connexion à la base de données : " + e.getMessage());
         }
     }
 
-    public void createAccountForm() {
+    public void createAccountFormin(ActionEvent event) {
         try {
-            //Navigate from login to register
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/register.fxml")));
-            Stage registerstage = new Stage();
-            registerstage.initStyle(StageStyle.UNDECORATED);
-            registerstage.setScene(new Scene(root, 588, 722));
-            registerstage.show();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/register.fxml")));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            currentStage.setScene(scene);
+            currentStage.sizeToScene();
+            currentStage.setResizable(false);
+            currentStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
-            e.getCause();
+            System.err.println("Erreur : " + e.getCause());
         }
     }
 
-    // Méthode pour afficher des alertes
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

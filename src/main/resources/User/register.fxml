@@ -56,7 +56,7 @@
             </children>
         </AnchorPane>
     </left>
-    <right>
+   <center>
         <AnchorPane prefHeight="630.0" prefWidth="451.0" style="-fx-background-color: #FEF3C7FF;" BorderPane.alignment="CENTER">
             <children>
                 <ImageView fx:id="logo2ImageView" fitHeight="76.0" fitWidth="81.0" layoutX="35.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
@@ -84,87 +84,98 @@
                         <Font name="Ebrima Bold" size="14.0" />
                     </font>
                 </Button>
-            <Label layoutX="98.0" layoutY="573.0" opacity="0.73" text="Vous avez déja un compte ? " textFill="#0a6375">
-               <font>
-                  <Font name="Ebrima Bold" size="13.0" />
-               </font>
-            </Label>
-            <Hyperlink layoutX="267.0" layoutY="570.0" prefHeight="24.0" prefWidth="85.0" text="Connexion" textFill="#0a6375">
-               <font>
-                  <Font name="Ebrima Bold" size="13.0" />
-               </font>
-            </Hyperlink>
-            <Label layoutX="63.0" layoutY="327.0" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="15.0" layoutY="234.0" text="Nom" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="15.0" layoutY="298.0" text="Prénom" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="16.0" layoutY="365.0" text="Numéro" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="17.0" layoutY="436.0" text="Age" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="221.0" layoutY="167.0" text="Gouvernorat" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="217.0" layoutY="236.0" text="Email ID" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="password" layoutX="214.0" layoutY="325.0" opacity="0.75" prefHeight="30.0" prefWidth="156.0" promptText="Enrez votre mot de passe" />
-            <Label layoutX="215.0" layoutY="298.0" text="Mot de passe" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="confirm_password" layoutX="213.0" layoutY="392.0" opacity="0.75" prefHeight="30.0" prefWidth="156.0" promptText="Enrez votre mot de passe" />
-            <Label layoutX="214.0" layoutY="365.0" text="Confirmer Mot de passe" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="214.0" layoutY="435.0" text="Role" textFill="#0a6375">
-               <font>
-                  <Font name="Barlow Bold" size="17.0" />
-               </font>
-            </Label>
-            <RadioButton fx:id="enseignant" layoutX="214.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="18.0" prefWidth="98.0" text="Enseignant" textFill="#0a6375">
-               <toggleGroup>
-                  <ToggleGroup fx:id="tgSelect" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="parent" layoutX="296.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="4.0" prefWidth="78.0" text="Parent" textFill="#0a6375" toggleGroup="$tgSelect" />
-            <RadioButton fx:id="medecin" layoutX="357.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="4.0" prefWidth="78.0" text="Médecin" textFill="#0a6375" toggleGroup="$tgSelect" />
-            <ComboBox fx:id="gouvernorat" layoutX="219.0" layoutY="197.0" onAction="#initialize_gouvernorat" opacity="0.5" prefHeight="13.0" prefWidth="154.0" promptText="Votre gouvernorat" />
-            <ImageView fx:id="photoPreview" fitHeight="34.0" fitWidth="44.0" layoutX="16.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" />
-            <Button layoutX="69.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleUpload" opacity="0.85" prefHeight="28.0" prefWidth="116.0" style="-fx-background-color: #0a6375;" text="Choisir fichier" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima Bold" size="14.0" />
-               </font>
-            </Button>
-            <TextField fx:id="nom" layoutX="14.0" layoutY="258.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre nom" />
-            <TextField fx:id="prenom" layoutX="15.0" layoutY="325.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre prénom" />
-            <TextField fx:id="numero" layoutX="14.0" layoutY="392.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre numero" />
-            <TextField fx:id="age" layoutX="14.0" layoutY="463.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre age" />
-            <TextField fx:id="email" layoutX="215.0" layoutY="258.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre email" />
+                <Label layoutX="98.0" layoutY="573.0" opacity="0.73" text="Vous avez déja un compte ? " textFill="#0a6375">
+                    <font>
+                        <Font name="Ebrima Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Hyperlink fx:id="loginlink" layoutX="267.0" layoutY="570.0" onAction="#createAccountForm" prefHeight="24.0" prefWidth="85.0" text="Connexion" textFill="#0a6375">
+                    <font>
+                        <Font name="Ebrima Bold" size="13.0" />
+                    </font>
+                </Hyperlink>
+                <Label layoutX="63.0" layoutY="327.0" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="15.0" layoutY="234.0" text="Nom" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="15.0" layoutY="298.0" text="Prénom" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="16.0" layoutY="365.0" text="Numéro" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="17.0" layoutY="436.0" text="Age" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="221.0" layoutY="167.0" text="Gouvernorat" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="217.0" layoutY="236.0" text="Email ID" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="password" layoutX="214.0" layoutY="325.0" opacity="0.75" prefHeight="30.0" prefWidth="156.0" promptText="Enrez votre mot de passe" />
+                <Label layoutX="215.0" layoutY="298.0" text="Mot de passe" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="confirm_password" layoutX="213.0" layoutY="392.0" opacity="0.75" prefHeight="30.0" prefWidth="156.0" promptText="Enrez votre mot de passe" />
+                <Label layoutX="214.0" layoutY="365.0" text="Confirmer Mot de passe" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label layoutX="214.0" layoutY="435.0" text="Role" textFill="#0a6375">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <RadioButton fx:id="enseignant" layoutX="214.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="18.0" prefWidth="98.0" text="Enseignant" textFill="#0a6375">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="tgSelect" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="parent" layoutX="296.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="4.0" prefWidth="78.0" text="Parent" textFill="#0a6375" toggleGroup="$tgSelect" />
+                <RadioButton fx:id="medecin" layoutX="357.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="4.0" prefWidth="78.0" text="Médecin" textFill="#0a6375" toggleGroup="$tgSelect" />
+                <ImageView fx:id="photoPreview" fitHeight="34.0" fitWidth="44.0" layoutX="16.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" />
+                <Button fx:id="selectedPhotoPath" layoutX="69.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleUpload" opacity="0.85" prefHeight="28.0" prefWidth="116.0" style="-fx-background-color: #0a6375;" text="Choisir fichier" textFill="WHITE">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Button>
+                <TextField fx:id="nom" layoutX="14.0" layoutY="258.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre nom" />
+                <TextField fx:id="prenom" layoutX="15.0" layoutY="325.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre prénom" />
+                <TextField fx:id="numero" layoutX="14.0" layoutY="392.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre numero" />
+                <TextField fx:id="age" layoutX="14.0" layoutY="463.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre age" />
+                <TextField fx:id="email" layoutX="215.0" layoutY="258.0" opacity="0.75" prefHeight="30.0" prefWidth="154.0" promptText="Entrer votre email" />
+            <ComboBox fx:id="gouvernorat" layoutX="216.0" layoutY="196.0" onAction="#initialize_gouvernorat" opacity="0.5" prefWidth="150.0" promptText="Votre gouvernorat" />
+            <Label fx:id="prenomError" layoutX="82.0" layoutY="358.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="nomError" layoutX="88.0" layoutY="291.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="numeroError" layoutX="78.0" layoutY="427.0" prefHeight="6.0" prefWidth="90.0" />
+            <Label fx:id="ageError" layoutX="77.0" layoutY="495.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="roleError" layoutX="312.0" layoutY="495.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="confirmPasswordError" layoutX="328.0" layoutY="356.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="emailError" layoutX="316.0" layoutY="291.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="gouvernoratError" layoutX="307.0" layoutY="227.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
+            <Label fx:id="registrationMessagelabel" alignment="CENTER" layoutX="57.0" layoutY="136.0" prefHeight="18.0" prefWidth="323.0" textFill="#ff1500" />
+            <Label fx:id="passwordError" layoutX="325.0" layoutY="427.0" prefHeight="6.0" prefWidth="90.0" textFill="RED" />
             </children>
         </AnchorPane>
-    </right>
+   </center>
 </BorderPane>
