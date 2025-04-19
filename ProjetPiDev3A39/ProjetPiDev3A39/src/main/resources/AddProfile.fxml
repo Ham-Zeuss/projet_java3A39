@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.AddProfileController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text text="Add New Profile" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <HBox spacing="20.0" alignment="CENTER">
+        <GridPane hgap="10.0" vgap="10.0">
+            <Label text="User:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="userComboBox" promptText="Select a user" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                      prefWidth="200.0"/>
+
+            <Label text="Biography:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="biographyTextArea" promptText="Enter biography (optional)" wrapText="true"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200.0" prefHeight="100.0"/>
+
+            <Label text="Specialty:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="specialtyComboBox" promptText="Select specialty" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                      prefWidth="200.0"/>
+        </GridPane>
+
+        <GridPane hgap="10.0" vgap="10.0">
+            <Label text="Resources:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="5.0">
+                <TextField fx:id="resourcesTextField" promptText="Select a PDF file (optional)" prefWidth="150.0" editable="false"/>
+                <Button fx:id="chooseFileButton" text="Browse" onAction="#chooseResourceFile"/>
+            </HBox>
+
+            <Label text="Consultation Price:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="priceTextField" promptText="Enter price (e.g., 50.0)" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       prefWidth="200.0"/>
+
+            <Label text="Latitude:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="latitudeTextField" promptText="Enter latitude (optional)" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       prefWidth="200.0"/>
+        </GridPane>
+
+        <GridPane hgap="10.0" vgap="10.0">
+            <Label text="Longitude:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="longitudeTextField" promptText="Enter longitude (optional)" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       prefWidth="200.0"/>
+        </GridPane>
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button fx:id="addButton" text="Add Profile" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#addProfile"/>
+        <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #f44336; -fx-text-fill: white;" onAction="#cancel"/>
+    </HBox>
+
+    <Label fx:id="feedbackLabel" text="" style="-fx-text-fill: red;"/>
+</VBox>

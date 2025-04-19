@@ -1,0 +1,94 @@
+.appointments-container {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #d3d3d3;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+.appointments-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-padding: 0 0 10 0;
+}
+
+.appointments-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.appointments-list {
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
+.appointment-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-pref-width: 500;
+}
+
+.appointment-box:hover {
+    -fx-background-color: #f0f8ff; /* Light blue hover effect */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+.bullet-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ff4500; /* Orange-red for the pin emoji */
+    -fx-padding: 0 5 0 0;
+}
+
+.details-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;
+}
+
+/* Style specific emojis/icons within the details label */
+.details-label .text {
+    -fx-font-size: 14px; /* Slightly larger for emojis */
+}
+
+/* Optional: Color specific emojis differently */
+.details-label .text:contains("📅") {
+    -fx-fill: #4682b4; /* Steel blue for calendar */
+}
+
+.details-label .text:contains("⏰") {
+    -fx-fill: #ff6347; /* Tomato red for clock */
+}
+
+.details-label .text:contains("👤") {
+    -fx-fill: #2e8b57; /* Sea green for profile */
+}
+
+.details-label .text:contains("✅") {
+    -fx-fill: #32cd32; /* Lime green for checkmark */
+}
+
+.details-label .text:contains("❌") {
+    -fx-fill: #ff0000; /* Red for cross */
+}
+
+.close-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.close-button:hover {
+    -fx-background-color: #45a049;
+}

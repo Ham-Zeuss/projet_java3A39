@@ -8,29 +8,19 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import java.net.URL;
-import netscape.javascript.JSObject;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import javafx.scene.control.ScrollPane;
 
-public class Mainx extends Application {
+public class FXMLFrontDisplayProfile extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Create a VBox to stack the header, header.fxml, body, and footer
         VBox mainContent = new VBox();
 
-
         // Load header.fxml (additional section below header.html)
         FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
         VBox headerFxmlContent = headerFxmlLoader.load();
-
         headerFxmlContent.setPrefSize(1000, 100); // Adjusted height for header.fxml
         mainContent.getChildren().add(headerFxmlContent);
-
 
         // Load header (header.html) using WebView
         WebView headerWebView = new WebView();
@@ -45,10 +35,10 @@ public class Mainx extends Application {
         headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
         mainContent.getChildren().add(headerWebView);
 
-        // Load body (UserTitles.fxml)
-        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/login_form.fxml"));
+        // Load body (FrontDisplayProfiles.fxml)
+        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/FrontDisplayProfiles.fxml"));
         VBox bodyContent = bodyLoader.load();
-        bodyContent.setPrefHeight(600); // Adjusted to match UserTitlesMain scene height
+        bodyContent.setPrefHeight(600); // Adjusted to match previous scene height
         bodyContent.setMaxHeight(600);
         mainContent.getChildren().add(bodyContent);
 
@@ -62,7 +52,7 @@ public class Mainx extends Application {
             System.err.println("Error: footer.html not found");
             footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
         }
-        footerWebView.setPrefSize(1000, 830);
+        footerWebView.setPrefSize(1000, 1080);
         mainContent.getChildren().add(footerWebView);
 
         // Wrap the VBox in a ScrollPane
@@ -77,14 +67,14 @@ public class Mainx extends Application {
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
         } else {
-            System.err.println("Error: styles.css not found in resources at styles.css");
+            System.err.println("Error: styles.css not found in resources at /css/styles.css");
         }
-        // Add UserTitlesStyle.css for title cards
-        URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+        // Add affichageprofilefront.css for title cards
+        URL userTitlesCssUrl = getClass().getResource("/css/affichageprofilefront.css");
         if (userTitlesCssUrl != null) {
             scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
         } else {
-            System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
+            System.err.println("Error: affichageprofilefront.css not found in resources at /css/affichageprofilefront.css");
         }
 
         primaryStage.setTitle("JavaFX Scrollable Window");
@@ -94,47 +84,5 @@ public class Mainx extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-}
-
-// JavaFX bridge class for handling redirects from header.html
-class JavaFXBridge {
-    private final Stage primaryStage;
-    private final VBox mainContent;
-
-    public JavaFXBridge(Stage stage, VBox mainContent) {
-        this.primaryStage = stage;
-        this.mainContent = mainContent;
-    }
-
-    public void handleRedirect(String option) {
-        System.out.println("Redirecting to: " + option);
-        try {
-            String fxmlPath = switch (option) {
-                case "home-option1" -> "/home1.fxml";
-                case "home-option2" -> "/home2.fxml";
-                case "profile-view" -> "/profile_view.fxml";
-                case "profile-edit" -> "/profile_edit.fxml";
-                case "settings-general" -> "/settings_general.fxml";
-                case "settings-privacy" -> "/settings_privacy.fxml";
-                case "tools-calculator" -> "/tools_calculator.fxml";
-                case "tools-converter" -> "/tools_converter.fxml";
-                case "help-faq" -> "/help_faq.fxml";
-                case "help-contact" -> "/help_contact.fxml";
-                default -> null;
-            };
-
-            if (fxmlPath != null && mainContent != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                VBox newBody = loader.load();
-                newBody.setPrefHeight(200);
-                newBody.setMaxHeight(200);
-                mainContent.getChildren().set(2, newBody); // Replace login_form.fxml (index 2)
-            } else {
-                System.err.println("No FXML defined for option: " + option);
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading FXML: " + e.getMessage());
-        }
     }
 }
