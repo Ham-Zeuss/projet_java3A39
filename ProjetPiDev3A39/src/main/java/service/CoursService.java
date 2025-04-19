@@ -18,6 +18,11 @@ public class CoursService implements IService<Cours> {
     }
 
     @Override
+    public void create(Cours cours){
+
+    } // Using Statement
+
+    @Override
     public void createPst(Cours cours) {
         String requete = "INSERT INTO cours (title, module_id, pdf_name, updated_at) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(requete)) {

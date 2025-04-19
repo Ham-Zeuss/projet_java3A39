@@ -1,5 +1,6 @@
 package service;
 
+import entite.Cours;
 import entite.Module;
 import util.DataSource;
 
@@ -14,6 +15,12 @@ public class ModuleService implements IService<Module> {
     public ModuleService() {
         cnx = DataSource.getInstance().getConnection();
     }
+
+
+    @Override
+    public void create(Module module){
+
+    } // Using Statement
 
     @Override
     public void createPst(Module module) {
