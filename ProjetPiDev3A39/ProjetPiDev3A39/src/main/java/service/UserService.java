@@ -388,13 +388,6 @@ public class UserService implements IService<User> {
     }
 
 
-
-
-
-
-
-
-@Override
     public User readByIdHamza(int id) {
         String requete = "SELECT u.*, t.id as title_id, t.name as title_name, t.points_required, t.price " +
                 "FROM user u LEFT JOIN title t ON u.current_title_id = t.id WHERE u.id = ?";
@@ -439,7 +432,5 @@ public class UserService implements IService<User> {
         }
         return null;
     }
-
-
 
 }

@@ -90,7 +90,7 @@ public class ListStoreItemsFrontController implements Initializable {
                     setGraphic(null);
                 } else {
                     StoreItem storeItem = getTableView().getItems().get(getIndex());
-                    User buyer = userService.readById(BUYER_ID);
+                    User buyer = userService.readByIdHamza(BUYER_ID);
                     HBox hbox = new HBox(5, buyButton, messageLabel);
                     HBox.setMargin(buyButton, new Insets(0, 5, 0, 0));
                     HBox.setMargin(messageLabel, new Insets(0, 5, 0, 0));

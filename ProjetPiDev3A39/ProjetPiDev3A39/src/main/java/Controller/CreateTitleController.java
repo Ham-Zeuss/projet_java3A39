@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class CreateTitleController {
+public class  CreateTitleController {
 
     @FXML
     private TextField nameField;

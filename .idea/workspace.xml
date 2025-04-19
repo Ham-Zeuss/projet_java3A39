@@ -23,12 +23,15 @@
     "Application.CreateStoreItemMain.executor": "Run",
     "Application.CreateTitleMain.executor": "Run",
     "Application.DisplayPexelWordsMain.executor": "Run",
+    "Application.DisplayStoreItemsAdminMain.executor": "Run",
     "Application.DisplayStoreItemsMain.executor": "Run",
     "Application.DisplayTitlesMain.executor": "Run",
+    "Application.FXMLDisplayConsultations.executor": "Run",
     "Application.FXMLFrontDisplayProfile.executor": "Run",
     "Application.FXMLTestMain.executor": "Run",
     "Application.FXMLaddprofile.executor": "Run",
     "Application.FXMLdisplayprofile.executor": "Run",
+    "Application.LeaderboardMain.executor": "Run",
     "Application.PexelWordMain.executor": "Run",
     "Application.ProfileMain.executor": "Run",
     "Application.StoreItemMain.executor": "Run",
@@ -41,6 +44,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Libraries",
@@ -49,10 +54,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.StoreItemMain">
-    <configuration name="StoreItemMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.StoreItemMain" />
+  <component name="RunManager" selected="Application.DisplayTitlesMain">
+    <configuration name="CreateStoreItemMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.CreateStoreItemMain" />
       <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="test.*" />
@@ -63,9 +69,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestAddProfileApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.TestAddProfileApp" />
+    <configuration name="CreateTitleMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.CreateTitleMain" />
       <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="test.*" />
@@ -76,9 +83,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TitleMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.TitleMain" />
+    <configuration name="DisplayPexelWordsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayPexelWordsMain" />
       <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="test.*" />
@@ -89,9 +97,94 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.UserMain" />
+    <configuration name="DisplayStoreItemsAdminMain" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayStoreItemsAdminMain" />
       <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayTitlesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.DisplayTitlesMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLDisplayConsultations" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.FXMLDisplayConsultations" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLFrontDisplayProfile" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.FXMLFrontDisplayProfile" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLaddprofile" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.FXMLaddprofile" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXMLdisplayprofile" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.FXMLdisplayprofile" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LeaderboardMain" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.LeaderboardMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="test.*" />
@@ -117,19 +210,25 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.StoreItemMain" />
-      <item itemvalue="Application.TestAddProfileApp" />
-      <item itemvalue="Application.TitleMain" />
-      <item itemvalue="Application.UserMain" />
+      <item itemvalue="Application.DisplayStoreItemsAdminMain" />
+      <item itemvalue="Application.FXMLDisplayConsultations" />
+      <item itemvalue="Application.FXMLFrontDisplayProfile" />
+      <item itemvalue="Application.FXMLaddprofile" />
+      <item itemvalue="Application.FXMLdisplayprofile" />
+      <item itemvalue="Application.LeaderboardMain" />
+      <item itemvalue="Application.DisplayTitlesMain" />
       <item itemvalue="Application.UserTitlesMain" />
+      <item itemvalue="Application.DisplayPexelWordsMain" />
+      <item itemvalue="Application.CreateTitleMain" />
+      <item itemvalue="Application.CreateStoreItemMain" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.StoreItemMain" />
-        <item itemvalue="Application.TestAddProfileApp" />
-        <item itemvalue="Application.TitleMain" />
-        <item itemvalue="Application.UserMain" />
+        <item itemvalue="Application.DisplayTitlesMain" />
         <item itemvalue="Application.UserTitlesMain" />
+        <item itemvalue="Application.DisplayPexelWordsMain" />
+        <item itemvalue="Application.CreateTitleMain" />
+        <item itemvalue="Application.CreateStoreItemMain" />
       </list>
     </recent_temporary>
   </component>
@@ -150,6 +249,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744845727884</updated>
       <workItem from="1744845729092" duration="98000" />
+      <workItem from="1745073820878" duration="975000" />
     </task>
     <servers />
   </component>
@@ -168,6 +268,11 @@
           <url>file://$PROJECT_DIR$/ProjetPiDev3A39/ProjetPiDev3A39/src/main/java/test/DisplayStoreItemsMain.java</url>
           <line>10</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ProjetPiDev3A39/ProjetPiDev3A39/src/main/java/test/FXMLDisplayConsultations.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
