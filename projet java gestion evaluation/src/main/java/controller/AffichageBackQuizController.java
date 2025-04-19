@@ -127,7 +127,7 @@ public class AffichageBackQuizController {
     @FXML
     private void goToAddQuiz() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addQuiz.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addQuizBackend.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("Fichier FXML introuvable : /addQuiz.fxml");
             }
@@ -168,7 +168,7 @@ public class AffichageBackQuizController {
 
     private void goToViewQuestions(Quiz quiz) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherQuestions.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherQuestionBack.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("Fichier FXML introuvable : /afficherQuestions.fxml");
             }
