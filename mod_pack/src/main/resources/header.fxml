@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.HeaderController"
+      styleClass="header-container"
+      alignment="CENTER"
+      spacing="15"
+      prefHeight="60"
+      minHeight="60"
+      maxHeight="60">
+    <Button styleClass="nav-button" text="Home" onAction="#showMain"/>
+    <Button styleClass="nav-button" text="Orders" onAction="#showOrders"/>
+    <Button styleClass="nav-button" text="Chatbot" onAction="#showChatbot"/>
+    <Button styleClass="nav-button" text="Back Office" onAction="#showBackOffice"/>
+</HBox>
