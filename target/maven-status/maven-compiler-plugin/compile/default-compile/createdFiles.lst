@@ -1,0 +1,14 @@
+Controller\ChatbotController.class
+entite\Commande.class
+Controller\MainController.class
+service\UserService.class
+service\PackService.class
+entite\Pack.class
+test\BoubakerMain.class
+Controller\BackOfficeController.class
+Controller\HeaderController.class
+Controller\ChatbotController$1.class
+Controller\OrdersController.class
+util\DataSource.class
+service\CommandeService.class
+entite\User.class
