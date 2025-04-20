@@ -1,5 +1,5 @@
 package org.example;
-
+import entite.Session;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.gluonhq.charm.glisten.control.TextField;
 import javafx.fxml.FXML;
@@ -54,15 +54,43 @@ public class SecurityController {
 
     public void validateloginButtonClicked(ActionEvent event) throws SQLException {
         Connection connectDB = DataSource.getInstance().getConnection();
-        String verifyLogin = "SELECT password FROM user WHERE email = ?";
+        String verifyLogin = "SELECT id, email, password FROM user WHERE email = ?"; // Inclure email et id
         try (PreparedStatement statement = connectDB.prepareStatement(verifyLogin)) {
             statement.setString(1, _username.getText().trim());
 
             try (ResultSet queryResult = statement.executeQuery()) {
                 if (queryResult.next()) {
                     String storedHashedPassword = queryResult.getString("password");
+                    int userId = queryResult.getInt("id");
+                    String email = queryResult.getString("email");
+
                     if (BCrypt.verifyer().verify(_password.getText().trim().toCharArray(), storedHashedPassword).verified) {
-                        showAlert(Alert.AlertType.INFORMATION, "Connexion", "Connexion réussie !!");
+                        // Enregistrer la session
+                        Session session = Session.getInstance();
+                        session.setUser(userId, email);
+
+                        // Charger home.fxml
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/home.fxml"));
+                            Parent root = loader.load();
+
+                            // Accéder au contrôleur de la page home
+                            HomeController homeController = loader.getController();
+                            if (homeController != null) {
+                                homeController.setWelcomeMessage("Bienvenue ID: " + userId);
+                            }
+
+                            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                            Scene scene = new Scene(root);
+                            currentStage.setScene(scene);
+                            currentStage.sizeToScene();
+                            currentStage.setResizable(false);
+                            currentStage.show();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page d'accueil : " + e.getMessage());
+                        }
                     } else {
                         showAlert(Alert.AlertType.ERROR, "Connexion", "Échec de connexion");
                     }

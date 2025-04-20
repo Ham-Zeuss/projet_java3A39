@@ -13,8 +13,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -212,8 +213,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.FXMLAffichageQuizFront" />
         <item itemvalue="Application.FXMLdisplayprofile" />
+        <item itemvalue="Application.FXMLAffichageQuizFront" />
         <item itemvalue="Application.test.hedy.Mainx" />
         <item itemvalue="Application.Mainx" />
       </list>
