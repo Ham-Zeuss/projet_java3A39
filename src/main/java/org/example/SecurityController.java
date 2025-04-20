@@ -52,7 +52,7 @@ public class SecurityController {
         stage.close();
     }
 
-    public void validateloginButtonClicked(ActionEvent event) {
+    public void validateloginButtonClicked(ActionEvent event) throws SQLException {
         Connection connectDB = DataSource.getInstance().getConnection();
         String verifyLogin = "SELECT password FROM user WHERE email = ?";
         try (PreparedStatement statement = connectDB.prepareStatement(verifyLogin)) {
@@ -79,6 +79,22 @@ public class SecurityController {
     public void createAccountFormin(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/register.fxml")));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            currentStage.setScene(scene);
+            currentStage.sizeToScene();
+            currentStage.setResizable(false);
+            currentStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erreur : " + e.getCause());
+        }
+    }
+
+    public void resetAccountFormin(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/reset-password.fxml")));
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);

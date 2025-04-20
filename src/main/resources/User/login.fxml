@@ -84,7 +84,7 @@
                         <Font name="Barlow Bold" size="17.0" />
                     </font>
                 </Label>
-                <ImageView fx:id="imageView" fitHeight="690.0" fitWidth="227.0" layoutX="226.0" layoutY="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="690.0" fitWidth="227.0" layoutX="249.0" layoutY="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Images/hand-shake-resized.png" />
                     </image>
@@ -114,7 +114,7 @@
                   <Font name="Ebrima Bold" size="13.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="inscritlink1" layoutX="57.0" layoutY="432.0" onAction="#createAccountFormin" prefHeight="26.0" prefWidth="173.0" text="Mot de passe oublier ?" textFill="#0a6375">
+            <Hyperlink fx:id="resetlink" layoutX="57.0" layoutY="432.0" onAction="#resetAccountFormin" prefHeight="26.0" prefWidth="173.0" text="Mot de passe oublier ?" textFill="#0a6375">
                <font>
                   <Font name="Ebrima Bold" size="13.0" />
                </font>
@@ -122,12 +122,12 @@
             <CheckBox layoutX="62.0" layoutY="408.0" mnemonicParsing="false" opacity="0.75" prefHeight="18.0" prefWidth="128.0" text="Rester connectée" textFill="#0a6375" />
             <Label layoutX="107.0" layoutY="253.0" text="*" textFill="RED">
                <font>
-                  <Font name="Ebrima" size="13.0" />
+                  <Font name="Ebrima Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="162.0" layoutY="333.0" text="*" textFill="RED">
                <font>
-                  <Font name="Ebrima" size="13.0" />
+                  <Font name="Ebrima Bold" size="14.0" />
                </font>
             </Label>
             </children>
