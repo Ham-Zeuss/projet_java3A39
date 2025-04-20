@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="test.BackOfficeController" styleClass="content-container">
+    <top>
+        <VBox fx:id="headerSection" alignment="CENTER" styleClass="orders-header" prefHeight="80">
+            <Label text="Back Office - Manage Packs" styleClass="orders-title"/>
+        </VBox>
+    </top>
+    <center>
+        <VBox fx:id="contentContainer" spacing="20" alignment="TOP_CENTER" prefWidth="1280">
+            <!-- Pack Table -->
+            <TableView fx:id="packTable" styleClass="pack-table" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
+                    <TableColumn fx:id="priceColumn" text="Price (DT)" prefWidth="100"/>
+                    <TableColumn fx:id="featuresColumn" text="Features" prefWidth="400"/>
+                    <TableColumn fx:id="validityColumn" text="Validity (days)" prefWidth="120"/>
+                </columns>
+            </TableView>
+            <!-- Input Form -->
+            <VBox spacing="10" alignment="CENTER" styleClass="button-box">
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Name:" styleClass="input-label" prefWidth="100"/>
+                    <TextField fx:id="nameField" styleClass="input-field" prefWidth="300"/>
+                </HBox>
+                <Label fx:id="nameError" styleClass="error-label"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Price (DT):" styleClass="input-label" prefWidth="100"/>
+                    <TextField fx:id="priceField" styleClass="input-field" prefWidth="300"/>
+                </HBox>
+                <Label fx:id="priceError" styleClass="error-label"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Features:" styleClass="input-label" prefWidth="100"/>
+                    <TextField fx:id="featuresField" styleClass="input-field" prefWidth="300"/>
+                </HBox>
+                <Label fx:id="featuresError" styleClass="error-label"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Validity (days):" styleClass="input-label" prefWidth="100"/>
+                    <TextField fx:id="validityField" styleClass="input-field" prefWidth="300"/>
+                </HBox>
+                <Label fx:id="validityError" styleClass="error-label"/>
+                <!-- Buttons -->
+                <HBox fx:id="buttonBox" spacing="10" alignment="CENTER" styleClass="button-box">
+                    <Button fx:id="addButton" text="Add Pack" styleClass="add-button"/>
+                    <Button fx:id="updateButton" text="Update Pack" styleClass="update-button"/>
+                    <Button fx:id="deleteButton" text="Delete Pack" styleClass="delete-button"/>
+                    <Button fx:id="exportPdfButton" text="Export Users &amp; Orders PDF" styleClass="action-button"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox fx:id="footer" spacing="10" alignment="CENTER" styleClass="footer">
+            <Button fx:id="frontOfficeButton" text="Back to Front Office" styleClass="action-button"/>
+        </HBox>
+    </bottom>
+</BorderPane>
