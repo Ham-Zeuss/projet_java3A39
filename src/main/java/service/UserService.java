@@ -3,9 +3,9 @@ package service;
 import entite.User;
 import util.DataSource;
 import entite.Title;
-import util.DataSource;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import org.example.DataSource;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class UserService implements IService<User> {
             pst.setString(2, user.getNom());
             pst.setString(3, user.getPrenom());
             pst.setString(4, user.getEmail());
-            pst.setString(5, user.getRoles());
+            pst.setString(5, user.getRolesAsJson());
             pst.setString(6, user.getPassword());
             pst.setBoolean(7, user.isVerified());
             pst.setInt(8, user.getAge());
@@ -151,7 +151,7 @@ public class UserService implements IService<User> {
             pst.setString(2, user.getNom());
             pst.setString(3, user.getPrenom());
             pst.setString(4, user.getEmail());
-            pst.setString(5, user.getRoles());
+            pst.setString(5, user.getRolesAsJson());
             pst.setString(6, user.getPassword());
             pst.setBoolean(7, user.isVerified());
             pst.setInt(8, user.getAge());
@@ -227,18 +227,21 @@ public class UserService implements IService<User> {
                 Double balance = rs.getObject("balance") != null ? rs.getDouble("balance") : null;
                 String featuresUnlocked = rs.getString("features_unlocked");
                 String totpSecret = rs.getString("totp_secret");
+                String rolesJson = rs.getString("roles");
+                List<String> roles = new ArrayList<>();
+
                 list.add(new User(
                         rs.getInt("id"),
                         title,
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        rs.getString("roles"),
+                        roles,
                         rs.getString("password"),
                         rs.getBoolean("is_verified"),
                         rs.getInt("age"),
                         rs.getString("gouvernorat"),
-                        
+
                         rs.getObject("points", Integer.class),
                         rs.getString("numero"),
                         rs.getObject("enfant_id", Integer.class),
@@ -249,12 +252,12 @@ public class UserService implements IService<User> {
                         rs.getObject("balance", Double.class),
                         rs.getString("features_unlocked"),
                         rs.getString("totp_secret")
-                        
-                        
-                        
-                        
-                        
-                        
+
+
+
+
+
+
 
                 ));
             }
@@ -288,13 +291,14 @@ public class UserService implements IService<User> {
                 Double balance = rs.getObject("balance") != null ? rs.getDouble("balance") : null;
                 String featuresUnlocked = rs.getString("features_unlocked");
                 String totpSecret = rs.getString("totp_secret");
+                List<String> roles = new ArrayList<>();
                 return new User(
                         rs.getInt("id"),
                         null, // Title set to null
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        rs.getString("roles"),
+                        roles,
                         rs.getString("password"),
                         rs.getBoolean("is_verified"),
                         rs.getInt("age"),
@@ -346,11 +350,13 @@ public class UserService implements IService<User> {
         String requete = "SELECT u.*, t.id as title_id, t.name as title_name, t.points_required, t.price " +
                 "FROM user u LEFT JOIN title t ON u.current_title_id = t.id " +
                 "WHERE u.score_total IS NOT NULL ORDER BY u.score_total DESC LIMIT ?";
+
         try {
             pst = cnx.prepareStatement(requete);
             pst.setInt(1, limit);
             rs = pst.executeQuery();
             while (rs.next()) {
+                // Build Title object
                 Title title = null;
                 if (rs.getObject("title_id") != null) {
                     title = new Title();
@@ -359,13 +365,20 @@ public class UserService implements IService<User> {
                     title.setpoints_required(rs.getInt("points_required"));
                     title.setPrice(rs.getInt("price"));
                 }
+
+                // Parse roles JSON into List<String>
+                String rolesJson = rs.getString("roles");
+                List<String> roles = new ArrayList<>();
+
+
+                // Create User object
                 User user = new User(
                         rs.getInt("id"),
                         title,
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        rs.getString("roles"),
+                        roles, // Pass List<String>
                         rs.getString("password"),
                         rs.getBoolean("is_verified"),
                         rs.getInt("age"),
@@ -393,11 +406,13 @@ public class UserService implements IService<User> {
     public User readByIdHamza(int id) {
         String requete = "SELECT u.*, t.id as title_id, t.name as title_name, t.points_required, t.price " +
                 "FROM user u LEFT JOIN title t ON u.current_title_id = t.id WHERE u.id = ?";
+
         try {
             pst = cnx.prepareStatement(requete);
             pst.setInt(1, id);
             rs = pst.executeQuery();
             if (rs.next()) {
+                // Build Title object
                 Title title = null;
                 if (rs.getObject("title_id") != null) {
                     title = new Title();
@@ -406,13 +421,20 @@ public class UserService implements IService<User> {
                     title.setpoints_required(rs.getInt("points_required"));
                     title.setPrice(rs.getInt("price"));
                 }
+
+                // Parse roles JSON into List<String>
+                String rolesJson = rs.getString("roles");
+                List<String> roles = new ArrayList<>();
+
+
+                // Create and return User object
                 return new User(
                         rs.getInt("id"),
                         title,
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        rs.getString("roles"),
+                        roles, // Pass List<String>
                         rs.getString("password"),
                         rs.getBoolean("is_verified"),
                         rs.getInt("age"),
@@ -441,7 +463,7 @@ public class UserService implements IService<User> {
         List<User> users = new ArrayList<>();
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user";
 
-        try (Statement stmt = connection.createStatement();
+        try (Statement stmt = cnx.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -457,7 +479,7 @@ public class UserService implements IService<User> {
     public User getUserById(int id) {
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE id = ?";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
@@ -474,7 +496,7 @@ public class UserService implements IService<User> {
     public User getUserByEmail(String email) {
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE email = ?";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
 
@@ -491,7 +513,7 @@ public class UserService implements IService<User> {
     public void addUser(User user) {
         String sql = "INSERT INTO user (nom, prenom, email, password, roles, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, user.getNom());
             pstmt.setString(2, user.getPrenom());
             pstmt.setString(3, user.getEmail());
@@ -519,7 +541,7 @@ public class UserService implements IService<User> {
             sql = "UPDATE user SET nom = ?, prenom = ?, email = ?, roles = ?, status = ? WHERE id = ?";
         }
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, user.getNom());
             pstmt.setString(2, user.getPrenom());
             pstmt.setString(3, user.getEmail());
@@ -543,7 +565,7 @@ public class UserService implements IService<User> {
     public void deleteUser(int id) {
         String sql = "DELETE FROM user WHERE id = ?";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
             System.out.println("✅ Utilisateur supprimé avec succès. ID: " + id);
@@ -574,7 +596,7 @@ public class UserService implements IService<User> {
         List<User> users = new ArrayList<>();
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             String searchParam = "%" + query + "%";
             pstmt.setString(1, searchParam);
             pstmt.setString(2, searchParam);

@@ -1,6 +1,6 @@
 package org.example;
 
-import Entity.User;
+import entite.User;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
