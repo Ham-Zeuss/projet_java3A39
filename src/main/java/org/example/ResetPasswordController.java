@@ -1,7 +1,7 @@
 package org.example;
 
-import Entity.ResetPasswordRequest;
-import Entity.User;
+import entite.ResetPasswordRequest;
+import entite.User;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.gluonhq.charm.glisten.control.TextField;
 import javafx.event.ActionEvent;

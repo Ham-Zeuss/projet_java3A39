@@ -495,7 +495,7 @@ public class UserService implements IService<User> {
         return null;
     }
 
-    public void saveResetPasswordRequest(ResetPasswordRequest request) {
+   /* public void saveResetPasswordRequest(ResetPasswordRequest request) {
         String sql = "INSERT INTO reset_password_request (user_id, selector, hashed_token, requested_at, expires_at) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -507,7 +507,7 @@ public class UserService implements IService<User> {
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de l'enregistrement de la demande de réinitialisation: " + e.getMessage());
         }
-    }
+    }*/
 
     public User getUserByEmail(String email) {
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE email = ?";

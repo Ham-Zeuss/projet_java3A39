@@ -25,53 +25,61 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2uGBjLobhkzpbn298S5GLTXDgHL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.CreateTitleMain.executor": "Run",
-    "Application.DisplayPexelWordsMain.executor": "Run",
-    "Application.DisplayStoreItemsAdminMain.executor": "Run",
-    "Application.DisplayStoreItemsMain.executor": "Run",
-    "Application.DisplayTitlesMain.executor": "Run",
-    "Application.FXMLAffichageBackQuizQuestionMain.executor": "Run",
-    "Application.FXMLAffichageQuizFront.executor": "Run",
-    "Application.FXMLDisplayConsultations.executor": "Run",
-    "Application.FXMLFrontDisplayProfile.executor": "Run",
-    "Application.FXMLaddprofile.executor": "Run",
-    "Application.FXMLdisplayprofile.executor": "Run",
-    "Application.LeaderboardMain.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Mainx.executor": "Run",
-    "Application.UserTitlesMain.executor": "Run",
-    "Application.mes_rendezvous.executor": "Run",
-    "Application.test.hedy.Mainx.executor": "Run",
-    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
-    "Maven.projet_java_gestion_evaluation [package].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.46206897",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.CreateTitleMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DisplayPexelWordsMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DisplayStoreItemsAdminMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DisplayStoreItemsMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DisplayTitlesMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLAffichageBackQuizQuestionMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLAffichageQuizFront.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLDisplayConsultations.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLFrontDisplayProfile.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLaddprofile.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLdisplayprofile.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LeaderboardMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Mainx.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UserTitlesMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.mes_rendezvous.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.hedy.Mainx.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.projet_java_gestion_evaluation [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.projet_java_gestion_evaluation [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.46206897&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="entite" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FXMLAffichageQuizFront">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Main">
     <configuration name="DisplayTitlesMain" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Ham.DisplayTitlesMain" />
       <module name="projet_java_gestion_evaluation" />
@@ -203,10 +211,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.FXMLAffichageQuizFront" />
         <item itemvalue="Application.FXMLdisplayprofile" />
         <item itemvalue="Application.test.hedy.Mainx" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Mainx" />
       </list>
     </recent_temporary>
