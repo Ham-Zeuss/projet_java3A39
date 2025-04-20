@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.stage.StageStyle;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;

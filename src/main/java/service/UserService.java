@@ -1,13 +1,16 @@
 package service;
 
 import Entity.User;
+import Entity.ResetPasswordRequest;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.example.DataSource;
 
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 public class UserService {
     private final Connection connection;
@@ -48,6 +51,20 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public void saveResetPasswordRequest(ResetPasswordRequest request) {
+        String sql = "INSERT INTO reset_password_request (user_id, selector, hashed_token, requested_at, expires_at) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, request.getUser().getId());
+            pstmt.setString(2, request.getSelector());
+            pstmt.setString(3, request.getHashedToken());
+            pstmt.executeUpdate();
+            System.out.println("✅ Demande de réinitialisation enregistrée pour: " + request.getUser().getEmail());
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de l'enregistrement de la demande de réinitialisation: " + e.getMessage());
+        }
     }
 
     public User getUserByEmail(String email) {
