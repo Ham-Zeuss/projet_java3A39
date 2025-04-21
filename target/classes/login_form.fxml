@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="CENTER" prefHeight="462.0" prefWidth="520.0" spacing="10.0" style="-fx-background-color: transparent; -fx-padding: 20.0;" stylesheets="@style/my-account.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.SecurityController">
+
+                <Label styleClass="form-label" text="Nom d'utilisateur" textFill="#eb1551" />
+
+                <TextField fx:id="_username" maxWidth="331.0" opacity="0.95" promptText="Tapez votre nom" styleClass="form-field" />
+
+                <Label styleClass="form-label" text="Mot de passe" textFill="#eb1551" />
+
+                <PasswordField fx:id="_password" maxWidth="331.0" opacity="0.95" promptText="Tapez votre mot de passe" styleClass="form-field" />
+
+                <Label fx:id="connAlerte" alignment="CENTER" maxWidth="331.0" styleClass="form-label alert-label" />
+
+                <CheckBox styleClass="form-checkbox" text="Rester connecté" textFill="#eb1551" />
+
+                <Hyperlink styleClass="form-link" text="S'inscrire ici" textFill="#eb1551" />
+
+                <Button fx:id="connexion" maxWidth="331.0" mnemonicParsing="false" onAction="#validateloginButtonClicked" styleClass="form-button" text="Connexion" />
+
+                <Hyperlink alignment="CENTER" styleClass="form-link" text="Mot de passe oublié ?" textFill="#eb1551" />
+</VBox>
