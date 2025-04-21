@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ProjetPiDev3A39" />
+        <module name="projet_java_gestion_evaluation" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ProjetPiDev3A39" target="22" />
+    </bytecodeTargetLevel>
   </component>
 </project>
