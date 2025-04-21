@@ -22,20 +22,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    /*@Override
-    public void start(Stage primaryStage) throws Exception {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/login.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Login");
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }*/
+
 
     public static void main(String[] args) {
         launch(args);

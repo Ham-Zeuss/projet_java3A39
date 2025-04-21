@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" prefHeight="490.0" prefWidth="1000.0">
-    <HBox styleClass="navbar" alignment="CENTER" spacing="20">
-        <MenuButton text="Learn" styleClass="nav-button">
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.HeaderController" alignment="CENTER" prefHeight="490.0" prefWidth="1000.0">
+    <HBox styleClass="custom-navbar" alignment="CENTER" spacing="15">
+        <Button text="Home" styleClass="nav-button" onAction="#handleHome"/>
+        <MenuButton fx:id="learnMenuButton" text="Learn" styleClass="nav-button">
             <items>
-                <MenuItem text="Courses"  userData="home-option1"/>
-                <MenuItem text="Quizes"  userData="home-option2"/>
+                <MenuItem text="Quizes" styleClass="nav-menu-item" onAction="#goToQuizes"/>
+                <MenuItem text="Modules" styleClass="nav-menu-item" onAction="#goToModules"/>
             </items>
         </MenuButton>
-        <MenuButton text="Doctors" styleClass="nav-button">
+        <MenuButton fx:id="doctorsMenuButton" text="Doctors" styleClass="nav-button">
             <items>
-                <MenuItem text="Comment"  userData="profile-view"/>
-                <MenuItem text="Consultation"  userData="profile-edit"/>
+                <MenuItem text="My Appointments" styleClass="nav-menu-item" onAction="#goToAppointments"/>
+                <MenuItem text="List Doctors" styleClass="nav-menu-item" onAction="#goToListDoctors"/>
             </items>
         </MenuButton>
-        <MenuButton text="Games" styleClass="nav-button">
+        <MenuButton fx:id="gamesMenuButton" text="Games" styleClass="nav-button">
             <items>
-                <MenuItem text="Game-Store"  userData="settings-general"/>
-                <MenuItem text="Leaderboard"  userData="settings-privacy"/>
-                <MenuItem text="Titles"  userData="settings-privacy"/>
+                <MenuItem text="Store" styleClass="nav-menu-item" onAction="#goToStore"/>
+                <MenuItem text="Leaderboard" styleClass="nav-menu-item" onAction="#goToLeaderboard"/>
+                <MenuItem text="Games Menu" styleClass="nav-menu-item" onAction="#goToGamesMenu"/>
+                <MenuItem text="User Titles" styleClass="nav-menu-item" onAction="#goToUserTitles"/>
             </items>
         </MenuButton>
-        <MenuButton text="Packs" styleClass="nav-button">
-            <items>
-                <MenuItem text="Chatbot"  userData="tools-calculator"/>
-                <MenuItem text="Pack"  userData="tools-converter"/>
-            </items>
-        </MenuButton>
-        <MenuButton text="Help" styleClass="nav-button">
-            <items>
-                <MenuItem text="FAQ"  userData="help-faq"/>
-                <MenuItem text="Contact"  userData="help-contact"/>
-            </items>
-        </MenuButton>
+        <Button text="Packs" styleClass="nav-button" onAction="#goToPacks"/>
     </HBox>
 </VBox>

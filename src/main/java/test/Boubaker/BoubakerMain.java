@@ -35,7 +35,7 @@ public class BoubakerMain extends Application {
             headerContainer.getStyleClass().add("header-container");
 
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            HBox headerFxmlContent = headerFxmlLoader.load();
+            VBox headerFxmlContent = headerFxmlLoader.load();
 
             WebView headerWebView = new WebView();
             URL headerUrl = getClass().getResource("/hheader.html");

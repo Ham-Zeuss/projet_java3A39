@@ -75,24 +75,6 @@ public class SendEmailController {
         }
     }
 
-    public void backlogin(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/login.fxml")));
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
-            currentStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Erreur : " + e.getCause());
-        }
-    }
-
-
-
     private void sendEmail(String recipientEmail, String token) throws MessagingException, IOException {
         // SMTP configuration for Mailtrap
         Properties props = new Properties();
