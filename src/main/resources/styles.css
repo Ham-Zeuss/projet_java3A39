@@ -1,0 +1,49 @@
+.navbar {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+    -fx-padding: 12 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    -fx-background-color: #f8f8f8;
+    -fx-text-fill: #c0392b; /* subtle red highlight */
+    -fx-border-color: #c0392b;
+    -fx-translate-y: -2;
+}
+
+.nav-button .context-menu {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 4);
+}
+
+.nav-button .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 14;
+}
+
+.nav-button .menu-item:hover {
+    -fx-background-color: #f2f2f2;
+    -fx-text-fill: #c0392b;
+}
+
+.nav-button .menu-item .label {
+    -fx-text-fill: black;
+    -fx-padding: 10 15;
+}

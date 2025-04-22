@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.Hedy.AjoutModuleController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox alignment="CENTER" spacing="20" prefWidth="600" prefHeight="400">
+        <Label text="Ajouter un Module" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <GridPane hgap="10" vgap="10">
+            <!-- Correctly define padding using Insets -->
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="titleField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="descriptionField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="Nombre de Cours:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="nombreCoursField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <Label text="Niveau:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <TextField fx:id="levelField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+        </GridPane>
+
+        <HBox spacing="10">
+            <Button text="Enregistrer" onAction="#saveModule" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+            <Button text="Réinitialiser" onAction="#resetForm" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+        </HBox>
+    </VBox>
+</AnchorPane>

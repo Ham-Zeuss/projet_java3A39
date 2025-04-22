@@ -1,33 +1,26 @@
-package test;
+package test.Ham;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
-
 import java.net.URL;
 
-import netscape.javascript.JSObject;
-
-public class Mainx extends Application {
+public class LeaderboardMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Create a VBox to stack the header, header.fxml, body, and footer
         VBox mainContent = new VBox();
 
-
         // Load header.fxml (additional section below header.html)
         FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
         VBox headerFxmlContent = headerFxmlLoader.load();
-
         headerFxmlContent.setPrefSize(1000, 100); // Adjusted height for header.fxml
         mainContent.getChildren().add(headerFxmlContent);
-
 
         // Load header (header.html) using WebView
         WebView headerWebView = new WebView();
@@ -40,23 +33,17 @@ public class Mainx extends Application {
             headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
         }
         headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
-        // Set up JavaScript bridge for redirection
-        headerWebView.getEngine().getLoadWorker().stateProperty().addListener((obs, old, newState) -> {
-            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
-                JSObject window = (JSObject) headerWebView.getEngine().executeScript("window");
-                window.setMember("javafxBridge", new JavaFXBridge(primaryStage, mainContent));
-            }
-        });
         mainContent.getChildren().add(headerWebView);
 
+        // Load body (ListTitles.fxml from 2nd code)
+        String fxmlPath = "/HamzaFXML/Leaderboard.fxml";
+        URL fxmlUrl = getClass().getResource(fxmlPath);
 
-        // Load body (login_form.fxml)
-        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/login_form.fxml"));
-        VBox bodyContent = bodyLoader.load();
-        bodyContent.setPrefHeight(200);
-        bodyContent.setMaxHeight(200);
+        System.out.println("Loading FXML from: " + fxmlPath);
+        FXMLLoader loader = new FXMLLoader(fxmlUrl);
+        VBox bodyContent = loader.load();
+        bodyContent.setPrefSize(1920, 1080); // Match dimensions from 2nd code
         mainContent.getChildren().add(bodyContent);
-
 
         // Load footer (footer.html) using WebView
         WebView footerWebView = new WebView();
@@ -78,62 +65,31 @@ public class Mainx extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         // Set up the scene and apply CSS safely
-        Scene scene = new Scene(scrollPane, 600, 400);
-        URL cssUrl = getClass().getResource("/styles.css");
+        Scene scene = new Scene(scrollPane, 1920, 1080); // Match dimensions from 2nd code
+        URL cssUrl = getClass().getResource("/css/styles.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
         } else {
-            System.err.println("Error: styles.css not found in resources at /styles.css");
+            System.err.println("Error: styles.css not found in resources at /css/styles.css");
+        }
+        // Add UserTitlesStyle.css for title cards
+        URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+        if (userTitlesCssUrl != null) {
+            scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+        } else {
+            System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
         }
 
         primaryStage.setTitle("JavaFX Scrollable Window");
         primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true); // Match full-screen mode from 2nd code
+        primaryStage.setWidth(1920);
+        primaryStage.setHeight(1080);
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-}
-
-// JavaFX bridge class for handling redirects from header.html
-class JavaFXBridge {
-    private final Stage primaryStage;
-    private final VBox mainContent;
-
-    public JavaFXBridge(Stage stage, VBox mainContent) {
-        this.primaryStage = stage;
-        this.mainContent = mainContent;
-    }
-
-    public void handleRedirect(String option) {
-        System.out.println("Redirecting to: " + option);
-        try {
-            String fxmlPath = switch (option) {
-                case "home-option1" -> "/home1.fxml";
-                case "home-option2" -> "/home2.fxml";
-                case "profile-view" -> "/profile_view.fxml";
-                case "profile-edit" -> "/profile_edit.fxml";
-                case "settings-general" -> "/settings_general.fxml";
-                case "settings-privacy" -> "/settings_privacy.fxml";
-                case "tools-calculator" -> "/tools_calculator.fxml";
-                case "tools-converter" -> "/tools_converter.fxml";
-                case "help-faq" -> "/help_faq.fxml";
-                case "help-contact" -> "/help_contact.fxml";
-                default -> null;
-            };
-
-            if (fxmlPath != null && mainContent != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                VBox newBody = loader.load();
-                newBody.setPrefHeight(200);
-                newBody.setMaxHeight(200);
-                mainContent.getChildren().set(2, newBody); // Replace login_form.fxml (index 2)
-            } else {
-                System.err.println("No FXML defined for option: " + option);
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading FXML: " + e.getMessage());
-        }
     }
 }
