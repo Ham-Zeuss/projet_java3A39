@@ -22,6 +22,14 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+
+
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 public class addQuizcontroller {
 
     @FXML
@@ -115,14 +123,60 @@ public class addQuizcontroller {
             // Sauvegarde du quiz
             quizService.create(quiz);
 
+            // Envoi de l'email
+            sendEmail(quiz);
+
             // Redirection vers l'ajout de questions
             openAddQuestionInterface(quiz);
             closeWindow(); // Ferme la fenêtre actuelle
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la création du quiz : " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la création du quiz ou de l'envoi de l'email : " + e.getMessage());
         }
     }
 
+    private void sendEmail(Quiz quiz) {
+        final String fromEmail = "oumaima.boulila@esprit.tn"; // Remplacez par @gmail.com si nécessaire
+        final String password = "jmis uuzk emig hccz";
+        final String toEmail = "oumaima.boulila@esprit.tn";
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromEmail, password);
+            }
+        });
+        session.setDebug(true);
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Nouveau Quiz Créé : " + quiz.getTitle());
+            message.setContent("<h2>Nouveau Quiz Créé</h2>" +
+                            "<p>Un nouveau quiz a été créé avec les détails suivants :</p>" +
+                            "<ul>" +
+                            "<li><b>Titre :</b> " + quiz.getTitle() + "</li>" +
+                            "<li><b>Description :</b> " + quiz.getDescription() + "</li>" +
+                            "<li><b>Durée :</b> " + quiz.getDuration() + " minutes</li>" +
+                            "<li><b>Cours :</b> " + quiz.getCourse().getTitle() + "</li>" +
+                            "<li><b>Date de création :</b> " + quiz.getCreatedAt() + "</li>" +
+                            "</ul>" +
+                            "<p>Cordialement,<br>L'équipe de gestion des quiz</p>",
+                    "text/html; charset=UTF-8");
+
+            Transport.send(message);
+            System.out.println("Email envoyé avec succès à " + toEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.WARNING, "Avertissement", "Erreur lors de l'envoi de l'email : " + e.getMessage());
+        }
+    }
     private void openAddQuestionInterface(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuestion.fxml"));
