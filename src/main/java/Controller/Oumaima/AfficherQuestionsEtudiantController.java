@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -125,8 +124,8 @@ public class AfficherQuestionsEtudiantController {
 
     @FXML
     private void submitAllAnswers() {
-        int correctAnswersCount = 0; // Correspond à 'a' (nombre de réponses correctes)
-        int totalQuestions = questions.size(); // Correspond à 'b' (nombre total de questions)
+        int correctAnswersCount = 0;
+        int totalQuestions = questions.size();
         StringBuilder result = new StringBuilder("Résultat du Quiz :\n");
 
         for (Question question : questions) {
@@ -142,73 +141,98 @@ public class AfficherQuestionsEtudiantController {
             };
 
             boolean isCorrect = false;
-            String submittedAnswer = "[]"; // Par défaut, si aucune réponse n'est sélectionnée
+            String submittedAnswer = null; // Utiliser NULL si aucune réponse n'est sélectionnée
 
+            // Collect submitted answer as a JSON array (e.g., ["NN"] or ["NN", "L"])
             if ("checkbox".equals(optionType)) {
                 List<CheckBox> checkBoxes = questionCheckBoxes.get(question);
                 if (checkBoxes != null) {
                     List<String> selectedOptions = new ArrayList<>();
                     for (int i = 0; i < checkBoxes.size(); i++) {
                         if (checkBoxes.get(i).isSelected()) {
-                            selectedOptions.add(options[i]);
+                            selectedOptions.add(options[i]); // Ajouter la valeur de l'option (e.g., "NN", "L")
                         }
                     }
-                    // Trier les options pour ignorer l'ordre
-                    Collections.sort(selectedOptions);
-                    submittedAnswer = selectedOptions.isEmpty() ? "[]" : "[" + String.join(",", selectedOptions) + "]";
-                    reponseSoumise.append(String.join(",", selectedOptions));
+                    if (selectedOptions.isEmpty()) {
+                        submittedAnswer = null; // Aucune réponse sélectionnée
+                        reponseSoumise.append("]");
+                    } else {
+                        // Formater comme un tableau JSON valide
+                        Collections.sort(selectedOptions);
+                        String jsonArray = "[\"" + String.join("\",\"", selectedOptions) + "\"]"; // e.g., ["NN","L"]
+                        submittedAnswer = jsonArray;
+                        reponseSoumise.append(String.join(",", selectedOptions)).append("]");
+                    }
+                } else {
+                    reponseSoumise.append("]");
                 }
             } else if ("radio".equals(optionType) || "radiobox".equals(optionType)) {
                 List<RadioButton> radioButtons = questionRadioButtons.get(question);
                 if (radioButtons != null) {
-                    boolean hasSelection = false;
                     for (int i = 0; i < radioButtons.size(); i++) {
                         if (radioButtons.get(i).isSelected()) {
-                            String selectedOption = options[i];
-                            submittedAnswer = "[" + selectedOption + "]";
-                            reponseSoumise.append(selectedOption);
-                            hasSelection = true;
+                            // Formater comme un tableau JSON valide avec une seule valeur
+                            submittedAnswer = "[\"" + options[i] + "\"]"; // e.g., ["NN"]
+                            reponseSoumise.append(options[i]).append("]");
                             break;
                         }
                     }
-                    if (!hasSelection) {
-                        reponseSoumise.append("Aucune réponse sélectionnée");
-                    }
+                } else {
+                    reponseSoumise.append("]");
                 }
-            }
-            reponseSoumise.append("]");
-
-            // Normalisation de correctAnswers pour la comparaison
-            String normalizedCorrectAnswers = correctAnswers;
-            // Si correctAnswers n'a pas de crochets, en ajouter
-            if (!correctAnswers.startsWith("[") && !correctAnswers.endsWith("]")) {
-                normalizedCorrectAnswers = "[" + correctAnswers + "]";
-            }
-            // Normalisation supplémentaire : retirer les espaces, passer en minuscules
-            normalizedCorrectAnswers = normalizedCorrectAnswers.replaceAll("\\s+", "").toLowerCase();
-            submittedAnswer = submittedAnswer.replaceAll("\\s+", "").toLowerCase();
-
-            // Pour les checkbox, trier les options dans correctAnswers
-            if ("checkbox".equals(optionType) && normalizedCorrectAnswers.length() > 2) {
-                String[] correctOptions = normalizedCorrectAnswers.substring(1, normalizedCorrectAnswers.length() - 1).split(",");
-                List<String> correctOptionsList = new ArrayList<>(List.of(correctOptions));
-                Collections.sort(correctOptionsList);
-                normalizedCorrectAnswers = "[" + String.join(",", correctOptionsList) + "]";
+            } else {
+                reponseSoumise.append("]");
             }
 
-            // Comparaison
-            isCorrect = submittedAnswer.equals(normalizedCorrectAnswers);
+            // Sauvegarder la réponse soumise dans l'objet Question
+            question.setReponseSoumise(submittedAnswer);
 
-            // Logs détaillés pour déboguer
+            // Log des données avant la mise à jour
+            System.out.println("Tentative de mise à jour de la question ID=" + question.getId());
+            System.out.println("Données de la question : " + question.toString());
+
+            // Mettre à jour la question dans la base de données
+            try {
+                questionService.update(question);
+                System.out.println("Réponse soumise enregistrée pour la question " + question.getId() + " : " + submittedAnswer);
+            } catch (Exception e) {
+                e.printStackTrace();
+                String errorMessage = "Erreur lors de l'enregistrement de la réponse soumise pour la question ID=" + question.getId() + " : " + e.getMessage() + "\nStackTrace: " + e.toString();
+                System.err.println(errorMessage);
+                Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
+                alert.showAndWait();
+            }
+
+            // Normalize answers for comparison
+            String normalizedCorrectAnswers = normalizeAnswer(correctAnswers);
+            String normalizedSubmittedAnswer = normalizeAnswer(submittedAnswer != null ? submittedAnswer : "[]");
+
+            // Debug exact string content
+            System.out.println("Debug Correct Answers: " + toDebugString(correctAnswers));
+            System.out.println("Debug Normalized Correct: " + toDebugString(normalizedCorrectAnswers));
+            System.out.println("Debug Submitted Answer: " + toDebugString(submittedAnswer != null ? submittedAnswer : "[]"));
+            System.out.println("Debug Normalized Submitted: " + toDebugString(normalizedSubmittedAnswer));
+
+            // Compare
+            isCorrect = normalizedSubmittedAnswer.equals(normalizedCorrectAnswers);
+            if (!isCorrect) {
+                System.out.println("Comparison failed. Lengths: Correct=" + normalizedCorrectAnswers.length() +
+                        ", Submitted=" + normalizedSubmittedAnswer.length());
+                System.out.println("Are strings equal? " + normalizedSubmittedAnswer.equals(normalizedCorrectAnswers));
+            }
+
+            // Log standard output
             System.out.println("Question: " + question.getText());
             System.out.println("Raw Correct Answers: " + correctAnswers);
             System.out.println("Normalized Correct Answers: " + normalizedCorrectAnswers);
-            System.out.println("Submitted Answer: " + submittedAnswer);
+            System.out.println("Submitted Answer: " + (submittedAnswer != null ? submittedAnswer : "[]"));
+            System.out.println("Normalized Submitted Answer: " + normalizedSubmittedAnswer);
             System.out.println("Is Correct: " + isCorrect);
+            System.out.println("Options: A) " + options[0] + ", B) " + options[1] + ", C) " + options[2] + ", D) " + options[3]);
             System.out.println("---");
 
             if (isCorrect) {
-                correctAnswersCount++; // Incrémenter 'a' si la réponse est correcte
+                correctAnswersCount++;
             }
 
             result.append("Question: ").append(question.getText()).append("\n");
@@ -216,22 +240,19 @@ public class AfficherQuestionsEtudiantController {
             result.append("Réponse correcte: ").append(correctAnswers).append("\n\n");
         }
 
-        // Format de la note : a/b pour l'affichage
+        // Format and store score
         String finalNoteDisplay = correctAnswersCount + "/" + totalQuestions;
         result.append("Note finale: ").append(finalNoteDisplay);
 
-        // Calculer le pourcentage pour l'enregistrement dans la table quiz (colonne note de type FLOAT)
-        float notePercentage = totalQuestions > 0 ? (float) correctAnswersCount / totalQuestions * 100 : 0;
-
-        // Enregistrer la note dans la table quiz
+        float noteToStore = correctAnswersCount;
         try {
             Quiz quiz = quizService.readById(quizId);
             if (quiz == null) {
                 throw new IllegalStateException("Quiz avec ID " + quizId + " introuvable");
             }
-            quiz.setNote(notePercentage);
+            quiz.setNote(noteToStore);
             quizService.update(quiz);
-            System.out.println("Note enregistrée pour le quiz " + quizId + " : " + notePercentage + "%");
+            System.out.println("Note enregistrée pour le quiz " + quizId + " : " + noteToStore);
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement de la note : " + e.getMessage());
@@ -241,6 +262,50 @@ public class AfficherQuestionsEtudiantController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, result.toString());
         alert.setTitle("Résultat du Quiz");
         alert.showAndWait();
+    }
+
+    private String normalizeAnswer(String answer) {
+        if (answer == null || answer.trim().isEmpty()) {
+            return "[]";
+        }
+        // Clean JSON-like input (remove escaped quotes, extra whitespace)
+        String cleaned = answer.replaceAll("[\"\\s]+", "").replaceAll("\\\\\"", "");
+        // Ensure lowercase
+        String normalized = cleaned.toLowerCase();
+        // Ensure brackets
+        if (!normalized.startsWith("[") || !normalized.endsWith("]")) {
+            normalized = "[" + normalized.replaceAll("[\\[\\]]", "") + "]";
+        }
+        // For multi-option answers (checkbox), sort the options
+        if (normalized.length() > 3 && normalized.contains(",")) {
+            String content = normalized.substring(1, normalized.length() - 1);
+            String[] options = content.split(",");
+            List<String> optionList = new ArrayList<>();
+            for (String opt : options) {
+                String trimmed = opt.trim();
+                if (!trimmed.isEmpty()) {
+                    optionList.add(trimmed);
+                }
+            }
+            Collections.sort(optionList);
+            normalized = "[" + String.join(",", optionList) + "]";
+        }
+        return normalized;
+    }
+
+    private String toDebugString(String str) {
+        StringBuilder debug = new StringBuilder();
+        debug.append("Length=").append(str.length()).append(", Chars=[");
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            String hex = Integer.toHexString(c); // Convertir le char en hexadécimal
+            debug.append("0x").append(hex).append("(").append(c).append(")");
+            if (i < str.length() - 1) {
+                debug.append(",");
+            }
+        }
+        debug.append("]");
+        return debug.toString(); // StringBuilder.toString() est une méthode standard
     }
 
     private String safeText(String text) {
