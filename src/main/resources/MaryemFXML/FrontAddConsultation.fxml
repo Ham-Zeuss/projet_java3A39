@@ -20,7 +20,7 @@
     <Text text="Book Consultation" styleClass="form-title"/>
 
     <GridPane hgap="10.0" vgap="10.0" styleClass="form-grid">
-        
+
         <Label text="Consultation Date:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="form-label"/>
         <DatePicker fx:id="consultationDatePicker" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="form-date-picker"/>
 
