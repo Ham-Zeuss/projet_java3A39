@@ -3,48 +3,51 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="15.0" styleClass="profile-details-container" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controller.Maryem.ProfileDetailsController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDetailsController">
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" styleClass="header">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+        <Text fx:id="headerTitle" text="Profile Details" styleClass="header-title"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
+    </HBox>
 
-    <Text fx:id="title" text="Profile Details" styleClass="section-title"/>
+    <!-- Main Content -->
+    <VBox alignment="CENTER" spacing="10" styleClass="content">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <Text fx:id="title" text="Profile Details" styleClass="title"/>
+        <Label fx:id="nameLabel" text="Name" styleClass="label"/>
+        <Label fx:id="biographyLabel" text="Biography" styleClass="label" wrapText="true"/>
+        <Label fx:id="specialtyLabel" text="Specialty" styleClass="label"/>
+        <Button fx:id="resourcesButton" text="View Resources" onAction="#openResources" styleClass="button"/>
+        <Label fx:id="priceLabel" text="Price" styleClass="label"/>
+        <Label fx:id="latitudeLabel" text="Latitude" styleClass="label"/>
+        <Label fx:id="longitudeLabel" text="Longitude" styleClass="label"/>
 
-    <VBox spacing="10.0" styleClass="details-list">
-        <HBox spacing="10.0">
-            <Label text="Name:" styleClass="detail-label"/>
-            <Label fx:id="nameLabel" styleClass="detail-value"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Biography:" styleClass="detail-label"/>
-            <Label fx:id="biographyLabel" styleClass="detail-value" wrapText="true"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Specialty:" styleClass="detail-label"/>
-            <Label fx:id="specialtyLabel" styleClass="detail-value"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Resources:" styleClass="detail-label"/>
-            <Button fx:id="resourcesButton" text="View Resources" onAction="#openResources" styleClass="resources-button"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Consultation Price:" styleClass="detail-label"/>
-            <Label fx:id="priceLabel" styleClass="detail-value"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Latitude:" styleClass="detail-label"/>
-            <Label fx:id="latitudeLabel" styleClass="detail-value"/>
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Longitude:" styleClass="detail-label"/>
-            <Label fx:id="longitudeLabel" styleClass="detail-value"/>
-        </HBox>
+        <!-- Comments Section -->
+        <Label fx:id="commentsErrorLabel" text="" styleClass="error-label"/>
+        <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
+
+        <!-- Add Comment Section -->
+        <TextArea fx:id="commentTextArea" promptText="Enter your comment" styleClass="text-area"/>
+        <Label fx:id="commentErrorLabel" text="" styleClass="error-label"/>
+        <Button text="Add Comment" onAction="#addComment" styleClass="button"/>
     </VBox>
 
-    <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
+    <!-- Footer -->
+    <HBox alignment="CENTER" styleClass="footer">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+        
+    </HBox>
 </VBox>

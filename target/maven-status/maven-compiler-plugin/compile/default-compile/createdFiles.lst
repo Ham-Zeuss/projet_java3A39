@@ -14,6 +14,7 @@ service\CommentaireService.class
 Controller\Hedy\AjoutModuleController.class
 Controller\Maryem\FrontDisplayCommentsController.class
 test\Ham\DisplayTitlesMain.class
+Controller\Maryem\MainMap.class
 Controller\Maryem\DisplayProfilesController$1.class
 entite\Profile.class
 service\TitleService.class
@@ -23,6 +24,7 @@ Controller\Maryem\FrontDisplayProfilesController.class
 entite\Oumaima\Cours.class
 Controller\Maryem\DisplayConsultationsController$1.class
 entite\Oumaima\Quiz.class
+Controller\Maryem\MapController.class
 Controller\Oumaima\affichageQuizcontroller.class
 Controller\Ham\ListStoreItemsAdminController$4.class
 entite\Title.class
@@ -35,6 +37,7 @@ Controller\Hedy\EditModuleController.class
 test\Ham\DisplayStoreItemsAdminMain.class
 Controller\Boubaker\HeaderController.class
 Controller\Hedy\AffichageCoursController.class
+Controller\Maryem\MainMapController.class
 Controller\Ham\ListStoreItemsController$1.class
 Controller\Maryem\DisplayConsultationsController$2.class
 test\Boubaker\BoubakerMain.class
@@ -48,6 +51,7 @@ Controller\Maryem\DisplayProfilesController$2.class
 entite\Pack.class
 Controller\Oumaima\addQuizcontroller$2.class
 Controller\Ham\UpdateTitleController.class
+Controller\Maryem\MainControllerMap.class
 Controller\Maryem\FrontAddConsultationController.class
 Controller\Oumaima\UpdateQuestionController.class
 service\ConsultationService.class

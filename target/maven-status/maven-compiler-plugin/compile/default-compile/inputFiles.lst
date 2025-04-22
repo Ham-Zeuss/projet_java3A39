@@ -40,6 +40,7 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\AffichageMod
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\EditCoursController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Boubaker\MainBoubakerController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\PexelWord.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainControllerMap.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Quiz.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListStoreItemsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\EditModuleController.java
@@ -64,6 +65,7 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Boubaker\OrdersCo
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListTitlesController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Commande.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\util\DataSource.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainMap.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Notification.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayStoreItemsMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Cours.java
@@ -96,7 +98,9 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\Affichage
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayStoreItemsFrontMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\PexelWordService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\AjoutModuleController.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainMapController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLdisplayprofile.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MapController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\hedy\Mainx.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\org\example\HomeController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\LeaderboardController.java
