@@ -3,13 +3,13 @@ package Controller.Maryem;
 import entite.Commentaire;
 import entite.Profile;
 import entite.User;
+import service.CommentaireService;
+import service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import service.CommentaireService;
-import service.ProfileService;
 
 public class FrontDisplayCommentsController {
 
@@ -24,18 +24,19 @@ public class FrontDisplayCommentsController {
 
     private Profile profile;
     private CommentaireService commentaireService;
-    private ProfileService profileService;
+    private UserService userService;
 
     public void initialize(Profile profile) {
         this.profile = profile;
-        commentaireService = new CommentaireService();
-        profileService = new ProfileService();
+        this.commentaireService = new CommentaireService();
+        this.userService = new UserService();
 
         // Update the title with the profile name
         User profileUser = profile.getUserId();
         String profileName = (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
                 (profileUser.getPrenom() != null ? profileUser.getPrenom() : "");
-        title.setText("Comments for " + profileName.trim());
+        profileName = profileName.trim().isEmpty() ? "Anonymous" : profileName.trim();
+        title.setText("Comments for " + profileName);
 
         // Load comments
         try {
@@ -48,9 +49,10 @@ public class FrontDisplayCommentsController {
             // Dynamically create a box for each comment
             for (Commentaire comment : comments) {
                 // Fetch the user who wrote the comment
-                User commenter = comment.getUserId();
-                String commenterName = (commenter.getNom() != null ? commenter.getNom() : "") + " " +
-                        (commenter.getPrenom() != null ? commenter.getPrenom() : "");
+                User commenter = userService.readById(comment.getUserId());
+                String commenterName = commenter != null ?
+                        (commenter.getNom() != null ? commenter.getNom() : "") + " " +
+                                (commenter.getPrenom() != null ? commenter.getPrenom() : "") : "Anonymous";
                 commenterName = commenterName.trim().isEmpty() ? "Anonymous" : commenterName.trim();
 
                 // Create the main HBox for the comment
@@ -59,7 +61,6 @@ public class FrontDisplayCommentsController {
                 commentBox.setSpacing(5);
                 commentBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-                // Create separate HBoxes for each part of the message
                 // Part 1: Commenter name
                 HBox commenterBox = new HBox();
                 commenterBox.getStyleClass().add("commenter-box");
@@ -77,7 +78,7 @@ public class FrontDisplayCommentsController {
                 // Part 3: Profile name
                 HBox profileBox = new HBox();
                 profileBox.getStyleClass().add("profile-box");
-                Label profileLabel = new Label(profileName.trim());
+                Label profileLabel = new Label(profileName);
                 profileLabel.setWrapText(true);
                 profileBox.getChildren().add(profileLabel);
 
@@ -102,8 +103,8 @@ public class FrontDisplayCommentsController {
     }
 
     public void refreshTable() {
-        commentsContainer.getChildren().clear(); // Clear existing comments
+        commentsContainer.getChildren().clear();
         errorLabel.setText("");
-        initialize(profile); // Reload comments
+        initialize(profile);
     }
 }

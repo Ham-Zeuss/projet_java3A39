@@ -2,25 +2,16 @@ package Controller.Maryem;
 
 import entite.Commentaire;
 import entite.Profile;
-import entite.User;
+import entite.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import service.CommentaireService;
-import service.UserService;
-
-import java.util.List;
 
 public class AddCommentController {
 
     @FXML
-    private ComboBox<User> userComboBox;
-
-    @FXML
     private TextArea commentTextArea;
-
-    @FXML
-    private TextField consultationIdField;
 
     @FXML
     private TextField reportReasonField;
@@ -33,56 +24,26 @@ public class AddCommentController {
 
     private Profile profile;
     private CommentaireService commentaireService;
-    private UserService userService;
 
     public void initialize(Profile profile) {
         this.profile = profile;
         this.commentaireService = new CommentaireService();
-        this.userService = new UserService();
 
-        try {
-            List<User> users = userService.readAll();
-            userComboBox.getItems().setAll(users);
-            userComboBox.setCellFactory(param -> new ListCell<>() {
-                @Override
-                protected void updateItem(User user, boolean empty) {
-                    super.updateItem(user, empty);
-                    if (empty || user == null) {
-                        setText(null);
-                    } else {
-                        setText(user.getNom() + " " + user.getPrenom());
-                    }
-                }
-            });
-            userComboBox.setButtonCell(new ListCell<>() {
-                @Override
-                protected void updateItem(User user, boolean empty) {
-                    super.updateItem(user, empty);
-                    if (empty || user == null) {
-                        setText(null);
-                    } else {
-                        setText(user.getNom() + " " + user.getPrenom());
-                    }
-                }
-            });
-
-            if (!users.isEmpty()) {
-                userComboBox.getSelectionModel().selectFirst();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            errorLabel.setText("Error loading users: " + e.getMessage());
+        Session session = Session.getInstance();
+        if (!session.isActive()) {
+            errorLabel.setText("No active session. Please log in.");
         }
     }
 
     @FXML
     private void saveComment() {
         try {
-            User selectedUser = userComboBox.getSelectionModel().getSelectedItem();
-            if (selectedUser == null) {
-                errorLabel.setText("Please select a user.");
+            Session session = Session.getInstance();
+            if (!session.isActive()) {
+                errorLabel.setText("No active session. Please log in.");
                 return;
             }
+            int userId = session.getUserId();
 
             String comment = commentTextArea.getText();
             if (comment == null || comment.trim().isEmpty()) {
@@ -90,16 +51,9 @@ public class AddCommentController {
                 return;
             }
 
-            String consultationIdText = consultationIdField.getText();
-            if (consultationIdText == null || consultationIdText.trim().isEmpty()) {
-                errorLabel.setText("Consultation ID cannot be empty.");
-                return;
-            }
-            int consultationId;
-            try {
-                consultationId = Integer.parseInt(consultationIdText);
-            } catch (NumberFormatException e) {
-                errorLabel.setText("Consultation ID must be a valid number.");
+            int consultationId = commentaireService.findCompletedConsultationId(userId, profile.getId());
+            if (consultationId == 0) {
+                errorLabel.setText("You need a completed consultation to comment.");
                 return;
             }
 
@@ -107,7 +61,7 @@ public class AddCommentController {
             boolean reported = reportedCheckBox.isSelected();
 
             Commentaire commentaire = new Commentaire();
-            commentaire.setUserId(selectedUser);
+            commentaire.setUserId(userId);
             commentaire.setProfileId(profile.getId());
             commentaire.setComment(comment);
             commentaire.setConsultationId(consultationId);

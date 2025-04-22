@@ -9,7 +9,6 @@
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDetailsController">
-    <!-- Header -->
     <HBox alignment="CENTER_LEFT" styleClass="header">
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>
@@ -18,8 +17,6 @@
         <HBox HBox.hgrow="ALWAYS"/>
         <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
     </HBox>
-
-    <!-- Main Content -->
     <VBox alignment="CENTER" spacing="10" styleClass="content">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
@@ -32,18 +29,13 @@
         <Label fx:id="priceLabel" text="Price" styleClass="label"/>
         <Label fx:id="latitudeLabel" text="Latitude" styleClass="label"/>
         <Label fx:id="longitudeLabel" text="Longitude" styleClass="label"/>
-
-        <!-- Comments Section -->
         <Label fx:id="commentsErrorLabel" text="" styleClass="error-label"/>
         <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
-
-        <!-- Add Comment Section -->
+        <Label text="Comment" styleClass="label"/>
         <TextArea fx:id="commentTextArea" promptText="Enter your comment" styleClass="text-area"/>
         <Label fx:id="commentErrorLabel" text="" styleClass="error-label"/>
         <Button text="Add Comment" onAction="#addComment" styleClass="button"/>
     </VBox>
-
-    <!-- Footer -->
     <HBox alignment="CENTER" styleClass="footer">
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>

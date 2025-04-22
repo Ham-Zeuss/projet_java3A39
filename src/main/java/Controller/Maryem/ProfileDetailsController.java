@@ -3,15 +3,13 @@ package Controller.Maryem;
 import entite.Profile;
 import entite.User;
 import entite.Commentaire;
+import entite.Session;
 import service.CommentaireService;
 import service.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -74,7 +72,6 @@ public class ProfileDetailsController {
             return;
         }
 
-        // Get user details (nom and prenom) from the profile's user_id
         User user = profile.getUserId();
         String userName = (user.getNom() != null ? user.getNom() : "") + " " +
                 (user.getPrenom() != null ? user.getPrenom() : "");
@@ -99,64 +96,54 @@ public class ProfileDetailsController {
                 return;
             }
 
-            // Dynamically create a box for each comment
             for (Commentaire comment : comments) {
-                // Fetch the user who wrote the comment
-                User commenter = comment.getUserId();
-                String commenterName = (commenter.getNom() != null ? commenter.getNom() : "") + " " +
-                        (commenter.getPrenom() != null ? commenter.getPrenom() : "");
+                User commenter = userService.readById(comment.getUserId());
+                String commenterName = commenter != null ?
+                        (commenter.getNom() != null ? commenter.getNom() : "") + " " +
+                                (commenter.getPrenom() != null ? commenter.getPrenom() : "") : "Anonymous";
                 commenterName = commenterName.trim().isEmpty() ? "Anonymous" : commenterName.trim();
 
-                // Get profile name for display
                 User profileUser = profile.getUserId();
                 String profileName = (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
                         (profileUser.getPrenom() != null ? profileUser.getPrenom() : "");
                 profileName = profileName.trim().isEmpty() ? "Anonymous" : profileName.trim();
 
-                // Create the main HBox for the comment
                 HBox commentBox = new HBox();
                 commentBox.getStyleClass().add("comment-box");
                 commentBox.setSpacing(5);
                 commentBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-                // Part 1: Commenter name
                 HBox commenterBox = new HBox();
                 commenterBox.getStyleClass().add("commenter-box");
                 Label commenterLabel = new Label(commenterName);
                 commenterLabel.setWrapText(true);
                 commenterBox.getChildren().add(commenterLabel);
 
-                // Part 2: "a écrit dans le profil de"
                 HBox actionBox = new HBox();
                 actionBox.getStyleClass().add("action-box");
                 Label actionLabel = new Label("a écrit dans le profil de");
                 actionLabel.setWrapText(true);
                 actionBox.getChildren().add(actionLabel);
 
-                // Part 3: Profile name
                 HBox profileBox = new HBox();
                 profileBox.getStyleClass().add("profile-box");
                 Label profileLabel = new Label(profileName);
                 profileLabel.setWrapText(true);
                 profileBox.getChildren().add(profileLabel);
 
-                // Part 4: Comment content
                 HBox contentBox = new HBox();
                 contentBox.getStyleClass().add("content-box");
                 Label contentLabel = new Label(": " + comment.getComment());
                 contentLabel.setWrapText(true);
                 contentBox.getChildren().add(contentLabel);
 
-                // Part 5: Report button (only show if not already reported)
                 Button reportButton = new Button("Report");
                 reportButton.getStyleClass().add("report-button");
-                reportButton.setDisable(comment.isReported()); // Disable if already reported
+                reportButton.setDisable(comment.isReported());
                 reportButton.setOnAction(event -> openReportPopup(comment));
 
-                // Add all parts to the main comment box
                 commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox, reportButton);
 
-                // Add the comment box to the container
                 commentsContainer.getChildren().add(commentBox);
             }
 
@@ -180,7 +167,6 @@ public class ProfileDetailsController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
-            // Refresh comments after reporting
             loadComments();
         } catch (IOException e) {
             e.printStackTrace();
@@ -191,12 +177,12 @@ public class ProfileDetailsController {
     @FXML
     private void addComment() {
         try {
-            // Fetch user with ID 1
-            User commenter = userService.readById(1);
-            if (commenter == null) {
-                commentErrorLabel.setText("User with ID 1 not found.");
+            Session session = Session.getInstance();
+            if (!session.isActive()) {
+                commentErrorLabel.setText("No active session. Please log in.");
                 return;
             }
+            int userId = session.getUserId();
 
             String commentText = commentTextArea.getText();
             if (commentText == null || commentText.trim().isEmpty()) {
@@ -204,20 +190,25 @@ public class ProfileDetailsController {
                 return;
             }
 
+            int consultationId = commentaireService.findCompletedConsultationId(userId, profile.getId());
+            if (consultationId == 0) {
+                commentErrorLabel.setText("You need a completed consultation to comment.");
+                return;
+            }
+
             Commentaire commentaire = new Commentaire();
-            commentaire.setUserId(commenter);
+            commentaire.setUserId(userId);
             commentaire.setProfileId(profile.getId());
             commentaire.setComment(commentText);
+            commentaire.setConsultationId(consultationId);
+            commentaire.setReportReason(null);
+            commentaire.setReported(false);
 
             commentaireService.create(commentaire);
             commentErrorLabel.setText("Comment added successfully.");
 
-            // Clear input field
             commentTextArea.clear();
-
-            // Refresh comments
             loadComments();
-
         } catch (Exception e) {
             e.printStackTrace();
             commentErrorLabel.setText("Error adding comment: " + e.getMessage());
@@ -228,7 +219,6 @@ public class ProfileDetailsController {
     private void openResources() {
         if (profile.getRessources() != null && !profile.getRessources().isEmpty()) {
             try {
-                // Open the PDF file (assumes ressources is a file path)
                 java.awt.Desktop.getDesktop().open(new java.io.File(profile.getRessources()));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -239,7 +229,6 @@ public class ProfileDetailsController {
 
     @FXML
     private void goBack() {
-        // Close the current window
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
     }

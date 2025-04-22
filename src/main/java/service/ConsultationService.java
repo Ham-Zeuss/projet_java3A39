@@ -1,180 +1,157 @@
 package service;
 
 import entite.Consultation;
-import entite.User;
 import entite.Profile;
+import entite.User;
 import util.DataSource;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsultationService implements IService<Consultation> {
+public class ConsultationService {
 
-    private Connection cnx;
-    private Statement ste;
-    private PreparedStatement pst;
-    private ResultSet rs;
-    private UserService userService;
-    private ProfileService profileService;
-
-    public ConsultationService() {
-        cnx = DataSource.getInstance().getConnection();
-        userService = new UserService();
-        profileService = new ProfileService();
-    }
-
-    @Override
-    public void create(Consultation consultation) {
-        String requete = "insert into consultation (user_id, profile_id, consultation_date, is_completed) " +
-                "values(" + consultation.getUserId().getId() + "," +
-                consultation.getProfileId().getId() + ",'" +
-                Timestamp.valueOf(consultation.getConsultationDate()) + "'," +
-                (consultation.isCompleted() ? 1 : 0) + ")";
-        try {
-            ste = cnx.createStatement();
-            ste.executeUpdate(requete);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public void create(Consultation consultation) throws Exception {
+        String query = "INSERT INTO consultation (user_id, profile_id, consultation_date, is_completed) VALUES (?, ?, ?, ?)";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, consultation.getUserId().getId());
+            ps.setInt(2, consultation.getProfileId().getId());
+            ps.setTimestamp(3, Timestamp.valueOf(consultation.getConsultationDate()));
+            ps.setBoolean(4, consultation.isCompleted());
+            ps.executeUpdate();
         }
     }
 
-    public void createPst(Consultation consultation) {
-        String requete = "insert into consultation (user_id, profile_id, consultation_date, is_completed) values (?, ?, ?, ?)";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, consultation.getUserId().getId());
-            pst.setInt(2, consultation.getProfileId().getId());
-            pst.setTimestamp(3, Timestamp.valueOf(consultation.getConsultationDate()));
-            pst.setBoolean(4, consultation.isCompleted());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public boolean checkForConflict(int profileId, LocalDateTime consultationDateTime) throws Exception {
+        String query = "SELECT COUNT(*) FROM consultation WHERE profile_id = ? AND consultation_date = ?";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, profileId);
+            ps.setTimestamp(2, Timestamp.valueOf(consultationDateTime));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
         }
+        return false;
     }
 
-    @Override
-    public void delete(Consultation consultation) {
-        String requete = "delete from consultation where id = ?";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, consultation.getId());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void update(Consultation consultation) {
-        String requete = "update consultation set user_id = ?, profile_id = ?, consultation_date = ?, is_completed = ? where id = ?";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, consultation.getUserId().getId());
-            pst.setInt(2, consultation.getProfileId().getId());
-            pst.setTimestamp(3, Timestamp.valueOf(consultation.getConsultationDate()));
-            pst.setBoolean(4, consultation.isCompleted());
-            pst.setInt(5, consultation.getId());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<Consultation> readAll() {
-        List<Consultation> list = new ArrayList<>();
-        String requete = "select * from consultation";
-        try {
-            ste = cnx.createStatement();
-            rs = ste.executeQuery(requete);
+    public List<Consultation> readAll() throws Exception {
+        List<Consultation> consultations = new ArrayList<>();
+        String query = "SELECT c.id, c.user_id, c.profile_id, c.consultation_date, c.is_completed, " +
+                "u.nom AS user_nom, u.prenom AS user_prenom, " +
+                "p.specialite, p.user_id AS profile_user_id, u2.nom AS profile_nom, u2.prenom AS profile_prenom " +
+                "FROM consultation c " +
+                "JOIN user u ON c.user_id = u.id " +
+                "JOIN profile p ON c.profile_id = p.id " +
+                "JOIN user u2 ON p.user_id = u2.id";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                int userId = rs.getInt("user_id");
-                User user = userService.readById(userId);
-                int profileId = rs.getInt("profile_id");
-                Profile profile = profileService.readById(profileId);
-                Timestamp timestamp = rs.getTimestamp("consultation_date");
-                LocalDateTime consultationDate = timestamp != null ? timestamp.toLocalDateTime() : null;
-                list.add(new Consultation(
-                        rs.getInt("id"),
-                        user,
-                        profile,
-                        consultationDate,
-                        rs.getBoolean("is_completed")
-                ));
+                Consultation consultation = new Consultation();
+                consultation.setId(rs.getInt("id"));
+
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                user.setNom(rs.getString("user_nom"));
+                user.setPrenom(rs.getString("user_prenom"));
+                consultation.setUserId(user);
+
+                Profile profile = new Profile();
+                profile.setId(rs.getInt("profile_id"));
+                profile.setSpecialite(rs.getString("specialite"));
+                User profileUser = new User();
+                profileUser.setId(rs.getInt("profile_user_id"));
+                profileUser.setNom(rs.getString("profile_nom"));
+                profileUser.setPrenom(rs.getString("profile_prenom"));
+                profile.setUserId(profileUser);
+                consultation.setProfileId(profile);
+
+                consultation.setConsultationDate(rs.getTimestamp("consultation_date").toLocalDateTime());
+                consultation.setCompleted(rs.getBoolean("is_completed"));
+
+                consultations.add(consultation);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-        return list;
+        return consultations;
     }
 
-    @Override
-    public Consultation readById(int id) {
-        String requete = "select * from consultation where id = ?";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, id);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                int userId = rs.getInt("user_id");
-                User user = userService.readById(userId);
-                int profileId = rs.getInt("profile_id");
-                Profile profile = profileService.readById(profileId);
-                Timestamp timestamp = rs.getTimestamp("consultation_date");
-                LocalDateTime consultationDate = timestamp != null ? timestamp.toLocalDateTime() : null;
-                return new Consultation(
-                        rs.getInt("id"),
-                        user,
-                        profile,
-                        consultationDate,
-                        rs.getBoolean("is_completed")
-                );
+    public void delete(Consultation consultation) throws Exception {
+        String query = "DELETE FROM consultation WHERE id = ?";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, consultation.getId());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new Exception("No consultation found with ID " + consultation.getId());
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-        return null;
     }
 
-    public List<Consultation> readByUserId(int userId) {
-        List<Consultation> list = new ArrayList<>();
-        String requete = "select * from consultation where user_id = ?";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, userId);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                User user = userService.readById(rs.getInt("user_id"));
-                Profile profile = profileService.readById(rs.getInt("profile_id"));
-                Timestamp timestamp = rs.getTimestamp("consultation_date");
-                LocalDateTime consultationDate = timestamp != null ? timestamp.toLocalDateTime() : null;
-                list.add(new Consultation(
-                        rs.getInt("id"),
-                        user,
-                        profile,
-                        consultationDate,
-                        rs.getBoolean("is_completed")
-                ));
+    public void update(Consultation consultation) throws Exception {
+        String query = "UPDATE consultation SET user_id = ?, profile_id = ?, consultation_date = ?, is_completed = ? WHERE id = ?";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, consultation.getUserId().getId());
+            ps.setInt(2, consultation.getProfileId().getId());
+            ps.setTimestamp(3, Timestamp.valueOf(consultation.getConsultationDate()));
+            ps.setBoolean(4, consultation.isCompleted());
+            ps.setInt(5, consultation.getId());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new Exception("No consultation found with ID " + consultation.getId());
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-        return list;
     }
 
-    // Method to check for scheduling conflicts
-    public boolean checkForConflict(int profileId, LocalDateTime consultationDate) {
-        String requete = "select * from consultation where profile_id = ? and consultation_date = ?";
-        try {
-            pst = cnx.prepareStatement(requete);
-            pst.setInt(1, profileId);
-            pst.setTimestamp(2, Timestamp.valueOf(consultationDate));
-            rs = pst.executeQuery();
-            return rs.next(); // Returns true if a consultation exists at this date and time for the profile
-        } catch (SQLException e) {
-            throw new RuntimeException("Error checking for scheduling conflict: " + e.getMessage());
+    public List<Consultation> readByUserId(int userId) throws Exception {
+        List<Consultation> consultations = new ArrayList<>();
+        String query = "SELECT c.id, c.user_id, c.profile_id, c.consultation_date, c.is_completed, " +
+                "u.nom AS user_nom, u.prenom AS user_prenom, " +
+                "p.specialite, p.user_id AS profile_user_id, u2.nom AS profile_nom, u2.prenom AS profile_prenom " +
+                "FROM consultation c " +
+                "JOIN user u ON c.user_id = u.id " +
+                "JOIN profile p ON c.profile_id = p.id " +
+                "JOIN user u2 ON p.user_id = u2.id " +
+                "WHERE c.user_id = ?";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(rs.getInt("id"));
+
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    user.setNom(rs.getString("user_nom"));
+                    user.setPrenom(rs.getString("user_prenom"));
+                    consultation.setUserId(user);
+
+                    Profile profile = new Profile();
+                    profile.setId(rs.getInt("profile_id"));
+                    profile.setSpecialite(rs.getString("specialite"));
+                    User profileUser = new User();
+                    profileUser.setId(rs.getInt("profile_user_id"));
+                    profileUser.setNom(rs.getString("profile_nom"));
+                    profileUser.setPrenom(rs.getString("profile_prenom"));
+                    profile.setUserId(profileUser);
+                    consultation.setProfileId(profile);
+
+                    consultation.setConsultationDate(rs.getTimestamp("consultation_date").toLocalDateTime());
+                    consultation.setCompleted(rs.getBoolean("is_completed"));
+
+                    consultations.add(consultation);
+                }
+            }
         }
+        return consultations;
     }
 }

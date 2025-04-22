@@ -2,13 +2,15 @@ package Controller.Maryem;
 
 import entite.Commentaire;
 import entite.Profile;
+import entite.User;
+import service.CommentaireService;
+import service.UserService;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import service.CommentaireService;
 
 import java.util.List;
 
@@ -42,25 +44,33 @@ public class DisplayCommentsController {
     private Label errorLabel;
 
     private CommentaireService commentaireService;
+    private UserService userService;
     private Profile profile;
 
     public void initialize(Profile profile) {
         System.out.println("Entering DisplayCommentsController.initialize for profile ID: " + profile.getId());
         this.profile = profile;
         this.commentaireService = new CommentaireService();
+        this.userService = new UserService();
 
         try {
-            // Configure table columns
             idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()));
 
             if (userNameColumn == null) {
                 throw new IllegalStateException("userNameColumn is null - check FXML file for fx:id='userNameColumn'");
             }
             userNameColumn.setCellValueFactory(cellData -> {
-                String userName = cellData.getValue().getUserId() != null
-                        ? (cellData.getValue().getUserId().getNom() + " " + cellData.getValue().getUserId().getPrenom()).trim()
-                        : "Unknown";
-                return new SimpleStringProperty(userName);
+                try {
+                    User user = userService.readById(cellData.getValue().getUserId());
+                    String userName = user != null
+                            ? (user.getNom() != null ? user.getNom() : "") + " " +
+                            (user.getPrenom() != null ? user.getPrenom() : "")
+                            : "Unknown";
+                    return new SimpleStringProperty(userName.trim().isEmpty() ? "Unknown" : userName.trim());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new SimpleStringProperty("Error");
+                }
             });
 
             commentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getComment()));
@@ -87,7 +97,6 @@ public class DisplayCommentsController {
                 }
             });
 
-            // Load comments
             refreshTable();
             System.out.println("DisplayCommentsController initialized successfully");
         } catch (Exception e) {
@@ -113,7 +122,7 @@ public class DisplayCommentsController {
         }
     }
 
-    public void refreshTable() { // Changé de private à public
+    public void refreshTable() {
         try {
             List<Commentaire> commentaires = commentaireService.readByProfileId(profile.getId());
             commentsTable.getItems().setAll(commentaires);
