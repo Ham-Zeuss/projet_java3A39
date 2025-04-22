@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -146,8 +147,14 @@ public class ProfileDetailsController {
                 contentLabel.setWrapText(true);
                 contentBox.getChildren().add(contentLabel);
 
+                // Part 5: Report button (only show if not already reported)
+                Button reportButton = new Button("Report");
+                reportButton.getStyleClass().add("report-button");
+                reportButton.setDisable(comment.isReported()); // Disable if already reported
+                reportButton.setOnAction(event -> openReportPopup(comment));
+
                 // Add all parts to the main comment box
-                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox);
+                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox, reportButton);
 
                 // Add the comment box to the container
                 commentsContainer.getChildren().add(commentBox);
@@ -156,6 +163,28 @@ public class ProfileDetailsController {
         } catch (Exception e) {
             e.printStackTrace();
             commentsErrorLabel.setText("Error loading comments: " + e.getMessage());
+        }
+    }
+
+    private void openReportPopup(Commentaire comment) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/ReportComment.fxml"));
+            VBox root = loader.load();
+
+            ReportCommentController controller = loader.getController();
+            controller.initialize(comment);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Report Comment");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Refresh comments after reporting
+            loadComments();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open report pop-up: " + e.getMessage());
         }
     }
 
@@ -169,8 +198,8 @@ public class ProfileDetailsController {
                 return;
             }
 
-            String comment = commentTextArea.getText();
-            if (comment == null || comment.trim().isEmpty()) {
+            String commentText = commentTextArea.getText();
+            if (commentText == null || commentText.trim().isEmpty()) {
                 commentErrorLabel.setText("Comment cannot be empty.");
                 return;
             }
@@ -178,7 +207,7 @@ public class ProfileDetailsController {
             Commentaire commentaire = new Commentaire();
             commentaire.setUserId(commenter);
             commentaire.setProfileId(profile.getId());
-            commentaire.setComment(comment);
+            commentaire.setComment(commentText);
 
             commentaireService.create(commentaire);
             commentErrorLabel.setText("Comment added successfully.");

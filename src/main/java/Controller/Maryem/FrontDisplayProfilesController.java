@@ -2,6 +2,8 @@ package Controller.Maryem;
 
 import entite.Profile;
 import entite.User;
+
+import entite.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,6 +29,14 @@ public class FrontDisplayProfilesController {
     private Label errorLabel;
 
     private ProfileService profileService;
+
+    // !!!!!!!!!!!!!!!!!!
+    private int userId;
+    public void setUserId(int userId) {
+        this.userId = userId;
+        System.out.println("FrontDisplayProfilesController - User ID set: " + userId);
+        // Use the userId as needed (e.g., fetch data specific to this user)
+    }
 
     @FXML
     public void initialize() {

@@ -60,6 +60,19 @@ public class CommentaireService {
             }
         }
         return commentaires;
+    }
 
+    public void update(Commentaire commentaire) throws Exception {
+        String query = "UPDATE commentaire SET report_reason = ?, reported = ? WHERE id = ?";
+        Connection conn = DataSource.getInstance().getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, commentaire.getReportReason());
+            ps.setBoolean(2, commentaire.isReported());
+            ps.setInt(3, commentaire.getId());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new Exception("No comment found with ID: " + commentaire.getId());
+            }
+        }
     }
 }

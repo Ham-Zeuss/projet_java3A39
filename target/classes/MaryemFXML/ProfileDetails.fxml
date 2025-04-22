@@ -48,6 +48,5 @@
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>
         </padding>
-        
     </HBox>
 </VBox>
