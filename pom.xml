@@ -41,6 +41,11 @@
             <artifactId>javafx-web</artifactId>
             <version>23.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>23.0.1</version>
+        </dependency>
 
         <!-- Gluon Charm Glisten (for TextField) -->
         <dependency>
@@ -82,6 +87,25 @@
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
             <version>9.0.10</version>
+        </dependency>
+
+        <!-- 2FA TOTP-->
+        <dependency>
+            <groupId>com.warrenstrange</groupId>
+            <artifactId>googleauth</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
 
