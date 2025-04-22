@@ -135,8 +135,8 @@ public class addQuizcontroller {
     }
 
     private void sendEmail(Quiz quiz) {
-        final String fromEmail = "oumaima.boulila@esprit.tn"; // Remplacez par @gmail.com si nécessaire
-        final String password = "jmis uuzk emig hccz";
+        final String fromEmail = "boulilaaaymen@gmail.com"; // Remplacez par @gmail.com si nécessaire
+        final String password = "mmob zcvd nuro hjwi";
         final String toEmail = "oumaima.boulila@esprit.tn";
 
         Properties properties = new Properties();
