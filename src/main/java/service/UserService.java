@@ -597,7 +597,18 @@ public class UserService implements IService<User> {
         user.setPrenom(rs.getString("prenom"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password")); // Hashed password
-        user.setActive(rs.getBoolean("status"));
+
+        // Gérer la colonne status de manière robuste
+        String statusValue = rs.getString("status"); // Lire comme String
+        boolean isActive;
+        if (statusValue == null || statusValue.isEmpty()) {
+            isActive = false; // Valeur par défaut si null ou vide
+        } else {
+            // Accepter "true", "1" comme true; sinon false
+            isActive = statusValue.equalsIgnoreCase("true") || statusValue.equals("1");
+        }
+        user.setActive(isActive);
+
         String rolesJson = rs.getString("roles");
         user.setRolesFromJson(rolesJson);
 

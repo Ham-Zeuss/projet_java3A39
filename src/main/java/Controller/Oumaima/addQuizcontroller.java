@@ -4,6 +4,8 @@ import entite.Oumaima.Quiz;
 import entite.Oumaima.Cours;
 import service.Oumaima.QuizService;
 import service.Oumaima.CoursService;
+import entite.User; // Ajout pour utiliser la classe User
+import service.UserService; // Ajout pour utiliser UserService
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,20 +17,17 @@ import javafx.scene.web.WebView;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-
-
-
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class addQuizcontroller {
 
@@ -48,23 +47,21 @@ public class addQuizcontroller {
     private ComboBox<Cours> coursComboBox;
 
     @FXML
-    private Button returnButton; // Added for Retour button
+    private Button returnButton;
 
     private final QuizService quizService = new QuizService();
     private final CoursService coursService = new CoursService();
+    private final UserService userService = new UserService(); // Ajout de UserService
 
     @FXML
     public void initialize() {
-        // Initialisation de la date
         LocalDate today = LocalDate.now();
         dateCreationField.setText(today.toString());
         dateCreationField.setEditable(false);
 
-        // Chargement des cours dans le ComboBox
         List<Cours> coursList = coursService.readAll();
         coursComboBox.setItems(FXCollections.observableArrayList(coursList));
 
-        // Affichage du titre des cours
         coursComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Cours cours, boolean empty) {
@@ -79,28 +76,42 @@ public class addQuizcontroller {
                 setText(empty || cours == null ? null : cours.getTitle());
             }
         });
+
+        // Restreindre durationField aux chiffres uniquement
+        durationField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                durationField.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
     }
 
     @FXML
     private void handleCreateQuiz() {
         String title = titleField.getText().trim();
         String description = descriptionArea.getText().trim();
+        String durationText = durationField.getText().trim();
         int duration;
 
-        // Vérification des champs
+        // Validation du titre
         if (title.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Titre manquant", "Veuillez entrer un titre pour le quiz.");
             return;
         }
 
+        // Validation de la durée
+        if (durationText.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Durée manquante", "Veuillez entrer une durée pour le quiz.");
+            return;
+        }
+
         try {
-            duration = Integer.parseInt(durationField.getText().trim());
+            duration = Integer.parseInt(durationText);
             if (duration <= 0) {
                 showAlert(Alert.AlertType.ERROR, "Durée invalide", "La durée doit être un nombre positif.");
                 return;
             }
         } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Durée invalide", "Veuillez entrer un nombre entier pour la durée.");
+            showAlert(Alert.AlertType.ERROR, "Durée invalide", "La durée doit être un nombre entier (exemple : 30).");
             return;
         }
 
@@ -110,34 +121,44 @@ public class addQuizcontroller {
             return;
         }
 
-        // Création du quiz
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
         quiz.setDescription(description);
         quiz.setDuration(duration);
         quiz.setCreatedAt(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         quiz.setCourse(selectedCours);
-        quiz.setNote(0); // Note initiale, si nécessaire
+        quiz.setNote(0);
 
         try {
-            // Sauvegarde du quiz
             quizService.create(quiz);
+            System.out.println("Quiz created successfully: " + quiz.getTitle());
 
-            // Envoi de l'email
-            sendEmail(quiz);
+            sendEmail(quiz); // Envoi de l’email à tous les ROLE_PARENT
 
-            // Redirection vers l'ajout de questions
             openAddQuestionInterface(quiz);
-            closeWindow(); // Ferme la fenêtre actuelle
+            closeWindow();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la création du quiz ou de l'envoi de l'email : " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la création du quiz ou de l’envoi de l’email : " + e.getMessage());
         }
     }
 
     private void sendEmail(Quiz quiz) {
-        final String fromEmail = "boulilaaaymen@gmail.com"; // Remplacez par @gmail.com si nécessaire
+        final String fromEmail = "boulilaaaymen@gmail.com";
         final String password = "mmob zcvd nuro hjwi";
-        final String toEmail = "oumaima.boulila@esprit.tn";
+
+        // Récupérer tous les utilisateurs et filtrer ceux avec le rôle ROLE_PARENT
+        List<User> allUsers = userService.getAllUsers();
+        List<String> parentEmails = allUsers.stream()
+                .filter(user -> user.getRoles().contains("ROLE_PARENT"))
+                .map(User::getEmail)
+                .collect(Collectors.toList());
+
+        if (parentEmails.isEmpty()) {
+            System.out.println("Aucun utilisateur avec le rôle ROLE_PARENT trouvé.");
+            showAlert(Alert.AlertType.WARNING, "Avertissement", "Aucun utilisateur avec le rôle ROLE_PARENT trouvé pour recevoir l’email.");
+            return;
+        }
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -156,7 +177,14 @@ public class addQuizcontroller {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+
+            // Ajouter tous les emails des parents comme destinataires (en BCC pour plus de confidentialité)
+            InternetAddress[] recipientAddresses = new InternetAddress[parentEmails.size()];
+            for (int i = 0; i < parentEmails.size(); i++) {
+                recipientAddresses[i] = new InternetAddress(parentEmails.get(i));
+            }
+            message.setRecipients(Message.RecipientType.BCC, recipientAddresses);
+
             message.setSubject("Nouveau Quiz Créé : " + quiz.getTitle());
             message.setContent("<h2>Nouveau Quiz Créé</h2>" +
                             "<p>Un nouveau quiz a été créé avec les détails suivants :</p>" +
@@ -167,31 +195,31 @@ public class addQuizcontroller {
                             "<li><b>Cours :</b> " + quiz.getCourse().getTitle() + "</li>" +
                             "<li><b>Date de création :</b> " + quiz.getCreatedAt() + "</li>" +
                             "</ul>" +
-                            "<p>Cordialement,<br>L'équipe de gestion des quiz</p>",
+                            "<p>Cordialement,<br>L’équipe de gestion des quiz</p>",
                     "text/html; charset=UTF-8");
 
             Transport.send(message);
-            System.out.println("Email envoyé avec succès à " + toEmail);
+            System.out.println("Email envoyé avec succès à : " + String.join(", ", parentEmails));
         } catch (MessagingException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.WARNING, "Avertissement", "Erreur lors de l'envoi de l'email : " + e.getMessage());
+            showAlert(Alert.AlertType.WARNING, "Avertissement", "Erreur lors de l’envoi de l’email : " + e.getMessage());
         }
     }
+
     private void openAddQuestionInterface(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuestion.fxml"));
             Parent root = loader.load();
 
-            // Utiliser le vrai nom du contrôleur
             addQuestioncontroller controller = loader.getController();
-            controller.initData(quiz.getId()); // Passer l’ID du quiz
+            controller.initData(quiz.getId());
 
             Stage stage = new Stage();
             stage.setTitle("Ajouter des Questions");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'interface d'ajout de questions : " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d’ouvrir l’interface d’ajout de questions : " + e.getMessage());
         }
     }
 
@@ -210,17 +238,14 @@ public class addQuizcontroller {
     @FXML
     private void goBackToQuizList() {
         try {
-            // Get the current stage
             Stage stage = (Stage) returnButton.getScene().getWindow();
             VBox mainContent = new VBox();
 
-            // Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header.html
             WebView headerWebView = new WebView();
             URL headerUrl = getClass().getResource("/header.html");
             if (headerUrl != null) {
@@ -231,13 +256,11 @@ public class addQuizcontroller {
             headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
 
-            // Load body (affichageQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageQuiz.fxml"));
             Parent bodyContent = bodyLoader.load();
             bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
             mainContent.getChildren().add(bodyContent);
 
-            // Load footer.html
             WebView footerWebView = new WebView();
             URL footerUrl = getClass().getResource("/footer.html");
             if (footerUrl != null) {
