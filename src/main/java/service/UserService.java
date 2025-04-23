@@ -579,7 +579,6 @@ public class UserService implements IService<User> {
             throw new RuntimeException(e);
         }
 
-        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
         // 2. Supprimer l'utilisateur
         String deleteUserSql = "DELETE FROM user WHERE id = ?";
         try (PreparedStatement pstmt = cnx.prepareStatement(deleteUserSql)) {

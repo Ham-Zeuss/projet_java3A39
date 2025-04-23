@@ -1,78 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="20" fx:controller="org.example.UserController" styleClass="root">
+<VBox spacing="20" styleClass="root" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UserController">
 
-    <Label text="Gestion des Utilisateurs" styleClass="title"/>
+    <Label styleClass="title" text="Gestion des Utilisateurs" />
 
     <HBox spacing="30">
         <!-- Partie gauche - Formulaire -->
         <VBox spacing="15" styleClass="card">
-            <Label text="Formulaire Utilisateur" styleClass="subtitle"/>
+            <Label styleClass="subtitle" text="Formulaire Utilisateur" />
 
             <GridPane hgap="10" vgap="12">
                 <!-- Nom -->
-                <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="nomField" promptText="Entrez le nom" styleClass="text-field" GridPane.rowIndex="0"
-                           GridPane.columnIndex="1"/>
-                <Label fx:id="nomError" styleClass="error-label" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <Label text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nomField" promptText="Entrez le nom" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label fx:id="nomError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
                 <!-- Prénom -->
-                <Label text="Prénom :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="prenomField" promptText="Entrez le prénom" styleClass="text-field"
-                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <Label fx:id="prenomError" styleClass="error-label" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="Prénom :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="prenomField" promptText="Entrez le prénom" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label fx:id="prenomError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
                 <!-- Email -->
-                <Label text="Email :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="emailField" promptText="Entrez l'email" styleClass="text-field" GridPane.rowIndex="2"
-                           GridPane.columnIndex="1"/>
-                <Label fx:id="emailError" styleClass="error-label" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <Label text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="emailField" promptText="Entrez l'email" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label fx:id="emailError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
                 <!-- Mot de passe -->
-                <Label text="Mot de passe :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <PasswordField fx:id="passwordField" promptText="Entrez le mot de passe" styleClass="text-field"
-                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                <Label fx:id="passwordError" styleClass="error-label" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                <Label text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <PasswordField fx:id="passwordField" promptText="Entrez le mot de passe" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label fx:id="passwordError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
                 <!-- Confirmation mot de passe -->
-                <Label text="Confirmer :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <PasswordField fx:id="confirmPasswordField" promptText="Confirmez le mot de passe"
-                               styleClass="text-field" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-                <Label fx:id="confirmPasswordError" styleClass="error-label" GridPane.rowIndex="4"
-                       GridPane.columnIndex="2"/>
+                <Label text="Confirmer :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirmez le mot de passe" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label fx:id="confirmPasswordError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
                 <!-- Rôles -->
-                <Label text="Rôles :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <ListView fx:id="rolesList" prefHeight="100" prefWidth="200" GridPane.rowIndex="5"
-                          GridPane.columnIndex="1">
+                <Label text="Rôles :" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <ListView fx:id="rolesList" prefHeight="100" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="ROLE_ADMIN"/>
-                            <String fx:value="ROLE_USER"/>
-                            <String fx:value="ROLE_GUEST"/>
+                            <String fx:value="ROLE_ADMIN" />
+                            <String fx:value="ROLE_USER" />
+                            <String fx:value="ROLE_GUEST" />
                         </FXCollections>
                     </items>
                 </ListView>
-                <Label fx:id="rolesError" styleClass="error-label" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+                <Label fx:id="rolesError" styleClass="error-label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
                 <!-- Actif -->
-                <Label text="Actif :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <CheckBox fx:id="activeCheckBox" selected="true" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label text="Actif :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <CheckBox fx:id="activeCheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
             </GridPane>
 
             <!-- Boutons d'actions -->
             <HBox spacing="10">
-                <Button fx:id="addButton" text="Ajouter" onAction="#handleAddUser" styleClass="btn-success"/>
-                <Button fx:id="updateButton" text="Modifier" onAction="#handleUpdateUser"
-                        styleClass="btn-primary"/>
-                <Button text="Supprimer" onAction="#handleDeleteUser" styleClass="btn-danger"/>
-                <Button text="Effacer" onAction="#handleClearForm" styleClass="btn-secondary"/>
+                <Button fx:id="addButton" onAction="#handleAddUser" styleClass="btn-success" text="Ajouter" />
+                <Button fx:id="updateButton" onAction="#handleUpdateUser" styleClass="btn-primary" text="Modifier" />
+                <Button onAction="#handleDeleteUser" styleClass="btn-danger" text="Supprimer" />
+                <Button onAction="#handleClearForm" styleClass="btn-secondary" text="Effacer" />
             </HBox>
         </VBox>
 
@@ -80,12 +96,12 @@
         <VBox spacing="10">
             <TableView fx:id="userTable" prefHeight="500" prefWidth="700" styleClass="table-view">
                 <columns>
-                    <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="nomColumn" text="Nom" prefWidth="120"/>
-                    <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="120"/>
-                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="180"/>
-                    <TableColumn fx:id="rolesColumn" text="Rôles" prefWidth="180"/>
-                    <TableColumn fx:id="activeColumn" text="Actif" prefWidth="50"/>
+                    <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="nomColumn" prefWidth="120" text="Nom" />
+                    <TableColumn fx:id="prenomColumn" prefWidth="120" text="Prénom" />
+                    <TableColumn fx:id="emailColumn" prefWidth="180" text="Email" />
+                    <TableColumn fx:id="rolesColumn" prefWidth="180" text="Rôles" />
+                    <TableColumn fx:id="activeColumn" prefWidth="50" text="Actif" />
                 </columns>
             </TableView>
         </VBox>
