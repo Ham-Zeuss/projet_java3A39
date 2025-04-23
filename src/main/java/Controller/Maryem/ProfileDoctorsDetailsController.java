@@ -1,22 +1,26 @@
 package Controller.Maryem;
 
-import entite.Profile;
-import entite.User;
 import entite.Commentaire;
+import entite.Profile;
 import entite.Session;
-import service.CommentaireService;
-import service.UserService;
+import entite.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import service.CommentaireService;
+import service.UserService;
+
 import java.io.IOException;
 
-public class ProfileDetailsController {
+public class ProfileDoctorsDetailsController {
 
     @FXML
     private Label nameLabel;
@@ -137,7 +141,12 @@ public class ProfileDetailsController {
                 contentLabel.setWrapText(true);
                 contentBox.getChildren().add(contentLabel);
 
-                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox);
+                Button reportButton = new Button("Report");
+                reportButton.getStyleClass().add("report-button");
+                reportButton.setDisable(comment.isReported());
+                reportButton.setOnAction(event -> openReportPopup(comment));
+
+                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox, reportButton);
 
                 commentsContainer.getChildren().add(commentBox);
             }
