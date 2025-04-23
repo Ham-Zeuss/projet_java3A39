@@ -87,7 +87,7 @@ public class Sidebar {
 
         HBox chatBtn = createSidebarItem("Docteurs", "docteurs", stage, () -> loadFXML.accept("/MaryemFXML/DisplayProfiles.fxml"));
         HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () ->loadFXML.accept("/MaryemFXML/DisplayConsultations.fxml"));
-        HBox kanbanBtn = createSidebarItemWithTag("Commentaire", "commentaire", stage, () -> loadFXML.accept("/MaryemFXML/ReportedComments.fxml"));
+        HBox kanbanBtn = createSidebarItem("Commentaire", "commentaire", stage, () -> loadFXML.accept("/MaryemFXML/ReportedComments.fxml"));
         // Pages Section
         Label pagesLabel = new Label("Contenu");
         pagesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));

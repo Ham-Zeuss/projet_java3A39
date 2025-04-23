@@ -11,6 +11,7 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\UserTitleService.jav
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\DisplayCommentsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\AfficherQuestionsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLDisplayConsultations.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\ReportCommentController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\CommentaireService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\org\example\DataSource.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\TitleService.java
@@ -20,8 +21,10 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\affichage
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\LeaderboardMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Cours.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\UpdateQuizController.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\ProfileDoctorsDetailsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\CommandeService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\DisplayProfilesController.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLDoctorsFrontDisplayProfile.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\UpdateConsultationController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Boubaker\BackOfficeController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Profile.java
@@ -40,7 +43,6 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\AffichageMod
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\EditCoursController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Boubaker\MainBoubakerController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\PexelWord.java
-C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainControllerMap.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Quiz.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListStoreItemsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\EditModuleController.java
@@ -53,6 +55,7 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Session.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Oumaima\FXMLAffichageQuizFront.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\ModuleService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\CreateStoreItemMain.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Sidebar.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayTitlesMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\AddCommentController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\org\example\UserController.java
@@ -65,7 +68,6 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Boubaker\OrdersCo
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListTitlesController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Commande.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\util\DataSource.java
-C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainMap.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Notification.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayStoreItemsMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Cours.java
@@ -73,8 +75,10 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\UserConsul
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListPexelWordsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Form\RegistrationFormType.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\ConsultationService.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\HeaderController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\UserTitle.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\ProfileService.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\ReportedCommentsController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Consultation.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\org\example\SendEmailController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayPexelWordsMain.java
@@ -98,10 +102,9 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\Affichage
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Ham\DisplayStoreItemsFrontMain.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\PexelWordService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Hedy\AjoutModuleController.java
-C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MainMapController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLdisplayprofile.java
-C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\MapController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\hedy\Mainx.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\test\Dashboard.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\org\example\HomeController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\LeaderboardController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListStoreItemsAdminController.java
@@ -111,5 +114,6 @@ C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\UpdateStoreIt
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\service\Oumaima\QuizService.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\ResetPasswordRequest.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\addQuestioncontroller.java
+C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Maryem\FrontDoctorsDisplayProfilesController.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Question.java
 C:\Users\HENI\Desktop\projet_java3A39\src\main\java\Controller\Ham\CreateTitleController.java

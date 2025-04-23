@@ -117,7 +117,9 @@ public class ReportedCommentsController {
                 private final Button deleteButton = new Button("Delete");
 
                 {
-                    deleteButton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
+                    deleteButton.setStyle("-fx-background-color: #e57373; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;");
+                    deleteButton.setOnMouseEntered(e -> deleteButton.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;"));
+                    deleteButton.setOnMouseExited(e -> deleteButton.setStyle("-fx-background-color: #e57373; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;"));
                     deleteButton.setOnAction(event -> {
                         Commentaire commentaire = getTableView().getItems().get(getIndex());
                         try {

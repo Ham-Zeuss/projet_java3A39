@@ -4,28 +4,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+<VBox fx:id="container" alignment="CENTER" spacing="25.0" style="-fx-background-color: #c7cee4;" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.ReportedCommentsController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
     </padding>
 
-    <Text text="Reported Comments" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <HBox alignment="CENTER" spacing="10.0">
+        <ImageView fitHeight="50" fitWidth="50">
+            <image>
+                <Image url="/Images/alert-icon.gif"/>
+            </image>
+        </ImageView>
+        <Text fx:id="titleText" text="Les Commentaires Signalés" style="-fx-font-weight: bold; -fx-font-size: 24px;"/>
+    </HBox>
 
-    <TableView fx:id="commentsTable" prefWidth="850.0">
+    <TableView fx:id="commentsTable" prefWidth="1200.0">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0"/>
-            <TableColumn fx:id="userNameColumn" text="User Name" prefWidth="140.0"/>
-            <TableColumn fx:id="profileNameColumn" text="Profile Name" prefWidth="140.0"/>
-            <TableColumn fx:id="commentColumn" text="Comment" prefWidth="180.0"/>
-            <TableColumn fx:id="reportReasonColumn" text="Report Reason" prefWidth="180.0"/>
-            <TableColumn fx:id="reportedColumn" text="Reported" prefWidth="80.0"/>
-            <TableColumn fx:id="deleteColumn" text="Action" prefWidth="80.0"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="60.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="userNameColumn" text="nom de l'utilisateur" prefWidth="200.0"/>
+            <TableColumn fx:id="profileNameColumn" text="Profile" prefWidth="150.0"/>
+            <TableColumn fx:id="commentColumn" text="Commentaire" prefWidth="388.0"/>
+            <TableColumn fx:id="reportReasonColumn" text="Raison du rapport" prefWidth="200.0"/>
+            <TableColumn fx:id="reportedColumn" text="Signalé" prefWidth="90.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="deleteColumn" text="Action" prefWidth="90.0" style="-fx-alignment: CENTER;"/>
         </columns>
+        <stylesheets>
+            <URL value="@/css/reportedcomments.css"/>
+        </stylesheets>
     </TableView>
 
-    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+    <Label fx:id="errorLabel" text=""/>
 </VBox>

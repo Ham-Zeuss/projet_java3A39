@@ -1,0 +1,101 @@
+#container {
+    -fx-background-color: #ff7fdf;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);
+    -fx-border-color: #6366f1;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+#titleText {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-fill: #1e3a8a;
+    -fx-font-family: 'Arial, sans-serif';
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+}
+
+#consultationsTable {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4b5563;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-family: 'Arial, sans-serif';
+    -fx-font-size: 12;
+}
+
+#consultationsTable .table-row-cell:filled {
+    -fx-background-color: #f3f4f6;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 0 0 1 0;
+}
+
+#consultationsTable .table-row-cell:filled:odd {
+    -fx-background-color: #e5e7eb;
+}
+
+#consultationsTable .table-row-cell:filled:hover {
+    -fx-background-color: #bfdbfe;
+}
+
+#consultationsTable .table-column {
+    -fx-padding: 10;
+    -fx-text-fill: #1f2937;
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+}
+
+#consultationsTable .column-header {
+    -fx-background-color: #1e3a8a;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 12;
+    -fx-font-size: 12;
+}
+
+#consultationsTable .column-header .label {
+    -fx-text-fill: #ffffff;
+}
+
+#addButton {
+    -fx-background-color: #1e3a8a;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Arial, sans-serif';
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #6366f1;
+    -fx-border-width: 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+}
+
+#addButton:hover {
+    -fx-background-color: #bfdbfe;
+    -fx-text-fill: #1f2937;
+    -fx-border-color: #1e3a8a;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#addButton:pressed {
+    -fx-background-color: #93c5fd;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+#errorLabel {
+    -fx-text-fill: #b91c1c;
+    -fx-background-color: #fee2e2;
+    -fx-padding: 10;
+    -fx-border-color: #dc2626;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-family: 'Arial, sans-serif';
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
