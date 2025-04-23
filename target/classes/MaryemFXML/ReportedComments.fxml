@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.Maryem.ReportedCommentsController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text text="Reported Comments" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="commentsTable" prefWidth="850.0">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0"/>
+            <TableColumn fx:id="userNameColumn" text="User Name" prefWidth="140.0"/>
+            <TableColumn fx:id="profileNameColumn" text="Profile Name" prefWidth="140.0"/>
+            <TableColumn fx:id="commentColumn" text="Comment" prefWidth="180.0"/>
+            <TableColumn fx:id="reportReasonColumn" text="Report Reason" prefWidth="180.0"/>
+            <TableColumn fx:id="reportedColumn" text="Reported" prefWidth="80.0"/>
+            <TableColumn fx:id="deleteColumn" text="Action" prefWidth="80.0"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+</VBox>

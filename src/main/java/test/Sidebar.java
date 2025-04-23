@@ -86,13 +86,8 @@ public class Sidebar {
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
         HBox chatBtn = createSidebarItem("Docteurs", "docteurs", stage, () -> loadFXML.accept("/MaryemFXML/DisplayProfiles.fxml"));
-        HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () -> {
-            System.out.println("Consultation clicked (no navigation implemented)");
-        });
-        HBox kanbanBtn = createSidebarItemWithTag("Commentaire", "commentaire", stage, () -> {
-            System.out.println("Commentaire clicked (no navigation implemented)");
-        });
-
+        HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () ->loadFXML.accept("/MaryemFXML/DisplayConsultations.fxml"));
+        HBox kanbanBtn = createSidebarItemWithTag("Commentaire", "commentaire", stage, () -> loadFXML.accept("/MaryemFXML/ReportedComments.fxml"));
         // Pages Section
         Label pagesLabel = new Label("Contenu");
         pagesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));

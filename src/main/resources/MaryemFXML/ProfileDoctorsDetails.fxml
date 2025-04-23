@@ -33,9 +33,14 @@
         <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
 
     </VBox>
-    <HBox alignment="CENTER" styleClass="footer">
+    <HBox alignment="CENTER_LEFT" styleClass="header">
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>
         </padding>
+
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button fx:id="updateButton" text="Update" onAction="#openUpdateProfile" styleClass="button" visible="false" managed="false"/>
+        <Button fx:id="deleteButton" text="Delete" onAction="#deleteProfile" styleClass="button" visible="false" managed="false"/>
+
     </HBox>
 </VBox>
