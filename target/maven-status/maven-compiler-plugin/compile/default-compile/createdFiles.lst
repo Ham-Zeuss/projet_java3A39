@@ -1,6 +1,6 @@
+Controller\Maryem\ReportedCommentsController.class
 Controller\Maryem\AddProfileController$1.class
 test\Ham\CreateStoreItemMain.class
-Controller\Maryem\FrontAddConsultationController$2.class
 Controller\Ham\ListStoreItemsAdminController$3.class
 test\Oumaima\FXMLAffichageQuizFront.class
 Controller\Boubaker\BackOfficeController.class
@@ -11,6 +11,8 @@ Controller\Ham\ListStoreItemsController$2.class
 Controller\Oumaima\affichageQuestionBack.class
 Controller\Oumaima\addQuestionBackController.class
 service\CommentaireService.class
+Controller\Maryem\ReportedCommentsController$1.class
+Controller\Maryem\AddConsultationController$4.class
 Controller\Hedy\AjoutModuleController.class
 Controller\Maryem\FrontDisplayCommentsController.class
 test\Ham\DisplayTitlesMain.class
@@ -18,8 +20,10 @@ Controller\Maryem\DisplayProfilesController$1.class
 entite\Profile.class
 service\TitleService.class
 org\example\mailtrap\Main$1.class
+test\Dashboard.class
 entite\Commentaire.class
 Controller\Maryem\FrontDisplayProfilesController.class
+service\TwoFactorAuthService.class
 entite\Oumaima\Cours.class
 Controller\Maryem\DisplayConsultationsController$1.class
 entite\Oumaima\Quiz.class
@@ -34,6 +38,7 @@ Controller\Ham\LeaderboardController.class
 Controller\Hedy\EditModuleController.class
 test\Ham\DisplayStoreItemsAdminMain.class
 Controller\Boubaker\HeaderController.class
+Controller\Maryem\AddConsultationController$3.class
 Controller\Hedy\AffichageCoursController.class
 Controller\Ham\ListStoreItemsController$1.class
 Controller\Maryem\DisplayConsultationsController$2.class
@@ -45,6 +50,7 @@ Controller\Ham\PexelWordFormController.class
 Controller\Ham\ListTitlesController$1.class
 Controller\Oumaima\AffichageBackQuizController$1.class
 Controller\Maryem\DisplayProfilesController$2.class
+Controller\Maryem\AddConsultationController$2.class
 entite\Pack.class
 Controller\Oumaima\addQuizcontroller$2.class
 Controller\Ham\UpdateTitleController.class
@@ -56,7 +62,7 @@ Controller\Ham\UpdateStoreItemController.class
 service\CommandeService.class
 Controller\Oumaima\affichageQuestionBack$1.class
 entite\Oumaima\Question.class
-Controller\Maryem\AddCommentController$1.class
+Controller\Maryem\ReportCommentController.class
 Controller\Oumaima\AddQuizBackendController$1.class
 entite\User.class
 Controller\Boubaker\MainBoubakerController.class
@@ -70,6 +76,8 @@ Controller\Hedy\AjoutCoursController.class
 Controller\Maryem\DisplayCommentsController$1.class
 Controller\Oumaima\addQuizcontroller$1.class
 Controller\Ham\ListPexelWordsController.class
+test\Sidebar.class
+Controller\Maryem\FrontDoctorsDisplayProfilesController.class
 test\Ham\DisplayStoreItemsFrontMain.class
 Controller\Ham\ListStoreItemsAdminController$2.class
 org\example\mailtrap\Main.class
@@ -81,6 +89,7 @@ Controller\Maryem\AddCommentController.class
 Controller\Oumaima\UpdateQuizController.class
 service\PexelWordService.class
 Controller\Oumaima\UpdateQuizController$1.class
+org\example\TwoFAController.class
 Controller\Hedy\AffichageModuleController.class
 Controller\Oumaima\addQuestioncontroller.class
 Controller\Oumaima\UpdateQuestionBackController.class
@@ -92,6 +101,8 @@ Controller\Maryem\DisplayConsultationsController.class
 Controller\Maryem\UpdateConsultationController.class
 entite\Notification.class
 Controller\Maryem\UpdateConsultationController$3.class
+test\Maryem\FXMLDoctorsFrontDisplayProfile.class
+Controller\Maryem\AddConsultationController$1.class
 org\example\UserController.class
 Controller\Maryem\DisplayProfilesController$3.class
 Controller\Maryem\UserConsultationsController.class
@@ -106,7 +117,6 @@ service\UserTitleService.class
 Controller\Maryem\AddProfileController.class
 Controller\HeaderController.class
 test\Maryem\FXMLDisplayConsultations.class
-Controller\Maryem\AddCommentController$2.class
 org\example\SendEmailController.class
 entite\User$1.class
 org\example\SecurityController.class
@@ -117,6 +127,7 @@ Controller\Maryem\UpdateConsultationController$2.class
 service\Oumaima\CoursService.class
 service\Oumaima\QuizService.class
 entite\Commande.class
+Controller\Maryem\ProfileDoctorsDetailsController.class
 service\PackService.class
 org\example\Main.class
 test\Ham\UserTitlesMain.class
@@ -145,6 +156,6 @@ Form\RegistrationFormType.class
 test\Maryem\FXMLdisplayprofile.class
 test\Oumaima\FXMLAffichageBackQuizQuestionMain.class
 test\Ham\DisplayStoreItemsMain.class
+Controller\Maryem\ProfileDetailsController.class
 Controller\Ham\UserTitlesController.class
-Controller\Maryem\FrontAddConsultationController$1.class
 util\DataSource.class

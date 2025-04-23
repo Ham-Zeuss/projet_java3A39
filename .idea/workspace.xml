@@ -30,46 +30,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BoubakerMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.CreateTitleMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayPexelWordsMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsAdminMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsFrontMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayTitlesMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLAffichageBackQuizQuestionMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLAffichageQuizFront.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLDisplayConsultations.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLFrontDisplayProfile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLaddprofile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLdisplayprofile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.LeaderboardMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Mainx.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UserTitlesMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.mes_rendezvous.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.hedy.Mainx.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.projet_java_gestion_evaluation [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.projet_java_gestion_evaluation [package].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/javafx.web.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.46206897&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BoubakerMain.executor": "Run",
+    "Application.CreateTitleMain.executor": "Run",
+    "Application.Dashboard.executor": "Run",
+    "Application.DisplayPexelWordsMain.executor": "Run",
+    "Application.DisplayStoreItemsAdminMain.executor": "Run",
+    "Application.DisplayStoreItemsFrontMain.executor": "Run",
+    "Application.DisplayStoreItemsMain.executor": "Run",
+    "Application.DisplayTitlesMain.executor": "Run",
+    "Application.FXMLAffichageBackQuizQuestionMain.executor": "Run",
+    "Application.FXMLAffichageQuizFront.executor": "Run",
+    "Application.FXMLDisplayConsultations.executor": "Run",
+    "Application.FXMLFrontDisplayProfile.executor": "Run",
+    "Application.FXMLaddprofile.executor": "Run",
+    "Application.FXMLdisplayprofile.executor": "Run",
+    "Application.LeaderboardMain.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Mainx.executor": "Run",
+    "Application.UserTitlesMain.executor": "Run",
+    "Application.mes_rendezvous.executor": "Run",
+    "Application.test.hedy.Mainx.executor": "Run",
+    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [install].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [package].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.46206897",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="entite" />
@@ -95,13 +97,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DisplayPexelWordsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.Ham.DisplayPexelWordsMain" />
+    <configuration name="Dashboard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Dashboard" />
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.Ham.*" />
+          <option name="PATTERN" value="test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -137,6 +139,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserTitlesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Ham.UserTitlesMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Ham.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
@@ -145,25 +161,27 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Dashboard" />
+      <item itemvalue="Application.UserTitlesMain" />
       <item itemvalue="Application.BoubakerMain" />
       <item itemvalue="Application.FXMLAffichageQuizFront" />
-      <item itemvalue="Application.DisplayPexelWordsMain" />
       <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Dashboard" />
+        <item itemvalue="Application.UserTitlesMain" />
         <item itemvalue="Application.BoubakerMain" />
         <item itemvalue="Application.FXMLAffichageQuizFront" />
-        <item itemvalue="Application.DisplayPexelWordsMain" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -186,6 +204,7 @@
       <workItem from="1745226744207" duration="760000" />
       <workItem from="1745227715877" duration="17863000" />
       <workItem from="1745258351102" duration="1564000" />
+      <workItem from="1745441844953" duration="8399000" />
     </task>
     <servers />
   </component>

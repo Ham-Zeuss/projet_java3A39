@@ -13,13 +13,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.TwoFactorAuthService;
 
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,32 +70,89 @@ public class TwoFAController {
 
                 // Mappage des rôles aux chemins FXML
                 Map<String, String> roleToFxmlMap = new HashMap<>();
-                roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/DisplayProfiles.fxml");
+                roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
                 roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageCours.fxml");
-                roleToFxmlMap.put("ROLE_PARENT", "/OumaimaFXML/Home.fxml");
+                roleToFxmlMap.put("ROLE_PARENT", "/User/Home.fxml");
 
                 String defaultFxml = "/User/Home.fxml"; // Page par défaut
-
-                // Déterminer le chemin FXML
                 String fxmlPath = roleToFxmlMap.getOrDefault(role, defaultFxml);
 
-                // Charger la page correspondante
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-                    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root, 1920, 1080);
-                    scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-                    currentStage.setScene(scene);
-                    currentStage.setTitle("Dashboard - " + role);
-                    currentStage.setFullScreen(true);
-                    currentStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    feedbackText.setText("❌ Erreur lors du chargement de la page");
+                // Create a VBox to stack the header, header.fxml, body, and footer
+                VBox mainContent = new VBox();
+
+                // Load header.fxml
+                FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                VBox headerFxmlContent = headerFxmlLoader.load();
+                headerFxmlContent.setPrefSize(1000, 100);
+                mainContent.getChildren().add(headerFxmlContent);
+
+                // Load header (header.html) using WebView
+                WebView headerWebView = new WebView();
+                URL headerUrl = getClass().getResource("/header.html");
+                if (headerUrl != null) {
+                    headerWebView.getEngine().load(headerUrl.toExternalForm());
+                } else {
+                    headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
                 }
+                headerWebView.setPrefSize(1000, 490);
+                mainContent.getChildren().add(headerWebView);
+
+                // Load body (based on role)
+                URL fxmlUrl = getClass().getResource(fxmlPath);
+                if (fxmlUrl == null) {
+                    throw new Exception("FXML file not found at path: " + fxmlPath);
+                }
+                FXMLLoader loader = new FXMLLoader(fxmlUrl);
+                VBox bodyContent = loader.load();
+                bodyContent.setPrefSize(1920, 1080);
+
+                // Set welcome message if loading Home.fxml
+                if (fxmlPath.equals("/User/Home.fxml")) {
+                    HomeController homeController = loader.getController();
+                    if (homeController != null) {
+                        homeController.setWelcomeMessage("Bienvenue ID: " + session.getUserId());
+                    } else {
+                        System.err.println("HomeController is null");
+                    }
+                }
+                mainContent.getChildren().add(bodyContent);
+
+                // Load footer (footer.html) using WebView
+                WebView footerWebView = new WebView();
+                URL footerUrl = getClass().getResource("/footer.html");
+                if (footerUrl != null) {
+                    footerWebView.getEngine().load(footerUrl.toExternalForm());
+                } else {
+                    footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+                }
+                footerWebView.setPrefSize(1000, 830);
+                mainContent.getChildren().add(footerWebView);
+
+                // Wrap the VBox in a ScrollPane
+                ScrollPane scrollPane = new ScrollPane(mainContent);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+                // Set up the scene and apply CSS
+                Scene scene = new Scene(scrollPane, 1920, 1080);
+                scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
+
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentStage.setScene(scene);
+                currentStage.setTitle("Dashboard - " + role);
+                currentStage.setFullScreen(true);
+                currentStage.setWidth(1920);
+                currentStage.setHeight(1080);
+                currentStage.centerOnScreen();
+                currentStage.show();
             }
         } catch (NumberFormatException e) {
             feedbackText.setText("❌ Veuillez entrer un code numérique valide");
+        } catch (Exception e) {
+            e.printStackTrace();
+            feedbackText.setText("❌ Erreur lors du chargement de la page");
         }
     }
 

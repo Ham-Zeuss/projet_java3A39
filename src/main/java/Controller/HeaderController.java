@@ -1,5 +1,7 @@
 package Controller;
 
+import Controller.Maryem.FrontDisplayProfilesController;
+import entite.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +63,17 @@ public class HeaderController {
             bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
             mainContent.getChildren().add(bodyContent);
 
+            // !!!!!!!!!!!! Pass user ID to FrontDisplayProfilesController if applicable
+            if (fxmlPath.equals("/MaryemFXML/FrontDisplayProfiles.fxml")) {
+                FrontDisplayProfilesController controller = bodyLoader.getController();
+                if (controller != null) {
+                    Session session = Session.getInstance();
+                    controller.setUserId(session.getUserId());
+                } else {
+                    System.err.println("FrontDisplayProfilesController is null");
+                }
+            }
+
             // Load footer (footer.html) using WebView
             WebView footerWebView = new WebView();
             URL footerUrl = getClass().getResource("/footer.html");
@@ -84,7 +97,7 @@ public class HeaderController {
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             } else {
-                System.err.println("Error: styles.css not found in resources at /css/styles.css");
+                System.err.println("Error: styles.css not found in resources at /OumaimaFXML/styles.css");
             }
 
             URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
