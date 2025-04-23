@@ -1,19 +1,24 @@
-package test.Ham;
+package Controller.Ham;
 
-import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import test.Ham.GameController;
 
+import java.io.IOException;
 import java.net.URL;
 
-public class ScrambleGame extends Application {
-    @Override
-    public void start(Stage primaryStage) {
+public class GamesMenuController {
+
+    @FXML
+    private void playScrambleGame(ActionEvent event) {
         try {
             // Create a VBox to stack header, game, and footer
             VBox mainContent = new VBox();
@@ -35,7 +40,7 @@ public class ScrambleGame extends Application {
             headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
 
-            // Load game content
+            // Load ScrambleGame content
             GameController gameController = new GameController();
             Parent gameContent = gameController.getView();
             gameContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 500; -fx-background-color: #f0f4f8;");
@@ -64,21 +69,31 @@ public class ScrambleGame extends Application {
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             }
+            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
+            if (userTitlesCssUrl != null) {
+                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+            }
+            URL storeCardsCssUrl = getClass().getResource("/css/store-cards.css");
+            if (storeCardsCssUrl != null) {
+                scene.getStylesheets().add(storeCardsCssUrl.toExternalForm());
+            }
+            URL leaderboardCssUrl = getClass().getResource("/css/leaderboard.css");
+            if (leaderboardCssUrl != null) {
+                scene.getStylesheets().add(leaderboardCssUrl.toExternalForm());
+            }
             URL gameCssUrl = getClass().getResource("/css/ScrambleGameStyle.css");
             if (gameCssUrl != null) {
                 scene.getStylesheets().add(gameCssUrl.toExternalForm());
             }
 
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Word Scramble Game");
-            primaryStage.show();
-        } catch (Exception e) {
-            System.err.println("Error starting ScrambleGame: " + e.getMessage());
+            // Get the stage and show the scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Word Scramble Game");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error launching Word Scramble Game: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

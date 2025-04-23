@@ -604,6 +604,14 @@ public class UserService implements IService<User> {
         return user;
     }
 
+
+
+
+
+
+
+
+
     public boolean emailExists(String email) {
         return getUserByEmail(email) != null;
     }

@@ -115,15 +115,15 @@ public class Sidebar {
         elementsLabel.setPadding(new Insets(20, 0, 5, 0));
 
         HBox storeBtn = createSidebarItem("Store Items", "store-items", stage, () -> {
-            System.out.println("Store Items clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListStoreItemsAdmin.fxml");
         });
         HBox titlesBtn = createSidebarItem("Titles", "titles", stage, () -> {
-            System.out.println("Titles clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListTitles.fxml");
         });
         HBox pixelWordsBtn = createSidebarItem("Pixel Words", "pixel-words", stage, pixelWordsAction);
 
         // Logout Button
-        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, pixelWordsAction);
+        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, logoutAction);
 
         // Add buttons to tracking list
         sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, emailBtn, kanbanBtn, authBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
