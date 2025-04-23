@@ -8,6 +8,10 @@ import entite.Session;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -16,6 +20,8 @@ import javafx.stage.Stage;
 import service.TwoFactorAuthService;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TwoFAController {
 
@@ -54,14 +60,35 @@ public class TwoFAController {
             feedbackText.setText(isValid ? "✅ Code valide" : "❌ Code invalide");
 
             if (isValid) {
-                // Get the current session
+                // Récupérer la session
                 Session session = Session.getInstance();
-                int userId = session.getUserId();
-                String email = session.getEmail();
+                String role = session.getRole();
 
-                // Load the home page
-                SecurityController securityController = new SecurityController();
-                securityController.loadHomePage(event, userId, email);
+                // Mappage des rôles aux chemins FXML
+                Map<String, String> roleToFxmlMap = new HashMap<>();
+                roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/DisplayProfiles.fxml");
+                roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageCours.fxml");
+                roleToFxmlMap.put("ROLE_PARENT", "/OumaimaFXML/Home.fxml");
+
+                String defaultFxml = "/User/Home.fxml"; // Page par défaut
+
+                // Déterminer le chemin FXML
+                String fxmlPath = roleToFxmlMap.getOrDefault(role, defaultFxml);
+
+                // Charger la page correspondante
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+                    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    Scene scene = new Scene(root, 1920, 1080);
+                    scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+                    currentStage.setScene(scene);
+                    currentStage.setTitle("Dashboard - " + role);
+                    currentStage.setFullScreen(true);
+                    currentStage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    feedbackText.setText("❌ Erreur lors du chargement de la page");
+                }
             }
         } catch (NumberFormatException e) {
             feedbackText.setText("❌ Veuillez entrer un code numérique valide");

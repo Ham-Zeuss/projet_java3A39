@@ -18,6 +18,7 @@ import javafx.stage.StageStyle;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.control.ScrollPane;
+import org.json.JSONArray;
 
 import javax.swing.*;
 import java.io.File;
@@ -55,7 +56,8 @@ public class SecurityController {
 
     public void validateloginButtonClicked(ActionEvent event) throws SQLException {
         Connection connectDB = DataSource.getInstance().getConnection();
-        String verifyLogin = "SELECT id, email, password FROM user WHERE email = ?";
+        // Inclure la colonne 'roles' dans la requête
+        String verifyLogin = "SELECT id, email, password, roles FROM user WHERE email = ?";
         try (PreparedStatement statement = connectDB.prepareStatement(verifyLogin)) {
             statement.setString(1, _username.getText().trim());
 
@@ -64,15 +66,20 @@ public class SecurityController {
                     String storedHashedPassword = queryResult.getString("password");
                     int userId = queryResult.getInt("id");
                     String email = queryResult.getString("email");
+                    String rolesJson = queryResult.getString("roles"); // Récupérer la chaîne JSON
 
+                    // Vérifier le mot de passe
                     if (BCrypt.verifyer().verify(_password.getText().trim().toCharArray(), storedHashedPassword).verified) {
-                        // Enregistrer la session
-                        Session session = Session.getInstance();
-                        session.setUser(userId, email);
+                        // Parser le JSON pour extraire le rôle principal
+                        String role = parseRoleFromJson(rolesJson);
 
-                        // Redirect to 2FA
+                        // Enregistrer la session avec le rôle
+                        Session session = Session.getInstance();
+                        session.setUser(userId, email, role);
+
+                        // Rediriger vers 2FA
                         DoubleAuthentication(event);
-                        return; // Exit method to prevent loading Home.fxml immediately
+                        return;
                     } else {
                         showAlert(AlertType.ERROR, "Connexion", "Échec de connexion : Mot de passe incorrect");
                     }
@@ -103,6 +110,19 @@ public class SecurityController {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Erreur", "Impossible de charger la page 2FA : " + e.getMessage());
         }
+    }
+
+
+    private String parseRoleFromJson(String rolesJson) {
+        try {
+            JSONArray rolesArray = new JSONArray(rolesJson);
+            if (rolesArray.length() > 0) {
+                return rolesArray.getString(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "default";
     }
 
     public void loadHomePage(ActionEvent event, int userId, String email) {
