@@ -256,11 +256,6 @@ public class UserService implements IService<User> {
                         rs.getString("totp_secret")
 
 
-
-
-
-
-
                 ));
             }
         } catch (SQLException e) {
@@ -268,10 +263,6 @@ public class UserService implements IService<User> {
         }
         return list;
     }
-
-
-
-
 
 
     @Override
@@ -460,7 +451,6 @@ public class UserService implements IService<User> {
     }
 
 
-
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user";
@@ -579,15 +569,41 @@ public class UserService implements IService<User> {
     }
 
     public void deleteUser(int id) {
-        String sql = "DELETE FROM user WHERE id = ?";
+        // 1. Supprimer les enregistrements dépendants dans la table cours
+        String deleteCoursSql = "DELETE FROM cours WHERE user_id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(deleteCoursSql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la suppression des cours associés: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+        // 2. Supprimer l'utilisateur
+        String deleteUserSql = "DELETE FROM user WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(deleteUserSql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
             System.out.println("✅ Utilisateur supprimé avec succès. ID: " + id);
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la suppression de l'utilisateur: " + e.getMessage());
+            throw new RuntimeException(e);
         }
+    }
+
+    public boolean hasAssociatedCours(int userId) {
+        String sql = "SELECT COUNT(*) FROM cours WHERE user_id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la vérification des cours associés: " + e.getMessage());
+        }
+        return false;
     }
 
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
