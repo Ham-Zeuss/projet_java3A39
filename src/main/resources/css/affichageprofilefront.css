@@ -1,0 +1,64 @@
+.profile-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-alignment: center;
+    -fx-pref-width: 200;
+    -fx-pref-height: 250;
+}
+
+.profile-card .label {
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+}
+
+.profile-card .title-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-padding: 0 0 5 0;
+}
+
+.profile-card .button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-padding: 3 8;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+}
+
+.profile-card .button:hover {
+    -fx-background-color: #45a049;
+}
+
+.profile-card .icon-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+}
+
+.profile-card .icon-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.profile-card .hbox {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+#profilesContainer {
+    -fx-alignment: center;
+    -fx-padding: 10;
+}

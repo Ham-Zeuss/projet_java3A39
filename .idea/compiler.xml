@@ -10,8 +10,5 @@
         <module name="ProjetPiDev3A39" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ProjetPiDev3A39 (1)" target="22" />
-    </bytecodeTargetLevel>
   </component>
 </project>
