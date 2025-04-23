@@ -15,16 +15,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.function.Consumer;
 public class Sidebar {
 
     private static final String TEXT_COLOR_DARK = "#333333";
     private static final String TEXT_COLOR_WHITE = "#FFFFFF";
     private static final String SELECTED_ITEM_COLOR = "#C20114";
     private final List<HBox> sidebarButtons = new ArrayList<>();
-    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
+    private static final Map<String, Image> ICON_CACHE = new HashMap<>();
 
-    public ScrollPane createSidebar(Stage stage, Runnable dashboardAction, Runnable utilisateursAction, Runnable pixelWordsAction, Runnable logoutAction) {
+    public ScrollPane createSidebar(Stage stage, Runnable dashboardAction, Runnable utilisateursAction, Runnable pixelWordsAction, Runnable logoutAction, java.util.function.Consumer<String> loadFXML){
         // Preload images into cache
         ICON_CACHE.put("dashboard", new Image("https://img.icons8.com/?size=100&id=91234&format=png&color=000000"));
         ICON_CACHE.put("utilisateurs", new Image("https://img.icons8.com/?size=100&id=109466&format=png&color=000000"));
@@ -39,14 +39,7 @@ public class Sidebar {
         ICON_CACHE.put("pixel-words", new Image("https://img.icons8.com/?size=100&id=111401&format=png&color=000000"));
         ICON_CACHE.put("logout", new Image("https://img.icons8.com/?size=100&id=110469&format=png&color=000000"));
         ICON_CACHE.put("expand-arrow", new Image("https://img.icons8.com/ios-filled/50/000000/expand-arrow--v1.png"));
-        ICON_CACHE.put("profile", new Image("https://img.icons8.com/?size=100&id=108639&format=png&color=000000"));
-        ICON_CACHE.put("notification", new Image("https://img.icons8.com/?size=100&id=115638&format=png&color=000000"));
-        ICON_CACHE.put("close", new Image("https://img.icons8.com/?size=100&id=8112&format=png&color=000000"));
-        ICON_CACHE.put("flag", new Image("https://img.icons8.com/?size=100&id=483&format=png&color=000000"));
-        ICON_CACHE.put("temperature", new Image("https://img.icons8.com/?size=100&id=1024&format=png&color=000000"));
-        ICON_CACHE.put("search", new Image("https://img.icons8.com/?size=100&id=7694&format=png&color=000000"));
-        ICON_CACHE.put("grid", new Image("https://img.icons8.com/?size=100&id=10482&format=png&color=000000"));
-        ICON_CACHE.put("brightness", new Image("https://img.icons8.com/?size=100&id=12347&format=png&color=000000"));
+
         // Load the custom font
         Font.loadFont(getClass().getResource("/Fonts/BubblegumSans-Regular.ttf").toExternalForm(), 14);
 
@@ -87,21 +80,12 @@ public class Sidebar {
         });
 
         // Application Section
-        Label appLabel = new Label("Médecins");
+        Label appLabel = new Label("Medecins");
         appLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         appLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
-        HBox chatBtn = createSidebarItem("Docteurs", "docteurs", stage, () -> {
-            System.out.println("Docteurs clicked (no navigation implemented)");
-        });
-        HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () -> {
-            System.out.println("Consultation clicked (no navigation implemented)");
-        });
-        HBox kanbanBtn = createSidebarItemWithTag("Commentaire", "commentaire", stage, () -> {
-            System.out.println("Commentaire clicked (no navigation implemented)");
-        });
-
+        HBox chatBtn = createSidebarItem("Module", "module", stage, () -> loadFXML.accept("/HedyFXML/AffichageModule.fxml"));
         // Pages Section
         Label pagesLabel = new Label("Contenu");
         pagesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -130,10 +114,10 @@ public class Sidebar {
         HBox pixelWordsBtn = createSidebarItem("Pixel Words", "pixel-words", stage, pixelWordsAction);
 
         // Logout Button
-        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, logoutAction); // Fixed to use logoutAction
+        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, pixelWordsAction);
 
         // Add buttons to tracking list
-        sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, emailBtn, kanbanBtn, authBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
+        sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, authBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
 
         // Spacer to push logout button to the bottom
         VBox spacer = new VBox();
@@ -142,7 +126,7 @@ public class Sidebar {
 
         sidebarContent.getChildren().addAll(
                 logoBox, menuLabel, dashboardBtn, analyticsBtn, ecommerceBtn,
-                appLabel, chatBtn, emailBtn, kanbanBtn,
+                appLabel, chatBtn,
                 pagesLabel, authBtn, utilityBtn,
                 elementsLabel, storeBtn, titlesBtn, pixelWordsBtn,
                 spacer, logoutBtn
@@ -286,3 +270,4 @@ public class Sidebar {
         return item;
     }
 }
+

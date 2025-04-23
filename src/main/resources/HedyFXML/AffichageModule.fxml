@@ -11,8 +11,7 @@
 
     <!-- Header with Add Button -->
     <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 15;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Button text="Ajouter Module" onAction="#goToAjoutPage"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;"/>
+
     </HBox>
 
     <!-- Grid for Module Cards -->
