@@ -1,6 +1,8 @@
 package Controller.Ham;
 
 import entite.PexelWord;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import service.PexelWordService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,13 +10,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ListPexelWordsController {
 
@@ -62,6 +62,25 @@ public class ListPexelWordsController {
 
         // Load data into table
         loadPexelWords();
+
+        // Optional: Add sidebar in controller (uncomment if needed)
+        /*
+        Stage stage = (Stage) pexelWordsTable.getScene().getWindow();
+        test.Sidebar sidebarCreator = new test.Sidebar();
+        ScrollPane sidebar = sidebarCreator.createSidebar(
+            stage,
+            () -> loadFXML(stage, "/test/Dashboard.fxml"), // Adjust path if Dashboard is FXML
+            () -> loadFXML(stage, "/User/index_user.fxml"),
+            () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+            () -> System.out.println("Logout clicked")
+        );
+        BorderPane root = new BorderPane();
+        root.setLeft(sidebar);
+        root.setCenter(pexelWordsTable.getScene().getRoot());
+        Scene scene = new Scene(root, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
+        stage.setScene(scene);
+        */
     }
 
     private void loadPexelWords() {
@@ -118,4 +137,31 @@ public class ListPexelWordsController {
             errorLabel.setText("Error opening form: " + e.getMessage());
         }
     }
+
+    // Optional: Helper method for navigation (uncomment if adding sidebar in controller)
+
+    private void loadFXML(Stage stage, String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent fxmlContent = loader.load();
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: #F7F7F7;");
+            test.Sidebar sidebarCreator = new test.Sidebar();
+            ScrollPane sidebar = sidebarCreator.createSidebar(
+                stage,
+                () -> loadFXML(stage, "/test/Dashboard.fxml"), // Adjust path
+                () -> loadFXML(stage, "/User/index_user.fxml"),
+                () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+                () -> System.out.println("Logout clicked")
+            );
+            root.setLeft(sidebar);
+            root.setCenter(fxmlContent);
+            Scene scene = new Scene(root, 1000, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
+            stage.setScene(scene);
+        } catch (IOException e) {
+            errorLabel.setText("Error loading FXML: " + e.getMessage());
+        }
+    }
+
 }

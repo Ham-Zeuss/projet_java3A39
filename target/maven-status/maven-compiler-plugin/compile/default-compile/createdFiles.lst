@@ -18,6 +18,7 @@ Controller\Maryem\DisplayProfilesController$1.class
 entite\Profile.class
 service\TitleService.class
 org\example\mailtrap\Main$1.class
+test\Dashboard.class
 entite\Commentaire.class
 Controller\Maryem\FrontDisplayProfilesController.class
 entite\Oumaima\Cours.class
@@ -70,6 +71,7 @@ Controller\Hedy\AjoutCoursController.class
 Controller\Maryem\DisplayCommentsController$1.class
 Controller\Oumaima\addQuizcontroller$1.class
 Controller\Ham\ListPexelWordsController.class
+test\Sidebar.class
 test\Ham\DisplayStoreItemsFrontMain.class
 Controller\Ham\ListStoreItemsAdminController$2.class
 org\example\mailtrap\Main.class

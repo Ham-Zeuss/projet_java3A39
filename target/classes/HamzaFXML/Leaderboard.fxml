@@ -1,93 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Label?>
 
-<VBox alignment="CENTER" spacing="30.0" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controller.Ham.LeaderboardController" stylesheets="@../../css/leaderboard.css">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="leaderboardRoot" alignment="CENTER" spacing="30.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.Ham.LeaderboardController"
+      style="-fx-background-color: #f0f4ff;">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="40.0" right="50.0" bottom="40.0" left="50.0"/>
     </padding>
 
-    <Text text="Leaderboard - Top 10 Users" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    <Label text="TEAM LEADERBOARD" styleClass="leaderboard-title"/>
 
-    <!-- Row 1: Rank 1 -->
-    <HBox alignment="CENTER" spacing="20.0" fx:id="row1">
-        <VBox fx:id="card1" styleClass="leaderboard-card rank-1">
-            <Label fx:id="name1" styleClass="card-name"/>
-            <Label fx:id="score1" styleClass="card-score"/>
-            <Label fx:id="title1" styleClass="card-title"/>
-            <Label fx:id="message1" styleClass="card-message"/>
+    <HBox fx:id="top3Row" alignment="CENTER" spacing="30.0">
+        <!-- 2nd Place (Left) -->
+        <VBox alignment="CENTER" styleClass="top3-card,silver-border" fx:id="card2" spacing="10">
+            <ImageView fx:id="profilePic2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image"/>
+            <Label fx:id="name2" styleClass="top3-name"/>
+            <Label fx:id="score2" styleClass="top3-score"/>
+            <Label fx:id="title2" styleClass="top3-title"/>
+            <Label fx:id="message2" styleClass="top3-message"/>
+        </VBox>
+        <!-- 1st Place (Center, Taller) -->
+        <VBox alignment="CENTER" styleClass="top3-card,gold-border" fx:id="card1" spacing="14">
+            <ImageView fx:id="profilePic1" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image"/>
+            <Label fx:id="name1" styleClass="top3-name"/>
+            <Label fx:id="score1" styleClass="top3-score"/>
+            <Label fx:id="title1" styleClass="top3-title"/>
+            <Label fx:id="message1" styleClass="top3-message"/>
+        </VBox>
+        <!-- 3rd Place (Right) -->
+        <VBox alignment="CENTER" styleClass="top3-card,bronze-border" fx:id="card3" spacing="10">
+            <ImageView fx:id="profilePic3" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image"/>
+            <Label fx:id="name3" styleClass="top3-name"/>
+            <Label fx:id="score3" styleClass="top3-score"/>
+            <Label fx:id="title3" styleClass="top3-title"/>
+            <Label fx:id="message3" styleClass="top3-message"/>
         </VBox>
     </HBox>
 
-    <!-- Row 2: Ranks 2-3 -->
-    <HBox alignment="CENTER" spacing="20.0" fx:id="row2">
-        <VBox fx:id="card2" styleClass="leaderboard-card rank-2">
-            <Label fx:id="name2" styleClass="card-name"/>
-            <Label fx:id="score2" styleClass="card-score"/>
-            <Label fx:id="title2" styleClass="card-title"/>
-            <Label fx:id="message2" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card3" styleClass="leaderboard-card rank-3">
-            <Label fx:id="name3" styleClass="card-name"/>
-            <Label fx:id="title3" styleClass="card-title"/>
-            <Label fx:id="score3" styleClass="card-score"/>
-            <Label fx:id="message3" styleClass="card-message"/>
-        </VBox>
-    </HBox>
+    <VBox fx:id="lowerRanksBox" spacing="15.0" alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+        <HBox alignment="CENTER_LEFT" styleClass="leaderboard-header-row">
+            <Label text="Rank" styleClass="header-label" minWidth="60" maxWidth="60"/>
+            <Label text="User" styleClass="header-label" minWidth="200" maxWidth="200"/>
+            <Label text="Score" styleClass="header-label" minWidth="120" maxWidth="120"/>
+            <Label text="Title" styleClass="header-label" minWidth="150" maxWidth="150"/>
+            <Label text="Message" styleClass="header-label" minWidth="220" maxWidth="220"/>
+        </HBox>
+    </VBox>
 
-    <!-- Row 3: Ranks 4-6 -->
-    <HBox alignment="CENTER" spacing="20.0" fx:id="row3">
-        <VBox fx:id="card4" styleClass="leaderboard-card rank-4">
-            <Label fx:id="name4" styleClass="card-name"/>
-            <Label fx:id="score4" styleClass="card-score"/>
-            <Label fx:id="title4" styleClass="card-title"/>
-            <Label fx:id="message4" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card5" styleClass="leaderboard-card rank-5">
-            <Label fx:id="name5" styleClass="card-name"/>
-            <Label fx:id="score5" styleClass="card-score"/>
-            <Label fx:id="title5" styleClass="card-title"/>
-            <Label fx:id="message5" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card6" styleClass="leaderboard-card rank-6">
-            <Label fx:id="name6" styleClass="card-name"/>
-            <Label fx:id="score6" styleClass="card-score"/>
-            <Label fx:id="title6" styleClass="card-title"/>
-            <Label fx:id="message6" styleClass="card-message"/>
-        </VBox>
-    </HBox>
-
-    <!-- Row 4: Ranks 7-10 -->
-    <HBox alignment="CENTER" spacing="20.0" fx:id="row4">
-        <VBox fx:id="card7" styleClass="leaderboard-card rank-7">
-            <Label fx:id="name7" styleClass="card-name"/>
-            <Label fx:id="score7" styleClass="card-score"/>
-            <Label fx:id="title7" styleClass="card-title"/>
-            <Label fx:id="message7" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card8" styleClass="leaderboard-card rank-8">
-            <Label fx:id="name8" styleClass="card-name"/>
-            <Label fx:id="score8" styleClass="card-score"/>
-            <Label fx:id="title8" styleClass="card-title"/>
-            <Label fx:id="message8" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card9" styleClass="leaderboard-card rank-9">
-            <Label fx:id="name9" styleClass="card-name"/>
-            <Label fx:id="score9" styleClass="card-score"/>
-            <Label fx:id="title9" styleClass="card-title"/>
-            <Label fx:id="message9" styleClass="card-message"/>
-        </VBox>
-        <VBox fx:id="card10" styleClass="leaderboard-card rank-10">
-            <Label fx:id="name10" styleClass="card-name"/>
-            <Label fx:id="score10" styleClass="card-score"/>
-            <Label fx:id="title10" styleClass="card-title"/>
-            <Label fx:id="message10" styleClass="card-message"/>
-        </VBox>
-    </HBox>
-
-    <Label fx:id="errorLabel" text="" styleClass="error"/>
+    <Label fx:id="errorLabel" text="" styleClass="error-label"/>
 </VBox>

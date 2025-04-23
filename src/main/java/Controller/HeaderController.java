@@ -58,7 +58,7 @@ public class HeaderController {
             // Load body (dynamic FXML path)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 1000; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
             // Load footer (footer.html) using WebView
@@ -92,6 +92,20 @@ public class HeaderController {
                 scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
             } else {
                 System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
+            }
+
+            URL StoreCards = getClass().getResource("/css/store-cards.css");
+            if (StoreCards != null) {
+                scene.getStylesheets().add(StoreCards.toExternalForm());
+            } else {
+                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
+            }
+
+            URL leaderboard = getClass().getResource("/css/leaderboard.css");
+            if (leaderboard != null) {
+                scene.getStylesheets().add(leaderboard.toExternalForm());
+            } else {
+                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
             }
 
             // Get the Stage

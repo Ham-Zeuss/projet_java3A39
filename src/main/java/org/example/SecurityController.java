@@ -9,25 +9,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.control.ScrollPane;
 
-import javax.swing.*;
-import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class SecurityController {
 
@@ -42,9 +37,9 @@ public class SecurityController {
 
     public void connexionButtonAction(ActionEvent event) {
         if (_password.getText().trim().isEmpty() || _username.getText().trim().isEmpty()) {
-            showAlert(AlertType.ERROR, "Erreur de connexion", "Veuillez remplir tous les champs !");
+            showAlert(Alert.AlertType.ERROR, "Erreur de connexion", "Veuillez remplir tous les champs !");
         } else {
-            showAlert(AlertType.INFORMATION, "Connexion", "Vous êtes sur le point de vous connecter !");
+            showAlert(Alert.AlertType.INFORMATION, "Connexion", "Vous êtes sur le point de vous connecter !");
         }
     }
 
@@ -78,7 +73,7 @@ public class SecurityController {
                             // Load header.fxml
                             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                             VBox headerFxmlContent = headerFxmlLoader.load();
-                            headerFxmlContent.setPrefSize(1000, 100);
+                            headerFxmlContent.setPrefSize(1000, 100); // Header size for 500x500 window
                             mainContent.getChildren().add(headerFxmlContent);
 
                             // Load header (header.html) using WebView
@@ -89,7 +84,7 @@ public class SecurityController {
                             } else {
                                 headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
                             }
-                            headerWebView.setPrefSize(1000, 490);
+                            headerWebView.setPrefSize(500, 100); // Adjusted for smaller window
                             mainContent.getChildren().add(headerWebView);
 
                             // Load body (User/Home.fxml)
@@ -100,7 +95,7 @@ public class SecurityController {
                             }
                             FXMLLoader loader = new FXMLLoader(fxmlUrl);
                             VBox bodyContent = loader.load();
-                            bodyContent.setPrefSize(1920, 1080);
+                            bodyContent.setPrefSize(500, 250); // Adjusted for smaller window
 
                             // Set welcome message in HomeController
                             HomeController homeController = loader.getController();
@@ -119,7 +114,7 @@ public class SecurityController {
                             } else {
                                 footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
                             }
-                            footerWebView.setPrefSize(1000, 830);
+                            footerWebView.setPrefSize(500, 100); // Adjusted for smaller window
                             mainContent.getChildren().add(footerWebView);
 
                             // Wrap the VBox in a ScrollPane
@@ -129,17 +124,21 @@ public class SecurityController {
                             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
                             // Set up the scene and apply CSS
-                            Scene scene = new Scene(scrollPane, 1920, 1080);
+                            Scene scene = new Scene(scrollPane, 500, 500); // 500x500 window
                             scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
                             scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
-                            scene.getStylesheets().add(getClass().getResource("/navbar.css").toExternalForm());
+                            scene.getStylesheets().add(getClass().getResource("/css/store-cards.css").toExternalForm());
+                            scene.getStylesheets().add(getClass().getResource("/css/leaderboard.css").toExternalForm());
 
+
+                            // Configure the stage
                             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                             currentStage.setScene(scene);
-                            currentStage.setTitle("JavaFX Scrollable Window");
-                            currentStage.setFullScreen(true);
-                            currentStage.setWidth(1920);
-                            currentStage.setHeight(1080);
+                            currentStage.setTitle("Home");
+                            currentStage.setWidth(1920); // Initial width
+                            currentStage.setHeight(1080); // Initial height
+                            currentStage.setResizable(true); // Allow resizing
+                            currentStage.setFullScreen(false); // Ensure not full-screen
                             currentStage.centerOnScreen();
                             currentStage.show();
 
@@ -166,10 +165,10 @@ public class SecurityController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
+            currentStage.setTitle("Register");
+            currentStage.setResizable(true); // Allow resizing
+            currentStage.centerOnScreen();
             currentStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Erreur : " + e.getCause());
@@ -182,17 +181,17 @@ public class SecurityController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
+            currentStage.setTitle("Reset Password");
+            currentStage.setResizable(true); // Allow resizing
+            currentStage.centerOnScreen();
             currentStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Erreur : " + e.getCause());
         }
     }
 
-    private void showAlert(AlertType type, String title, String content) {
+    private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
