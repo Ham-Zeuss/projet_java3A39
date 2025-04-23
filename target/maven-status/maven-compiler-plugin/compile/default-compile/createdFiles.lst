@@ -4,7 +4,6 @@ Controller\Maryem\FrontAddConsultationController$2.class
 Controller\Ham\ListStoreItemsAdminController$3.class
 test\Oumaima\FXMLAffichageQuizFront.class
 Controller\Boubaker\BackOfficeController.class
-Controller\Ham\ListStoreItemsFrontController$1.class
 service\StoreItemService.class
 Controller\Maryem\AddConsultationController.class
 Controller\Ham\ListStoreItemsController$2.class
@@ -16,6 +15,7 @@ Controller\Maryem\FrontDisplayCommentsController.class
 test\Ham\DisplayTitlesMain.class
 Controller\Maryem\DisplayProfilesController$1.class
 entite\Profile.class
+test\Ham\WordScrambleGame.class
 service\TitleService.class
 org\example\mailtrap\Main$1.class
 test\Dashboard.class
@@ -98,6 +98,7 @@ org\example\UserController.class
 Controller\Maryem\DisplayProfilesController$3.class
 Controller\Maryem\UserConsultationsController.class
 Controller\Oumaima\AddQuizBackendController$2.class
+test\Ham\ScrambleGame.class
 entite\PexelWord.class
 Controller\Oumaima\addQuizcontroller.class
 org\example\SendEmailController$1.class
@@ -113,6 +114,7 @@ org\example\SendEmailController.class
 entite\User$1.class
 org\example\SecurityController.class
 Controller\Ham\CreateTitleController.class
+test\Ham\GameController.class
 test\Maryem\FXMLFrontDisplayProfile.class
 entite\Consultation.class
 Controller\Maryem\UpdateConsultationController$2.class
@@ -131,6 +133,7 @@ Controller\Maryem\DisplayCommentsController.class
 Controller\Boubaker\ChatbotController$1.class
 service\IService.class
 Controller\Ham\ListStoreItemsController$3.class
+test\Ham\WordScrambleGame$WordData.class
 org\example\RegistrationController.class
 Controller\Maryem\DisplayProfilesController.class
 service\CoursService.class
