@@ -2,20 +2,24 @@ package Controller.Maryem;
 
 import entite.Profile;
 import entite.User;
-
 import entite.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.Modality; // Added import for Modality
+import javafx.stage.Modality;
 import service.ProfileService;
+import javafx.scene.shape.Circle;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,12 +34,11 @@ public class FrontDisplayProfilesController {
 
     private ProfileService profileService;
 
-    // !!!!!!!!!!!!!!!!!!
     private int userId;
+
     public void setUserId(int userId) {
         this.userId = userId;
         System.out.println("FrontDisplayProfilesController - User ID set: " + userId);
-        // Use the userId as needed (e.g., fetch data specific to this user)
     }
 
     @FXML
@@ -55,63 +58,13 @@ public class FrontDisplayProfilesController {
             }
 
             // Dynamically create a card for each profile
+            int index = 0;
             for (Profile profile : profiles) {
-                // Create a VBox for each profile card
-                VBox profileCard = new VBox();
-                profileCard.getStyleClass().add("profile-card");
-                profileCard.setSpacing(5);
-                profileCard.setAlignment(Pos.CENTER);
-
-                // Extract user info
-                User user = profile.getUserId();
-                String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
-                        (user.getPrenom() != null ? user.getPrenom() : "");
-
-                // Make name a clickable Hyperlink
-                Hyperlink nameLink = new Hyperlink(fullName.trim());
-                nameLink.getStyleClass().add("title-label");
-                nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
-
-                Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
-                Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
-                Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
-
-                // Create buttons with icons and tooltips
-                Button resourcesButton = new Button("View PDF");
-                resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
-
-                Button commentButton = new Button("👀");
-                commentButton.getStyleClass().add("icon-button");
-                commentButton.setOnAction(event -> openCommentsWindow(profile));
-                Tooltip viewTooltip = new Tooltip("View Comments");
-                commentButton.setTooltip(viewTooltip);
-
-                Button addCommentButton = new Button("✍️");
-                addCommentButton.getStyleClass().add("icon-button");
-                addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
-                Tooltip addTooltip = new Tooltip("Add Comment");
-                addCommentButton.setTooltip(addTooltip);
-
-                Button bookButton = new Button("📅");
-                bookButton.getStyleClass().add("icon-button");
-                bookButton.setOnAction(event -> openBookConsultationWindow(profile));
-                Tooltip bookTooltip = new Tooltip("Book Consultation");
-                bookButton.setTooltip(bookTooltip);
-
-                // Create an HBox to hold the icon buttons side by side
-                HBox iconButtonsContainer = new HBox();
-                iconButtonsContainer.setSpacing(10);
-                iconButtonsContainer.setAlignment(Pos.CENTER);
-                iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
-
-                // Add all elements to the card
-                profileCard.getChildren().addAll(
-                        nameLink, bioLabel, specialtyLabel, priceLabel,
-                        resourcesButton, iconButtonsContainer
-                );
-
-                // Add the card to the container
+                VBox profileCard = createProfileCard(profile);
+                // Add staggered animation delay
+                profileCard.setStyle("-fx-animation-delay: " + (index * 0.1) + "s;");
                 profilesContainer.getChildren().add(profileCard);
+                index++;
             }
 
         } catch (Exception e) {
@@ -119,6 +72,86 @@ public class FrontDisplayProfilesController {
             errorLabel.setText("Error loading profiles: " + e.getMessage());
         }
         System.out.println("Exiting FrontDisplayProfilesController.initialize");
+    }
+
+    private VBox createProfileCard(Profile profile) {
+        VBox profileCard = new VBox();
+        profileCard.getStyleClass().add("profile-card");
+        profileCard.setSpacing(5);
+        profileCard.setAlignment(Pos.CENTER);
+
+        // Extract user info
+        User user = profile.getUserId();
+        String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
+                (user.getPrenom() != null ? user.getPrenom() : "");
+
+        // Add profile image from User entity
+        ImageView profileImage;
+        String photoPath = user.getPhoto();
+        if (photoPath != null && !photoPath.isEmpty()) {
+            try {
+                // Load image from the file path or URL stored in user.photo
+                Image image = new Image(photoPath, true); // 'true' for background loading
+                profileImage = new ImageView(image);
+            } catch (Exception e) {
+                System.err.println("Error loading profile image for user " + user.getId() + ": " + e.getMessage());
+                // Fallback to default image
+                profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
+            }
+        } else {
+            // Use default image if photo is null or empty
+            profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
+        }
+        profileImage.setFitWidth(80);
+        profileImage.setFitHeight(80);
+        Circle clip = new Circle(40, 40, 40);
+        profileImage.setClip(clip);
+        profileImage.setEffect(new DropShadow(5, 2, 2, Color.color(0.5, 0.5, 0.5, 0.2)));
+
+        // Make name a clickable Hyperlink
+        Hyperlink nameLink = new Hyperlink(fullName.trim());
+        nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
+
+        Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
+        Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
+        Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
+
+        // Create buttons
+        Button resourcesButton = new Button("View PDF");
+        resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
+
+        Button commentButton = new Button("👀");
+        commentButton.getStyleClass().add("icon-button");
+        commentButton.setOnAction(event -> openCommentsWindow(profile));
+        Tooltip viewTooltip = new Tooltip("View Comments");
+        commentButton.setTooltip(viewTooltip);
+
+        Button addCommentButton = new Button("✍️");
+        addCommentButton.getStyleClass().add("icon-button");
+        addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
+        Tooltip addTooltip = new Tooltip("Add Comment");
+        addCommentButton.setTooltip(addTooltip);
+
+        Button bookButton = new Button("📅");
+        bookButton.getStyleClass().add("icon-button");
+        bookButton.setOnAction(event -> openBookConsultationWindow(profile));
+        Tooltip bookTooltip = new Tooltip("Book Consultation");
+        bookButton.setTooltip(bookTooltip);
+
+        // HBox for icon buttons
+        HBox iconButtonsContainer = new HBox();
+        iconButtonsContainer.setSpacing(10);
+        iconButtonsContainer.setAlignment(Pos.CENTER);
+        iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
+
+        // Add elements to card
+        profileCard.getChildren().addAll(
+                profileImage,
+                nameLink, bioLabel, specialtyLabel, priceLabel,
+                resourcesButton, iconButtonsContainer
+        );
+
+        return profileCard;
     }
 
     private void openPDF(String pdfPath) {
@@ -148,7 +181,7 @@ public class FrontDisplayProfilesController {
                 throw new IOException("FXML file not found: /header.fxml");
             }
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100); // Adjusted height for header.fxml
+            headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
             // Load header (header.html) using WebView
@@ -161,7 +194,7 @@ public class FrontDisplayProfilesController {
                 System.err.println("Error: header.html not found");
                 headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
             }
-            headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
+            headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
 
             // Load body (ProfileDetails.fxml)
@@ -170,7 +203,7 @@ public class FrontDisplayProfilesController {
                 throw new IOException("FXML file not found: /MaryemFXML/ProfileDetails.fxml");
             }
             VBox bodyContent = bodyLoader.load();
-            bodyContent.setPrefHeight(600); // Match previous scene height
+            bodyContent.setPrefHeight(600);
             bodyContent.setMaxHeight(600);
             mainContent.getChildren().add(bodyContent);
 
@@ -194,7 +227,7 @@ public class FrontDisplayProfilesController {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
             // Set up the scene and apply CSS
-            Scene scene = new Scene(scrollPane, 1200, 700); // Match original window size
+            Scene scene = new Scene(scrollPane, 1200, 700);
             URL cssUrl = getClass().getResource("/css/styles.css");
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
@@ -212,7 +245,7 @@ public class FrontDisplayProfilesController {
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.setTitle("Profile Details");
-            newStage.setResizable(false); // Match original setting
+            newStage.setResizable(false);
             newStage.show();
 
             // Initialize the ProfileDetailsController
@@ -229,8 +262,6 @@ public class FrontDisplayProfilesController {
         }
     }
 
-    // Utility method to show alerts
-
     private void openCommentsWindow(Profile profile) {
         try {
             System.out.println("Attempting to open comments window for profile ID: " + profile.getId());
@@ -239,8 +270,8 @@ public class FrontDisplayProfilesController {
                 throw new IOException("FXML file not found: /FrontDisplayComments.fxml");
             }
             Stage stage = new Stage();
-            Scene scene = new Scene(loader.load(), 500, 400); // Added size for better visibility
-            scene.getStylesheets().add(getClass().getResource("/css/CommentsStyle.css").toExternalForm()); // Load CSS
+            Scene scene = new Scene(loader.load(), 500, 400);
+            scene.getStylesheets().add(getClass().getResource("/css/CommentsStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Comments for Profile");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -313,66 +344,19 @@ public class FrontDisplayProfilesController {
 
     public void refreshTable() {
         try {
-            profilesContainer.getChildren().clear(); // Clear existing cards
+            profilesContainer.getChildren().clear();
             var profiles = profileService.readAll();
             if (profiles.isEmpty()) {
                 errorLabel.setText("No profiles found in the database.");
                 return;
             }
 
-            // Recreate profile cards
+            int index = 0;
             for (Profile profile : profiles) {
-                VBox profileCard = new VBox();
-                profileCard.getStyleClass().add("profile-card");
-                profileCard.setSpacing(5);
-                profileCard.setAlignment(Pos.CENTER);
-
-                User user = profile.getUserId();
-                String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
-                        (user.getPrenom() != null ? user.getPrenom() : "");
-
-                // Make name a clickable Hyperlink
-                Hyperlink nameLink = new Hyperlink(fullName.trim());
-                nameLink.getStyleClass().add("title-label");
-                nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
-
-                Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
-                Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
-                Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
-
-                Button resourcesButton = new Button("View PDF");
-                resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
-
-                Button commentButton = new Button("👀");
-                commentButton.getStyleClass().add("icon-button");
-                commentButton.setOnAction(event -> openCommentsWindow(profile));
-                Tooltip viewTooltip = new Tooltip("View Comments");
-                commentButton.setTooltip(viewTooltip);
-
-                Button addCommentButton = new Button("✍️");
-                addCommentButton.getStyleClass().add("icon-button");
-                addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
-                Tooltip addTooltip = new Tooltip("Add Comment");
-                addCommentButton.setTooltip(addTooltip);
-
-                Button bookButton = new Button("📅");
-                bookButton.getStyleClass().add("icon-button");
-                bookButton.setOnAction(event -> openBookConsultationWindow(profile));
-                Tooltip bookTooltip = new Tooltip("Book Consultation");
-                bookButton.setTooltip(bookTooltip);
-
-                // Create an HBox to hold the icon buttons side by side
-                HBox iconButtonsContainer = new HBox();
-                iconButtonsContainer.setSpacing(10);
-                iconButtonsContainer.setAlignment(Pos.CENTER);
-                iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
-
-                profileCard.getChildren().addAll(
-                        nameLink, bioLabel, specialtyLabel, priceLabel,
-                        resourcesButton, iconButtonsContainer
-                );
-
+                VBox profileCard = createProfileCard(profile);
+                profileCard.setStyle("-fx-animation-delay: " + (index * 0.1) + "s;");
                 profilesContainer.getChildren().add(profileCard);
+                index++;
             }
             errorLabel.setText("");
         } catch (Exception e) {
@@ -395,8 +379,8 @@ public class FrontDisplayProfilesController {
             if (loader.getLocation() == null) {
                 throw new IOException("FXML file not found: /MaryemFXML/FrontDisplayProfiles.fxml");
             }
-            Scene scene = new Scene(loader.load(), 600, 800); // Match size with profile details
-            scene.getStylesheets().add(getClass().getResource("/css/affichageprofilefront.css").toExternalForm()); // Load CSS
+            Scene scene = new Scene(loader.load(), 600, 800);
+            scene.getStylesheets().add(getClass().getResource("/css/affichageprofilefront.css").toExternalForm());
 
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();
             currentStage.setScene(scene);
