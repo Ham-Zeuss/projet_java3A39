@@ -67,7 +67,7 @@ public class TwoFAController {
                 // Mappage des rôles aux chemins FXML
                 Map<String, String> roleToFxmlMap = new HashMap<>();
                 roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/DisplayProfiles.fxml");
-                roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageCours.fxml");
+                roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageModule.fxml");
                 roleToFxmlMap.put("ROLE_PARENT", "/OumaimaFXML/Home.fxml");
 
                 String defaultFxml = "/User/Home.fxml"; // Page par défaut

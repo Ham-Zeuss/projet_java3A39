@@ -2,6 +2,7 @@ package Controller.Hedy;
 
 import entite.Cours;
 import entite.Module;
+import entite.User; // Import the User entity
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,20 +16,24 @@ import java.io.File;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-
 public class AjoutCoursController {
 
     @FXML private TextField titleField;
     @FXML private TextField pdfNameField;
     private Module currentModule;
     private final CoursService coursService = new CoursService();
+    private Integer currentUserId; // Store the ID of the currently logged-in user
 
     public void setCurrentModule(Module module) {
         this.currentModule = module;
     }
 
-    @FXML
+    public void setCurrentUserId(Integer userId) {
+        this.currentUserId = userId; // Set the current user's ID
+        System.out.println("Current User ID set to: " + currentUserId); // Debugging log
+    }
 
+    @FXML
     private void saveCours() {
         // Validate input fields
         String title = titleField.getText().trim();
@@ -45,8 +50,19 @@ public class AjoutCoursController {
         }
 
         try {
-            // Create a new Cours object
-            Cours newCours = new Cours(title, currentModule, pdfName); // Use the selected PDF file name
+            // Ensure the current user's ID is set
+            if (currentUserId == null) {
+                showAlert(AlertType.ERROR, "Erreur", "Impossible de récupérer l'utilisateur actuel.");
+                return;
+            }
+
+            // Create a new Cours object with the user's ID
+            Cours newCours = new Cours(
+                    title,
+                    currentModule,
+                    pdfName,
+                    currentUserId // Store the user's ID
+            );
 
             // Save the course to the database
             coursService.createPst(newCours);
@@ -81,6 +97,7 @@ public class AjoutCoursController {
             System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
         }
     }
+
     @FXML
     private void retourCours() {
         try {
@@ -95,6 +112,7 @@ public class AjoutCoursController {
             System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
         }
     }
+
     @FXML
     private void selectPdfFile() {
         FileChooser fileChooser = new FileChooser();
@@ -122,6 +140,7 @@ public class AjoutCoursController {
             }
         }
     }
+
     // Helper method to show alerts
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);

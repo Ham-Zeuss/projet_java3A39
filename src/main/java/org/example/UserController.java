@@ -1,4 +1,5 @@
 package org.example;
+import util.SessionManager;
 
 import entite.User;
 import javafx.beans.binding.BooleanBinding;
@@ -216,7 +217,34 @@ public class UserController {
 
         updateButtonStates();
     }
+    @FXML
+    private void handleLogin() {
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
+        // Retrieve the user from the database
+        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            System.out.println("No user found with email: " + email);
+            showAlert("Erreur", "Aucun utilisateur trouvé avec cet email.");
+            return;
+        }
+
+        System.out.println("User found: " + user.getEmail() + ", ID: " + user.getId());
+
+        if (userService.verifyPassword(password, user.getPassword())) {
+            // Set the logged-in user ID in the session
+            SessionManager.setLoggedInUserId(user.getId());
+            System.out.println("Logged-in User ID set to: " + SessionManager.getLoggedInUserId());
+
+            // Show success message
+            showSuccess("Connexion réussie!");
+
+        } else {
+            System.out.println("Password verification failed for user: " + user.getEmail());
+            showAlert("Erreur", "Mot de passe incorrect.");
+        }
+    }
     @FXML
     private void handleAddUser() {
         User user = new User();

@@ -1,5 +1,4 @@
 package Controller.Hedy;
-
 import entite.Cours;
 import entite.Module;
 import javafx.fxml.FXML;
@@ -17,7 +16,7 @@ import javafx.stage.Stage;
 import service.CoursService;
 import java.awt.Desktop;
 import java.io.File;
-
+import util.SessionManager;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -137,8 +136,12 @@ public class AffichageCoursController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AjoutCours.fxml"));
             Parent root = loader.load();
+
+            // Pass the current module and logged-in user ID to the AjoutCoursController
             AjoutCoursController controller = loader.getController();
             controller.setCurrentModule(currentModule);
+            controller.setCurrentUserId(SessionManager.getLoggedInUserId()); // Retrieve from session
+
             Stage stage = (Stage) coursGrid.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter un Cours");

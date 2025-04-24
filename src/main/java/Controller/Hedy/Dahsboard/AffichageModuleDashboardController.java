@@ -28,7 +28,11 @@ public class AffichageModuleDashboardController{
     @FXML private TableColumn<Module, String> levelColumn;
 
     private final ModuleService moduleService = new ModuleService();
+    private Integer loggedInUserId; // Field to store the logged-in user's ID
 
+    public void setLoggedInUserId(Integer userId) {
+        this.loggedInUserId = userId;
+    }
     @FXML
     public void initialize() {
         // Load CSS file

@@ -22,6 +22,9 @@ public class Dashboard extends Application {
 
     private static final String TEXT_COLOR_DARK = "#333333";
 
+    // Static variable to simulate the logged-in user's ID
+    public static int loggedInUserId = 22; // Set the user ID to 22 for testing
+
     @Override
     public void start(Stage primaryStage) {
         // Create sidebar
@@ -31,7 +34,7 @@ public class Dashboard extends Application {
                 () -> loadDashboard(primaryStage), // Dashboard action
                 () -> loadFXML(primaryStage, "/User/index_user.fxml"), // Utilisateurs action
                 () -> loadFXML(primaryStage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
-                () -> System.out.println("Logout clicked (implement logout logic here)") ,// Logout action
+                () -> System.out.println("Logout clicked (implement logout logic here)"),// Logout action
                 (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
         );
 
@@ -75,6 +78,14 @@ public class Dashboard extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
+
+            // Pass the logged-in user ID to the controller if applicable
+            Object controller = loader.getController();
+            if (controller instanceof Controller.Hedy.AjoutCoursController) {
+                ((Controller.Hedy.AjoutCoursController) controller).setCurrentUserId(loggedInUserId);
+            } else if (controller instanceof Controller.Hedy.Dahsboard.AffichageModuleDashboardController) {
+                ((Controller.Hedy.Dahsboard.AffichageModuleDashboardController) controller).setLoggedInUserId(loggedInUserId);
+            }
 
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #F7F7F7;");

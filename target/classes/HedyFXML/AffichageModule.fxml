@@ -5,7 +5,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.Hedy.EditCoursController.AffichageModuleController"
+            fx:controller="Controller.Hedy.AffichageModuleController"
             style="-fx-background-color: #f5f5f5;"
             prefHeight="600.0" prefWidth="1000.0">
 
