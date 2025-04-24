@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.Oumaima.addQuizcontroller"
+            fx:controller="Controller.Oumaima.addQuizcontroller"
             prefWidth="600.0" prefHeight="400.0">
 
     <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">

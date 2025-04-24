@@ -17,6 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class Dashboard extends Application {
 
@@ -24,6 +25,9 @@ public class Dashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(primaryStage, fxmlPath);
+
         // Create sidebar
         Sidebar sidebarCreator = new Sidebar();
         ScrollPane sidebar = sidebarCreator.createSidebar(
@@ -51,6 +55,9 @@ public class Dashboard extends Application {
     }
 
     private void loadDashboard(Stage stage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #F7F7F7;");
 
@@ -77,6 +84,9 @@ public class Dashboard extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
+
+            // Create a Consumer<String> that wraps loadFXML with the current stage
+            Consumer<String> loadFXMLConsumer = path -> loadFXML(stage, path);
 
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #F7F7F7;");

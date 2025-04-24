@@ -104,9 +104,7 @@ public class Sidebar {
         HBox authBtn = createSidebarItem("Module", "module", stage, () -> {
             System.out.println("Module clicked (no navigation implemented)");
         });
-        HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> {
-            System.out.println("Quiz clicked (no navigation implemented)");
-        });
+        HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> loadFXML.accept("/OumaimaFXML/affichageBackQuiz.fxml"));
 
         // Elements Section
         Label elementsLabel = new Label("Store");

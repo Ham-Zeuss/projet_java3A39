@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.Oumaima.UpdateQuestionController"
+            fx:controller="Controller.Oumaima.UpdateQuestionController"
             prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #eceff1;">
     <stylesheets>

@@ -1,3 +1,4 @@
+
 /* Existing styles */
 .profile-details-container {
     -fx-background-color: #f5f5f5;
@@ -28,4 +29,5 @@
     -fx-border-color: #ccc;
     -fx-border-width: 1;
     -fx-background-color: #fff;
+
 }

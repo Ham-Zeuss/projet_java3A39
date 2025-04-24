@@ -10,6 +10,7 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\service\Oumaima\CoursService.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLaddprofile.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Hedy\EditModuleController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\EmailTest.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\entite\Oumaima\Question.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\HeaderController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\service\ConsultationService.java
@@ -21,6 +22,7 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\org\example\mailtrap\Main.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Maryem\DisplayProfilesController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Maryem\FrontAddConsultationController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\AfficherQuestionsEtudiantController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\entite\Session.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Maryem\UserConsultationsController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Maryem\FrontDisplayCommentsController.java
@@ -33,6 +35,7 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\org\example\Regist
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\UpdateQuestionBackController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\addQuizcontroller.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\test\Maryem\FXMLdisplayprofile.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\test\Oumaima\FXMLAffichageEtudianrQuizFrront.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\test\hedy\FXMLTestMain.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\AffichageBackQuizController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\affichageQuizcontroller.java
@@ -71,6 +74,7 @@ C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\org\example\ResetP
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\test\Oumaima\FXMLAffichageQuizFront.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\AfficherQuestionsController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Maryem\UpdateConsultationController.java
+C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima\affichageEtudiantQuiz.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Ham\ListTitlesController.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Ham\GamesMenu.java
 C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\org\example\SecurityController.java

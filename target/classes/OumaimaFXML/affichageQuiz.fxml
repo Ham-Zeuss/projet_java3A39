@@ -12,7 +12,7 @@
 <?import java.net.URL?> <!-- Ajout de l'importation pour URL -->
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.Oumaima.affichageQuizcontroller" prefHeight="600.0" prefWidth="800.0"
+            fx:controller="Controller.Oumaima.affichageQuizcontroller" prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #eceff1;">
     <stylesheets>
         <URL value="@../css/styles.css" />

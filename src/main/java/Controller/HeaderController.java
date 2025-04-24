@@ -14,27 +14,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
-
+import Controller.Boubaker.MainBoubakerController; // Add this import
 import java.io.IOException;
 import java.net.URL;
 
 public class HeaderController {
 
     @FXML
-    private MenuButton learnMenuButton; // Reference to Learn MenuButton
+    private MenuButton learnMenuButton;
 
     @FXML
-    private MenuButton doctorsMenuButton; // Reference to Doctors MenuButton
+    private MenuButton doctorsMenuButton;
 
     @FXML
-    private MenuButton gamesMenuButton; // Reference to Games MenuButton
+    private MenuButton gamesMenuButton;
 
-    /**
-     * Centralized method to handle navigation to different pages.
-     * @param event The ActionEvent triggered by a MenuItem or Button.
-     * @param fxmlPath The resource path to the FXML file for the body content.
-     * @param title The title to set for the stage.
-     */
     private void navigateToPage(ActionEvent event, String fxmlPath, String title) {
         try {
             // Create a VBox to stack the header, body, and footer
@@ -46,7 +40,7 @@ public class HeaderController {
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header (header.html) using WebView
+            // Load header.html using WebView
             WebView headerWebView = new WebView();
             URL headerUrl = getClass().getResource("/header.html");
             if (headerUrl != null) {
@@ -57,24 +51,38 @@ public class HeaderController {
             headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
 
-            // Load body (dynamic FXML path)
-            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent bodyContent = bodyLoader.load();
+            // Handle body content
+            Parent bodyContent;
+            if (fxmlPath.equals("Boubaker/main.fxml")) {
+                // Special case for Boubaker: Use programmatic UI from MainBoubakerController
+                MainBoubakerController controller = new MainBoubakerController();
+                bodyContent = controller.getRoot();
+                bodyContent.getStyleClass().add("body-content"); // Match BoubakerMain styling
+            } else {
+                // Load other FXML files normally
+                URL resourceUrl = getClass().getResource("/" + fxmlPath); // Ensure leading slash
+                if (resourceUrl == null) {
+                    System.err.println("Resource not found: /" + fxmlPath);
+                    return;
+                }
+                FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
+                bodyContent = bodyLoader.load();
+
+                // Pass user ID to FrontDisplayProfilesController if applicable
+                if (fxmlPath.equals("MaryemFXML/FrontDisplayProfiles.fxml")) {
+                    FrontDisplayProfilesController controller = bodyLoader.getController();
+                    if (controller != null) {
+                        Session session = Session.getInstance();
+                        controller.setUserId(session.getUserId());
+                    } else {
+                        System.err.println("FrontDisplayProfilesController is null");
+                    }
+                }
+            }
             bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
             mainContent.getChildren().add(bodyContent);
 
-            // !!!!!!!!!!!! Pass user ID to FrontDisplayProfilesController if applicable
-            if (fxmlPath.equals("/MaryemFXML/FrontDisplayProfiles.fxml")) {
-                FrontDisplayProfilesController controller = bodyLoader.getController();
-                if (controller != null) {
-                    Session session = Session.getInstance();
-                    controller.setUserId(session.getUserId());
-                } else {
-                    System.err.println("FrontDisplayProfilesController is null");
-                }
-            }
-
-            // Load footer (footer.html) using WebView
+            // Load footer.html using WebView
             WebView footerWebView = new WebView();
             URL footerUrl = getClass().getResource("/footer.html");
             if (footerUrl != null) {
@@ -91,13 +99,13 @@ public class HeaderController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            // Set up the scene and apply CSS safely
+            // Set up the scene and apply CSS
             Scene scene = new Scene(scrollPane, 600, 400);
             URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             } else {
-                System.err.println("Error: styles.css not found in resources at /OumaimaFXML/styles.css");
+                System.err.println("Error: styles.css not found in resources at OumaimaFXML/styles.css");
             }
 
             URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
@@ -107,18 +115,25 @@ public class HeaderController {
                 System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
             }
 
-            URL StoreCards = getClass().getResource("/css/store-cards.css");
-            if (StoreCards != null) {
-                scene.getStylesheets().add(StoreCards.toExternalForm());
+            URL userpack = getClass().getResource("/style.css");
+            if (userpack != null) {
+                scene.getStylesheets().add(userpack.toExternalForm());
             } else {
-                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
+                System.err.println("Error: style.css not found in resources at /style.css");
+            }
+
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) {
+                scene.getStylesheets().add(storeCards.toExternalForm());
+            } else {
+                System.err.println("Error: store-cards.css not found in resources at /css/store-cards.css");
             }
 
             URL leaderboard = getClass().getResource("/css/leaderboard.css");
             if (leaderboard != null) {
                 scene.getStylesheets().add(leaderboard.toExternalForm());
             } else {
-                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
+                System.err.println("Error: leaderboard.css not found in resources at /css/leaderboard.css");
             }
 
             // Get the Stage
@@ -135,9 +150,17 @@ public class HeaderController {
             stage.setTitle(title);
             stage.show();
         } catch (IOException e) {
+            System.err.println("Error loading resources for path: " + fxmlPath);
             e.printStackTrace();
-            System.err.println("Error loading FXML: " + fxmlPath);
         }
+    }
+
+    // ... other methods (goToQuizes, goToModules, etc.) remain unchanged ...
+
+    @FXML
+    @SuppressWarnings("unused")
+    private void goToPacks(ActionEvent event) {
+        navigateToPage(event, "Boubaker/main.fxml", "Packs");
     }
 
     /**
@@ -146,7 +169,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToQuizes(ActionEvent event) {
-        navigateToPage(event, "/OumaimaFXML/affichageQuiz.fxml", "Quizzes");
+        navigateToPage(event, "OumaimaFXML/affichageQuiz.fxml", "Quizzes");
     }
 
     /**
@@ -155,17 +178,10 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToModules(ActionEvent event) {
-        navigateToPage(event, "/HedyFXML/AffichageModule.fxml", "Modules");
+        navigateToPage(event, "HedyFXML/AffichageModule.fxml", "Modules");
     }
 
-    /**
-     * Handles navigation to the Packs page.
-     */
-    @FXML
-    @SuppressWarnings("unused")
-    private void goToPacks(ActionEvent event) {
-        navigateToPage(event, "Boubaker/main.fxml", "Packs");
-    }
+
 
     /**
      * Handles navigation to the My Appointments page.
@@ -173,7 +189,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToAppointments(ActionEvent event) {
-        navigateToPage(event, "/MaryemFXML/UserConsultations.fxml", "My Appointments");
+        navigateToPage(event, "MaryemFXML/UserConsultations.fxml", "My Appointments");
     }
 
     /**
@@ -182,7 +198,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToListDoctors(ActionEvent event) {
-        navigateToPage(event, "/MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
+        navigateToPage(event, "MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
     }
 
     /**
@@ -191,7 +207,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToStore(ActionEvent event) {
-        navigateToPage(event, "/HamzaFXML/ListStoreItemsFront.fxml", "Store");
+        navigateToPage(event, "HamzaFXML/ListStoreItemsFront.fxml", "Store");
     }
 
     /**
@@ -200,7 +216,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToLeaderboard(ActionEvent event) {
-        navigateToPage(event, "/HamzaFXML/Leaderboard.fxml", "Leaderboard");
+        navigateToPage(event, "HamzaFXML/Leaderboard.fxml", "Leaderboard");
     }
 
     /**
@@ -209,7 +225,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToGamesMenu(ActionEvent event) {
-        navigateToPage(event, "/HamzaFXML/GamesMenu.fxml", "Games Menu");
+        navigateToPage(event, "HamzaFXML/GamesMenu.fxml", "Games Menu");
     }
 
     /**
@@ -218,7 +234,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToUserTitles(ActionEvent event) {
-        navigateToPage(event, "/HamzaFXML/UserTitles.fxml", "User Titles");
+        navigateToPage(event, "HamzaFXML/UserTitles.fxml", "User Titles");
     }
 
     /**
