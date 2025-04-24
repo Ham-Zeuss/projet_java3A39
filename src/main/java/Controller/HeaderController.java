@@ -107,6 +107,20 @@ public class HeaderController {
                 System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
             }
 
+            URL StoreCards = getClass().getResource("/css/store-cards.css");
+            if (StoreCards != null) {
+                scene.getStylesheets().add(StoreCards.toExternalForm());
+            } else {
+                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
+            }
+
+            URL leaderboard = getClass().getResource("/css/leaderboard.css");
+            if (leaderboard != null) {
+                scene.getStylesheets().add(leaderboard.toExternalForm());
+            } else {
+                System.err.println("Error: UserTitlesStyle.css not found in resources at /css/store-cards.css");
+            }
+
             // Get the Stage
             Stage stage;
             if (event.getSource() instanceof MenuItem) {

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -10,20 +12,13 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text text="Store Items" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Text text="Store Items" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-font-family: 'Bubblegum Sans'; -fx-fill: #0a6375;"/>
 
-    <TableView fx:id="storeItemsTable" prefWidth="900.0">
-        <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0"/>
-            <TableColumn fx:id="titleColumn" text="Title" prefWidth="150.0"/>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150.0"/>
-            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="200.0"/>
-            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100.0"/>
-            <TableColumn fx:id="imageColumn" text="Image" prefWidth="150.0"/>
-            <TableColumn fx:id="stockColumn" text="Stock" prefWidth="100.0"/>
-            <TableColumn fx:id="buyColumn" text="Buy" prefWidth="150.0"/>
-        </columns>
-    </TableView>
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" pannable="true">
+        <content>
+            <GridPane fx:id="itemsGrid" hgap="30.0" vgap="30.0" alignment="CENTER"/>
+        </content>
+    </ScrollPane>
 
-    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red; -fx-font-family: 'Bubblegum Sans'; -fx-font-size: 14;"/>
 </VBox>

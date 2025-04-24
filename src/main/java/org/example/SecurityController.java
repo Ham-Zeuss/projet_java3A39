@@ -19,7 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.control.ScrollPane;
 import org.json.JSONArray;
-
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import javafx.scene.control.ScrollPane;
 import javax.swing.*;
 import java.io.File;
 import java.net.URL;
@@ -188,15 +190,19 @@ public class SecurityController {
             scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
             scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
             scene.getStylesheets().add(getClass().getResource("/navbar.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/store-cards.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/leaderboard.css").toExternalForm());
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(scene);
-            currentStage.setTitle("JavaFX Scrollable Window");
-            currentStage.setFullScreen(true);
-            currentStage.setWidth(1920);
-            currentStage.setHeight(1080);
-            currentStage.centerOnScreen();
-            currentStage.show();
+                            currentStage.setScene(scene);
+                            currentStage.setTitle("Home");
+                            currentStage.setWidth(1920); // Initial width
+                            currentStage.setHeight(1080); // Initial height
+                            currentStage.setResizable(true); // Allow resizing
+                            currentStage.setFullScreen(false); // Ensure not full-screen
+                            currentStage.centerOnScreen();
+                            currentStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,10 +216,10 @@ public class SecurityController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
+            currentStage.setTitle("Register");
+            currentStage.setResizable(true); // Allow resizing
+            currentStage.centerOnScreen();
             currentStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Erreur : " + e.getCause());
@@ -226,10 +232,10 @@ public class SecurityController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
+            currentStage.setTitle("Reset Password");
+            currentStage.setResizable(true); // Allow resizing
+            currentStage.centerOnScreen();
             currentStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Erreur : " + e.getCause());

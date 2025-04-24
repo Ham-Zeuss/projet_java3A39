@@ -7,10 +7,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+<<<<<<<< HEAD:src/main/java/test/Maryem/FXMLDoctorsFrontDisplayProfile.java
 
 import java.net.URL;
 
 public class FXMLDoctorsFrontDisplayProfile extends Application {
+========
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
+import java.net.URL;
+
+public class FXMLFrontDisplayProfile extends Application {
+>>>>>>>> hamza:src/main/java/test/Maryem/FXMLFrontDisplayProfile.java
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,7 +45,11 @@ public class FXMLDoctorsFrontDisplayProfile extends Application {
         mainContent.getChildren().add(headerWebView);
 
         // Load body (FrontDisplayProfiles.fxml)
+<<<<<<<< HEAD:src/main/java/test/Maryem/FXMLDoctorsFrontDisplayProfile.java
         FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/MaryemFXML/FrontDoctorsDisplayProfiles.fxml"));
+========
+        FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/MaryemFXML/FrontDisplayProfiles.fxml"));
+>>>>>>>> hamza:src/main/java/test/Maryem/FXMLFrontDisplayProfile.java
         VBox bodyContent = bodyLoader.load();
         bodyContent.setPrefHeight(600); // Adjusted to match previous scene height
         bodyContent.setMaxHeight(600);

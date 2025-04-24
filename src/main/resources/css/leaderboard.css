@@ -1,58 +1,147 @@
-.leaderboard-card {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-padding: 20;
+/* Base & Title */
+.leaderboard-title {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 36px;
+    -fx-text-fill: #ff4d4d;
+    -fx-padding: 0 0 20 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+}
+
+/* Top 3 Cards */
+.top3-card {
+    -fx-pref-width: 240px;
+    -fx-min-height: 320px;
+    -fx-padding: 15px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 4);
     -fx-alignment: center;
+    -fx-transition: all 0.3s ease;
+}
+
+.top3-card:hover {
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 0, 5);
+}
+
+/* #1 Card (Center, Taller) */
+.top3-card.gold-border {
+    -fx-pref-width: 260px;
+    -fx-min-height: 420px;
+    -fx-background-color: linear-gradient(to bottom, #ffe066, #ffaa00);
+    -fx-border-color: linear-gradient(to bottom, #ffffff, #ffd700);
+}
+
+/* #2 Card (Left, Silver) */
+.top3-card.silver-border {
+    -fx-background-color: linear-gradient(to bottom, #f0f0f0, #b0b0b0);
+    -fx-border-color: linear-gradient(to bottom, #ffffff, #c0c0c0);
+}
+
+/* #3 Card (Right, Bronze) */
+.top3-card.bronze-border {
+    -fx-background-color: linear-gradient(to bottom, #f4b084, #b85f2a);
+    -fx-border-color: linear-gradient(to bottom, #ffffff, #cd7f32);
+}
+
+.profile-image {
+    -fx-border-radius: 80%; /* Keep for fully circular border */
+    -fx-background-radius: 80%; /* Keep for fully circular image */
+    -fx-border-color: #ffffff; /* Keep white border */
+    -fx-border-width: 5px; /* Increased for bolder border */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 2); /* Increased blur radius for larger shadow */
+}
+
+.profile-image-small {
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 2px;
+}
+
+.top3-name {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+    -fx-padding: 12 0 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+.top3-score {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #222222;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0 0 0;
+}
+
+.top3-title {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #222222;
+    -fx-padding: 8 0 0 0;
+}
+
+.top3-message {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #222222;
+    -fx-padding: 12 0 0 0;
+    -fx-wrap-text: true;
+    -fx-alignment: center;
+}
+
+/* Ranks 4-10 Rows */
+.leaderboard-header-row {
+    -fx-padding: 10px 20px;
+    -fx-max-width: 850px;
+    -fx-alignment: center-left;
+    -fx-background-color: #4ecca3;
+    -fx-background-radius: 10px;
+}
+
+.header-label {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+}
+
+.leaderboard-row {
+    -fx-padding: 12px 20px;
+    -fx-background-color: #a8e6cf;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-max-width: 850px;
+    -fx-alignment: center-left;
     -fx-spacing: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
-    -fx-pref-width: 200;
-    -fx-pref-height: 250;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
 }
 
-.rank-1 {
-    -fx-border-color: #ffd700; /* Gold for 1st place */
-    -fx-border-width: 3;
-}
-
-.rank-2 {
-    -fx-border-color: #c0c0c0; /* Silver for 2nd place */
-    -fx-border-width: 2;
-}
-
-.rank-3 {
-    -fx-border-color: #cd7f32; /* Bronze for 3rd place */
-    -fx-border-width: 2;
-}
-
-.card-name {
-    -fx-font-size: 18;
+.row-name {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
 }
 
-.card-score {
-    -fx-font-size: 16;
-    -fx-text-fill: #555555;
+.row-data {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-alignment: center-left;
 }
 
-.card-title {
-    -fx-font-size: 14;
-    -fx-text-fill: #777777;
-}
-
-.card-message {
-    -fx-font-size: 14;
-    -fx-text-fill: #1e90ff;
-    -fx-font-style: italic;
-}
-
-.root {
-    -fx-background-color: #f4f4f4;
-}
-
-.error {
-    -fx-text-fill: red;
-    -fx-font-size: 16;
+/* Error Label */
+.error-label {
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ff4d4d;
+    -fx-padding: 20 0 0 0;
 }
