@@ -6,7 +6,9 @@ import service.Oumaima.QuizService;
 import service.Oumaima.CoursService;
 import entite.User; // Ajout pour utiliser la classe User
 import service.UserService; // Ajout pour utiliser UserService
-
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -144,19 +146,25 @@ public class addQuizcontroller {
     }
 
     private void sendEmail(Quiz quiz) {
-        final String fromEmail = "boulilaaaymen@gmail.com";
-        final String password = "mmob zcvd nuro hjwi";
+        final String fromEmail = "66damm.mmad66@gmail.com";
+        final String password = "jqne jfjy juag cxcu";
 
-        // Récupérer tous les utilisateurs et filtrer ceux avec le rôle ROLE_PARENT
-        List<User> allUsers = userService.getAllUsers();
+        // Retrieve all users using the new method and filter those with the ROLE_PARENT role
+        List<User> allUsers = userService.getAllUsersWithStringStatus(); // Updated method
         List<String> parentEmails = allUsers.stream()
-                .filter(user -> user.getRoles().contains("ROLE_PARENT"))
+                .filter(user -> {
+                    boolean hasRole = user.getRoles().contains("ROLE_PARENT");
+                    if (!hasRole) {
+                        System.out.println("User " + user.getEmail() + " does not have ROLE_PARENT. Roles: " + user.getRoles());
+                    }
+                    return hasRole;
+                })
                 .map(User::getEmail)
                 .collect(Collectors.toList());
 
         if (parentEmails.isEmpty()) {
-            System.out.println("Aucun utilisateur avec le rôle ROLE_PARENT trouvé.");
-            showAlert(Alert.AlertType.WARNING, "Avertissement", "Aucun utilisateur avec le rôle ROLE_PARENT trouvé pour recevoir l’email.");
+            System.out.println("No users with ROLE_PARENT found.");
+            showAlert(Alert.AlertType.WARNING, "Warning", "No users with ROLE_PARENT found to receive the email.");
             return;
         }
 
@@ -178,34 +186,40 @@ public class addQuizcontroller {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
 
-            // Ajouter tous les emails des parents comme destinataires (en BCC pour plus de confidentialité)
-            InternetAddress[] recipientAddresses = new InternetAddress[parentEmails.size()];
-            for (int i = 0; i < parentEmails.size(); i++) {
-                recipientAddresses[i] = new InternetAddress(parentEmails.get(i));
-            }
+            // Add all parent emails as BCC recipients
+            InternetAddress[] recipientAddresses = parentEmails.stream()
+                    .map(email -> {
+                        try {
+                            return new InternetAddress(email);
+                        } catch (AddressException e) {
+                            System.err.println("Invalid email address: " + email);
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .toArray(InternetAddress[]::new);
             message.setRecipients(Message.RecipientType.BCC, recipientAddresses);
 
-            message.setSubject("Nouveau Quiz Créé : " + quiz.getTitle());
-            message.setContent("<h2>Nouveau Quiz Créé</h2>" +
-                            "<p>Un nouveau quiz a été créé avec les détails suivants :</p>" +
+            message.setSubject("New Quiz Created: " + quiz.getTitle());
+            message.setContent("<h2>New Quiz Created</h2>" +
+                            "<p>A new quiz has been created with the following details:</p>" +
                             "<ul>" +
-                            "<li><b>Titre :</b> " + quiz.getTitle() + "</li>" +
-                            "<li><b>Description :</b> " + quiz.getDescription() + "</li>" +
-                            "<li><b>Durée :</b> " + quiz.getDuration() + " minutes</li>" +
-                            "<li><b>Cours :</b> " + quiz.getCourse().getTitle() + "</li>" +
-                            "<li><b>Date de création :</b> " + quiz.getCreatedAt() + "</li>" +
+                            "<li><b>Title:</b> " + quiz.getTitle() + "</li>" +
+                            "<li><b>Description:</b> " + quiz.getDescription() + "</li>" +
+                            "<li><b>Duration:</b> " + quiz.getDuration() + " minutes</li>" +
+                            "<li><b>Course:</b> " + quiz.getCourse().getTitle() + "</li>" +
+                            "<li><b>Created At:</b> " + quiz.getCreatedAt() + "</li>" +
                             "</ul>" +
-                            "<p>Cordialement,<br>L’équipe de gestion des quiz</p>",
+                            "<p>Best regards,<br>The Quiz Management Team</p>",
                     "text/html; charset=UTF-8");
 
             Transport.send(message);
-            System.out.println("Email envoyé avec succès à : " + String.join(", ", parentEmails));
+            System.out.println("Email sent successfully to: " + String.join(", ", parentEmails));
         } catch (MessagingException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.WARNING, "Avertissement", "Erreur lors de l’envoi de l’email : " + e.getMessage());
+            showAlert(Alert.AlertType.WARNING, "Warning", "Error sending email: " + e.getMessage());
         }
     }
-
     private void openAddQuestionInterface(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuestion.fxml"));

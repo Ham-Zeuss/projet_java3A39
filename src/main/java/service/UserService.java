@@ -478,6 +478,33 @@ public class UserService implements IService<User> {
         return users;
     }
 
+
+
+
+
+
+
+    public List<User> getAllUsersWithStringStatus() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user";
+
+        try (Statement stmt = cnx.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                users.add(mapResultSetToUseroumaima(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la récupération des utilisateurs: " + e.getMessage());
+        }
+
+        return users;
+    }
+
+
+
+
+
     public User getUserById(int id) {
         String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE id = ?";
 
@@ -597,23 +624,50 @@ public class UserService implements IService<User> {
         user.setPrenom(rs.getString("prenom"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password")); // Hashed password
-
-        // Gérer la colonne status de manière robuste
-        String statusValue = rs.getString("status"); // Lire comme String
-        boolean isActive;
-        if (statusValue == null || statusValue.isEmpty()) {
-            isActive = false; // Valeur par défaut si null ou vide
-        } else {
-            // Accepter "true", "1" comme true; sinon false
-            isActive = statusValue.equalsIgnoreCase("true") || statusValue.equals("1");
-        }
-        user.setActive(isActive);
-
+        user.setActive(rs.getBoolean("status"));
         String rolesJson = rs.getString("roles");
         user.setRolesFromJson(rolesJson);
 
         return user;
     }
+
+
+
+
+
+
+
+
+
+
+
+    private User mapResultSetToUseroumaima(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setNom(rs.getString("nom"));
+        user.setPrenom(rs.getString("prenom"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password")); // Hashed password
+
+        // Handle the status column robustly
+        String statusValue = rs.getString("status"); // Read as String
+        boolean isActive;
+        if (statusValue == null || statusValue.isEmpty()) {
+            isActive = false; // Default value if null or empty
+        } else {
+            // Accept "true", "1" as true; otherwise false
+            isActive = statusValue.equalsIgnoreCase("true") || statusValue.equals("1");
+        }
+        user.setActive(isActive);
+
+        String rolesJson = rs.getString("roles"); // Corrected from "roless" to "roles"
+        user.setRolesFromJson(rolesJson);
+
+        return user;
+    }
+
+
+
 
     public boolean emailExists(String email) {
         return getUserByEmail(email) != null;
