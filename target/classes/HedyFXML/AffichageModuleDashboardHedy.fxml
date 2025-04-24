@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?> <!-- Add this line -->
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.Hedy.Dahsboard.AffichageModuleDashboardController"
-            prefHeight="450.0" prefWidth="600.0"
-            style="-fx-background-color: #F4F7F6;"
-            stylesheets="@/css/DesignDashboardHedy.css">    <!-- TableView for displaying modules -->
-    <TableView fx:id="modulesTable" layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="580.0">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Hedy.Dahsboard.AffichageModuleDashboardController"
+      prefHeight="450.0" prefWidth="600.0"
+      spacing="10"
+      style="-fx-background-color: #F4F7F6;"
+      stylesheets="@/css/DesignDashboardHedy.css">
+
+    <!-- Title -->
+    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+        <Label text="Modules Dashboard" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    </HBox>
+
+    <!-- TableView for displaying modules -->
+    <TableView fx:id="modulesTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #ccc; -fx-border-radius: 5;">
         <columns>
             <!-- Title Column -->
             <TableColumn fx:id="titleColumn" text="Title" prefWidth="120.0" />
@@ -26,6 +37,8 @@
     </TableView>
 
     <!-- Button to Add a Module -->
-    <Button text="Add Module" layoutX="14.0" layoutY="440.0" onAction="#openAjoutPopup"/>
+    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+        <Button text="Add Module" onAction="#openAjoutPopup" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;" />
+    </HBox>
 
-</AnchorPane>
+</VBox>
