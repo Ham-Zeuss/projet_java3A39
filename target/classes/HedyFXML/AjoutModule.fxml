@@ -35,8 +35,9 @@
         </GridPane>
 
         <HBox spacing="20" alignment="CENTER">
-            <Button  text="Annuler" onAction="#saveModule" styleClass="button-Reinitialiser" />
-            <Button text="Enregistrer" onAction="#resetForm" styleClass="button-Enregistrer" />
+            <Button text="Reinitialiser" onAction="#resetForm" styleClass="button-Reinitialiser" />
+            <Button  text="Enregistrer" onAction="#saveModule" styleClass="button-Enregistrer" />
+
         </HBox>
     </VBox>
 </AnchorPane>
