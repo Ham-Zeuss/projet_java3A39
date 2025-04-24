@@ -138,21 +138,23 @@ public class ListPexelWordsController {
         }
     }
 
-    // Optional: Helper method for navigation (uncomment if adding sidebar in controller)
 
-    private void loadFXML(Stage stage, String fxmlPath) {
+
+    private void loadFXML(Stage stage, String fxmlPathh) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPathh));
             Parent fxmlContent = loader.load();
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #F7F7F7;");
             test.Sidebar sidebarCreator = new test.Sidebar();
             ScrollPane sidebar = sidebarCreator.createSidebar(
-                stage,
-                () -> loadFXML(stage, "/test/Dashboard.fxml"), // Adjust path
-                () -> loadFXML(stage, "/User/index_user.fxml"),
-                () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
-                () -> System.out.println("Logout clicked")
+                    stage,
+                    () -> loadFXML(stage, "/test/Dashboard.fxml"), // Dashboard action
+                    () -> loadFXML(stage, "/User/index_user.fxml"), // Utilisateurs action
+                    () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
+                    () -> System.out.println("Logout clicked"), // Logout action
+
+                    fxmlPath -> loadFXML(stage, fxmlPathh) // Consumer for loadFXML
             );
             root.setLeft(sidebar);
             root.setCenter(fxmlContent);

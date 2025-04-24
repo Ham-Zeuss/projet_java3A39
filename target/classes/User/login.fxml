@@ -104,7 +104,9 @@
                         <Font name="System Bold Italic" size="13.0" />
                     </font>
                 </Label>
-            <Hyperlink fx:id="inscritlink" layoutX="294.0" layoutY="454.0" onAction="#createAccountFormin" prefHeight="26.0" prefWidth="62.0" text="s'inscrire" textFill="#0a6375">
+
+            <Hyperlink fx:id="inscritlink" layoutX="294.0" layoutY="454.0" onAction="#createAccountFormin" prefHeight="26.0" prefWidth="79.0" text="s'inscrire" textFill="#0a6375">
+
                <font>
                   <Font name="Ebrima Bold" size="13.0" />
                </font>

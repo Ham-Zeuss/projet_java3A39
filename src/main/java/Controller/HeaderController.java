@@ -164,7 +164,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToPacks(ActionEvent event) {
-        navigateToPage(event, "/Boubaker/main.fxml", "Packs");
+        navigateToPage(event, "Boubaker/main.fxml", "Packs");
     }
 
     /**

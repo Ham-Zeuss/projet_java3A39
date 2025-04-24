@@ -73,7 +73,7 @@ public class Dashboard extends Application {
         stage.setScene(scene);
     }
 
-    private void loadFXML(Stage stage, String fxmlPath) {
+    void loadFXML(Stage stage, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane

@@ -58,7 +58,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar",
+    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/gson-2.10.1.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -204,7 +204,7 @@
       <workItem from="1745226744207" duration="760000" />
       <workItem from="1745227715877" duration="17863000" />
       <workItem from="1745258351102" duration="1564000" />
-      <workItem from="1745441844953" duration="8399000" />
+      <workItem from="1745441844953" duration="11674000" />
     </task>
     <servers />
   </component>
