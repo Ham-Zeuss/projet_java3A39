@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.Hedy.Dahsboard.AffichageModuleDashboardController"
+            prefHeight="450.0" prefWidth="600.0"
+            style="-fx-background-color: #F4F7F6;"
+            stylesheets="@/css/DesignDashboardHedy.css">    <!-- TableView for displaying modules -->
+    <TableView fx:id="modulesTable" layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="580.0">
+        <columns>
+            <!-- Title Column -->
+            <TableColumn fx:id="titleColumn" text="Title" prefWidth="120.0" />
+            <!-- Description Column -->
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="200.0" />
+            <!-- Courses Column -->
+            <TableColumn fx:id="coursesColumn" text="Courses" prefWidth="80.0" />
+            <!-- Level Column -->
+            <TableColumn fx:id="levelColumn" text="Level" prefWidth="80.0" />
+            <!-- Actions Column -->
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="180.0" />
+        </columns>
+    </TableView>
+
+    <!-- Button to Add a Module -->
+    <Button text="Add Module" layoutX="14.0" layoutY="440.0" onAction="#openAjoutPopup"/>
+
+</AnchorPane>

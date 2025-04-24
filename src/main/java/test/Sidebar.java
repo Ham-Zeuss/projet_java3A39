@@ -80,21 +80,12 @@ public class Sidebar {
         });
 
         // Application Section
-        Label appLabel = new Label("Medecins");
+        Label appLabel = new Label("Contenu");
         appLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         appLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
-        HBox chatBtn = createSidebarItem("Module", "module", stage, () -> loadFXML.accept("/HedyFXML/AffichageModule.fxml"));
-        // Pages Section
-        Label pagesLabel = new Label("Contenu");
-        pagesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        pagesLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
-        appLabel.setPadding(new Insets(20, 0, 5, 0));
-
-        HBox authBtn = createSidebarItem("Module", "module", stage, () -> {
-            System.out.println("Module clicked (no navigation implemented)");
-        });
+        HBox chatBtn = createSidebarItem("Module", "module", stage, () -> loadFXML.accept("/HedyFXML/AffichageModuleDashboardHedy.fxml"));
         HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> {
             System.out.println("Quiz clicked (no navigation implemented)");
         });
@@ -117,7 +108,7 @@ public class Sidebar {
         HBox logoutBtn = createSidebarItem("Logout", "logout", stage, pixelWordsAction);
 
         // Add buttons to tracking list
-        sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, authBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
+        sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
 
         // Spacer to push logout button to the bottom
         VBox spacer = new VBox();
@@ -127,7 +118,7 @@ public class Sidebar {
         sidebarContent.getChildren().addAll(
                 logoBox, menuLabel, dashboardBtn, analyticsBtn, ecommerceBtn,
                 appLabel, chatBtn,
-                pagesLabel, authBtn, utilityBtn,
+                utilityBtn,
                 elementsLabel, storeBtn, titlesBtn, pixelWordsBtn,
                 spacer, logoutBtn
         );

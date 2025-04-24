@@ -1,10 +1,7 @@
-package Controller.Hedy;
+package Controller.Hedy.Dahsboard;
 
 import entite.Module;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.ModuleService;
@@ -20,21 +17,26 @@ public class EditModuleController {
     private Module moduleToEdit;
     private final ModuleService moduleService = new ModuleService();
 
+    // Method to set the module to edit
     public void setModuleToEdit(Module module) {
         this.moduleToEdit = module;
-        titleField.setText(module.getTitle());
-        descriptionField.setText(module.getDescription());
-        nombreCoursField.setText(String.valueOf(module.getNombreCours()));
-        levelField.setText(module.getLevel());
+        if (module != null) {
+            titleField.setText(module.getTitle());
+            descriptionField.setText(module.getDescription());
+            nombreCoursField.setText(String.valueOf(module.getNombreCours()));
+            levelField.setText(module.getLevel());
+
+            // Disable the 'nombreCoursField' as it should not be edited
+            nombreCoursField.setDisable(true); // Disable the field
+        }
     }
 
     @FXML
     private void saveChanges() {
         try {
-            // Validate inputs
+            // Validate inputs (skip validation for nombreCoursField)
             String title = titleField.getText().trim();
             String description = descriptionField.getText().trim();
-            String nombreCoursText = nombreCoursField.getText().trim();
             String level = levelField.getText().trim();
 
             if (title.isEmpty()) {
@@ -47,22 +49,13 @@ public class EditModuleController {
                 return;
             }
 
-            int nombreCours;
-            try {
-                nombreCours = Integer.parseInt(nombreCoursText);
-                if (nombreCours <= 0) {
-                    showAlert(AlertType.ERROR, "Erreur de saisie", "Le nombre de cours doit être un nombre positif.");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                showAlert(AlertType.ERROR, "Erreur de saisie", "Le nombre de cours doit être un nombre valide.");
-                return;
-            }
-
             if (level.isEmpty()) {
                 showAlert(AlertType.ERROR, "Erreur de saisie", "Le niveau ne peut pas être vide.");
                 return;
             }
+
+            // Get nombreCours directly from moduleToEdit (no need to parse it)
+            int nombreCours = moduleToEdit.getNombreCours(); // We use the original value
 
             // Update the module object
             moduleToEdit.setTitle(title);
@@ -76,28 +69,25 @@ public class EditModuleController {
             // Show success message
             showAlert(AlertType.INFORMATION, "Succès", "Le module a été modifié avec succès!");
 
-            // Return to table view
-            returnToTable();
+            // Close the popup
+            closePopup();
 
         } catch (Exception e) {
             showAlert(AlertType.ERROR, "Erreur inattendue", "Une erreur s'est produite lors de la modification du module: " + e.getMessage());
         }
     }
 
-
     @FXML
-    private void returnToTable() {
-        try {
-            // Use correct path to your affichagemodule.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/HedyFXML/AffichageModule.fxml"));
-            Stage stage = (Stage) titleField.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Liste des Modules");
-        } catch (Exception e) {
-            System.out.println("Erreur lors du retour à la liste: " + e.getMessage());
-            e.printStackTrace();
-        }
+    private void cancel() {
+        closePopup();
     }
+
+    // Helper method to close the popup
+    private void closePopup() {
+        Stage stage = (Stage) titleField.getScene().getWindow();
+        stage.close();
+    }
+
     // Helper method to show alerts
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);

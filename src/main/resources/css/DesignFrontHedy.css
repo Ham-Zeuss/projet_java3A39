@@ -1,0 +1,53 @@
+/* General popup styling */
+.popup-container {
+    -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 10, 0);
+}
+
+/* TextField Styling */
+.text-field {
+    -fx-background-color: #F4F7FA;
+    -fx-border-color: #D1D1D1;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+/* General Button Style */
+.button {
+    -fx-font-size: 13px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 4, 0, 0, 2);
+}
+
+/* Modifier (Save) Button */
+.button-Enregistrer {
+    -fx-background-color: linear-gradient(#6EC1E4, #3498db);
+}
+
+/* Supprimer (Reset) Button */
+.button-Reinitialiser {
+    -fx-background-color: linear-gradient(#F75E5E, #e74c3c);
+}
+
+/* Hover Effects */
+.button-Enregistrer:hover {
+    -fx-background-color: #3498db;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.button-Reinitialiser:hover {
+    -fx-background-color: #e74c3c;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+

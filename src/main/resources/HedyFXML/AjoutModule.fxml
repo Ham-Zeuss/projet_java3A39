@@ -6,34 +6,37 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.Hedy.AjoutModuleController"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="Controller.Hedy.Dahsboard.AjoutModuleController"
+            prefHeight="450.0" prefWidth="600.0"
+            style="-fx-background-color: #F4F7F6;"
+            stylesheets="@/css/DesignFrontHedy.css">
 
-    <VBox alignment="CENTER" spacing="20" prefWidth="600" prefHeight="400">
-        <Label text="Ajouter un Module" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <VBox alignment="CENTER" spacing="20" prefWidth="600" prefHeight="450">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <Label text="Ajouter un Module" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333;" />
 
         <GridPane hgap="10" vgap="10">
-            <!-- Correctly define padding using Insets -->
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField fx:id="titleField" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-border-color: #ccc;" />
 
-            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-            <TextField fx:id="titleField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField fx:id="descriptionField" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-border-color: #ccc;" />
 
-            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-            <TextField fx:id="descriptionField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            <Label text="Nombre de Cours:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField fx:id="nombreCoursField" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-border-color: #ccc;" />
 
-            <Label text="Nombre de Cours:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-            <TextField fx:id="nombreCoursField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-            <Label text="Niveau:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-            <TextField fx:id="levelField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+            <Label text="Niveau:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField fx:id="levelField" GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-border-color: #ccc;" />
         </GridPane>
 
-        <HBox spacing="10">
-            <Button text="Enregistrer" onAction="#saveModule" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
-            <Button text="Réinitialiser" onAction="#resetForm" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+        <HBox spacing="20" alignment="CENTER">
+            <Button  text="Annuler" onAction="#saveModule" styleClass="button-Reinitialiser" />
+            <Button text="Enregistrer" onAction="#resetForm" styleClass="button-Enregistrer" />
         </HBox>
     </VBox>
 </AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.Hedy.Dahsboard.AffichageCoursDashboardHedy"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Title Field -->
+    <TextField fx:id="titleField" layoutX="100" layoutY="50" promptText="Enter course title" />
+
+    <!-- PDF Name Field -->
+    <TextField fx:id="pdfNameField" layoutX="100" layoutY="100" promptText="Enter PDF file name" />
+
+    <!-- Save Button -->
+    <Button fx:id="saveButton" text="Save" layoutX="100" layoutY="150" />
+
+    <!-- Optional Label for status or error messages -->
+    <Label fx:id="statusLabel" layoutX="100" layoutY="200" textFill="red"/>
+
+</AnchorPane>
