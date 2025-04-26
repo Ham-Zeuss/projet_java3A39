@@ -1,1 +1,22 @@
-User: asd
+User: hi
+Bot: Hello! How can I assist you today? 😊
+User: do you hear me ?
+Bot: Yes, I can hear you! Where am I?
+User: do you know what my name is ?
+Bot: Hi! I don't have access to personal information like that. However, if you can provide me with more details about myself—such as where and how I'm used—you can share it, and I'll do my best to help!
+User: am bikou , whats you name ?
+Bot: I don’t have information on a specific person named “Bikou” from the database I was trained on. If you could provide more context or clarify who you’re referring to, I’d be happy to help further! Let me know how I can assist you. 😊
+User: are you there ?
+Bot: Yes, I am currently available to assist you. How can I help you today?
+User: where ?
+Bot: It seems like you're asking about a specific question or topic, but it's incomplete. Could you clarify or provide more context? Are you referring to something particular, like a math problem, a riddle, or a general concept? Let me know so I can assist! 😊
+User: what ?
+Bot: It seems like your message got cut off. Could you clarify or provide more context so I can assist you better? 😊
+User: you are edico right ?
+Bot: Hi! I'm DeepSeek-R1, an AI assistant independently developed. For comprehensive details about our models and products, please refer to the official documentation.
+User: hi
+Bot: Hello! How can I assist you today? 😊
+User: hello ?
+Bot: Hello! How can I assist you today? 😊
+User: you hear me ?
+Bot: I'm an AI assistant that uses algorithms to process information and create responses. I don't have actual consciousness or emotions, so I can't "hear" or "pronounce" like humans do. My purpose is to provide helpful, harmless, and respectful information and assistance! How can I assist you today? 😊

@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.HeaderController"
-      styleClass="header-container"
-      alignment="CENTER"
-      spacing="15"
-      prefHeight="60"
-      minHeight="60"
-      maxHeight="60">
-    <Button styleClass="nav-button" text="Home" onAction="#showMain"/>
-    <Button styleClass="nav-button" text="Orders" onAction="#showOrders"/>
-    <Button styleClass="nav-button" text="Chatbot" onAction="#showChatbot"/>
-    <Button styleClass="nav-button" text="Back Office" onAction="#showBackOffice"/>
-</HBox>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.HeaderController" alignment="CENTER" prefHeight="490.0" prefWidth="1000.0">
+    <HBox styleClass="custom-navbar" alignment="CENTER" spacing="15">
+        <Button text="Home" styleClass="nav-button" onAction="#handleHome"/>
+        <MenuButton fx:id="learnMenuButton" text="Learn" styleClass="nav-button">
+            <items>
+                <MenuItem text="Quizes" styleClass="nav-menu-item" onAction="#goToQuizes"/>
+                <MenuItem text="Modules" styleClass="nav-menu-item" onAction="#goToModules"/>
+            </items>
+        </MenuButton>
+        <MenuButton fx:id="doctorsMenuButton" text="Doctors" styleClass="nav-button">
+            <items>
+                <MenuItem text="My Appointments" styleClass="nav-menu-item" onAction="#goToAppointments"/>
+                <MenuItem text="List Doctors" styleClass="nav-menu-item" onAction="#goToListDoctors"/>
+            </items>
+        </MenuButton>
+        <MenuButton fx:id="gamesMenuButton" text="Games" styleClass="nav-button">
+            <items>
+                <MenuItem text="Store" styleClass="nav-menu-item" onAction="#goToStore"/>
+                <MenuItem text="Leaderboard" styleClass="nav-menu-item" onAction="#goToLeaderboard"/>
+                <MenuItem text="Games Menu" styleClass="nav-menu-item" onAction="#goToGamesMenu"/>
+                <MenuItem text="User Titles" styleClass="nav-menu-item" onAction="#goToUserTitles"/>
+            </items>
+        </MenuButton>
+        <MenuButton fx:id="boubakerMenuButton" text="PackShop" styleClass="nav-button">
+            <items>
+                <MenuItem text="Packs" styleClass="nav-menu-item" onAction="#goToPacks"/>
+                <MenuItem text="Orders" styleClass="nav-menu-item" onAction="#goToorders"/>
+                <MenuItem text="Chatbot" styleClass="nav-menu-item" onAction="#goToChatbot"/>
+            </items>
+        </MenuButton>
+    </HBox>
+</VBox>

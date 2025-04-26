@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?> <!-- Ajout de l'importation -->
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.Maryem.UpdateProfileController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text text="Update Profile" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <Label text="Biography:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextArea fx:id="biographyField" prefWidth="300.0" prefHeight="100.0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Specialty:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="specialtyComboBox" prefWidth="300.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/> <!-- Remplacement du TextField -->
+
+        <Label text="Resources (PDF Path):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="resourcesField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Consultation Price:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="priceField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Latitude:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="latitudeField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Longitude:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="longitudeField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button fx:id="saveButton" text="Save" onAction="#saveProfile"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel"/>
+    </HBox>
+
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+</VBox>

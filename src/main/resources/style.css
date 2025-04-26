@@ -1,3 +1,51 @@
+/* ========= GENERAL ========= */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f9f9fb;
+}
+
+/* ========= CARDS ========= */
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+}
+
+/* ========= TITRES & TEXTES ========= */
+.title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937; /* Gris foncé */
+}
+
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #021255;
+    -fx-font-weight: bold;
+}
+
+
+.text-success {
+    -fx-text-fill: #10b981;
+}
+
+.text-info {
+    -fx-text-fill: #0ea5e9;
+}
+
+.text-warning {
+    -fx-text-fill: #eab308;
+}
+
+/* ========= BOUTONS ========= */
+.button {
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
 /* Root Styles */
 .root {
     -fx-font-family: "Arial";
@@ -22,6 +70,141 @@
     -fx-background-color: #ff6f91;
     -fx-text-fill: white;
     -fx-cursor: hand;
+}
+
+/* Boutons personnalisés */
+.btn-primary {
+    -fx-background-color: #6366f1; /* Violet clair */
+}
+
+.btn-warning {
+    -fx-background-color: #facc15; /* Jaune citron */
+    -fx-text-fill: #111827;
+}
+
+.btn-success {
+    -fx-background-color: #22c55e;
+}
+
+.btn-info {
+    -fx-background-color: #38bdf8;
+}
+
+.button:hover {
+    -fx-opacity: 0.85;
+}
+
+/* ========= BADGES / ÉTIQUETTES ========= */
+.badge {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 10px;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #111827;
+}
+
+/* Exemples de couleurs */
+.badge-success {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #065f46;
+}
+
+.badge-warning {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
+}
+
+.badge-danger {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #991b1b;
+}
+
+/* ========= TABLE ========= */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 6px;
+    -fx-table-cell-border-color: #f3f4f6;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f9fafb;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+}
+
+/* ========= FORMULAIRES ========= */
+.text-field, .password-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 6px;
+    -fx-padding: 8px;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #6366f1;
+}
+
+/* ========= ERREURS ========= */
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ========= ICONES ========= */
+.icon {
+    -fx-fill: #6b7280;
+    -fx-size: 18px;
+}
+
+.btn-primary {
+    -fx-background-color: #a78bfa; /* Couleur violette utilisée pour "Afficher" */
+    -fx-text-fill: white;
+}
+
+.btn-warning {
+    -fx-background-color: #e9e85c; /* Jaune clair utilisé pour "Modifier" */
+    -fx-text-fill: #1f2937;
+}
+
+.btn-success {
+    -fx-background-color: #d1fae5; /* Fond vert pâle utilisé pour badge "Actif" */
+    -fx-text-fill: #065f46;
+}
+
+.btn-danger {
+    -fx-background-color: #fee2e2; /* Fond rouge pâle utilisé pour badge "Désactivé" */
+    -fx-text-fill: #991b1b;
+}
+
+.btn-secondary {
+    -fx-background-color: #f3f4f6; /* Gris clair, pour un style neutre par exemple */
+    -fx-text-fill: #374151;
+}
+
+
+.btn-primary:hover {
+    -fx-background-color: #8b5cf6;
+}
+
+.btn-warning:hover {
+    -fx-background-color: #fde047;
+}
+
+.btn-success:hover {
+    -fx-background-color: #e9e85c;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #fca5a5;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #e5e7eb;
 }
 
 /* Main Container */
