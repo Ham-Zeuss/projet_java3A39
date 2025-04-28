@@ -9,13 +9,5 @@
         <module name="projet_java_gestion_evaluation" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ProjetPiDev3A39" target="22" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="projet_java_gestion_evaluation" options="" />
-    </option>
   </component>
 </project>

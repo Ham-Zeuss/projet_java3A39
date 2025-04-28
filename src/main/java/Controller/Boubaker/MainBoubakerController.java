@@ -32,7 +32,7 @@ public class MainBoubakerController {
         Text title = new Text("Our Packs");
         title.getStyleClass().add("main-title");
 
-        HBox packContainer = new HBox();
+        VBox packContainer = new VBox();
         packContainer.getStyleClass().add("pack-container");
         packContainer.setAlignment(Pos.CENTER);
         packContainer.setSpacing(40);

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Boubaker.MainBoubakerController"
+      styleClass="main-container"
+      alignment="TOP_CENTER"
+      spacing="30"
+      prefWidth="800">
+    <Text styleClass="main-title" text="Our Packs"/>
+    <HBox styleClass="pack-container" alignment="CENTER" spacing="40">
+        <VBox fx:id="basicCard" styleClass="pack-card">
+            <Text styleClass="pack-name" text="Basic Pack"/>
+            <Text styleClass="pack-price" text="$29.99"/>
+            <Text styleClass="pack-features" text="Essential Features"/>
+
+        </VBox>
+        <VBox fx:id="premiumCard" styleClass="pack-card premium-card">
+            <Text styleClass="pack-name premium-title" text="Premium Pack"/>
+            <Text styleClass="pack-price" text="$59.99"/>
+            <Text styleClass="pack-features" text="Advanced Features"/>
+            <Button styleClass="order-button" text="Order Now"/>
+        </VBox>
+    </HBox>
+</VBox>

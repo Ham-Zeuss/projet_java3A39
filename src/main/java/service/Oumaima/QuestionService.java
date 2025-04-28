@@ -17,6 +17,14 @@ public class QuestionService implements IService<Question> {
     private ResultSet rs;
     private QuizService quizService;
 
+
+    @Override
+    public void createPst(Question question){
+
+    }
+
+
+
     public QuestionService() {
         cnx = DataSource.getInstance().getConnection();
         if (cnx == null) {
@@ -33,10 +41,7 @@ public class QuestionService implements IService<Question> {
         quizService = new QuizService();
     }
 
-    @Override
-    public void createPst(Question question) {
-        // Méthode vide dans votre code initial
-    }
+
 
     @Override
     public void create(Question question) {

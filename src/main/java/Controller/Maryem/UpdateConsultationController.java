@@ -1,21 +1,21 @@
 package Controller.Maryem;
 
 import entite.Consultation;
-import entite.User;
 import entite.Profile;
-import javafx.collections.FXCollections;
+import entite.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import service.ConsultationService;
-import service.UserService;
 import service.ProfileService;
+import service.UserService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.time.format.DateTimeParseException;
 
 public class UpdateConsultationController {
 
@@ -46,126 +46,143 @@ public class UpdateConsultationController {
     private ConsultationService consultationService;
     private UserService userService;
     private ProfileService profileService;
-    private Consultation consultationToUpdate;
+    private Consultation consultation;
     private DisplayConsultationsController parentController;
 
     public void setConsultation(Consultation consultation, DisplayConsultationsController parentController) {
-        this.consultationToUpdate = consultation;
+        this.consultation = consultation;
         this.parentController = parentController;
-        this.consultationService = new ConsultationService();
-        this.userService = new UserService();
-        this.profileService = new ProfileService();
+        initialize();
+    }
 
-        // Populate ComboBoxes
-        List<User> users = userService.readAll();
-        userComboBox.setItems(FXCollections.observableArrayList(users));
-        userComboBox.setCellFactory(lv -> new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                setText(empty || user == null ? "" : user.getPrenom() + " " + user.getNom());
-            }
-        });
-        userComboBox.setButtonCell(new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                setText(empty || user == null ? "" : user.getPrenom() + " " + user.getNom());
-            }
-        });
-        userComboBox.setValue(consultation.getUserId());
+    private void initialize() {
+        try {
+            consultationService = new ConsultationService();
+            userService = new UserService();
+            profileService = new ProfileService();
 
-        List<Profile> profiles = profileService.readAll();
-        profileComboBox.setItems(FXCollections.observableArrayList(profiles));
-        profileComboBox.setCellFactory(lv -> new ListCell<Profile>() {
-            @Override
-            protected void updateItem(Profile profile, boolean empty) {
-                super.updateItem(profile, empty);
-                setText(empty || profile == null ? "" :
-                        (profile.getUserId() != null ? profile.getUserId().getPrenom() + " " + profile.getUserId().getNom() : "Unknown") +
-                                " (" + profile.getSpecialite() + ")");
-            }
-        });
-        profileComboBox.setButtonCell(new ListCell<Profile>() {
-            @Override
-            protected void updateItem(Profile profile, boolean empty) {
-                super.updateItem(profile, empty);
-                setText(empty || profile == null ? "" :
-                        (profile.getUserId() != null ? profile.getUserId().getPrenom() + " " + profile.getUserId().getNom() : "Unknown") +
-                                " (" + profile.getSpecialite() + ")");
-            }
-        });
-        profileComboBox.setValue(consultation.getProfileId());
+            // Populate userComboBox
+            userComboBox.getItems().setAll(userService.readAll());
+            userComboBox.setCellFactory(lv -> new ListCell<User>() {
+                @Override
+                protected void updateItem(User user, boolean empty) {
+                    super.updateItem(user, empty);
+                    setText(empty || user == null ? null : user.getPrenom() + " " + user.getNom());
+                }
+            });
+            userComboBox.setConverter(new StringConverter<User>() {
+                @Override
+                public String toString(User user) {
+                    return user == null ? null : user.getPrenom() + " " + user.getNom();
+                }
+                @Override
+                public User fromString(String string) {
+                    return null;
+                }
+            });
 
-        // Pre-fill fields
-        LocalDateTime consultationDate = consultation.getConsultationDate();
-        if (consultationDate != null) {
-            consultationDatePicker.setValue(consultationDate.toLocalDate());
-            consultationTimeField.setText(consultationDate.format(DateTimeFormatter.ofPattern("HH:mm")));
-        } else {
-            consultationDatePicker.setValue(LocalDate.now());
-            consultationTimeField.setText("09:00");
+            // Populate profileComboBox
+            profileComboBox.getItems().setAll(profileService.readAll());
+            profileComboBox.setCellFactory(lv -> new ListCell<Profile>() {
+                @Override
+                protected void updateItem(Profile profile, boolean empty) {
+                    super.updateItem(profile, empty);
+                    if (empty || profile == null) {
+                        setText(null);
+                    } else {
+                        User user = profile.getUserId();
+                        String name = (user.getNom() != null ? user.getNom() : "") + " " +
+                                (user.getPrenom() != null ? user.getPrenom() : "");
+                        setText(name.trim().isEmpty() ? "Unknown" : name.trim());
+                    }
+                }
+            });
+            profileComboBox.setConverter(new StringConverter<Profile>() {
+                @Override
+                public String toString(Profile profile) {
+                    if (profile == null) return null;
+                    User user = profile.getUserId();
+                    String name = (user.getNom() != null ? user.getNom() : "") + " " +
+                            (user.getPrenom() != null ? user.getPrenom() : "");
+                    return name.trim().isEmpty() ? "Unknown" : name.trim();
+                }
+                @Override
+                public Profile fromString(String string) {
+                    return null;
+                }
+            });
+
+            // Pre-populate fields
+            userComboBox.setValue(consultation.getUserId());
+            profileComboBox.setValue(consultation.getProfileId());
+            consultationDatePicker.setValue(consultation.getConsultationDate().toLocalDate());
+            consultationTimeField.setText(consultation.getConsultationDate().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            isCompletedCheckBox.setSelected(consultation.isCompleted());
+
+            consultationTimeField.setPromptText("HH:mm (e.g., 14:30)");
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorLabel.setText("Error initializing form: " + e.getMessage());
         }
-        isCompletedCheckBox.setSelected(consultation.isCompleted());
     }
 
     @FXML
     private void saveConsultation() {
         try {
-            // Validation
-            if (userComboBox.getValue() == null) {
-                errorLabel.setText("User is required.");
+            User selectedUser = userComboBox.getValue();
+            Profile selectedProfile = profileComboBox.getValue();
+            LocalDate consultationDate = consultationDatePicker.getValue();
+            String timeText = consultationTimeField.getText();
+
+            if (selectedUser == null || selectedProfile == null || consultationDate == null || timeText.isEmpty()) {
+                errorLabel.setText("All fields are required.");
                 return;
             }
-            if (profileComboBox.getValue() == null) {
-                errorLabel.setText("Profile is required.");
+
+            if (consultationDate.isBefore(LocalDate.now())) {
+                errorLabel.setText("Consultation date must be in the future.");
                 return;
             }
-            if (consultationDatePicker.getValue() == null) {
-                errorLabel.setText("Consultation date is required.");
-                return;
-            }
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime consultationTime;
             try {
-                consultationTime = LocalTime.parse(consultationTimeField.getText(), DateTimeFormatter.ofPattern("HH:mm"));
-            } catch (Exception e) {
-                errorLabel.setText("Invalid time format (use HH:mm).");
+                consultationTime = LocalTime.parse(timeText, timeFormatter);
+            } catch (DateTimeParseException e) {
+                errorLabel.setText("Invalid time format. Use HH:mm (e.g., 14:30).");
                 return;
             }
 
-            // Validate time is between 09:00 and 17:00
-            LocalTime startTime = LocalTime.of(9, 0);
-            LocalTime endTime = LocalTime.of(17, 0);
-            if (consultationTime.isBefore(startTime) || consultationTime.isAfter(endTime)) {
-                errorLabel.setText("Consultation time must be between 09:00 and 17:00.");
+            LocalDateTime consultationDateTime = consultationDate.atTime(consultationTime);
+
+            // Check for conflict, excluding the current consultation
+            if (consultationService.checkForConflict(selectedProfile.getId(), consultationDateTime) &&
+                    !consultationDateTime.equals(consultation.getConsultationDate())) {
+                errorLabel.setText("⏰ This time slot is already booked. Please choose another time.");
                 return;
             }
 
-            // Combine date and time
-            LocalDateTime consultationDateTime = LocalDateTime.of(consultationDatePicker.getValue(), consultationTime);
+            consultation.setUserId(selectedUser);
+            consultation.setProfileId(selectedProfile);
+            consultation.setConsultationDate(consultationDateTime);
+            consultation.setCompleted(isCompletedCheckBox.isSelected());
 
-            // Validate that consultation date is strictly after current date and time
-            LocalDateTime now = LocalDateTime.now();
-            if (!consultationDateTime.isAfter(now)) {
-                errorLabel.setText("Consultation date and time must be after the current date and time.");
-                return;
-            }
+            consultationService.update(consultation);
+            errorLabel.setText("✅ Consultation updated successfully.");
 
-            // Update consultation
-            consultationToUpdate.setUserId(userComboBox.getValue());
-            consultationToUpdate.setProfileId(profileComboBox.getValue());
-            consultationToUpdate.setConsultationDate(consultationDateTime);
-            consultationToUpdate.setCompleted(isCompletedCheckBox.isSelected());
-
-            // Save to database
-            consultationService.update(consultationToUpdate);
-
-            // Refresh parent table
             parentController.refreshTable();
 
-            // Close window
-            Stage stage = (Stage) saveButton.getScene().getWindow();
-            stage.close();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                    javafx.application.Platform.runLater(() -> {
+                        Stage stage = (Stage) saveButton.getScene().getWindow();
+                        stage.close();
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
 
         } catch (Exception e) {
             e.printStackTrace();

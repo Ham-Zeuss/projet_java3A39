@@ -35,8 +35,8 @@ public class Dashboard extends Application {
                 () -> loadDashboard(primaryStage), // Dashboard action
                 () -> loadFXML(primaryStage, "/User/index_user.fxml"), // Utilisateurs action
                 () -> loadFXML(primaryStage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
-                () -> System.out.println("Logout clicked (implement logout logic here)"), // Logout action
-                loadFXMLConsumer // Pass the Consumer<String>
+                () -> System.out.println("Logout clicked (implement logout logic here)") ,// Logout action
+        (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
         );
 
         // Main layout
@@ -44,6 +44,7 @@ public class Dashboard extends Application {
         root.setStyle("-fx-background-color: #F7F7F7;");
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         // Scene and stage
         Scene scene = new Scene(root, 1000, 600);
@@ -67,18 +68,19 @@ public class Dashboard extends Application {
                 () -> loadFXML(stage, "/User/index_user.fxml"),
                 () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                 () -> System.out.println("Logout clicked (implement logout logic here)"),
-                loadFXMLConsumer // Pass the Consumer<String>
+        (fxmlPath) -> loadFXML(stage, fxmlPath)
         );
 
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
     }
 
-    private void loadFXML(Stage stage, String fxmlPath) {
+    void loadFXML(Stage stage, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
@@ -96,11 +98,12 @@ public class Dashboard extends Application {
                     () -> loadFXML(stage, "/User/index_user.fxml"),
                     () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                     () -> System.out.println("Logout clicked (implement logout logic here)"),
-                    loadFXMLConsumer // Pass the Consumer<String>
+            (fxmlPathInner) -> loadFXML(stage, fxmlPathInner)
             );
 
             root.setLeft(sidebar);
             root.setCenter(fxmlContent); // Set the loaded FXML content as center
+            root.setUserData(this); // Set userData to this Dashboard instance
 
             Scene scene = new Scene(root, 1000, 600);
             scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());

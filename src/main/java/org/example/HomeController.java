@@ -32,8 +32,9 @@ public class HomeController {
             Stage currentStage = (Stage) welcomeLabel.getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
-            currentStage.sizeToScene();
-            currentStage.setResizable(false);
+            currentStage.setTitle("Login");
+            currentStage.setResizable(true); // Allow resizing
+            currentStage.centerOnScreen();
             currentStage.show();
         } catch (Exception e) {
             e.printStackTrace();

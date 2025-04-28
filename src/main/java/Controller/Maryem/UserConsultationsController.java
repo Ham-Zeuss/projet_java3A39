@@ -2,6 +2,7 @@ package Controller.Maryem;
 
 import entite.Consultation;
 import entite.Profile;
+import entite.Session;
 import entite.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,11 +30,18 @@ public class UserConsultationsController {
 
     @FXML
     public void initialize() {
+        System.out.println("Entering UserConsultationsController.initialize");
         consultationService = new ConsultationService();
 
         try {
-            // Get the current user's ID (replace with your actual method to get the user ID)
-            int userId = getCurrentUserId();
+            // Get the current user's ID from Session
+            Session session = Session.getInstance();
+            if (!session.isActive()) {
+                appointmentsList.getChildren().add(new Label("No active session. Please log in."));
+                return;
+            }
+            int userId = session.getUserId();
+            System.out.println("Fetching consultations for user ID: " + userId);
 
             // Load the user's consultations
             var consultations = consultationService.readByUserId(userId);
@@ -50,19 +58,22 @@ public class UserConsultationsController {
             for (Consultation consultation : consultations) {
                 // Fetch profile and user details
                 Profile profile = consultation.getProfileId();
-                User profileUser = profile.getUserId();
-                String profileName = (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
-                        (profileUser.getPrenom() != null ? profileUser.getPrenom() : "");
+                User profileUser = profile != null ? profile.getUserId() : null;
+                String profileName = profileUser != null ?
+                        (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
+                                (profileUser.getPrenom() != null ? profileUser.getPrenom() : "") : "Unknown";
 
                 // Format date and time from LocalDateTime
-                String date = consultation.getConsultationDate().format(dateFormatter);
-                String time = consultation.getConsultationDate().format(timeFormatter);
+                String date = consultation.getConsultationDate() != null ?
+                        consultation.getConsultationDate().format(dateFormatter) : "N/A";
+                String time = consultation.getConsultationDate() != null ?
+                        consultation.getConsultationDate().format(timeFormatter) : "N/A";
 
                 // Format the appointment details with emojis/icons
                 String appointmentText = String.format("📅 Date: %s, ⏰ Time: %s, 👤 Profile: %s, %s Completed: %s",
                         date,
                         time,
-                        profileName.trim(),
+                        profileName.trim().isEmpty() ? "Unknown" : profileName.trim(),
                         consultation.isCompleted() ? "✅" : "❌",
                         consultation.isCompleted() ? "Yes" : "No");
 
@@ -92,19 +103,12 @@ public class UserConsultationsController {
             e.printStackTrace();
             appointmentsList.getChildren().add(new Label("Error loading appointments: " + e.getMessage()));
         }
+        System.out.println("Exiting UserConsultationsController.initialize");
     }
 
     @FXML
     private void close() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-    }
-
-    // Placeholder method to get the current user's ID
-    private int getCurrentUserId() {
-        // Replace this with your actual method to get the current user's ID
-        // For example, using a SessionManager or a global state
-        // return SessionManager.getCurrentUserId();
-        return 1; // Temporary hardcoded value for demonstration; replace with actual user ID
     }
 }

@@ -118,19 +118,46 @@
     -fx-background-color: #218838;
 }
 
-
+.update-button {
+    -fx-background-color: #007bff; /* Bleu pour modifier */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
 
 .update-button:hover {
     -fx-background-color: #0056b3;
 }
 
-
+.delete-button {
+    -fx-background-color: #dc3545; /* Rouge pour supprimer */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
 
 .delete-button:hover {
     -fx-background-color: #c82333;
 }
 
-
+.view-button {
+    -fx-background-color: #17a2b8; /* Cyan pour voir les questions */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
 
 .view-button:hover {
     -fx-background-color: #138496;
@@ -201,6 +228,7 @@
     -fx-font-weight: bold;
     -fx-text-fill: #2d3748;
 }
+
 
 
 
@@ -295,3 +323,4 @@
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
 }
+
