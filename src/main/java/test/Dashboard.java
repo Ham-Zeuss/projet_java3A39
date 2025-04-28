@@ -17,6 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class Dashboard extends Application {
 
@@ -24,6 +25,9 @@ public class Dashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(primaryStage, fxmlPath);
+
         // Create sidebar
         Sidebar sidebarCreator = new Sidebar();
         ScrollPane sidebar = sidebarCreator.createSidebar(
@@ -40,6 +44,7 @@ public class Dashboard extends Application {
         root.setStyle("-fx-background-color: #F7F7F7;");
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         // Scene and stage
         Scene scene = new Scene(root, 1000, 600);
@@ -50,6 +55,9 @@ public class Dashboard extends Application {
     }
 
     private void loadDashboard(Stage stage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #F7F7F7;");
 
@@ -65,16 +73,20 @@ public class Dashboard extends Application {
 
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
     }
 
-    private void loadFXML(Stage stage, String fxmlPath) {
+    void loadFXML(Stage stage, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
+
+            // Create a Consumer<String> that wraps loadFXML with the current stage
+            Consumer<String> loadFXMLConsumer = path -> loadFXML(stage, path);
 
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #F7F7F7;");
@@ -91,6 +103,7 @@ public class Dashboard extends Application {
 
             root.setLeft(sidebar);
             root.setCenter(fxmlContent); // Set the loaded FXML content as center
+            root.setUserData(this); // Set userData to this Dashboard instance
 
             Scene scene = new Scene(root, 1000, 600);
             scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());

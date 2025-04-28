@@ -39,7 +39,14 @@ public class Sidebar {
         ICON_CACHE.put("pixel-words", new Image("https://img.icons8.com/?size=100&id=111401&format=png&color=000000"));
         ICON_CACHE.put("logout", new Image("https://img.icons8.com/?size=100&id=110469&format=png&color=000000"));
         ICON_CACHE.put("expand-arrow", new Image("https://img.icons8.com/ios-filled/50/000000/expand-arrow--v1.png"));
-
+        ICON_CACHE.put("profile", new Image("https://img.icons8.com/?size=100&id=108639&format=png&color=000000"));
+        ICON_CACHE.put("notification", new Image("https://img.icons8.com/?size=100&id=115638&format=png&color=000000"));
+        ICON_CACHE.put("close", new Image("https://img.icons8.com/?size=100&id=8112&format=png&color=000000"));
+        ICON_CACHE.put("flag", new Image("https://img.icons8.com/?size=100&id=483&format=png&color=000000"));
+        ICON_CACHE.put("temperature", new Image("https://img.icons8.com/?size=100&id=1024&format=png&color=000000"));
+        ICON_CACHE.put("search", new Image("https://img.icons8.com/?size=100&id=7694&format=png&color=000000"));
+        ICON_CACHE.put("grid", new Image("https://img.icons8.com/?size=100&id=10482&format=png&color=000000"));
+        ICON_CACHE.put("brightness", new Image("https://img.icons8.com/?size=100&id=12347&format=png&color=000000"));
         // Load the custom font
         Font.loadFont(getClass().getResource("/Fonts/BubblegumSans-Regular.ttf").toExternalForm(), 14);
 
@@ -97,9 +104,7 @@ public class Sidebar {
         HBox authBtn = createSidebarItem("Module", "module", stage, () -> {
             System.out.println("Module clicked (no navigation implemented)");
         });
-        HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> {
-            System.out.println("Quiz clicked (no navigation implemented)");
-        });
+        HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> loadFXML.accept("/OumaimaFXML/affichageBackQuiz.fxml"));
 
         // Elements Section
         Label elementsLabel = new Label("Store");
@@ -108,10 +113,10 @@ public class Sidebar {
         elementsLabel.setPadding(new Insets(20, 0, 5, 0));
 
         HBox storeBtn = createSidebarItem("Store Items", "store-items", stage, () -> {
-            System.out.println("Store Items clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListStoreItemsAdmin.fxml");
         });
         HBox titlesBtn = createSidebarItem("Titles", "titles", stage, () -> {
-            System.out.println("Titles clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListTitles.fxml");
         });
         HBox pixelWordsBtn = createSidebarItem("Pixel Words", "pixel-words", stage, pixelWordsAction);
 

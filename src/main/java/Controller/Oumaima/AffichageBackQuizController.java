@@ -1,4 +1,4 @@
-package controller.Oumaima;
+package Controller.Oumaima;
 
 import entite.Oumaima.Quiz;
 import javafx.beans.property.SimpleFloatProperty;
@@ -14,9 +14,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import service.Oumaima.QuizService;
-
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+
+import test.Sidebar;
+import java.util.function.Consumer;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.paint.Color;
 
 public class AffichageBackQuizController {
 
@@ -126,14 +135,37 @@ public class AffichageBackQuizController {
     @FXML
     private void goToAddQuiz() {
         try {
+            // Étape 1 : Charger la page pour ajouter un quiz
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuizBackend.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("Fichier FXML introuvable : /addQuiz.fxml");
             }
-            Parent root = loader.load();
+            Parent fxmlContent = loader.load();
 
+            // Étape 2 : Récupérer la fenêtre actuelle
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+
+            // Étape 3 : Créer la barre latérale
+            Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+            Sidebar sidebarCreator = new Sidebar();
+            ScrollPane sidebar = sidebarCreator.createSidebar(
+                    stage,
+                    () -> loadDashboard(stage),
+                    () -> loadFXML(stage, "/User/index_user.fxml"),
+                    () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+                    () -> System.out.println("Logout clicked (implement logout logic here)"),
+                    loadFXMLConsumer
+            );
+
+            // Étape 4 : Créer un espace pour mettre la barre latérale et la page
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: #F7F7F7;");
+            root.setLeft(sidebar);
+            root.setCenter(fxmlContent);
+
+            // Étape 5 : Afficher l'espace dans la fenêtre
+            Scene scene = new Scene(root, 1000, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Ajouter un Quiz");
             stage.show();
@@ -145,17 +177,41 @@ public class AffichageBackQuizController {
 
     private void goToModifyQuiz(Quiz quiz) {
         try {
+            // Étape 1 : Charger la page pour modifier un quiz
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuiz.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("Fichier FXML introuvable : /updateQuiz.fxml");
             }
-            Parent root = loader.load();
+            Parent fxmlContent = loader.load();
 
+            // Dire à la page quel quiz modifier
             UpdateQuizController controller = loader.getController();
             controller.setQuizToUpdate(quiz);
 
+            // Étape 2 : Récupérer la fenêtre actuelle
             Stage stage = (Stage) quizTable.getScene().getWindow();
-            Scene scene = new Scene(root);
+
+            // Étape 3 : Créer la barre latérale
+            Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+            Sidebar sidebarCreator = new Sidebar();
+            ScrollPane sidebar = sidebarCreator.createSidebar(
+                    stage,
+                    () -> loadDashboard(stage),
+                    () -> loadFXML(stage, "/User/index_user.fxml"),
+                    () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+                    () -> System.out.println("Logout clicked (implement logout logic here)"),
+                    loadFXMLConsumer
+            );
+
+            // Étape 4 : Créer un espace pour mettre la barre latérale et la page
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: #F7F7F7;");
+            root.setLeft(sidebar);
+            root.setCenter(fxmlContent);
+
+            // Étape 5 : Afficher l'espace dans la fenêtre
+            Scene scene = new Scene(root, 1000, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Modifier un Quiz");
             stage.show();
@@ -167,24 +223,129 @@ public class AffichageBackQuizController {
 
     private void goToViewQuestions(Quiz quiz) {
         try {
+            // Étape 1 : Charger la page des questions (comme avant)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/afficherQuestionBack.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("Fichier FXML introuvable : /afficherQuestions.fxml");
+                throw new IOException("Fichier FXML introuvable : /OumaimaFXML/afficherQuestionBack.fxml");
             }
-            Parent root = loader.load();
+            Parent fxmlContent = loader.load();
 
-            AfficherQuestionsController controller = loader.getController();
+            // Dire à la page de montrer les questions du quiz sélectionné
+            affichageQuestionBack controller = loader.getController();
             controller.setQuizId(quiz.getId());
 
+            // Récupérer la fenêtre actuelle
             Stage stage = (Stage) quizTable.getScene().getWindow();
-            Scene scene = new Scene(root);
+
+            // Étape 2 : Créer la barre latérale
+            // On a besoin d'une fonction pour charger des pages (on l'expliquera plus tard)
+            Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+
+            // Créer la barre latérale avec la classe Sidebar
+            Sidebar sidebarCreator = new Sidebar();
+            ScrollPane sidebar = sidebarCreator.createSidebar(
+                    stage, // La fenêtre
+                    () -> loadDashboard(stage), // Bouton "Dashboard"
+                    () -> loadFXML(stage, "/User/index_user.fxml"), // Bouton "Utilisateurs"
+                    () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"), // Bouton "Pixel Words"
+                    () -> System.out.println("Logout clicked (implement logout logic here)"), // Bouton "Logout"
+                    loadFXMLConsumer // Fonction pour charger des pages
+            );
+
+            // Étape 3 : Créer un espace (une table) pour mettre la barre latérale et la page des questions
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: #F7F7F7;"); // Fond gris clair
+            root.setLeft(sidebar); // Mettre la barre latérale à gauche
+            root.setCenter(fxmlContent); // Mettre la page des questions au centre
+
+            // Étape 4 : Afficher l'espace dans la fenêtre
+            Scene scene = new Scene(root, 1000, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Questions du Quiz");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Erreur", "Erreur lors du chargement des questions : " + e.toString());
+            showAlert("Erreur", "Erreur lors du chargement des questions : " + e.getMessage());
         }
+    }
+
+    private void loadFXML(Stage stage, String fxmlPath) {
+        try {
+            // Charger la page demandée (fxmlPath)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent fxmlContent = loader.load();
+
+            // Créer une fonction pour charger d'autres pages
+            Consumer<String> loadFXMLConsumer = path -> loadFXML(stage, path);
+
+            // Créer la barre latérale
+            Sidebar sidebarCreator = new Sidebar();
+            ScrollPane sidebar = sidebarCreator.createSidebar(
+                    stage,
+                    () -> loadDashboard(stage),
+                    () -> loadFXML(stage, "/User/index_user.fxml"),
+                    () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+                    () -> System.out.println("Logout clicked (implement logout logic here)"),
+                    loadFXMLConsumer
+            );
+
+            // Créer un espace pour mettre la barre latérale et la page
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: #F7F7F7;");
+            root.setLeft(sidebar);
+            root.setCenter(fxmlContent);
+
+            // Afficher l'espace dans la fenêtre
+            Scene scene = new Scene(root, 1000, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur lors du chargement de l'interface : " + e.getMessage());
+        }
+    }
+
+    private void loadDashboard(Stage stage) {
+        // Créer une fonction pour charger des pages
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+
+        // Créer la barre latérale
+        Sidebar sidebarCreator = new Sidebar();
+        ScrollPane sidebar = sidebarCreator.createSidebar(
+                stage,
+                () -> loadDashboard(stage),
+                () -> loadFXML(stage, "/User/index_user.fxml"),
+                () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
+                () -> System.out.println("Logout clicked (implement logout logic here)"),
+                loadFXMLConsumer
+        );
+
+        // Créer un contenu simple pour le tableau de bord
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #F7F7F7;");
+
+        Label headerLabel = new Label("Analytics dashboard");
+        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        headerLabel.setTextFill(Color.BLACK);
+
+        Label subHeaderLabel = new Label("Demographic properties of your customer");
+        subHeaderLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+        subHeaderLabel.setTextFill(Color.web("#666666"));
+
+        content.getChildren().addAll(headerLabel, subHeaderLabel);
+
+        // Créer un espace pour mettre la barre latérale et le contenu
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #F7F7F7;");
+        root.setLeft(sidebar);
+        root.setCenter(content);
+
+        // Afficher l'espace dans la fenêtre
+        Scene scene = new Scene(root, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
+        stage.setScene(scene);
     }
 
     private void showAlert(String title, String message) {

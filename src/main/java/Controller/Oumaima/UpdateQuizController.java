@@ -1,4 +1,4 @@
-package controller.Oumaima;
+package Controller.Oumaima;
 
 import entite.Oumaima.Cours;
 import entite.Oumaima.Quiz;

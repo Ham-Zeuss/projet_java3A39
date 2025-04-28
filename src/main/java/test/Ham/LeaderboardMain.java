@@ -35,14 +35,16 @@ public class LeaderboardMain extends Application {
         headerWebView.setPrefSize(1000, 490); // Reduced height for header.html
         mainContent.getChildren().add(headerWebView);
 
-        // Load body (ListTitles.fxml from 2nd code)
+
         String fxmlPath = "/HamzaFXML/Leaderboard.fxml";
         URL fxmlUrl = getClass().getResource(fxmlPath);
 
         System.out.println("Loading FXML from: " + fxmlPath);
         FXMLLoader loader = new FXMLLoader(fxmlUrl);
         VBox bodyContent = loader.load();
+
         bodyContent.setPrefSize(1920, 1080); // Match dimensions from 2nd code
+
         mainContent.getChildren().add(bodyContent);
 
         // Load footer (footer.html) using WebView
@@ -65,7 +67,10 @@ public class LeaderboardMain extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         // Set up the scene and apply CSS safely
-        Scene scene = new Scene(scrollPane, 1920, 1080); // Match dimensions from 2nd code
+
+        Scene scene = new Scene(scrollPane, 1920, 1080);
+        scene.setFill(javafx.scene.paint.Color.WHITE); // Ensure scene background is white
+
         URL cssUrl = getClass().getResource("/css/styles.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
@@ -80,9 +85,20 @@ public class LeaderboardMain extends Application {
             System.err.println("Error: UserTitlesStyle.css not found in resources at /css/UserTitlesStyle.css");
         }
 
+        // Add leaderboard.css
+        URL leaderboardCssUrl = getClass().getResource("/css/leaderboard.css");
+        if (leaderboardCssUrl != null) {
+            scene.getStylesheets().add(leaderboardCssUrl.toExternalForm());
+        } else {
+            System.err.println("Error: leaderboard.css not found in resources at /css/leaderboard.css");
+        }
+
         primaryStage.setTitle("JavaFX Scrollable Window");
         primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true); // Match full-screen mode from 2nd code
+        primaryStage.setFullScreen(true);
+
+
+
         primaryStage.setWidth(1920);
         primaryStage.setHeight(1080);
         primaryStage.centerOnScreen();

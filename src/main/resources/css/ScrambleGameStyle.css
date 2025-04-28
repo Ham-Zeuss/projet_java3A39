@@ -1,0 +1,64 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom, #e6f3fa 0%, #f9e6f0 100%);
+    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
+    -fx-padding: 20;
+}
+
+.label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #333;
+    -fx-padding: 5 0;
+}
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4a90e2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+    -fx-prompt-text-fill: #888;
+}
+
+.button {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #357abd;
+}
+
+.button:pressed {
+    -fx-background-color: #2a6099;
+}
+
+#scrambledWordLabel {
+    -fx-font-size: 24px;
+    -fx-text-fill: #e91e63;
+    -fx-font-weight: bold;
+}
+
+#meaningLabel {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-wrap-text: true;
+    -fx-max-width: 500;
+}
+
+#feedbackLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: #28a745;
+}
+
+#scoreLabel {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ff9800;
+    -fx-font-weight: bold;
+}

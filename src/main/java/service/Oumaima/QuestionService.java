@@ -15,6 +15,7 @@ public class QuestionService implements IService<Question> {
     private PreparedStatement pst;
     private Statement ste;
     private ResultSet rs;
+    private QuizService quizService;
 
 
     @Override
@@ -32,17 +33,19 @@ public class QuestionService implements IService<Question> {
         }
         System.out.println("Connexion à la base de données établie");
         try {
-            cnx.setAutoCommit(true); // Assurer que les changements sont validés immédiatement
+            cnx.setAutoCommit(true);
         } catch (SQLException e) {
             System.err.println("Erreur lors de la configuration d'autoCommit : " + e.getMessage());
             throw new RuntimeException("Erreur lors de la configuration d'autoCommit : " + e.getMessage(), e);
         }
+        quizService = new QuizService();
     }
+
+
 
     @Override
     public void create(Question question) {
         System.out.println("Début de QuestionService.create");
-        // Validation des données
         if (question.getQuiz() == null || question.getQuiz().getId() <= 0) {
             throw new IllegalArgumentException("L'ID du quiz est requis et doit être supérieur à 0");
         }
@@ -113,25 +116,61 @@ public class QuestionService implements IService<Question> {
 
     @Override
     public void update(Question question) {
-        System.out.println("Début de QuestionService.update");
+        System.out.println("Début de QuestionService.update pour question ID=" + question.getId());
         String requete = "UPDATE question SET quiz_id=?, text=?, option_type=?, option1=?, option2=?, option3=?, option4=?, correct_answers=?, reponse_soumise=? WHERE id=?";
         try {
             pst = cnx.prepareStatement(requete);
+            // Log des valeurs avant de les passer à la requête
+            System.out.println("Valeurs à mettre à jour :");
+            System.out.println("quiz_id=" + (question.getQuiz() != null ? question.getQuiz().getId() : "null"));
+            System.out.println("text=" + question.getText());
+            System.out.println("option_type=" + question.getOptionType());
+            System.out.println("option1=" + question.getOption1());
+            System.out.println("option2=" + question.getOption2());
+            System.out.println("option3=" + question.getOption3());
+            System.out.println("option4=" + question.getOption4());
+            System.out.println("correct_answers=" + question.getCorrectAnswers());
+
+            // Vérification et gestion de reponse_soumise
+            String reponseSoumise = question.getReponseSoumise();
+            if (reponseSoumise == null) {
+                System.out.println("reponse_soumise est null, définition à '[]'");
+                reponseSoumise = "[]";
+            }
+            System.out.println("reponse_soumise=" + reponseSoumise);
+            System.out.println("id=" + question.getId());
+
+            // Vérification des valeurs null pour éviter les violations de contraintes NOT NULL
+            if (question.getQuiz() == null || question.getQuiz().getId() <= 0) {
+                throw new IllegalArgumentException("quiz_id ne peut pas être null ou <= 0");
+            }
+            if (question.getText() == null) {
+                throw new IllegalArgumentException("text ne peut pas être null");
+            }
+            if (question.getOptionType() == null) {
+                throw new IllegalArgumentException("option_type ne peut pas être null");
+            }
+
             pst.setInt(1, question.getQuiz().getId());
             pst.setString(2, question.getText());
             pst.setString(3, question.getOptionType());
-            pst.setString(4, question.getOption1());
-            pst.setString(5, question.getOption2());
-            pst.setString(6, question.getOption3());
-            pst.setString(7, question.getOption4());
-            pst.setString(8, question.getCorrectAnswers());
-            pst.setString(9, question.getReponseSoumise());
+            pst.setString(4, question.getOption1() != null ? question.getOption1() : "");
+            pst.setString(5, question.getOption2() != null ? question.getOption2() : "");
+            pst.setString(6, question.getOption3() != null ? question.getOption3() : "");
+            pst.setString(7, question.getOption4() != null ? question.getOption4() : "");
+            pst.setString(8, question.getCorrectAnswers() != null ? question.getCorrectAnswers() : "");
+            pst.setString(9, reponseSoumise);
             pst.setInt(10, question.getId());
+
             int rowsAffected = pst.executeUpdate();
             System.out.println("Lignes mises à jour : " + rowsAffected);
+            if (rowsAffected == 0) {
+                System.err.println("Aucune ligne mise à jour : l'ID " + question.getId() + " n'existe peut-être pas dans la table question");
+            }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour : " + e.getMessage());
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Erreur lors de la mise à jour de la question ID=" + question.getId() + " : " + e.getMessage(), e);
         } finally {
             try {
                 if (pst != null) pst.close();
@@ -150,8 +189,13 @@ public class QuestionService implements IService<Question> {
             ste = cnx.createStatement();
             rs = ste.executeQuery(requete);
             while (rs.next()) {
-                Quiz quiz = new Quiz();
-                quiz.setId(rs.getInt("quiz_id"));
+                int quizId = rs.getInt("quiz_id");
+                Quiz quiz = quizService.readById(quizId);
+                if (quiz == null) {
+                    System.err.println("Quiz avec ID " + quizId + " introuvable, création d'un Quiz vide");
+                    quiz = new Quiz();
+                    quiz.setId(quizId);
+                }
                 list.add(new Question(
                         rs.getInt("id"),
                         quiz,
@@ -168,7 +212,7 @@ public class QuestionService implements IService<Question> {
             System.out.println("Questions récupérées : " + list.size());
         } catch (SQLException e) {
             System.err.println("Erreur lors de la lecture : " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la lecture des questions : " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null) rs.close();
@@ -189,8 +233,13 @@ public class QuestionService implements IService<Question> {
             pst.setInt(1, id);
             rs = pst.executeQuery();
             if (rs.next()) {
-                Quiz quiz = new Quiz();
-                quiz.setId(rs.getInt("quiz_id"));
+                int quizId = rs.getInt("quiz_id");
+                Quiz quiz = quizService.readById(quizId);
+                if (quiz == null) {
+                    System.err.println("Quiz avec ID " + quizId + " introuvable, création d'un Quiz vide");
+                    quiz = new Quiz();
+                    quiz.setId(quizId);
+                }
                 Question question = new Question(
                         rs.getInt("id"),
                         quiz,
@@ -210,7 +259,7 @@ public class QuestionService implements IService<Question> {
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la lecture : " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la lecture de la question avec id=" + id + " : " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null) rs.close();
@@ -224,15 +273,23 @@ public class QuestionService implements IService<Question> {
 
     public List<Question> getQuestionsByQuizId(int quizId) {
         System.out.println("Début de QuestionService.getQuestionsByQuizId, quizId=" + quizId);
+        if (quizId <= 0) {
+            throw new IllegalArgumentException("L'ID du quiz doit être supérieur à 0");
+        }
+
         List<Question> list = new ArrayList<>();
         String requete = "SELECT * FROM question WHERE quiz_id = ?";
         try {
             pst = cnx.prepareStatement(requete);
             pst.setInt(1, quizId);
             rs = pst.executeQuery();
-            while (rs.next()) {
-                Quiz quiz = new Quiz();
+            Quiz quiz = quizService.readById(quizId);
+            if (quiz == null) {
+                System.err.println("Quiz avec ID " + quizId + " introuvable, création d'un Quiz vide");
+                quiz = new Quiz();
                 quiz.setId(quizId);
+            }
+            while (rs.next()) {
                 list.add(new Question(
                         rs.getInt("id"),
                         quiz,
@@ -249,6 +306,7 @@ public class QuestionService implements IService<Question> {
             System.out.println("Questions récupérées pour quizId=" + quizId + " : " + list.size());
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des questions pour quizId=" + quizId + " : " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Erreur lors de la récupération des questions pour quizId=" + quizId + " : " + e.getMessage(), e);
         } finally {
             try {
