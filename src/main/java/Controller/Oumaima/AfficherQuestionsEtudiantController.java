@@ -2,6 +2,8 @@ package Controller.Oumaima;
 
 import entite.Oumaima.Question;
 import entite.Oumaima.Quiz;
+import entite.User;
+import entite.Oumaima.QuizResult;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +14,13 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.Oumaima.QuestionService;
 import service.Oumaima.QuizService;
+import service.Oumaima.QuizResultService;
+import service.UserService;
+import util.DataSource; // Importer DataSource
 
 import java.net.URL;
+import java.sql.Connection;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,10 +40,24 @@ public class AfficherQuestionsEtudiantController {
 
     private final QuestionService questionService = new QuestionService();
     private final QuizService quizService = new QuizService();
+    private QuizResultService quizResultService;
+    private UserService userService;
     private int quizId;
     private List<Question> questions;
     private final Map<Question, List<CheckBox>> questionCheckBoxes = new HashMap<>();
     private final Map<Question, List<RadioButton>> questionRadioButtons = new HashMap<>();
+
+    // Constructeur utilisant DataSource pour la connexion
+    public AfficherQuestionsEtudiantController() {
+        Connection connection = DataSource.getInstance().getConnection();
+        if (connection == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur : Connexion à la base de données nulle");
+            alert.showAndWait();
+            throw new IllegalStateException("Impossible d'établir une connexion à la base de données");
+        }
+        this.quizResultService = new QuizResultService(connection);
+        this.userService = new UserService();
+    }
 
     public void setQuizId(int quizId) {
         if (quizId <= 0) {
@@ -76,11 +97,9 @@ public class AfficherQuestionsEtudiantController {
         VBox box = new VBox(10);
         box.getStyleClass().add("question-card");
 
-        // 1. Texte de la question
         Label questionText = new Label(question.getText());
         questionText.getStyleClass().add("question-text");
 
-        // 2. Options (A, B, C, D)
         List<CheckBox> checkBoxes = new ArrayList<>();
         List<RadioButton> radioButtons = new ArrayList<>();
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -116,9 +135,7 @@ public class AfficherQuestionsEtudiantController {
             box.getChildren().add(errorLabel);
         }
 
-        // Ajouter le texte de la question
         box.getChildren().add(0, questionText);
-
         return box;
     }
 
@@ -141,25 +158,23 @@ public class AfficherQuestionsEtudiantController {
             };
 
             boolean isCorrect = false;
-            String submittedAnswer = null; // Utiliser NULL si aucune réponse n'est sélectionnée
+            String submittedAnswer = null;
 
-            // Collect submitted answer as a JSON array (e.g., ["NN"] or ["NN", "L"])
             if ("checkbox".equals(optionType)) {
                 List<CheckBox> checkBoxes = questionCheckBoxes.get(question);
                 if (checkBoxes != null) {
                     List<String> selectedOptions = new ArrayList<>();
                     for (int i = 0; i < checkBoxes.size(); i++) {
                         if (checkBoxes.get(i).isSelected()) {
-                            selectedOptions.add(options[i]); // Ajouter la valeur de l'option (e.g., "NN", "L")
+                            selectedOptions.add(options[i]);
                         }
                     }
                     if (selectedOptions.isEmpty()) {
-                        submittedAnswer = null; // Aucune réponse sélectionnée
+                        submittedAnswer = null;
                         reponseSoumise.append("]");
                     } else {
-                        // Formater comme un tableau JSON valide
                         Collections.sort(selectedOptions);
-                        String jsonArray = "[\"" + String.join("\",\"", selectedOptions) + "\"]"; // e.g., ["NN","L"]
+                        String jsonArray = "[\"" + String.join("\",\"", selectedOptions) + "\"]";
                         submittedAnswer = jsonArray;
                         reponseSoumise.append(String.join(",", selectedOptions)).append("]");
                     }
@@ -171,8 +186,7 @@ public class AfficherQuestionsEtudiantController {
                 if (radioButtons != null) {
                     for (int i = 0; i < radioButtons.size(); i++) {
                         if (radioButtons.get(i).isSelected()) {
-                            // Formater comme un tableau JSON valide avec une seule valeur
-                            submittedAnswer = "[\"" + options[i] + "\"]"; // e.g., ["NN"]
+                            submittedAnswer = "[\"" + options[i] + "\"]";
                             reponseSoumise.append(options[i]).append("]");
                             break;
                         }
@@ -184,14 +198,11 @@ public class AfficherQuestionsEtudiantController {
                 reponseSoumise.append("]");
             }
 
-            // Sauvegarder la réponse soumise dans l'objet Question
             question.setReponseSoumise(submittedAnswer);
 
-            // Log des données avant la mise à jour
             System.out.println("Tentative de mise à jour de la question ID=" + question.getId());
             System.out.println("Données de la question : " + question.toString());
 
-            // Mettre à jour la question dans la base de données
             try {
                 questionService.update(question);
                 System.out.println("Réponse soumise enregistrée pour la question " + question.getId() + " : " + submittedAnswer);
@@ -203,17 +214,14 @@ public class AfficherQuestionsEtudiantController {
                 alert.showAndWait();
             }
 
-            // Normalize answers for comparison
             String normalizedCorrectAnswers = normalizeAnswer(correctAnswers);
             String normalizedSubmittedAnswer = normalizeAnswer(submittedAnswer != null ? submittedAnswer : "[]");
 
-            // Debug exact string content
             System.out.println("Debug Correct Answers: " + toDebugString(correctAnswers));
             System.out.println("Debug Normalized Correct: " + toDebugString(normalizedCorrectAnswers));
             System.out.println("Debug Submitted Answer: " + toDebugString(submittedAnswer != null ? submittedAnswer : "[]"));
             System.out.println("Debug Normalized Submitted: " + toDebugString(normalizedSubmittedAnswer));
 
-            // Compare
             isCorrect = normalizedSubmittedAnswer.equals(normalizedCorrectAnswers);
             if (!isCorrect) {
                 System.out.println("Comparison failed. Lengths: Correct=" + normalizedCorrectAnswers.length() +
@@ -221,7 +229,6 @@ public class AfficherQuestionsEtudiantController {
                 System.out.println("Are strings equal? " + normalizedSubmittedAnswer.equals(normalizedCorrectAnswers));
             }
 
-            // Log standard output
             System.out.println("Question: " + question.getText());
             System.out.println("Raw Correct Answers: " + correctAnswers);
             System.out.println("Normalized Correct Answers: " + normalizedCorrectAnswers);
@@ -240,7 +247,6 @@ public class AfficherQuestionsEtudiantController {
             result.append("Réponse correcte: ").append(correctAnswers).append("\n\n");
         }
 
-        // Format and store score
         String finalNoteDisplay = correctAnswersCount + "/" + totalQuestions;
         result.append("Note finale: ").append(finalNoteDisplay);
 
@@ -253,9 +259,20 @@ public class AfficherQuestionsEtudiantController {
             quiz.setNote(noteToStore);
             quizService.update(quiz);
             System.out.println("Note enregistrée pour le quiz " + quizId + " : " + noteToStore);
+
+            // Charger l'utilisateur depuis la base de données
+            User user = userService.getUserById(22);
+            if (user == null) {
+                throw new IllegalStateException("Utilisateur avec ID 22 introuvable");
+            }
+
+            QuizResult quizResult = new QuizResult(quiz, user, noteToStore);
+            quizResultService.addQuizResult(quizResult);
+            System.out.println("Résultat du quiz enregistré dans quiz_result pour quiz_id=" + quizId + ", user_id=22, note=" + noteToStore);
+
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement de la note : " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement de la note ou du résultat : " + e.getMessage() + "\nClasse de l'erreur : " + e.getClass().getName());
             alert.showAndWait();
         }
 
@@ -268,15 +285,11 @@ public class AfficherQuestionsEtudiantController {
         if (answer == null || answer.trim().isEmpty()) {
             return "[]";
         }
-        // Clean JSON-like input (remove escaped quotes, extra whitespace)
         String cleaned = answer.replaceAll("[\"\\s]+", "").replaceAll("\\\\\"", "");
-        // Ensure lowercase
         String normalized = cleaned.toLowerCase();
-        // Ensure brackets
         if (!normalized.startsWith("[") || !normalized.endsWith("]")) {
             normalized = "[" + normalized.replaceAll("[\\[\\]]", "") + "]";
         }
-        // For multi-option answers (checkbox), sort the options
         if (normalized.length() > 3 && normalized.contains(",")) {
             String content = normalized.substring(1, normalized.length() - 1);
             String[] options = content.split(",");
@@ -298,14 +311,14 @@ public class AfficherQuestionsEtudiantController {
         debug.append("Length=").append(str.length()).append(", Chars=[");
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            String hex = Integer.toHexString(c); // Convertir le char en hexadécimal
+            String hex = Integer.toHexString(c);
             debug.append("0x").append(hex).append("(").append(c).append(")");
             if (i < str.length() - 1) {
                 debug.append(",");
             }
         }
         debug.append("]");
-        return debug.toString(); // StringBuilder.toString() est une méthode standard
+        return debug.toString();
     }
 
     private String safeText(String text) {
@@ -322,13 +335,11 @@ public class AfficherQuestionsEtudiantController {
             Stage stage = (Stage) backButton.getScene().getWindow();
             VBox mainContent = new VBox();
 
-            // Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header.html
             WebView headerWebView = new WebView();
             URL headerUrl = getClass().getResource("/header.html");
             if (headerUrl != null) {
@@ -339,13 +350,11 @@ public class AfficherQuestionsEtudiantController {
             headerWebView.setPrefSize(1000, 490);
             mainContent.getChildren().add(headerWebView);
 
-            // Load body (affichageEtudiantQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
             Parent bodyContent = bodyLoader.load();
             bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
             mainContent.getChildren().add(bodyContent);
 
-            // Load footer.html
             WebView footerWebView = new WebView();
             URL footerUrl = getClass().getResource("/footer.html");
             if (footerUrl != null) {
