@@ -22,6 +22,20 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+
+
+
+//oumaima code li zetou :
+
+import entite.Oumaima.Quiz;
+import Controller.Oumaima.affichageQuizcontroller;
+import java.util.stream.Collectors;
+import javafx.scene.control.Alert;
+
+
+
+
+
 public class AffichageCoursController {
 
     @FXML private Label moduleTitleLabel;
@@ -88,6 +102,12 @@ public class AffichageCoursController {
         HBox buttonBox = new HBox(10);
         Button editButton = new Button("Modifier");
         Button deleteButton = new Button("Supprimer");
+
+
+//code oumaima li zedtou
+        Button viewQuizButton = new Button("Voir Quiz"); // New button
+        viewQuizButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;"); // Green style for visibility
+ // ////////////////////////////////////////////////////////////////////////////////////////////
         editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
         deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
@@ -96,8 +116,10 @@ public class AffichageCoursController {
             coursService.delete(cours);
             loadCoursCards(); // Refresh after delete
         });
-
-        buttonBox.getChildren().addAll(editButton, deleteButton);
+//   code li zedtou oumaimaa
+        viewQuizButton.setOnAction(e -> goToQuizList(cours)); // Attach action
+//    ////////////////////////////////////////////////////////////////////
+        buttonBox.getChildren().addAll(editButton, deleteButton,viewQuizButton); // star hedha nefs mte3 hedyene juste zedet bouton quiz khoudh mte3i hamza
 
         // Add all components to card
         card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, buttonBox);
@@ -162,4 +184,34 @@ public class AffichageCoursController {
             System.err.println("Error opening PDF: " + e.getMessage());
         }
     }
-}
+
+
+
+
+    private void goToQuizList(Cours cours) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageQuiz.fxml"));
+            Parent root = loader.load();
+            affichageQuizcontroller controller = loader.getController();
+            // Filter quizzes by course ID
+            List<Quiz> filteredQuizzes = controller.getQuizService().readAll().stream()
+                    .filter(quiz -> quiz.getCourse() != null && quiz.getCourse().getId() == cours.getId())
+                    .collect(Collectors.toList());
+            controller.displayQuizzes1(filteredQuizzes);
+            Stage stage = (Stage) coursGrid.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Quizzes du Cours: " + cours.getTitle());
+        } catch (IOException e) {
+            System.err.println("Error loading affichageQuiz.fxml: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des quizzes: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    }
+
+
+
+
+
+
+

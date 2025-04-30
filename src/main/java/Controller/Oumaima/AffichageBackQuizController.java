@@ -178,14 +178,14 @@ public class AffichageBackQuizController {
     private void goToModifyQuiz(Quiz quiz) {
         try {
             // Étape 1 : Charger la page pour modifier un quiz
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuiz.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuizBack.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("Fichier FXML introuvable : /updateQuiz.fxml");
+                throw new IOException("Fichier FXML introuvable : /updateQuizBack.fxml");
             }
             Parent fxmlContent = loader.load();
 
             // Dire à la page quel quiz modifier
-            UpdateQuizController controller = loader.getController();
+            UpdateQuizBck controller = loader.getController(); // Use UpdateQuizBack instead of UpdateQuizController
             controller.setQuizToUpdate(quiz);
 
             // Étape 2 : Récupérer la fenêtre actuelle
@@ -220,7 +220,6 @@ public class AffichageBackQuizController {
             showAlert("Erreur", "Erreur lors du chargement de l'interface de modification : " + e.toString());
         }
     }
-
     private void goToViewQuestions(Quiz quiz) {
         try {
             // Étape 1 : Charger la page des questions (comme avant)

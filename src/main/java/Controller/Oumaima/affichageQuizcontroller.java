@@ -456,4 +456,16 @@ public class affichageQuizcontroller implements Initializable {
             alert.showAndWait();
         }
     }
+
+
+    public QuizService getQuizService() {
+        return quizService;
+    }
+
+    public void displayQuizzes1(List<Quiz> quizzes) {
+        quizContainer.getChildren().clear();
+        for (Quiz quiz : quizzes) {
+            quizContainer.getChildren().add(createQuizCard(quiz));
+        }
+    }
 }

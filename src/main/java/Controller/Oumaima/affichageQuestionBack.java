@@ -180,7 +180,7 @@ public class affichageQuestionBack {
     private void goBackToQuizList() {
         try {
             // Étape 1 : Charger la page de la liste des quiz
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageQuizBack.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageBackQuiz.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("Fichier FXML introuvable : /OumaimaFXML/affichageQuizBack.fxml");
             }
