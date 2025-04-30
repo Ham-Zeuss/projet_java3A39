@@ -216,6 +216,8 @@ public class SecurityController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
+            currentStage.setWidth(1500.0); // Explicitly set width
+            currentStage.setHeight(700.0); // Explicitly set height
             currentStage.setTitle("Register");
             currentStage.setResizable(true); // Allow resizing
             currentStage.centerOnScreen();

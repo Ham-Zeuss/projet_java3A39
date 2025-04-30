@@ -138,16 +138,16 @@
 
 
 
-/* BOUBAKER ADDED */
+/* BOUBAKER  */
+
+
+
 
 
 
 
 /* ========= GENERAL ========= */
-.root {
-    -fx-font-family: "Segoe UI", Arial, sans-serif;
-    -fx-background-color: #f9f9fb;
-}
+
 
 /* ========= CARDS ========= */
 .card {
@@ -185,59 +185,10 @@
 }
 
 /* ========= BOUTONS ========= */
-.button {
-    -fx-background-radius: 8px;
-    -fx-padding: 8px 16px;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-/* Root Styles */
-.root {
-    -fx-font-family: "Arial";
-}
 
-/* Header styles */
-.header-container {
-    -fx-background-color: #eb1551;
-    -fx-alignment: center;
-    -fx-padding: 5;
-}
-.nav-button {
-    -fx-background-color: white;
-    -fx-text-fill: #eb1551;
-    -fx-font-weight: bold;
-    -fx-background-radius: 5;
-    -fx-pref-height: 30;
-    -fx-pref-width: 100;
-    -fx-font-size: 12px;
-}
-.nav-button:hover {
-    -fx-background-color: #ff6f91;
-    -fx-text-fill: white;
-    -fx-cursor: hand;
-}
 
-/* Boutons personnalisés */
-.btn-primary {
-    -fx-background-color: #6366f1; /* Violet clair */
-}
 
-.btn-warning {
-    -fx-background-color: #facc15; /* Jaune citron */
-    -fx-text-fill: #111827;
-}
 
-.btn-success {
-    -fx-background-color: #22c55e;
-}
-
-.btn-info {
-    -fx-background-color: #38bdf8;
-}
-
-.button:hover {
-    -fx-opacity: 0.85;
-}
 
 /* ========= BADGES / ÉTIQUETTES ========= */
 .badge {
@@ -280,18 +231,6 @@
     -fx-text-fill: #374151;
 }
 
-/* ========= FORMULAIRES ========= */
-.text-field, .password-field {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #d1d5db;
-    -fx-border-radius: 6px;
-    -fx-padding: 8px;
-    -fx-font-size: 13px;
-}
-
-.text-field:focused, .password-field:focused {
-    -fx-border-color: #6366f1;
-}
 
 /* ========= ERREURS ========= */
 .error-label {
@@ -470,20 +409,7 @@
     -fx-padding: 20;
     -fx-background-color: rgba(255, 255, 255, 0.1);
 }
-.action-button {
-    -fx-background-color: #eb1551;
-    -fx-text-fill: #ffffff;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-padding: 8 15;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-}
-.action-button:hover {
-    -fx-background-color: #ff6f91;
-    -fx-effect: dropshadow(gaussian, rgba(235, 21, 81, 0.6), 15, 0, 0, 2);
-}
+
 
 /* Back Office */
 .content-container {
@@ -511,9 +437,7 @@
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
 }
-.button-box {
-    -fx-padding: 10;
-}
+
 .input-label {
     -fx-text-fill: #ffffff;
     -fx-font-size: 14px;
@@ -700,3 +624,4 @@
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
 }
+

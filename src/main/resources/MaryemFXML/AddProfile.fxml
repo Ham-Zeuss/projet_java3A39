@@ -1,66 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import com.gluonhq.maps.MapView?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controller.Maryem.AddProfileController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane prefHeight="629.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.AddProfileController">
+    <left>
+        <AnchorPane prefHeight="630.0" prefWidth="378.0" style="-fx-background-color: #A7E0E0;" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="183.0" AnchorPane.leftAnchor="77.0">
+                    <image>
+                        <Image url="@../Images/kidslightlogo.png" />
+                    </image>
+                </ImageView>
+                <Label text="Bienvenue Chez " textFill="WHITE" AnchorPane.topAnchor="341.0" AnchorPane.leftAnchor="118.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label text="KIDS" textFill="WHITE" AnchorPane.topAnchor="362.0" AnchorPane.leftAnchor="151.0">
+                    <font>
+                        <Font name="Impact" size="24.0" />
+                    </font>
+                </Label>
+                <ImageView fitHeight="72.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="21.0" AnchorPane.leftAnchor="22.0">
+                    <image>
+                        <Image url="@../Images/cloud_one.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="77.0" AnchorPane.leftAnchor="141.0">
+                    <image>
+                        <Image url="@../Images/cloud_one.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="41.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="26.0" AnchorPane.rightAnchor="164.0">
+                    <image>
+                        <Image url="@../Images/cloud_one.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="77.0" AnchorPane.rightAnchor="89.0">
+                    <image>
+                        <Image url="@../Images/cloud_one.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane fx:id="rightPane" prefHeight="630.0" prefWidth="500.0" style="-fx-background-color: #FEF3C7FF;" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="logo2ImageView" fitHeight="76.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="34.0" AnchorPane.leftAnchor="35.0">
+                    <image>
+                        <Image url="@../Images/kidslogo.png" />
+                    </image>
+                </ImageView>
+                <Label prefHeight="30.0" prefWidth="312.0" text="Créer un Nouveau Profil" textFill="#0a6375" AnchorPane.topAnchor="101.0" AnchorPane.leftAnchor="38.0">
+                    <font>
+                        <Font name="Impact" size="24.0" />
+                    </font>
+                </Label>
+                <Label opacity="0.73" text="Remplissez les champs pour ajouter un profil" textFill="#0a6375" AnchorPane.topAnchor="133.0" AnchorPane.leftAnchor="35.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <Label fx:id="feedbackLabel" alignment="CENTER" prefHeight="27.0" prefWidth="270.0" text="" textFill="#cf1414" AnchorPane.topAnchor="165.0" AnchorPane.leftAnchor="77.0">
+                    <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                    </font>
+                </Label>
 
-    <Text text="Add New Profile" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                <!-- Biography -->
+                <Label text="Biographie" textFill="#0a6375" AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="62.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="biographyTextArea" opacity="0.75" prefHeight="60.0" prefWidth="306.0" promptText="Entrez une biographie (optionnel)" wrapText="true" AnchorPane.topAnchor="225.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="42.0" />
 
-    <HBox spacing="20.0" alignment="CENTER">
-        <GridPane hgap="10.0" vgap="10.0">
-            <Label text="User:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="userComboBox" promptText="Select a user" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                      prefWidth="200.0"/>
+                <!-- Specialty -->
+                <Label text="Spécialité *" textFill="#0a6375" AnchorPane.topAnchor="290.0" AnchorPane.leftAnchor="62.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <ComboBox fx:id="specialtyComboBox" opacity="0.75" prefHeight="26.0" prefWidth="306.0" promptText="Sélectionnez une spécialité" AnchorPane.topAnchor="315.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="42.0" />
 
-            <Label text="Biography:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextArea fx:id="biographyTextArea" promptText="Enter biography (optional)" wrapText="true"
-                      GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200.0" prefHeight="100.0"/>
+                <!-- Resources -->
+                <Label text="Ressources" textFill="#0a6375" AnchorPane.topAnchor="345.0" AnchorPane.leftAnchor="62.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="resourcesTextField" opacity="0.75" prefHeight="26.0" prefWidth="230.0" promptText="Sélectionnez un fichier PDF (optionnel)" editable="false" AnchorPane.topAnchor="370.0" AnchorPane.leftAnchor="58.0" />
+                <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseResourceFile" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #0a6375;" text="Parcourir" textFill="WHITE" AnchorPane.topAnchor="370.0" AnchorPane.leftAnchor="294.0">
+                    <font>
+                        <Font name="Ebrima Bold" size="12.0" />
+                    </font>
+                </Button>
 
-            <Label text="Specialty:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="specialtyComboBox" promptText="Select specialty" GridPane.rowIndex="2" GridPane.columnIndex="1"
-                      prefWidth="200.0"/>
-        </GridPane>
+                <!-- Consultation Price -->
+                <Label text="Prix de Consultation *" textFill="#0a6375" AnchorPane.topAnchor="400.0" AnchorPane.leftAnchor="62.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="priceTextField" opacity="0.75" prefHeight="26.0" prefWidth="306.0" promptText="Entrez le prix (ex: 50.0)" AnchorPane.topAnchor="425.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="42.0" />
+                <Label text="*" textFill="RED" AnchorPane.topAnchor="401.0" AnchorPane.leftAnchor="202.0">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Label>
 
-        <GridPane hgap="10.0" vgap="10.0">
-            <Label text="Resources:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="5.0">
-                <TextField fx:id="resourcesTextField" promptText="Select a PDF file (optional)" prefWidth="150.0" editable="false"/>
-                <Button fx:id="chooseFileButton" text="Browse" onAction="#chooseResourceFile"/>
-            </HBox>
+                <!-- Map View with Overlay Label -->
+                <StackPane prefHeight="200.0" prefWidth="306.0" AnchorPane.topAnchor="455.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="42.0">
+                    <children>
+                        <MapView fx:id="mapView" prefHeight="200.0" prefWidth="306.0" style="-fx-border-color: gray; -fx-border-width: 1;" onMouseClicked="#handleMapDoubleClick" />
+                        <Label fx:id="mapInstructionLabel" text="Double-click to pin a location" style="-fx-text-fill: gray; -fx-background-color: rgba(255, 255, 255, 0.7); -fx-padding: 5;" alignment="CENTER" prefWidth="200.0" />
+                    </children>
+                </StackPane>
 
-            <Label text="Consultation Price:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="priceTextField" promptText="Enter price (e.g., 50.0)" GridPane.rowIndex="1" GridPane.columnIndex="1"
-                       prefWidth="200.0"/>
+                <!-- Latitude and Longitude -->
+                <Label text="Latitude" textFill="#0a6375" AnchorPane.topAnchor="660.0" AnchorPane.leftAnchor="62.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="latitudeTextField" opacity="0.75" prefHeight="26.0" prefWidth="150.0" promptText="Entrez la latitude (optionnel)" AnchorPane.topAnchor="685.0" AnchorPane.leftAnchor="58.0" />
+                <Label text="Longitude" textFill="#0a6375" AnchorPane.topAnchor="660.0" AnchorPane.leftAnchor="220.0">
+                    <font>
+                        <Font name="Barlow Bold" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="longitudeTextField" opacity="0.75" prefHeight="26.0" prefWidth="148.0" promptText="Entrez la longitude (optionnel)" AnchorPane.topAnchor="685.0" AnchorPane.leftAnchor="216.0" />
 
-            <Label text="Latitude:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="latitudeTextField" promptText="Enter latitude (optional)" GridPane.rowIndex="2" GridPane.columnIndex="1"
-                       prefWidth="200.0"/>
-        </GridPane>
-
-        <GridPane hgap="10.0" vgap="10.0">
-            <Label text="Longitude:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="longitudeTextField" promptText="Enter longitude (optional)" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                       prefWidth="200.0"/>
-        </GridPane>
-    </HBox>
-
-    <HBox spacing="10.0" alignment="CENTER">
-        <Button fx:id="addButton" text="Add Profile" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#addProfile"/>
-        <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #f44336; -fx-text-fill: white;" onAction="#cancel"/>
-    </HBox>
-
-    <Label fx:id="feedbackLabel" text="" style="-fx-text-fill: red;"/>
-</VBox>
+                <!-- Buttons -->
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#addProfile" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: #0a6375;" text="Ajouter Profil" textFill="WHITE" AnchorPane.topAnchor="735.0" AnchorPane.leftAnchor="58.0">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: #0a6375;" text="Annuler" textFill="WHITE" AnchorPane.topAnchor="735.0" AnchorPane.leftAnchor="214.0">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </right>
+</BorderPane>

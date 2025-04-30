@@ -198,13 +198,26 @@ public class FrontDisplayProfilesController {
             mainContent.getChildren().add(headerWebView);
 
             // Load body (ProfileDetails.fxml)
-            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/MaryemFXML/ProfileDetails.fxml"));
-            if (bodyLoader.getLocation() == null) {
-                throw new IOException("FXML file not found: /MaryemFXML/ProfileDetails.fxml");
+            URL fxmlResource = getClass().getResource("/MaryemFXML/ProfileDetails.fxml");
+            if (fxmlResource == null) {
+                throw new IOException("Could not find ProfileDetails.fxml at /MaryemFXML/ProfileDetails.fxml");
             }
-            VBox bodyContent = bodyLoader.load();
-            bodyContent.setPrefHeight(600);
-            bodyContent.setMaxHeight(600);
+            System.out.println("Loading ProfileDetails.fxml from: " + fxmlResource.toExternalForm());
+
+            FXMLLoader bodyLoader = new FXMLLoader(fxmlResource);
+            VBox bodyContent;
+            try {
+                bodyContent = bodyLoader.load();
+            } catch (IOException e) {
+                System.err.println("Failed to load ProfileDetails.fxml: " + e.getMessage());
+                if (e.getCause() != null) {
+                    System.err.println("Caused by: " + e.getCause().getMessage());
+                    e.getCause().printStackTrace();
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
+            bodyContent.setPrefHeight(1500);
+            bodyContent.setMaxHeight(1500);
             mainContent.getChildren().add(bodyContent);
 
             // Load footer (footer.html) using WebView
@@ -255,13 +268,17 @@ public class FrontDisplayProfilesController {
             System.out.println("Profile details page loaded in new window with headers and footer");
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Could not open profile details page: " + e.getMessage());
+            StringBuilder errorMessage = new StringBuilder("Could not open profile details page: ");
+            errorMessage.append(e.getMessage());
+            if (e.getCause() != null) {
+                errorMessage.append("\nCaused by: ").append(e.getCause().getMessage());
+            }
+            showAlert("Error", errorMessage.toString());
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Unexpected error opening profile details page: " + e.getMessage());
         }
     }
-
     private void openCommentsWindow(Profile profile) {
         try {
             System.out.println("Attempting to open comments window for profile ID: " + profile.getId());

@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import com.gluonhq.maps.MapView?>
 
 <VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDoctorsDetailsController">
     <HBox alignment="CENTER_LEFT" styleClass="header">
@@ -34,6 +35,8 @@
             <Button fx:id="deleteButton" text="Delete" onAction="#deleteProfile" styleClass="button" visible="false" managed="false"/>
         </HBox>
         <Label fx:id="commentsErrorLabel" text="" styleClass="error-label"/>
+        <!-- MapView added above comments section -->
+        <MapView fx:id="mapView" prefHeight="300.0" prefWidth="600.0" style="-fx-border-color: gray; -fx-border-width: 1;"/>
         <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
     </VBox>
 </VBox>

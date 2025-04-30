@@ -1,5 +1,7 @@
 package Controller.Maryem;
 
+import com.gluonhq.maps.MapPoint;
+import com.gluonhq.maps.MapView;
 import entite.Commentaire;
 import entite.Profile;
 import entite.Session;
@@ -12,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -23,6 +26,8 @@ import service.UserService;
 import java.io.IOException;
 
 public class ProfileDoctorsDetailsController {
+
+    private static final double DEFAULT_ZOOM = 15.0;
 
     @FXML
     private Label nameLabel;
@@ -66,10 +71,15 @@ public class ProfileDoctorsDetailsController {
     @FXML
     private Label commentErrorLabel;
 
+    @FXML
+    private MapView mapView;
+
     private Profile profile;
     private CommentaireService commentaireService;
     private UserService userService;
     private ProfileService profileService;
+    private CustomMarkerLayer markerLayer;
+    private MapPoint markerPosition;
 
     public void initialize(Profile profile) {
         this.profile = profile;
@@ -77,6 +87,7 @@ public class ProfileDoctorsDetailsController {
         this.userService = new UserService();
         this.profileService = new ProfileService();
         populateProfileDetails();
+        initializeMap();
         loadComments();
         configureButtonsVisibility();
     }
@@ -116,6 +127,29 @@ public class ProfileDoctorsDetailsController {
         priceLabel.setText(profile.getPrixConsultation() != 0 ? String.format("%.2f", profile.getPrixConsultation()) : "N/A");
         latitudeLabel.setText(profile.getLatitude() != null ? String.valueOf(profile.getLatitude()) : "N/A");
         longitudeLabel.setText(profile.getLongitude() != null ? String.valueOf(profile.getLongitude()) : "N/A");
+    }
+
+    private void initializeMap() {
+        if (profile == null || profile.getLatitude() == null || profile.getLongitude() == null ||
+                profile.getLatitude() == 0 || profile.getLongitude() == 0) {
+            latitudeLabel.setText("N/A");
+            longitudeLabel.setText("N/A");
+            mapView.setDisable(true);
+            return;
+        }
+
+        markerPosition = new MapPoint(profile.getLatitude(), profile.getLongitude());
+        mapView.setCenter(markerPosition);
+        mapView.setZoom(DEFAULT_ZOOM);
+
+        markerLayer = new CustomMarkerLayer(mapView, markerPosition);
+        mapView.addLayer(markerLayer);
+
+        latitudeLabel.setText(String.format("%.6f", markerPosition.getLatitude()));
+        longitudeLabel.setText(String.format("%.6f", markerPosition.getLongitude()));
+
+        // Prevent map dragging by consuming mouse drag events
+        mapView.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> event.consume());
     }
 
     private void loadComments() {
@@ -284,6 +318,7 @@ public class ProfileDoctorsDetailsController {
             // Refresh profile details after update
             profile = profileService.readById(profile.getId()); // Reload profile from database
             populateProfileDetails();
+            initializeMap();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to open update profile pop-up: " + e.getMessage());

@@ -129,8 +129,8 @@ public class FrontDoctorsDisplayProfilesController {
                 throw new IOException("FXML file not found: /MaryemFXML/ProfileDoctorsDetails.fxml");
             }
             VBox bodyContent = bodyLoader.load();
-            bodyContent.setPrefHeight(600);
-            bodyContent.setMaxHeight(600);
+            bodyContent.setPrefHeight(1200);
+            bodyContent.setMaxHeight(1500);
             mainContent.getChildren().add(bodyContent);
 
             WebView footerWebView = new WebView();

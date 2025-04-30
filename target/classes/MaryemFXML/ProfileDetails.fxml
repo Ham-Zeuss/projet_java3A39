@@ -7,8 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import com.gluonhq.maps.MapView?>
 
 <VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDetailsController">
+
+
     <HBox alignment="CENTER_LEFT" styleClass="header">
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>
@@ -29,6 +32,10 @@
         <Label fx:id="priceLabel" text="Price" styleClass="label"/>
         <Label fx:id="latitudeLabel" text="Latitude" styleClass="label"/>
         <Label fx:id="longitudeLabel" text="Longitude" styleClass="label"/>
+
+        <!-- MapView Container -->
+        <MapView fx:id="mapView" prefWidth="600" prefHeight="400" />
+
         <Label fx:id="commentsErrorLabel" text="" styleClass="error-label"/>
         <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
         <Label text="Comment" styleClass="label"/>

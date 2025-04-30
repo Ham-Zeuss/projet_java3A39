@@ -6,17 +6,25 @@ import entite.Commentaire;
 import entite.Session;
 import service.CommentaireService;
 import service.UserService;
+import com.gluonhq.maps.MapLayer;
+import com.gluonhq.maps.MapPoint;
+import com.gluonhq.maps.MapView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ProfileDetailsController {
+
+    private static final double DEFAULT_ZOOM = 15.0;
 
     @FXML
     private Label nameLabel;
@@ -54,15 +62,21 @@ public class ProfileDetailsController {
     @FXML
     private Label commentErrorLabel;
 
+    @FXML
+    private MapView mapView;
+
     private Profile profile;
     private CommentaireService commentaireService;
     private UserService userService;
+    private CustomMarkerLayer markerLayer;
+    private MapPoint markerPosition;
 
     public void initialize(Profile profile) {
         this.profile = profile;
         this.commentaireService = new CommentaireService();
         this.userService = new UserService();
         populateProfileDetails();
+        initializeMap();
         loadComments();
     }
 
@@ -83,6 +97,44 @@ public class ProfileDetailsController {
         priceLabel.setText(profile.getPrixConsultation() != 0 ? String.format("%.2f", profile.getPrixConsultation()) : "N/A");
         latitudeLabel.setText(profile.getLatitude() != 0 ? String.valueOf(profile.getLatitude()) : "N/A");
         longitudeLabel.setText(profile.getLongitude() != 0 ? String.valueOf(profile.getLongitude()) : "N/A");
+    }
+
+    private void initializeMap() {
+        if (profile == null || profile.getLatitude() == 0 || profile.getLongitude() == 0) {
+            latitudeLabel.setText("N/A");
+            longitudeLabel.setText("N/A");
+            mapView.setDisable(true);
+            return;
+        }
+
+        // Set map center and marker position
+        markerPosition = new MapPoint(profile.getLatitude(), profile.getLongitude());
+        mapView.setCenter(markerPosition);
+        mapView.setZoom(DEFAULT_ZOOM);
+
+        // Add custom marker layer
+        markerLayer = new CustomMarkerLayer(mapView, markerPosition);
+        mapView.addLayer(markerLayer);
+
+        // Update labels
+        latitudeLabel.setText(String.format("%.6f", markerPosition.getLatitude()));
+        longitudeLabel.setText(String.format("%.6f", markerPosition.getLongitude()));
+
+        // Prevent map dragging by consuming mouse drag events
+        mapView.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> event.consume());
+
+        // Allow clicking to update marker
+        mapView.setOnMouseClicked(event -> {
+            if (event.isStillSincePress()) {
+                MapPoint clickedPoint = mapView.getMapPosition(event.getX(), event.getY());
+                markerPosition = clickedPoint;
+                markerLayer.updateMarker(markerPosition);
+                latitudeLabel.setText(String.format("%.6f", markerPosition.getLatitude()));
+                longitudeLabel.setText(String.format("%.6f", markerPosition.getLongitude()));
+                System.out.println("Marker set to: Lat=" + markerPosition.getLatitude() +
+                        ", Lon=" + markerPosition.getLongitude());
+            }
+        });
     }
 
     private void loadComments() {
@@ -234,5 +286,87 @@ public class ProfileDetailsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void openIcons8Link() {
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://icons8.com"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open Icons8 website: " + e.getMessage());
+        }
+    }
+
+    private class CustomMarkerLayer extends MapLayer {
+        private final ImageView marker;
+        private final MapView mapView;
+        private MapPoint currentPosition;
+        private static final double ICON_WIDTH = 40.0;
+        private static final double ICON_HEIGHT = 47.0;
+        private static final double ICON_ANCHOR_X = ICON_WIDTH / 2.0; // Center horizontally (x=50)
+        private static final double ICON_ANCHOR_Y = ICON_HEIGHT; // Pin tip at bottom (y=100)
+
+        /**
+         * Constructs a CustomMarkerLayer with the specified MapView and initial position.
+         * Loads a marker icon from Icons8 (https://img.icons8.com/?size=100&id=gh2uD53Hj8rj&format=png&color=000000).
+         * Note: Icons8 requires a backlink to https://icons8.com or a paid license for free use.
+         * @param mapView The MapView to display the marker on.
+         * @param initialPosition The initial MapPoint for the marker.
+         */
+        public CustomMarkerLayer(MapView mapView, MapPoint initialPosition) {
+            this.mapView = mapView;
+            this.currentPosition = initialPosition;
+
+            // Load marker icon from Icons8 URL
+            Image icon = new Image("https://img.icons8.com/?size=100&id=gh2uD53Hj8rj&format=png&color=000000");
+            marker = new ImageView(icon);
+            marker.setFitWidth(ICON_WIDTH);
+            marker.setFitHeight(ICON_HEIGHT);
+            this.getChildren().add(marker);
+
+            layoutLayer();
+        }
+
+        public void updateMarker(MapPoint newPosition) {
+            currentPosition = newPosition;
+            layoutLayer();
+        }
+
+        @Override
+        protected void layoutLayer() {
+            if (currentPosition == null || mapView == null) return;
+
+            // Get current map state
+            MapPoint center = mapView.getCenter();
+            double zoom = mapView.getZoom();
+            double width = mapView.getWidth();
+            double height = mapView.getHeight();
+
+            // Calculate pixel coordinates
+            double tileSize = 256;
+            double pixelsPerLonDegree = tileSize * Math.pow(2, zoom) / 360;
+            double pixelsPerLonRadian = tileSize * Math.pow(2, zoom) / (2 * Math.PI);
+
+            // Convert marker position to screen coordinates
+            double latRad = Math.toRadians(currentPosition.getLatitude());
+            double centerLatRad = Math.toRadians(center.getLatitude());
+
+            double mercatorY = Math.log(Math.tan(Math.PI/4 + latRad/2));
+            double centerMercatorY = Math.log(Math.tan(Math.PI/4 + centerLatRad/2));
+
+            double x = (currentPosition.getLongitude() - center.getLongitude()) * pixelsPerLonDegree;
+            double y = (centerMercatorY - mercatorY) * pixelsPerLonRadian;
+
+            // Position the marker so the pin's tip (bottom center) is at the coordinates
+            marker.setTranslateX(width/2 + x - ICON_ANCHOR_X);
+            marker.setTranslateY(height/2 + y - ICON_ANCHOR_Y);
+        }
+
+        @Override
+        public void layoutChildren() {
+            super.layoutChildren();
+            layoutLayer();
+        }
     }
 }
