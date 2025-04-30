@@ -17,6 +17,16 @@ public class QuizResultService {
         this.connection = connection;
     }
 
+    public QuizResultService() {
+        // Constructeur par défaut (sans connexion explicite)
+        // Vous devrez peut-être initialiser la connexion ici si elle est utilisée dans votre projet
+        // Par exemple, en utilisant une classe utilitaire comme DataSource
+        this.connection = util.DataSource.getInstance().getConnection();
+        if (this.connection == null) {
+            throw new IllegalStateException("Impossible d'établir une connexion à la base de données");
+        }
+    }
+
     // Ajouter un résultat de quiz
     public void addQuizResult(QuizResult quizResult) throws Exception {
         // Vérifier si l'utilisateur a le rôle "ROLE_PARENT"
@@ -42,6 +52,26 @@ public class QuizResultService {
         } catch (SQLException e) {
             throw new Exception("Erreur lors de l'insertion dans quiz_result : " + e.getMessage());
         }
+    }
+
+    // Récupérer tous les résultats de quiz
+    public List<QuizResult> readAll() throws SQLException {
+        List<QuizResult> quizResults = new ArrayList<>();
+        String sql = "SELECT * FROM quiz_result";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                QuizResult quizResult = new QuizResult();
+                quizResult.setId(rs.getInt("id"));
+                quizResult.setQuiz(new Quiz(rs.getInt("quiz_id"))); // Charger l'objet Quiz si nécessaire
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                quizResult.setUser(user);
+                quizResult.setNote(rs.getFloat("note"));
+                quizResults.add(quizResult);
+            }
+        }
+        return quizResults;
     }
 
     // Récupérer tous les résultats de quiz pour un utilisateur donné

@@ -17,7 +17,7 @@ import service.Oumaima.QuizService;
 import service.Oumaima.QuizResultService;
 import service.UserService;
 import util.DataSource; // Importer DataSource
-
+import entite.Session;
 import java.net.URL;
 import java.sql.Connection;
 
@@ -260,15 +260,24 @@ public class AfficherQuestionsEtudiantController {
             quizService.update(quiz);
             System.out.println("Note enregistrée pour le quiz " + quizId + " : " + noteToStore);
 
-            // Charger l'utilisateur depuis la base de données
-            User user = userService.getUserById(22);
+            // Vérifier la session active et récupérer l'ID de l'utilisateur connecté
+            Session session = Session.getInstance();
+            if (!session.isActive()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Aucune session active. Veuillez vous connecter.");
+                alert.showAndWait();
+                return;
+            }
+            int userId = session.getUserId();
+
+            // Charger l'utilisateur depuis la base de données avec l'ID récupéré
+            User user = userService.getUserById(userId);
             if (user == null) {
-                throw new IllegalStateException("Utilisateur avec ID 22 introuvable");
+                throw new IllegalStateException("Utilisateur avec ID " + userId + " introuvable");
             }
 
             QuizResult quizResult = new QuizResult(quiz, user, noteToStore);
             quizResultService.addQuizResult(quizResult);
-            System.out.println("Résultat du quiz enregistré dans quiz_result pour quiz_id=" + quizId + ", user_id=22, note=" + noteToStore);
+            System.out.println("Résultat du quiz enregistré dans quiz_result pour quiz_id=" + quizId + ", user_id=" + userId + ", note=" + noteToStore);
 
         } catch (Exception e) {
             e.printStackTrace();

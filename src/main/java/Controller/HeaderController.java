@@ -169,7 +169,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToQuizes(ActionEvent event) {
-        navigateToPage(event, "OumaimaFXML/affichageQuiz.fxml", "Quizzes");
+        navigateToPage(event, "OumaimaFXML/affichageEtudiantQuiz.fxml", "Quizzes");
     }
 
     /**
