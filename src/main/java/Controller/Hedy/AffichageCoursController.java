@@ -1,6 +1,7 @@
 package Controller.Hedy;
 import entite.Cours;
 import entite.Module;
+import entite.Session; // Import the Session class
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -16,7 +17,6 @@ import javafx.stage.Stage;
 import service.CoursService;
 import java.awt.Desktop;
 import java.io.File;
-import util.SessionManager;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -140,7 +140,12 @@ public class AffichageCoursController {
             // Pass the current module and logged-in user ID to the AjoutCoursController
             AjoutCoursController controller = loader.getController();
             controller.setCurrentModule(currentModule);
-            controller.setCurrentUserId(SessionManager.getLoggedInUserId()); // Retrieve from session
+
+            // Retrieve the logged-in user's ID directly from the Session entity
+            Session session = Session.getInstance();
+            int currentUserId = session.getUserId(); // Get the userId from the session
+            System.out.println("Retrieved User ID from session: " + currentUserId); // Debugging log
+            controller.setCurrentUserId(currentUserId);
 
             Stage stage = (Stage) coursGrid.getScene().getWindow();
             stage.setScene(new Scene(root));

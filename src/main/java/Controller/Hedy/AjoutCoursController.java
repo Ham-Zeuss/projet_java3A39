@@ -2,7 +2,7 @@ package Controller.Hedy;
 
 import entite.Cours;
 import entite.Module;
-import entite.User; // Import the User entity
+import entite.Session; // Import the Session class
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +29,7 @@ public class AjoutCoursController {
     }
 
     public void setCurrentUserId(Integer userId) {
-        this.currentUserId = userId; // Set the current user's ID
+        this.currentUserId = userId;
         System.out.println("Current User ID set to: " + currentUserId); // Debugging log
     }
 
