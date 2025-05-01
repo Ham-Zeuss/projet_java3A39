@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,6 +21,7 @@ import service.CoursService;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -27,9 +29,15 @@ public class AffichageCoursController {
 
     @FXML private Label moduleTitleLabel;
     @FXML private GridPane coursGrid; // GridPane for course cards
+    @FXML private ComboBox<String> filterComboBox; // Dropdown for filtering
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
+
+    // Filter options
+    private static final String FILTER_ALL = "All Courses";
+    private static final String FILTER_CREATED_BY_ME = "Created by Me";
+    private static final String FILTER_RECENTLY_ADDED = "Recently Added";
 
     public void setModule(Module module) {
         this.currentModule = module;
@@ -37,6 +45,16 @@ public class AffichageCoursController {
             moduleTitleLabel.setText("Cours: " + module.getTitle());
             loadCoursCards(); // Load course cards
         }
+    }
+
+    @FXML
+    public void initialize() {
+        // Populate the ComboBox with filter options
+        filterComboBox.getItems().addAll(FILTER_ALL, FILTER_CREATED_BY_ME, FILTER_RECENTLY_ADDED);
+        filterComboBox.setValue(FILTER_ALL); // Default selection
+
+        // Add a listener to handle filter changes
+        filterComboBox.setOnAction(event -> applyFilter());
     }
 
     private void loadCoursCards() {
@@ -70,6 +88,12 @@ public class AffichageCoursController {
         }
 
         // Add the sorted courses to the GridPane
+        loadCoursCardsFiltered(coursList);
+    }
+
+    private void loadCoursCardsFiltered(List<Cours> coursList) {
+        coursGrid.getChildren().clear(); // Clear existing cards
+
         int columns = 3;
         int row = 0;
         int column = 0;
@@ -85,6 +109,59 @@ public class AffichageCoursController {
                 row++;
             }
         }
+    }
+
+    private void applyFilter() {
+        String selectedFilter = filterComboBox.getValue();
+        System.out.println("Selected Filter: " + selectedFilter);
+
+        // Fetch all courses for the current module
+        List<Cours> coursList = coursService.getCoursByModule(currentModule.getId());
+
+        // Retrieve the logged-in user's ID
+        Session session = Session.getInstance();
+        int currentUserId = session.getUserId();
+
+        // Apply the selected filter
+        switch (selectedFilter) {
+            case FILTER_CREATED_BY_ME:
+                coursList.removeIf(c -> c.getUserId() != currentUserId);
+                break;
+
+            case FILTER_RECENTLY_ADDED:
+                coursList.sort((c1, c2) -> {
+                    LocalDateTime updatedAt1 = c1.getUpdatedAt() != null ? c1.getUpdatedAt() : LocalDateTime.MIN;
+                    LocalDateTime updatedAt2 = c2.getUpdatedAt() != null ? c2.getUpdatedAt() : LocalDateTime.MIN;
+                    return updatedAt2.compareTo(updatedAt1); // Sort descending (newest first)
+                });
+                break;
+
+            case FILTER_ALL:
+            default:
+                // No filtering, but prioritize logged-in user's courses
+                coursList.sort((c1, c2) -> {
+                    boolean isC1CreatedByUser = c1.getUserId() == currentUserId;
+                    boolean isC2CreatedByUser = c2.getUserId() == currentUserId;
+
+                    if (isC1CreatedByUser && !isC2CreatedByUser) {
+                        return -1; // c1 comes before c2
+                    } else if (!isC1CreatedByUser && isC2CreatedByUser) {
+                        return 1; // c2 comes before c1
+                    } else {
+                        return 0; // No change in order
+                    }
+                });
+                break;
+        }
+
+        // Debugging logs to confirm the filtering
+        System.out.println("Filtered Courses:");
+        for (Cours cours : coursList) {
+            System.out.println("Course: " + cours.getTitle() + ", Created By: " + cours.getUserId());
+        }
+
+        // Reload the course cards with the filtered list
+        loadCoursCardsFiltered(coursList);
     }
 
     private VBox createCoursCard(Cours cours) {

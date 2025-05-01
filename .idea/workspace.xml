@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageModuleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageModuleController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +137,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746124248292</updated>
-      <workItem from="1746124249686" duration="7253000" />
+      <workItem from="1746124249686" duration="7923000" />
     </task>
     <servers />
   </component>
