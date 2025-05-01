@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/PdfPreviewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/PdfPreview.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -137,11 +140,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746124248292</updated>
-      <workItem from="1746124249686" duration="7923000" />
+      <workItem from="1746124249686" duration="9615000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

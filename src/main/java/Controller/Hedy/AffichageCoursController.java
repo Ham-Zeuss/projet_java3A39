@@ -36,8 +36,8 @@ public class AffichageCoursController {
 
     // Filter options
     private static final String FILTER_ALL = "All Courses";
-    private static final String FILTER_CREATED_BY_ME = "Created by Me";
-    private static final String FILTER_RECENTLY_ADDED = "Recently Added";
+    private static final String FILTER_CREATED_BY_ME = "Créé par moi";
+    private static final String FILTER_RECENTLY_ADDED = "Récemment ajouté";
 
     public void setModule(Module module) {
         this.currentModule = module;
@@ -285,20 +285,30 @@ public class AffichageCoursController {
         }
     }
 
+    @FXML
     private void openPdf(Cours cours) {
         try {
-            // Resolve the full file path using the stored file name
-            File pdfFile = new File("resources/pdf/" + cours.getPdfName());
+            String pdfFileName = cours.getPdfName();
+            File pdfFile = new File("resources/pdf/" + pdfFileName);
 
             if (!pdfFile.exists()) {
                 System.err.println("PDF file not found: " + pdfFile.getAbsolutePath());
                 return;
             }
 
-            // Open the PDF file in the default viewer
-            Desktop.getDesktop().open(pdfFile);
+            System.out.println("Loading PDF file: " + pdfFile.getAbsolutePath());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/PdfPreview.fxml"));
+            Parent root = loader.load();
+
+            PdfPreviewController controller = loader.getController();
+            controller.setPdfFile(pdfFileName);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("PDF Preview: " + cours.getTitle());
+            stage.show();
         } catch (Exception e) {
-            System.err.println("Error opening PDF: " + e.getMessage());
+            System.err.println("Error loading PDF preview: " + e.getMessage());
         }
-    }
-}
+    }}
