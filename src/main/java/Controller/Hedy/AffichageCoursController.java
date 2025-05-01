@@ -1,4 +1,5 @@
 package Controller.Hedy;
+
 import entite.Cours;
 import entite.Module;
 import entite.Session; // Import the Session class
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import service.CoursService;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -39,8 +41,35 @@ public class AffichageCoursController {
 
     private void loadCoursCards() {
         coursGrid.getChildren().clear(); // Clear existing cards
+
+        // Fetch all courses for the current module
         List<Cours> coursList = coursService.getCoursByModule(currentModule.getId());
 
+        // Retrieve the logged-in user's ID
+        Session session = Session.getInstance();
+        int currentUserId = session.getUserId();
+
+        // Sort the courses: Logged-in user's courses first, followed by others
+        coursList.sort((c1, c2) -> {
+            boolean isC1CreatedByUser = c1.getUserId() == currentUserId;
+            boolean isC2CreatedByUser = c2.getUserId() == currentUserId;
+
+            if (isC1CreatedByUser && !isC2CreatedByUser) {
+                return -1; // c1 comes before c2
+            } else if (!isC1CreatedByUser && isC2CreatedByUser) {
+                return 1; // c2 comes before c1
+            } else {
+                return 0; // No change in order
+            }
+        });
+
+        // Debugging logs to confirm the sorting
+        System.out.println("Sorted Courses:");
+        for (Cours cours : coursList) {
+            System.out.println("Course: " + cours.getTitle() + ", Created By: " + cours.getUserId());
+        }
+
+        // Add the sorted courses to the GridPane
         int columns = 3;
         int row = 0;
         int column = 0;
@@ -59,6 +88,7 @@ public class AffichageCoursController {
     }
 
     private VBox createCoursCard(Cours cours) {
+        // Create the card layout
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
@@ -90,15 +120,38 @@ public class AffichageCoursController {
         editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
         deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
+        // Retrieve the logged-in user's ID and role
+        Session session = Session.getInstance();
+        int currentUserId = session.getUserId(); // Get the logged-in user's ID
+        String userRole = session.getRole(); // Get the logged-in user's role
+
+        // Debugging logs
+        System.out.println("Logged-in User ID: " + currentUserId);
+        System.out.println("Course: " + cours.getTitle() + ", Created By: " + cours.getUserId());
+
+        // Check if the course was created by the logged-in user
+        boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
+
+        System.out.println("Is course created by logged-in user? " + isCourseCreatedByUser);
+
+        // Show buttons only for the course creator
+        if (isCourseCreatedByUser) {
+            System.out.println("Adding buttons for course: " + cours.getTitle());
+            buttonBox.getChildren().addAll(editButton, deleteButton);
+        } else {
+            System.out.println("Hiding buttons for course: " + cours.getTitle());
+            buttonBox.setVisible(false);
+            buttonBox.setManaged(false); // Ensures it doesn't take up space in the layout
+        }
+
+        // Add actions to the buttons
         editButton.setOnAction(e -> editCours(cours));
         deleteButton.setOnAction(e -> {
             coursService.delete(cours);
             loadCoursCards(); // Refresh after delete
         });
 
-        buttonBox.getChildren().addAll(editButton, deleteButton);
-
-        // Add all components to card
+        // Add all components to the card
         card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, buttonBox);
 
         return card;
@@ -154,6 +207,7 @@ public class AffichageCoursController {
             System.err.println("Error loading AjoutCours.fxml: " + e.getMessage());
         }
     }
+
     private void openPdf(Cours cours) {
         try {
             // Resolve the full file path using the stored file name

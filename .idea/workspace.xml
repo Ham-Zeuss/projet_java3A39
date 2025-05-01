@@ -5,30 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursFront.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/EditCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/EditCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/hedy/Mainx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/hedy/Mainx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDachboard.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageModuleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageModuleController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController$AffichageModuleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController$AffichageModuleController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCours.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDachboard.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+      </list>
+    </option>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "customColor": "",
@@ -42,6 +36,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Dashboard.executor": "Run",
+    "Application.FXMLTestMain.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Mainx.executor": "Run",
     "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
     "Maven.projet_java_gestion_evaluation [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -55,7 +52,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Dashboard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Dashboard" />
       <module name="projet_java_gestion_evaluation" />
@@ -70,8 +67,58 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FXMLTestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.hedy.FXMLTestMain" />
+      <module name="projet_java_gestion_evaluation" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Mainx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.hedy.Mainx" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.hedy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.FXMLTestMain" />
+      <item itemvalue="Application.Mainx" />
+      <item itemvalue="Application.Dashboard" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Mainx" />
+        <item itemvalue="Application.FXMLTestMain" />
         <item itemvalue="Application.Dashboard" />
       </list>
     </recent_temporary>
@@ -92,7 +139,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746124248292</updated>
-      <workItem from="1746124249686" duration="4093000" />
+      <workItem from="1746124249686" duration="7253000" />
     </task>
     <servers />
   </component>
