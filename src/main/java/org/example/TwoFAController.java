@@ -77,14 +77,16 @@ public class TwoFAController {
                 String defaultFxml = "/User/Home.fxml"; // Page par défaut
                 String fxmlPath = roleToFxmlMap.getOrDefault(role, defaultFxml);
 
-                // Create a VBox to stack the header, header.fxml, body, and footer
+                // Create a VBox to stack the header, body, and footer
                 VBox mainContent = new VBox();
 
-                // Load header.fxml
-                FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-                VBox headerFxmlContent = headerFxmlLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
-                mainContent.getChildren().add(headerFxmlContent);
+                // Load header.fxml only for ROLE_PARENT
+                if ("ROLE_PARENT".equals(role)) {
+                    FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                    VBox headerFxmlContent = headerFxmlLoader.load();
+                    headerFxmlContent.setPrefSize(1000, 100);
+                    mainContent.getChildren().add(headerFxmlContent);
+                }
 
                 // Load header (header.html) using WebView
                 WebView headerWebView = new WebView();

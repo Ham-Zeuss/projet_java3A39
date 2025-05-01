@@ -153,10 +153,21 @@ public class ProfileDoctorsDetailsController {
     }
 
     private void loadComments() {
+
         commentsContainer.getChildren().clear();
         commentsErrorLabel.setText("");
 
         try {
+            Session session = Session.getInstance();
+            System.out.println("[DEBUG] Session active: " + session.isActive());
+            System.out.println("[DEBUG] User ID: " + session.getUserId());
+            System.out.println("[DEBUG] Role: " + session.getRole());
+            System.out.println("[DEBUG] Profile Owner ID: " + profile.getUserId().getId());
+            // Vérifie si l'utilisateur connecté est le propriétaire du profil ET un médecin
+            boolean isProfileOwnerDoctor = session.isActive() &&
+                    session.getUserId() == profile.getUserId().getId() &&
+                    "ROLE_MEDECIN".equals(session.getRole());
+
             var comments = commentaireService.readByProfileId(profile.getId());
             if (comments.isEmpty()) {
                 commentsErrorLabel.setText("No comments found for this profile.");
@@ -207,6 +218,7 @@ public class ProfileDoctorsDetailsController {
                 Button reportButton = new Button("Report");
                 reportButton.getStyleClass().add("report-button");
                 reportButton.setDisable(comment.isReported());
+                reportButton.setVisible(isProfileOwnerDoctor); // Visible seulement pour le médecin propriétaire
                 reportButton.setOnAction(event -> openReportPopup(comment));
 
                 commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox, reportButton);
@@ -281,6 +293,7 @@ public class ProfileDoctorsDetailsController {
             commentErrorLabel.setText("Error adding comment: " + e.getMessage());
         }
     }
+
 
     @FXML
     private void openResources() {
