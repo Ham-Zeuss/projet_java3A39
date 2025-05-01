@@ -73,7 +73,7 @@ public class EditCoursController {
             showAlert(AlertType.INFORMATION, "Succès", "Le cours a été modifié avec succès!");
 
             // Return to the AffichageCours screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
             AffichageCoursController controller = loader.getController();
             controller.setModule(coursToEdit.getModuleId()); // Pass the module back
@@ -95,7 +95,7 @@ public class EditCoursController {
     @FXML
     private void cancel() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
             AffichageCoursController controller = loader.getController();
             controller.setModule(coursToEdit.getModuleId()); // Pass the module back
@@ -103,7 +103,7 @@ public class EditCoursController {
             stage.setScene(new Scene(root));
             stage.setTitle("Cours: " + coursToEdit.getModuleId().getTitle());
         } catch (IOException e) {
-            System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
+            System.err.println("Error loading AffichageCoursDashboard.fxml: " + e.getMessage());
         }
     }
     @FXML
@@ -167,7 +167,7 @@ public class EditCoursController {
 
         private void showModuleCourses(entite.Module module) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
                 Parent root = loader.load();
 
                 AffichageCoursController controller = loader.getController();
@@ -177,7 +177,7 @@ public class EditCoursController {
                 stage.setScene(new Scene(root));
                 stage.setTitle("Cours: " + module.getTitle());
             } catch (IOException e) {
-                System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
+                System.err.println("Error loading AffichageCoursDashboard.fxml: " + e.getMessage());
             }
         }
 

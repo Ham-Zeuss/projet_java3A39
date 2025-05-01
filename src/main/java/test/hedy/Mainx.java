@@ -36,7 +36,7 @@ public class Mainx extends Application {
         headerWebView.setPrefSize(1000, 490);
         mainContent.getChildren().add(headerWebView);
 
-        // Load body (AffichageCours.fxml)
+        // Load body (AffichageCoursDashboard.fxml)
         FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageModule.fxml"));
         AnchorPane bodyContent = bodyLoader.load(); // Changed to AnchorPane
         bodyContent.setPrefHeight(600);

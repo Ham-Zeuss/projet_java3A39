@@ -1,5 +1,4 @@
 package Controller.Hedy.Dahsboard;
-import Controller.Hedy.*;
 import entite.Module;
 import javafx.application.Platform; // Import Platform for focus management
 import javafx.fxml.FXML;
@@ -193,7 +192,7 @@ public class AffichageModuleDashboardController {
 
     private void showModuleCourses(Module module) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
 
             AffichageCoursDashboardHedy controller = loader.getController();
@@ -205,7 +204,7 @@ public class AffichageModuleDashboardController {
             stage.show();
 
         } catch (IOException e) {
-            System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
+            System.err.println("Error loading AffichageCoursDashboard.fxml: " + e.getMessage());
         }
     }
 
