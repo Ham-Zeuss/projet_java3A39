@@ -16,7 +16,33 @@ public class ModuleService implements IService<Module> {
         cnx = DataSource.getInstance().getConnection();
     }
 
+    public List<Module> searchModulesByTitle(String searchTerm) {
+        List<Module> result = new ArrayList<>();
+        String query = "SELECT * FROM modules WHERE LOWER(title) LIKE ?";
 
+        // Use a try-with-resources block to ensure the connection is properly closed
+        try (Connection conn = DataSource.getInstance().getConnection(); // Get a fresh connection
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + searchTerm.toLowerCase() + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Module module = new Module(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("nombre_cours"),
+                        rs.getString("level")
+                );
+                result.add(module);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     @Override
     public void create(Module module){
 

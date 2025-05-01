@@ -1,31 +1,28 @@
 package Controller.Hedy.Dahsboard;
 import Controller.Hedy.*;
 import entite.Module;
+import javafx.application.Platform; // Import Platform for focus management
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import service.ModuleService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class AffichageModuleDashboardController{
+public class AffichageModuleDashboardController {
 
     @FXML private TableView<Module> modulesTable;
     @FXML private TableColumn<Module, String> titleColumn;
     @FXML private TableColumn<Module, String> descriptionColumn;
     @FXML private TableColumn<Module, Integer> coursesColumn;
     @FXML private TableColumn<Module, String> levelColumn;
+    @FXML private TextField searchField; // Search field
 
     private final ModuleService moduleService = new ModuleService();
     private Integer loggedInUserId; // Field to store the logged-in user's ID
@@ -33,6 +30,7 @@ public class AffichageModuleDashboardController{
     public void setLoggedInUserId(Integer userId) {
         this.loggedInUserId = userId;
     }
+
     @FXML
     public void initialize() {
         // Load CSS file
@@ -40,8 +38,19 @@ public class AffichageModuleDashboardController{
 
         configureTable();
         loadModules();
+
+        // Add listener to the search field
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterModules(newValue);
+        });
+
+        // Clear focus from the search bar when the page loads
+        Platform.runLater(() -> {
+            searchField.getParent().requestFocus(); // Set focus to the parent container
+        });
+
         // Add listener to open AffichageCours when a module title is clicked
-        titleColumn.setCellFactory(param -> new TableCell<Module, String>() {
+        titleColumn.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -187,7 +196,7 @@ public class AffichageModuleDashboardController{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
             Parent root = loader.load();
 
-            AffichageCoursController controller = loader.getController();
+            AffichageCoursDashboardHedy controller = loader.getController();
             controller.setModule(module);  // Pass the selected module to the controller
 
             Stage stage = new Stage();
@@ -210,5 +219,22 @@ public class AffichageModuleDashboardController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Filters the modules in the TableView based on the search text.
+     *
+     * @param searchText The text entered by the user in the search field.
+     */
+    private void filterModules(String searchText) {
+        List<Module> allModules = moduleService.readAll(); // Fetch all modules from the database
+
+        // Filter modules whose title contains the search text (case-insensitive)
+        List<Module> filteredModules = allModules.stream()
+                .filter(module -> module.getTitle().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+
+        // Update the TableView with the filtered modules
+        modulesTable.getItems().setAll(filteredModules);
     }
 }

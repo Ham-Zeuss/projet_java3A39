@@ -11,11 +11,11 @@ Controller\Ham\ListStoreItemsController$2.class
 Controller\Oumaima\affichageQuestionBack.class
 Controller\Oumaima\addQuestionBackController.class
 service\CommentaireService.class
-Controller\Hedy\AjoutModuleController.class
 Controller\Maryem\FrontDisplayCommentsController.class
 test\Ham\DisplayTitlesMain.class
 Controller\Maryem\DisplayProfilesController$1.class
 entite\Profile.class
+Controller\Hedy\Dahsboard\EditModuleController.class
 service\TitleService.class
 org\example\mailtrap\Main$1.class
 test\Dashboard.class
@@ -33,7 +33,6 @@ Controller\Ham\ListStoreItemsFrontController.class
 Controller\Maryem\AddProfileController$2.class
 org\example\HomeController.class
 Controller\Ham\LeaderboardController.class
-Controller\Hedy\EditModuleController.class
 test\Ham\DisplayStoreItemsAdminMain.class
 Controller\Boubaker\HeaderController.class
 Controller\Hedy\AffichageCoursController.class
@@ -96,6 +95,7 @@ Controller\Maryem\DisplayConsultationsController.class
 Controller\Maryem\UpdateConsultationController.class
 entite\Notification.class
 Controller\Maryem\UpdateConsultationController$3.class
+Controller\Hedy\Dahsboard\AffichageModuleDashboardController$2.class
 org\example\UserController.class
 Controller\Maryem\DisplayProfilesController$3.class
 Controller\Maryem\UserConsultationsController.class
@@ -112,10 +112,12 @@ Controller\HeaderController.class
 test\Maryem\FXMLDisplayConsultations.class
 Controller\Maryem\AddCommentController$2.class
 org\example\SendEmailController.class
+Controller\Hedy\EditCoursController$AffichageModuleController.class
 entite\User$1.class
 org\example\SecurityController.class
 Controller\Ham\CreateTitleController.class
 test\Maryem\FXMLFrontDisplayProfile.class
+Controller\Hedy\Dahsboard\AffichageModuleDashboardController$1.class
 entite\Consultation.class
 Controller\Maryem\UpdateConsultationController$2.class
 service\Oumaima\CoursService.class
@@ -138,8 +140,10 @@ Controller\Maryem\DisplayProfilesController.class
 service\CoursService.class
 entite\Module.class
 Controller\Maryem\UpdateProfileController.class
+Controller\Hedy\Dahsboard\AffichageCoursDashboardHedy.class
 service\ModuleService.class
 Controller\Ham\ListStoreItemsController$4.class
+Controller\Hedy\Dahsboard\AjoutModuleController.class
 service\UserService.class
 test\hedy\FXMLTestMain.class
 Controller\Hedy\EditCoursController.class
@@ -148,6 +152,7 @@ Controller\Boubaker\ChatbotController.class
 Form\RegistrationFormType.class
 test\Maryem\FXMLdisplayprofile.class
 test\Oumaima\FXMLAffichageBackQuizQuestionMain.class
+Controller\Hedy\Dahsboard\AffichageModuleDashboardController.class
 test\Ham\DisplayStoreItemsMain.class
 Controller\Ham\UserTitlesController.class
 Controller\Maryem\FrontAddConsultationController$1.class

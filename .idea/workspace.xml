@@ -5,297 +5,176 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/projet_java3A39.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cssdialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_10_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_swt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat_history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chat_history.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/BackOfficeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/BackOfficeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/ChatbotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/ChatbotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/HeaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/HeaderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/MainBoubakerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/MainBoubakerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/OrdersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Boubaker/OrdersController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/CreateStoreItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/CreateStoreItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/CreateTitleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/CreateTitleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/LeaderboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/LeaderboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListPexelWordsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListPexelWordsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsFrontController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListStoreItemsFrontController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListTitlesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/ListTitlesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/PexelWordFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/PexelWordFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/UpdateStoreItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/UpdateStoreItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/UpdateTitleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/UpdateTitleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Ham/UserTitlesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Ham/UserTitlesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/HeaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/HeaderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageModuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/EditModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/EditModuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/EditCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/EditCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddCommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddCommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddConsultationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddConsultationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/AddProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayCommentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayCommentsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayConsultationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayConsultationsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayProfilesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/DisplayProfilesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontAddConsultationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontAddConsultationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontDisplayCommentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontDisplayCommentsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontDisplayProfilesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/FrontDisplayProfilesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UpdateConsultationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UpdateConsultationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UpdateProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UpdateProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UserConsultationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Maryem/UserConsultationsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AddQuizBackendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AddQuizBackendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AffichageBackQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AffichageBackQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AfficherQuestionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/AfficherQuestionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuestionBackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuestionBackController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/UpdateQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuestionBackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuestionBackController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuestioncontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuestioncontroller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuizcontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/addQuizcontroller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/affichageQuestionBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/affichageQuestionBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/affichageQuizcontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Oumaima/affichageQuizcontroller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Form/RegistrationFormType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Form/RegistrationFormType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Commande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Commande.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Commentaire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Commentaire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Consultation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Consultation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Cours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Cours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Module.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Notification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Cours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Cours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Oumaima/Quiz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Pack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Pack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/PexelWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/PexelWord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/ResetPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/ResetPasswordRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/StoreItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/StoreItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Title.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Title.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/UserTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/UserTitle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/DataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ResetPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ResetPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SecurityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SecurityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SendEmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SendEmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TwoFAController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/TwoFAController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/mailtrap/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/mailtrap/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/CommandeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/CommandeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/CommentaireService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/CommentaireService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ConsultationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ConsultationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/CoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/CoursService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/IService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/IService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/Oumaima/CoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/Oumaima/CoursService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/Oumaima/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/Oumaima/QuestionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/Oumaima/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/Oumaima/QuizService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/PackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/PackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/PexelWordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/PexelWordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ProfileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/StoreItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/StoreItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/TitleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TitleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/TwoFactorAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TwoFactorAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/UserTitleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/UserTitleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Boubaker/BoubakerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Boubaker/BoubakerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Dashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/CreateStoreItemMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/CreateStoreItemMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/CreateTitleMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/CreateTitleMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayPexelWordsMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayPexelWordsMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsAdminMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsAdminMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsFrontMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsFrontMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayStoreItemsMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayTitlesMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/DisplayTitlesMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/LeaderboardMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/LeaderboardMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Ham/UserTitlesMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Ham/UserTitlesMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLDisplayConsultations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLDisplayConsultations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLFrontDisplayProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLFrontDisplayProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLaddprofile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLaddprofile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLdisplayprofile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Maryem/FXMLdisplayprofile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Maryem/mes_rendezvous.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Maryem/mes_rendezvous.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Oumaima/FXMLAffichageBackQuizQuestionMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Oumaima/FXMLAffichageBackQuizQuestionMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Oumaima/FXMLAffichageQuizFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Oumaima/FXMLAffichageQuizFront.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/Sidebar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/Sidebar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/hedy/FXMLTestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/hedy/FXMLTestMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/hedy/Mainx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/hedy/Mainx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Boubaker/backoffice.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Boubaker/backoffice.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Boubaker/chatbot.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Boubaker/chatbot.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Boubaker/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Boubaker/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Boubaker/orders.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Boubaker/orders.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/CreateStoreItem.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/CreateStoreItem.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/CreateTitle.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/CreateTitle.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/GamesMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/GamesMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/Leaderboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/Leaderboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListPexelWords.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListPexelWords.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItems.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItems.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItemsAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItemsAdmin.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItemsFront.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListStoreItemsFront.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListTitles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/ListTitles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/PexelWordForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/PexelWordForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/UpdateStoreItem.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/UpdateStoreItem.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/UserTitles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/UserTitles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HamzaFXML/update_title.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HamzaFXML/update_title.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDachboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDachboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageModule.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageModuleDashboardHedy.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageModuleDashboardHedy.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AjoutCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AjoutCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AjoutModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AjoutModule.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/EditCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/EditCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/EditModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/EditModule.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddComment.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddComment.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddProfile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/AddProfile.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayComments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayComments.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayConsultations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayConsultations.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayProfiles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/DisplayProfiles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontAddConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontAddConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontDisplayComments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontDisplayComments.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontDisplayProfiles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/FrontDisplayProfiles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UpdateConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UpdateConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UpdateProfile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UpdateProfile.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UserConsultations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MaryemFXML/UserConsultations.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuizBackend.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/addQuizBackend.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageBackQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageBackQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageBackQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageBackQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/affichageQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/afficherQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/afficherQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/afficherQuestions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/afficherQuestions.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/login_form.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/OumaimaFXML/updateQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/Home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/Home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/TwoFA.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/TwoFA.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/email_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/email_template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/index_user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/index_user.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/reset-password-request.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/reset-password-request.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/User/reset-password.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/User/reset-password.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/CommentsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/CommentsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/ConsultationsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/ConsultationsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/DesignDashboardHedy.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/DesignDashboardHedy.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/css/DesignFrontHedy.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/DesignFrontHedy.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/UserTitlesStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/UserTitlesStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/affichageprofilefront.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/affichageprofilefront.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/dashboard-sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/dashboard-sidebar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/leaderboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/leaderboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/header.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/header.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login_form.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/prompts.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prompts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/style/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/style/my-account.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style/my-account.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Boubaker/backoffice.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Boubaker/backoffice.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Boubaker/chatbot.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Boubaker/chatbot.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Boubaker/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Boubaker/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Boubaker/orders.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Boubaker/orders.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/CreateStoreItem.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/CreateStoreItem.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/CreateTitle.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/CreateTitle.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/GamesMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/GamesMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/Leaderboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/Leaderboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/ListPexelWords.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/ListPexelWords.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItems.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItems.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItemsAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItemsAdmin.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItemsFront.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/ListStoreItemsFront.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/ListTitles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/ListTitles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/PexelWordForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/PexelWordForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/UpdateStoreItem.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/UpdateStoreItem.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/UserTitles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/UserTitles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HamzaFXML/update_title.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HamzaFXML/update_title.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDachboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDachboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageModule.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/BackOfficeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/ChatbotController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/ChatbotController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/HeaderController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/MainBoubakerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Boubaker/OrdersController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/CreateStoreItemController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/CreateTitleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/LeaderboardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListPexelWordsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsAdminController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsAdminController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsAdminController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsAdminController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsAdminController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsFrontController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListStoreItemsFrontController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListTitlesController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/ListTitlesController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/PexelWordFormController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/UpdateStoreItemController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/UpdateTitleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Ham/UserTitlesController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/HeaderController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageModuleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageModuleDashboardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AjoutModuleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/EditModuleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController$AffichageModuleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/EditCoursController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddCommentController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddCommentController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddCommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddConsultationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddProfileController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddProfileController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/AddProfileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayCommentsController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayCommentsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayConsultationsController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayConsultationsController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayConsultationsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayProfilesController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayProfilesController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayProfilesController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayProfilesController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/DisplayProfilesController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/FrontAddConsultationController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/FrontAddConsultationController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/FrontAddConsultationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/FrontDisplayCommentsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/FrontDisplayProfilesController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateConsultationController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateConsultationController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateConsultationController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateConsultationController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateConsultationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UpdateProfileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Maryem/UserConsultationsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AddQuizBackendController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AddQuizBackendController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AddQuizBackendController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AffichageBackQuizController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AffichageBackQuizController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/AfficherQuestionsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/UpdateQuestionBackController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/UpdateQuestionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/UpdateQuizController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/UpdateQuizController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/UpdateQuizController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/addQuestionBackController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/addQuestioncontroller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/addQuizcontroller$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/addQuizcontroller$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/addQuizcontroller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/affichageQuestionBack$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/affichageQuestionBack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Oumaima/affichageQuizcontroller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Form/RegistrationFormType.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageModuleDashboardHedy.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageModuleDashboardHedy.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AjoutCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AjoutCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AjoutModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AjoutModule.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/EditCours.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/EditCours.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/EditModule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/EditModule.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/AddComment.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/AddComment.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/AddConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/AddConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/AddProfile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/AddProfile.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayComments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayComments.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayConsultations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayConsultations.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayProfiles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/DisplayProfiles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontAddConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontAddConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontDisplayComments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontDisplayComments.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontDisplayProfiles.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/FrontDisplayProfiles.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/UpdateConsultation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/UpdateConsultation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/UpdateProfile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/UpdateProfile.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MaryemFXML/UserConsultations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MaryemFXML/UserConsultations.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuizBackend.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/addQuizBackend.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageBackQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageBackQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageBackQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageBackQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/affichageQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/afficherQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/afficherQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/afficherQuestions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/afficherQuestions.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/login_form.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuestion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuestionBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuestionBack.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/OumaimaFXML/updateQuiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/Home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/Home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/TwoFA.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/TwoFA.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/email_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/email_template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/index_user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/index_user.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/reset-password-request.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/reset-password-request.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/User/reset-password.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/User/reset-password.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/CommentsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/CommentsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/ConsultationsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/ConsultationsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/DesignDashboardHedy.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/DesignDashboardHedy.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/css/DesignFrontHedy.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/DesignFrontHedy.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/UserTitlesStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/UserTitlesStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/affichageprofilefront.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/affichageprofilefront.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/dashboard-sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/dashboard-sidebar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/leaderboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/leaderboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/header.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/header.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/login_form.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/prompts.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/prompts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/style/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/style/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/style/my-account.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/style/my-account.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Commande.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Commentaire.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Consultation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Cours.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Module.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Notification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Oumaima/Cours.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Oumaima/Question.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Oumaima/Quiz.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Pack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/PexelWord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Profile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/ResetPasswordRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Session.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/StoreItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Title.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/User$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/UserTitle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/DataSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/RegistrationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/ResetPasswordController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/SecurityController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/SendEmailController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/SendEmailController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/TwoFAController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/mailtrap/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/mailtrap/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/CommandeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/CommentaireService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/ConsultationService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/CoursService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/IService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/ModuleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/Oumaima/CoursService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/Oumaima/QuestionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/Oumaima/QuizService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/PackService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/PexelWordService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/ProfileService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/StoreItemService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/TitleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/TwoFactorAuthService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/UserTitleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Boubaker/BoubakerMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Dashboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/CreateStoreItemMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/CreateTitleMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/DisplayPexelWordsMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/DisplayStoreItemsAdminMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/DisplayStoreItemsFrontMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/DisplayStoreItemsMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/DisplayTitlesMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/LeaderboardMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Ham/UserTitlesMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Maryem/FXMLDisplayConsultations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Maryem/FXMLFrontDisplayProfile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Maryem/FXMLaddprofile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Maryem/FXMLdisplayprofile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Maryem/mes_rendezvous.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Oumaima/FXMLAffichageBackQuizQuestionMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Oumaima/FXMLAffichageQuizFront.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/Sidebar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/hedy/FXMLTestMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/hedy/Mainx.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/DataSource.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/projet_java_gestion_evaluation-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/projet_java_gestion_evaluation-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,6 +193,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Dashboard.executor": "Run",
+    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "kotlin-language-version-configured": "true",
@@ -362,7 +243,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746124248292</updated>
-      <workItem from="1746124249686" duration="401000" />
+      <workItem from="1746124249686" duration="3387000" />
     </task>
     <servers />
   </component>

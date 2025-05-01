@@ -49,5 +49,24 @@
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
 }
+/* Search Field Styling */
+
+.search-field {
+    -fx-background-color: white; /* White background */
+    -fx-border-color: #ccc; /* Default gray border */
+    -fx-border-radius: 25px; /* Rounded corners */
+    -fx-border-width: 1px; /* Default border thickness */
+    -fx-padding: 8px 15px; /* Padding inside the TextField */
+    -fx-font-size: 14px; /* Font size */
+    -fx-prompt-text-fill: #aaa; /* Placeholder text color */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Subtle shadow */
+}
+
+/* Focused State (When Clicked) */
+.search-field:focused {
+    -fx-border-color: #4CAF50; /* Green border when focused */
+    -fx-border-width: 2px; /* Thicker border */
+    -fx-border-radius: 25px; /* Maintain rounded corners */
+}
 
 
