@@ -122,7 +122,7 @@ public class SendEmailController {
         Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
             @Override
             protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new jakarta.mail.PasswordAuthentication("628d2c7935a2da", "4d1baf0d355e70");
+                return new jakarta.mail.PasswordAuthentication("e88711a9977b02", "fc95cb1141849c");
             }
         });
 

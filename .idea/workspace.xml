@@ -83,7 +83,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.UserTitlesMain">
+  <component name="RunManager" selected="Application.Dashboard">
     <configuration name="BoubakerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Boubaker.BoubakerMain" />
       <module name="projet_java_gestion_evaluation" />
@@ -210,6 +210,7 @@
       <workItem from="1745485129739" duration="5573000" />
       <workItem from="1745490810586" duration="5772000" />
       <workItem from="1745533108085" duration="885000" />
+      <workItem from="1746201295316" duration="2977000" />
     </task>
     <servers />
   </component>

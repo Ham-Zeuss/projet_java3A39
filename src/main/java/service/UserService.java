@@ -639,25 +639,7 @@ public class UserService implements IService<User> {
         return user;
     }
 
-    private User mapResultSetToUseroumaima(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setId(rs.getInt("id"));
-        user.setNom(rs.getString("nom"));
-        user.setPrenom(rs.getString("prenom"));
-        user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
-        String statusValue = rs.getString("status");
-        boolean isActive;
-        if (statusValue == null || statusValue.isEmpty()) {
-            isActive = false;
-        } else {
-            isActive = statusValue.equalsIgnoreCase("true") || statusValue.equals("1");
-        }
-        user.setActive(isActive);
-        String rolesJson = rs.getString("roles");
-        user.setRolesFromJson(rolesJson);
-        return user;
-    }
+
 
     public boolean emailExists(String email) {
         return getUserByEmail(email) != null;
