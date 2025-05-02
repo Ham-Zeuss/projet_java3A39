@@ -9,8 +9,10 @@ import java.util.List;
 
 public class CommandeService {
 
-    private Connection getConnection() throws SQLException {
-        return DataSource.getInstance().getConnection();
+    private final Connection conn;
+
+    public CommandeService() {
+        this.conn = DataSource.getInstance().getConnection();
     }
 
     /**
@@ -20,8 +22,7 @@ public class CommandeService {
         List<Commande> commandes = new ArrayList<>();
         String query = "SELECT * FROM commande";
         System.out.println("Executing query: " + query);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
+        try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Commande commande = mapResultSetToCommande(rs);
@@ -42,12 +43,12 @@ public class CommandeService {
     public Commande getCommandeById(int id) {
         String query = "SELECT * FROM commande WHERE id = ?";
         System.out.println("Fetching order with ID: " + id);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToCommande(rs);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToCommande(rs);
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error fetching order by ID: " + e.getMessage());
@@ -62,8 +63,7 @@ public class CommandeService {
     public void addCommande(Commande commande) {
         String query = "INSERT INTO commande (user_id, pack_id, amount, commande_date, payment_method, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         System.out.println("Adding order: User ID=" + commande.getUserId() + ", Pack ID=" + commande.getPackId());
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, commande.getUserId());
             stmt.setInt(2, commande.getPackId());
             stmt.setDouble(3, commande.getAmount());
@@ -85,8 +85,7 @@ public class CommandeService {
     public void updateCommande(Commande commande) {
         String query = "UPDATE commande SET user_id = ?, pack_id = ?, amount = ?, commande_date = ?, payment_method = ?, expiry_date = ?, status = ? WHERE id = ?";
         System.out.println("Updating order: ID=" + commande.getId());
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, commande.getUserId());
             stmt.setInt(2, commande.getPackId());
             stmt.setDouble(3, commande.getAmount());
@@ -109,8 +108,7 @@ public class CommandeService {
     public void deleteCommande(int id) {
         String query = "DELETE FROM commande WHERE id = ?";
         System.out.println("Deleting order with ID: " + id);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             int rows = stmt.executeUpdate();
             System.out.println("Order deleted, rows affected: " + rows);

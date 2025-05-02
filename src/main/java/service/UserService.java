@@ -336,64 +336,63 @@ public class UserService implements IService<User> {
 
     public User getUserByIdForPack(int id) {
         String requete = "SELECT id, nom, prenom, email, password, roles, status, balance, points, features_unlocked FROM user WHERE id = ?";
-        try (Connection conn = DataSource.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
             pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                // Manually parse roles
-                String rolesJson = rs.getString("roles");
-                List<String> roles = new ArrayList<>();
-                if (rolesJson != null && !rolesJson.isEmpty()) {
-                    rolesJson = rolesJson.trim();
-                    if (rolesJson.startsWith("[") && rolesJson.endsWith("]")) {
-                        // JSON array: ["ROLE_1","ROLE_2"]
-                        rolesJson = rolesJson.substring(1, rolesJson.length() - 1);
-                        if (!rolesJson.isEmpty()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Manually parse roles
+                    String rolesJson = rs.getString("roles");
+                    List<String> roles = new ArrayList<>();
+                    if (rolesJson != null && !rolesJson.isEmpty()) {
+                        rolesJson = rolesJson.trim();
+                        if (rolesJson.startsWith("[") && rolesJson.endsWith("]")) {
+                            // JSON array: ["ROLE_1","ROLE_2"]
+                            rolesJson = rolesJson.substring(1, rolesJson.length() - 1);
+                            if (!rolesJson.isEmpty()) {
+                                for (String role : rolesJson.split(",")) {
+                                    roles.add(role.replace("\"", "").trim());
+                                }
+                            }
+                        } else {
+                            // Fallback: single role or comma-separated
                             for (String role : rolesJson.split(",")) {
-                                roles.add(role.replace("\"", "").trim());
+                                roles.add(role.trim());
                             }
                         }
-                    } else {
-                        // Fallback: single role or comma-separated
-                        for (String role : rolesJson.split(",")) {
-                            roles.add(role.trim());
-                        }
                     }
-                }
 
-                // Create User object
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setNom(rs.getString("nom"));
-                user.setPrenom(rs.getString("prenom"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setRoles(roles);
-                user.setActive(rs.getBoolean("status"));
-                user.setBalance(rs.getObject("balance", Double.class));
-                user.setPoints(rs.getObject("points", Integer.class));
-                user.setFeaturesUnlocked(rs.getString("features_unlocked"));
-                return user;
+                    // Create User object
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setRoles(roles);
+                    user.setActive(rs.getBoolean("status"));
+                    user.setBalance(rs.getObject("balance", Double.class));
+                    user.setPoints(rs.getObject("points", Integer.class));
+                    user.setFeaturesUnlocked(rs.getString("features_unlocked"));
+                    return user;
+                }
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la recherche d'utilisateur pour pack par ID: " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
         return null;
     }
 
     public void addBalance(int userId, double amount) {
         String requete = "UPDATE user SET balance = balance + ? WHERE id = ?";
-        try (Connection conn = DataSource.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
             pstmt.setDouble(1, amount);
             pstmt.setInt(2, userId);
             int rowsAffected = pstmt.executeUpdate();
             System.out.println("Solde mis à jour : userId=" + userId + ", montant=" + amount + ", lignes affectées=" + rowsAffected);
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour du solde : " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
 
@@ -402,8 +401,7 @@ public class UserService implements IService<User> {
 
     public void updateFeaturesUnlocked(int userId, String features) {
         String requete = "UPDATE user SET features_unlocked = ? WHERE id = ?";
-        try (Connection conn = DataSource.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
             // features is already a JSON string (e.g., ["More Quizzes"]), so pass it directly
             System.out.println("Tentative de mise à jour : userId=" + userId + ", features='" + features + "'");
             pstmt.setString(1, features);
@@ -413,28 +411,29 @@ public class UserService implements IService<User> {
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour des fonctionnalités : " + e.getMessage());
             // Fallback: Try setting NULL
-            try (Connection conn = DataSource.getInstance().getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement("UPDATE user SET features_unlocked = NULL WHERE id = ?")) {
+            try (PreparedStatement pstmt = cnx.prepareStatement("UPDATE user SET features_unlocked = NULL WHERE id = ?")) {
                 pstmt.setInt(1, userId);
                 int rowsAffected = pstmt.executeUpdate();
                 System.out.println("Fallback : features_unlocked mis à NULL pour userId=" + userId + ", lignes affectées=" + rowsAffected);
             } catch (SQLException fallbackEx) {
                 System.err.println("Erreur lors du fallback à NULL : " + fallbackEx.getMessage());
             }
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Resets the unlocked features for a user to an empty JSON array.
+     */
     public void resetFeaturesUnlocked(int userId) {
         String requete = "UPDATE user SET features_unlocked = '[]' WHERE id = ?";
-        try (Connection conn = DataSource.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
             pstmt.setInt(1, userId);
             int rowsAffected = pstmt.executeUpdate();
             System.out.println("Fonctionnalités réinitialisées : userId=" + userId + ", lignes affectées=" + rowsAffected);
         } catch (SQLException e) {
             System.err.println("Erreur lors de la réinitialisation des fonctionnalités : " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
 

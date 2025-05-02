@@ -56,12 +56,15 @@
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- Gluon Maps and Dependencies -->
+        <!-- Maryem! Gluon Maps and Dependencies -->
         <dependency>
             <groupId>com.gluonhq</groupId>
             <artifactId>maps</artifactId>
             <version>${gluon-maps.version}</version>
         </dependency>
+
+
+
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>storage</artifactId>
@@ -103,11 +106,7 @@
             <version>6.2.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20230227</version>
-        </dependency>
+
 
         <!-- MySQL Connector -->
         <dependency>

@@ -9,8 +9,14 @@ import java.util.List;
 
 public class PackService {
 
-    private Connection getConnection() throws SQLException {
-        return DataSource.getInstance().getConnection();
+    private final Connection conn;
+
+    public PackService() {
+        try {
+            this.conn = DataSource.getInstance().getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize database connection: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -20,8 +26,7 @@ public class PackService {
         List<Pack> packs = new ArrayList<>();
         String query = "SELECT * FROM pack";
         System.out.println("Executing query: " + query);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
+        try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Pack pack = mapResultSetToPack(rs);
@@ -42,8 +47,7 @@ public class PackService {
     public void addPack(Pack pack) {
         String query = "INSERT INTO pack (price, features, validity_period, name) VALUES (?, ?, ?, ?)";
         System.out.println("Adding pack: " + pack.getName());
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setDouble(1, pack.getPrice());
             stmt.setString(2, pack.getFeatures());
             stmt.setInt(3, pack.getValidityPeriod());
@@ -62,12 +66,12 @@ public class PackService {
     public Pack getPackById(int id) {
         String query = "SELECT * FROM pack WHERE id = ?";
         System.out.println("Fetching pack with ID: " + id);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToPack(rs);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToPack(rs);
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error fetching pack by ID: " + e.getMessage());
@@ -82,8 +86,7 @@ public class PackService {
     public void updatePack(Pack pack) {
         String query = "UPDATE pack SET name = ?, price = ?, features = ?, validity_period = ? WHERE id = ?";
         System.out.println("Updating pack: " + pack.getName());
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, pack.getName());
             stmt.setDouble(2, pack.getPrice());
             stmt.setString(3, pack.getFeatures());
@@ -103,8 +106,7 @@ public class PackService {
     public void deletePack(int id) {
         String query = "DELETE FROM pack WHERE id = ?";
         System.out.println("Deleting pack with ID: " + id);
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             int rows = stmt.executeUpdate();
             System.out.println("Pack deleted, rows affected: " + rows);
@@ -126,5 +128,4 @@ public class PackService {
                 rs.getInt("validity_period")
         );
     }
-
 }

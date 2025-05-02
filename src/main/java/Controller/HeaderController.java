@@ -91,7 +91,7 @@ public class HeaderController {
         try {
             // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
-            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
@@ -99,57 +99,46 @@ public class HeaderController {
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // 2. Add header image right below the header.fxml content
+            // 2. Add header image
             ImageView headerImageView = new ImageView();
             try {
-                // Load the header image from resources
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
-
-                // Set image properties
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920); // Match header width
-                headerImageView.setSmooth(true);   // Better quality when scaling
-                headerImageView.setCache(true);    // Better performance
-
-                // Add some spacing between header and image if needed
+                headerImageView.setFitWidth(1920);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                // Fallback if image fails to load
                 Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
-                headerImageView = new ImageView();
                 mainContent.getChildren().add(fallbackBox);
             }
             mainContent.getChildren().add(headerImageView);
 
-            // 3. Handle body content (unchanged)
+            // 3. Load body content
             Parent bodyContent;
-            if (fxmlPath.equals("Boubaker/main.fxml")) {
-                MainBoubakerController controller = new MainBoubakerController();
-                bodyContent = controller.getRoot();
-                bodyContent.getStyleClass().add("body-content");
-            } else {
-                URL resourceUrl = getClass().getResource("/" + fxmlPath);
-                if (resourceUrl == null) {
-                    System.err.println("Resource not found: /" + fxmlPath);
-                    return;
-                }
-                FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
-                bodyContent = bodyLoader.load();
+            URL resourceUrl = getClass().getResource("/" + fxmlPath);
+            if (resourceUrl == null) {
+                System.err.println("Resource not found: /" + fxmlPath);
+                return;
+            }
+            FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
+            bodyContent = bodyLoader.load();
 
-                if (fxmlPath.equals("MaryemFXML/FrontDisplayProfiles.fxml")) {
-                    FrontDisplayProfilesController controller = bodyLoader.getController();
-                    if (controller != null) {
-                        Session session = Session.getInstance();
-                        controller.setUserId(session.getUserId());
-                    }
+            // Special handling for specific controllers (e.g., FrontDisplayProfilesController)
+            if (fxmlPath.equals("MaryemFXML/FrontDisplayProfiles.fxml")) {
+                FrontDisplayProfilesController controller = bodyLoader.getController();
+                if (controller != null) {
+                    Session session = Session.getInstance();
+                    controller.setUserId(session.getUserId());
                 }
             }
             bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
             // 4. Load footer as ImageView
@@ -165,60 +154,38 @@ public class HeaderController {
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
-                footerImageView = new ImageView();
                 mainContent.getChildren().add(fallbackBox);
             }
             mainContent.getChildren().add(footerImageView);
 
-
-
-
-
-            // Wrap the VBox in a ScrollPane
+            // Wrap in ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable vertical scrollbar
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-// Calculate required height
-            double totalHeight = headerFxmlContent.getPrefHeight() +
-                    headerImageView.getFitHeight() +
-                    bodyContent.prefHeight(-1) +
-                    footerImageView.getFitHeight();
-
-// Set scene to window height or content height, whichever is smaller
+            // Set scene
             Scene scene = new Scene(scrollPane, 1920, 1080);
-
-
-
-
-
-
-
 
             // Add CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
             if (storeCards != null) {
                 scene.getStylesheets().add(storeCards.toExternalForm());
             }
-
-
             URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
             if (affichageprofilefront != null) {
                 scene.getStylesheets().add(affichageprofilefront.toExternalForm());
             }
-
             URL NavBar = getClass().getResource("/navbar.css");
             if (NavBar != null) {
                 scene.getStylesheets().add(NavBar.toExternalForm());
             }
-
             URL userconsultation = getClass().getResource("/css/appointments.css");
             if (userconsultation != null) {
                 scene.getStylesheets().add(userconsultation.toExternalForm());
             }
 
-            // Get the Stage from the source button
+            // Set stage
             Stage stage = (Stage) sourceButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle(title);
@@ -235,6 +202,20 @@ public class HeaderController {
     private void goToPacks() {
         navigateToPage(packsButton, "Boubaker/main.fxml", "Packs");
     }
+
+    @FXML
+    @SuppressWarnings("unused")
+    private void goToOrders() {
+        navigateToPage(packsButton, "Boubaker/orders.fxml", "Orders");
+    }
+
+
+    @FXML
+    @SuppressWarnings("unused")
+    private void goToChatbot() {
+        navigateToPage(packsButton, "Boubaker/chatbot.fxml", "ChatBot");
+    }
+
 
     @FXML
     @SuppressWarnings("unused")
@@ -378,14 +359,15 @@ public class HeaderController {
     private void showPacksDropdown() {
         String[] iconUrls = {
                 "https://img.icons8.com/?size=100&id=113642&format=png&color=000000", // Packs
-                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000"  // bot
+                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000",  // bot
+                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000"  // Change it
         };
 
         toggleDropdownWithIcons(packsButton,
-                new String[]{"Premium Packs", "Chat Bot"},
-                new String[]{"Unlock premium features", "Chat with Our little one"},
+                new String[]{"Premium Packs","Orders", "Chat Bot"},
+                new String[]{"Unlock premium features","See your Orders", "Chat with Our little one"},
                 iconUrls,
-                new Runnable[]{this::goToPacks, this::goToPacks}
+                new Runnable[]{this::goToPacks, this::goToOrders, this::goToChatbot}
         );
     }
 

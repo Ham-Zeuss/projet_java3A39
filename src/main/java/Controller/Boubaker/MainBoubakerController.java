@@ -55,10 +55,9 @@ public class MainBoubakerController {
         PAYMENT_METHOD_CODES.put("55555555555544", "Mastercard");
     }
 
-    @FXML
-    private HBox packContainer;
-    @FXML
-    private Label balanceLabel;
+    @FXML private HBox packContainer;
+    @FXML private Label balanceLabel;
+    @FXML private Button addBalanceButton;
 
     @FXML
     public void initialize() {
