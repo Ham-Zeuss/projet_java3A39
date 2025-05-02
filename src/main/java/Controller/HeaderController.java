@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.Boubaker.MainBoubakerController;
 import Controller.Maryem.FrontDisplayProfilesController;
 import entite.Session;
 import javafx.event.ActionEvent;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -173,7 +175,27 @@ public class HeaderController {
 
     @FXML
     private void goToChatbot(ActionEvent event) {
-        navigateToPage(event, "/Boubaker/chatbot.fxml", "Chatbot");
+        Session session = Session.getInstance();
+        if (!session.isActive() || session.getUserId() <= 0) {
+            showAlert(Alert.AlertType.ERROR, "Connexion Requise", "Veuillez vous connecter pour accéder au chatbot.");
+            return;
+        }
+
+        // Check Premium access
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Boubaker/main.fxml"));
+        try {
+            loader.load();
+            MainBoubakerController controller = loader.getController();
+            if (controller != null && controller.hasChatbotAccess()) {
+                navigateToPage(event, "/Boubaker/chatbot.fxml", "Chatbot");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Accès Refusé",
+                        "Le chatbot est réservé aux utilisateurs avec le pack Premium. Veuillez acheter le pack Premium.");
+            }
+        } catch (IOException e) {
+            System.err.println("Erreur lors du chargement de MainBoubakerController : " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la vérification de l'accès au chatbot.");
+        }
     }
 
     /**
@@ -264,5 +286,13 @@ public class HeaderController {
     @FXML
     private void handleGames(ActionEvent event) {
         System.out.println("Games button clicked");
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

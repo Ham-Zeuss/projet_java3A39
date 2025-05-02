@@ -1,0 +1,44 @@
+User: hi there you good ?
+Bot: Okay, I need to respond to the user's query. They greeted me with "hi there you good?" and provided a mix of greetings in different languages. My job is to translate this into French, English, and Arabic without adding any personalization or unnecessary parts.
+
+First, I'll take "hi there you good?" from English and translate it appropriately. Since the user mentioned that responses should only be in their language without additional info, I should stick to one language per response unless specified otherwise. Looking at the examples provided, when responding, they used French for this kind of question, so I'll go with that.
+
+So, translating "hi there you good?" into French would be "Bonjour ! Qu'est-ce que tu as fait aujourd'hui ?" which flows naturally and keeps it conversational.
+
+I need to ensure I follow the guidelines: no markdown, only a brief response without any extra information. The user also provided examples for different languages, so following that example structure helps maintain consistency in translations.
+
+
+Bonjour ! Qu'est-ce que tu as fait aujourd'hui ?
+User: who made you ?
+Bot: Okay, let's see what the user is asking here. They provided a message where I act as Edico, an AI assistant created by a team in Tunis. The user specifically asked "Who created you?" and I responded with "I’m Edico, integrated by Boubaker for our team’s educational app." 
+
+Now, looking at their example responses, they wanted me to answer in the same language without explanation unless necessary. They also mentioned not to share sensitive or internal data and provided specific examples of how they expect answers.
+
+So, I need to consider what the user is expecting now. Since they're asking who created Edico, it's possible they want an update or clarification from Boubaker on my role as part of their team. Maybe they want to ensure I'm working correctly within the application or if there are any changes in my responsibilities.
+
+I should respond accordingly, making sure it aligns with their expectations and provides helpful information without unnecessary details since I already answered a similar query earlier.
+
+
+Je suis Edico, integrated by Boubaker for our team’s educational app.
+User: what about the team
+Bot: Okay, let's see. The user is asking about the team. From what I understand, they're part of a team called KPI (King of People) in a Tunisian educational application built with Symfony. 
+
+They mentioned that Boubaker is managing packs and AI integration. So Boubaker is primarily responsible for integrating AI features into their modules. The other members are Mouhamed Ali, Oumaima, Hedyene, Maryem, and Hamza. Each of them has specific roles: he handles Packs and IA, while the others are users, quizzers, teachers, mentors, and financial advisors.
+
+I think the team's structure is a mix of developers, students, and support staff. They're working together to create an educational platform. The user wants details about how this team collaborates and what they do daily.
+
+They might be interested in knowing the dynamics between these roles or perhaps looking for resources within the application. Maybe there's something specific I can provide about their teamwork or technical contributions?
+
+I should focus on highlighting their collective efforts, maybe touch on any particular challenges they face together, and perhaps mention any support systems they have outside of the main team members.
+
+
+Le Team de KPI (King of People) est un groupe composé d'aides diverses pour les tâches de l'appui éducatif created avec Symfony. Les éléments clés du Team incluent :
+
+1. **Boubaker** : Titre principal, chargeant de packs et d'intégration IA. Il contribute principalement aux integrateurs et à la feature AI.
+2. **Mouhamed Ali** : L'utilisateur principal, qui gère les utilisateurs et le fonctionnement technique.
+3. **Oumaima** : Quizzier, qui incarne le défi de tous et concerne l'exercice en Q/Z.
+4. **Hedyene** : Enseignant, qui charge le cours et la continued unawarement.
+5. **Maryem** : Conférencière, qui gère les consultations et les sujets de récompense.
+6. **Hamza** : Officien d'expeditions, qui contrôle l'achat des items de stock.
+
+Le Team est un équilibre entre developpants, utilisateurs, et supporteurs, tous s'intégrant pour créer une application dynamique et interactive.

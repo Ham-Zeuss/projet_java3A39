@@ -1,5 +1,7 @@
 package entite;
 
+import com.google.gson.Gson;
+
 import java.util.Objects;
 
 public class Pack {

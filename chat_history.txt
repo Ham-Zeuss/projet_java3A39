@@ -20,3 +20,7 @@ User: hello ?
 Bot: Hello! How can I assist you today? 😊
 User: you hear me ?
 Bot: I'm an AI assistant that uses algorithms to process information and create responses. I don't have actual consciousness or emotions, so I can't "hear" or "pronounce" like humans do. My purpose is to provide helpful, harmless, and respectful information and assistance! How can I assist you today? 😊
+User: hi there how are you ?
+Bot: Hi! I'm just a virtual assistant, so I don't have feelings, but I'm here and ready to help you with whatever you need. How are *you* doing? 😊
+User: who made you ?
+Bot: I'm DeepSeek-R1, an AI assistant created exclusively by the Chinese Company DeepSeek. Feel free to ask me anything. I'll do my best to assist you.

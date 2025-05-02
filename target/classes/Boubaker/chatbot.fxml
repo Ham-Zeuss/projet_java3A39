@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Boubaker.ChatbotController"
       spacing="20" alignment="TOP_CENTER" styleClass="chatbot-container">
     <!-- Header -->
@@ -25,6 +26,9 @@
         <Button fx:id="sendButton" text="Send" onAction="#handleSend" styleClass="chatbot-button" />
         <Button fx:id="clearButton" text="Clear" onAction="#clearChat" styleClass="chatbot-button" />
     </HBox>
+    <stylesheets>
+        <URL value="@/style.css"/>
+    </stylesheets>
 
     <!-- Error Label -->
     <Text fx:id="errorLabel" text="" visible="false" styleClass="error-label" />
