@@ -1,134 +1,208 @@
-/* --- Store Card Base --- */
-.store-card {
-    -fx-background-color: white; /* White background */
-    -fx-background-radius: 8; /* Slightly rounded corners for the card */
-    -fx-border-radius: 8;
-    -fx-border-width: 0; /* No border, rely on shadow */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3); /* Softer shadow */
-    -fx-padding: 0; /* Remove padding from VBox, control spacing internally */
+.card {
+    -fx-background-color: linear-gradient(to bottom, #FFFFFF, #FFFFFF); /* Gradient: silver to light gray */
+    -fx-background-radius: 20;
+    -fx-border-color: #c3c6ce;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-padding: 10;
+    -fx-effect: none;
+    -fx-transition: -fx-border-color 0.5s, -fx-effect 0.5s;
 }
 
-/* --- Image View --- */
-/* No special styling needed unless you want margins */
-/* The image itself should fit naturally */
-
-
-/* --- Content Area within Card --- */
-.card-content-padding {
-    -fx-padding: 15; /* Padding around text/button block */
-    -fx-spacing: 8; /* Spacing between elements in this VBox */
-    -fx-alignment: center-left; /* Align text to the left */
+.card:hover {
+    -fx-border-color: #008bf8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 18, 0, 0, 4);
 }
 
-/* --- Text Styles --- */
-.card-title {
-    -fx-font-family: 'Bubblegum Sans'; /* Or a cleaner sans-serif like 'System' or 'Segoe UI' */
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-alignment: center-left;
+/* Override shadow color based on card color class */
+.card.color-1:hover {
+    -fx-border-color: #008bf8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 139, 248, 0.5), 18, 0, 0, 4); /* Blue */
 }
 
-.card-description {
-    -fx-font-family: 'Bubblegum Sans'; /* Or 'System' */
-    -fx-font-size: 13px;
-    -fx-text-fill: #555555;
-    -fx-alignment: center-left;
-    -fx-wrap-text: true;
+.card.color-2:hover {
+    -fx-border-color: #e91e63;
+    -fx-effect: dropshadow(gaussian, rgba(233, 30, 99, 0.5), 18, 0, 0, 4); /* Pink */
 }
 
-.card-price {
-    -fx-font-family: 'Bubblegum Sans'; /* Or 'System' */
-    -fx-font-size: 18px; /* Make price prominent */
-    -fx-font-weight: bold;
-    -fx-text-fill: #222222; /* Darker price */
-    -fx-alignment: center-left;
+.card.color-3:hover {
+    -fx-border-color: #4caf50;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.5), 18, 0, 0, 4); /* Green */
 }
 
-.card-stock {
-    -fx-font-family: 'Bubblegum Sans'; /* Or 'System' */
-    -fx-font-size: 12px;
-    -fx-text-fill: #777777;
-    -fx-alignment: center-left;
+.card.color-4:hover {
+    -fx-border-color: #ff9800;
+    -fx-effect: dropshadow(gaussian, rgba(255, 152, 0, 0.5), 18, 0, 0, 4); /* Orange */
 }
 
-/* --- Rating Stars Placeholder --- */
-/* You'll need to add an HBox or similar in Java for the stars */
-.rating-stars {
-    -fx-spacing: 2;
-    -fx-alignment: center-left;
-    /* Style individual stars (Labels or ImageViews) here */
-}
-.star-label { /* Example if using Labels */
-    -fx-font-size: 16px;
-    -fx-text-fill: #FFC107; /* Gold color for stars */
+.image-container {
+    -fx-pref-width: 280;
+    -fx-pref-height: 140;
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
 }
 
-/* --- Buy Button --- */
-.buy-button {
-    /* -fx-background-color: defined by accent colors below */
+.card-details {
+    -fx-text-fill: black;
+    -fx-spacing: 5;
+    -fx-pref-height: 140;
+}
+
+.card-button {
+    -fx-background-radius: 10;
+    -fx-border-width: 0;
     -fx-text-fill: white;
-    -fx-font-family: 'Bubblegum Sans'; /* Or 'System Bold' */
-    -fx-font-size: 14px;
+    -fx-font-size: 14;
+    -fx-padding: 8 16;
+    -fx-opacity: 0;
+    -fx-translate-y: 20;
+    -fx-transition: -fx-opacity 0.3s, -fx-translate-y 0.3s;
+}
+
+.card:hover .card-button {
+    -fx-opacity: 1;
+    -fx-translate-y: 0;
+}
+
+.text-title {
+    -fx-font-size: 20;
     -fx-font-weight: bold;
-    -fx-background-radius: 0; /* Sharp corners like the example */
-    -fx-padding: 12 20; /* More vertical padding */
-    -fx-alignment: center;
-    -fx-cursor: hand;
-    /* Make button span width - set in Java using setMaxWidth */
 }
 
-/* Accent colors for Buttons */
-/* Using slightly different colors than your originals for variety */
-.accent-color-0 {
-    -fx-background-color: #20c997; /* Teal/Green */
-}
-.accent-color-0:hover {
-    -fx-background-color: #1ba980;
+.text-body {
+    -fx-font-size: 16;
+    -fx-fill: #868686;
 }
 
-.accent-color-1 {
-    -fx-background-color: #fd7e14; /* Orange */
-}
-.accent-color-1:hover {
-    -fx-background-color: #d66a0f;
-}
-
-.accent-color-2 {
-    -fx-background-color: #ffc107; /* Yellow/Gold */
-}
-.accent-color-2:hover {
-    -fx-background-color: #d9a406;
-}
-
-.accent-color-3 {
-    -fx-background-color: #6f42c1; /* Purple */
-}
-.accent-color-3:hover {
-    -fx-background-color: #5d37a0;
-}
-
-/* Disabled Button Style */
-.buy-button:disabled {
-    -fx-background-color: #ced4da; /* Light grey */
-    -fx-text-fill: #6c757d; /* Darker grey text */
-    -fx-opacity: 0.7; /* Make it slightly faded */
-    -fx-cursor: default;
-}
-
-/* --- Status Message (Optional, if you keep it) --- */
 .status-message {
-    -fx-font-family: 'Bubblegum Sans'; /* Or 'System' */
-    -fx-font-size: 12px;
-    -fx-padding: 5 0 0 0; /* Add some space above it */
-    -fx-alignment: center;
+    -fx-font-size: 14;
+    -fx-text-fill: #333333;
+    -fx-pref-height: 20;
 }
+
 .status-message-error {
     -fx-text-fill: red;
 }
+
+.status-message-info {
+    -fx-text-fill: #008bf8;
+}
+
 .status-message-ok {
     -fx-text-fill: green;
 }
-.status-message-info {
-    -fx-text-fill: #6c757d; /* Grey for 'already owned' etc. */
+
+/* Random button colors */
+.card-button.color-1 {
+    -fx-background-color: #008bf8; /* Blue */
 }
+
+.card-button.color-2 {
+    -fx-background-color: #e91e63; /* Pink */
+}
+
+.card-button.color-3 {
+    -fx-background-color: #4caf50; /* Green */
+}
+
+.card-button.color-4 {
+    -fx-background-color: #ff9800; /* Orange */
+}
+
+/* Custom dialog styles */
+.dialog-card {
+    -fx-max-width: 320;
+    -fx-border-color: #dbeafe;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-color: #ffffff;
+    -fx-padding: 16;
+}
+
+.dialog-header {
+    -fx-alignment: center-left;
+    -fx-spacing: 16;
+}
+
+.dialog-icon {
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-background-color: #60a5fa;
+    -fx-background-radius: 9999;
+    -fx-alignment: center;
+}
+
+.dialog-icon .image-view {
+    -fx-image-width: 16;
+    -fx-image-height: 16;
+}
+
+.dialog-alert {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-text-fill: #6b7280;
+}
+
+.dialog-close-button {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14;
+    -fx-text-fill: #6b7280;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+    -fx-transition: -fx-background-color 0.25s;
+}
+
+.dialog-close-button:hover {
+    -fx-background-color: #e61919;
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-message {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14;
+    -fx-wrap-text: true;
+    -fx-max-width: 280;
+}
+
+.dialog-actions {
+    -fx-spacing: 8;
+    -fx-alignment: center;
+}
+
+.dialog-read {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 12 20;
+    -fx-pref-width: 280;
+    -fx-pref-height: 40;
+    -fx-transition: -fx-background-color 0.15s;
+}
+
+.dialog-read:hover {
+    -fx-background-color: #1168f5;
+}
+
+.dialog-mark-as-read {
+    -fx-background-color: #f9fafb;
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 12 20;
+    -fx-pref-width: 280;
+    -fx-pref-height: 40;
+    -fx-transition: -fx-background-color 0.15s;
+}
+
+.dialog-mark-as-read:hover {
+    -fx-background-color: #e6e7e9;
+}
+
+
+

@@ -1,4 +1,4 @@
-package controller.Oumaima;
+package Controller.Oumaima;
 
 import com.google.gson.Gson;
 import entite.Oumaima.Question;

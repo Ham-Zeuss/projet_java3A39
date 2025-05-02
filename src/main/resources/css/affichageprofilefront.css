@@ -1,64 +1,33 @@
-.profile-card {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #d3d3d3;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-padding: 10;
-    -fx-spacing: 5;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+
+/* Existing styles */
+.profile-details-container {
+    -fx-background-color: #f5f5f5;
     -fx-alignment: center;
-    -fx-pref-width: 200;
-    -fx-pref-height: 250;
 }
 
-.profile-card .label {
-    -fx-font-size: 12px;
-    -fx-text-alignment: center;
-}
-
-.profile-card .title-label {
-    -fx-font-size: 14px;
+.section-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-alignment: center;
-    -fx-padding: 0 0 5 0;
 }
 
-.profile-card .button {
-    -fx-background-color: #4CAF50;
+.detail-label {
+    -fx-font-weight: bold;
+}
+
+.detail-value {
+    -fx-text-fill: #333;
+}
+
+.resources-button, .back-button {
+    -fx-background-color: #0078d7;
     -fx-text-fill: white;
-    -fx-font-size: 10px;
-    -fx-padding: 3 8;
     -fx-cursor: hand;
-    -fx-alignment: center;
 }
 
-.profile-card .button:hover {
-    -fx-background-color: #45a049;
-}
+/* New style for GoogleMapView */
+.gmapsfx-map {
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-background-color: #fff;
 
-.profile-card .icon-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-pref-width: 30;
-    -fx-pref-height: 30;
-    -fx-background-radius: 15;
-    -fx-border-radius: 15;
-    -fx-padding: 0;
-    -fx-cursor: hand;
-    -fx-alignment: center;
-}
-
-.profile-card .icon-button:hover {
-    -fx-background-color: #45a049;
-}
-
-.profile-card .hbox {
-    -fx-spacing: 10;
-    -fx-alignment: center;
-}
-
-#profilesContainer {
-    -fx-alignment: center;
-    -fx-padding: 10;
 }

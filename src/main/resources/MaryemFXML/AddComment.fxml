@@ -11,14 +11,10 @@
 
     <Label text="Add Comment"/>
 
-    <Label text="User:"/>
-    <ComboBox fx:id="userComboBox" prefWidth="200"/>
 
     <Label text="Comment:"/>
     <TextArea fx:id="commentTextArea" prefHeight="100" wrapText="true"/>
 
-    <Label text="Consultation ID:"/>
-    <TextField fx:id="consultationIdField"/>
 
     <Label text="Report Reason (optional):"/>
     <TextField fx:id="reportReasonField"/>
@@ -32,4 +28,8 @@
     </HBox>
 
     <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+
 </VBox>
+
+
+

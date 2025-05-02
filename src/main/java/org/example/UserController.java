@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import service.UserService;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -264,6 +267,12 @@ public class UserController {
     private void handleDeleteUser() {
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
+            // Vérifier si l'utilisateur a des cours associés
+            if (userService.hasAssociatedCours(selectedUser.getId())) {
+                showAlert("Suppression impossible",
+                        "Cet utilisateur a des cours associés. Veuillez supprimer ou réassigner les cours avant de supprimer l'utilisateur.");
+                return;
+            }
             userService.deleteUser(selectedUser.getId());
             loadUsers();
             clearForm();
@@ -272,6 +281,7 @@ public class UserController {
             showAlert("Aucune sélection", "Veuillez sélectionner un utilisateur à supprimer.");
         }
     }
+
 
     @FXML
     private void handleClearForm() {

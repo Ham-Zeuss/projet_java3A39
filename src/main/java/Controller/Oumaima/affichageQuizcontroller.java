@@ -1,4 +1,4 @@
-package controller.Oumaima;
+package Controller.Oumaima;
 
 import entite.Oumaima.Quiz;
 import javafx.fxml.FXML;
@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -117,16 +119,19 @@ public class affichageQuizcontroller implements Initializable {
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            // Load header image instead of header.html
+            ImageView headerImageView = new ImageView();
+            URL imageUrl = getClass().getResource("/images/header.png");
+            if (imageUrl != null) {
+                Image headerImage = new Image(imageUrl.toExternalForm());
+                headerImageView.setImage(headerImage);
             } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+                headerImageView.setImage(new Image("https://thumbs.dreamstime.com/b/stunning-hd-pic-caribbean-beach-cocktail-featuring-coconut-pineapple-set-against-palm-trees-sand-blue-sea-359953956.jpg"));
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            headerImageView.setFitWidth(2000);
+            headerImageView.setFitHeight(300);
+            headerImageView.setPreserveRatio(false);
+            mainContent.getChildren().add(headerImageView);
 
             // Load body (updateQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuiz.fxml"));
@@ -174,6 +179,7 @@ public class affichageQuizcontroller implements Initializable {
         }
     }
 
+
     @FXML
     private void goToAddQuiz() {
         try {
@@ -186,16 +192,19 @@ public class affichageQuizcontroller implements Initializable {
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            // Load header image instead of header.html
+            ImageView headerImageView = new ImageView();
+            URL imageUrl = getClass().getResource("/images/header.png");
+            if (imageUrl != null) {
+                Image headerImage = new Image(imageUrl.toExternalForm());
+                headerImageView.setImage(headerImage);
             } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+                headerImageView.setImage(new Image("https://thumbs.dreamstime.com/b/stunning-hd-pic-caribbean-beach-cocktail-featuring-coconut-pineapple-set-against-palm-trees-sand-blue-sea-359953956.jpg"));
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            headerImageView.setFitWidth(2000);
+            headerImageView.setFitHeight(300);
+            headerImageView.setPreserveRatio(false);
+            mainContent.getChildren().add(headerImageView);
 
             // Load body (addQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuiz.fxml"));
@@ -239,6 +248,7 @@ public class affichageQuizcontroller implements Initializable {
         }
     }
 
+
     private void goToQuestionList(int quizId) {
         try {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
@@ -250,16 +260,19 @@ public class affichageQuizcontroller implements Initializable {
             headerFxmlContent.setPrefSize(1000, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            // Load header image instead of header.html
+            ImageView headerImageView = new ImageView();
+            URL imageUrl = getClass().getResource("/images/header.png");
+            if (imageUrl != null) {
+                Image headerImage = new Image(imageUrl.toExternalForm());
+                headerImageView.setImage(headerImage);
             } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+                headerImageView.setImage(new Image("https://thumbs.dreamstime.com/b/stunning-hd-pic-caribbean-beach-cocktail-featuring-coconut-pineapple-set-against-palm-trees-sand-blue-sea-359953956.jpg"));
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            headerImageView.setFitWidth(2000);
+            headerImageView.setFitHeight(300);
+            headerImageView.setPreserveRatio(false);
+            mainContent.getChildren().add(headerImageView);
 
             // Load body (afficherQuestions.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/afficherQuestions.fxml"));
@@ -306,4 +319,5 @@ public class affichageQuizcontroller implements Initializable {
             alert.showAndWait();
         }
     }
+
 }
