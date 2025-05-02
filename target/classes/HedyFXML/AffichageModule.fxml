@@ -14,7 +14,6 @@
     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <Label text="Liste des Modules" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button text="Ajouter Module" onAction="#goToAjoutPage" styleClass="button-Enregistrer"/>
     </HBox>
 
     <!-- Grid for Module Cards -->

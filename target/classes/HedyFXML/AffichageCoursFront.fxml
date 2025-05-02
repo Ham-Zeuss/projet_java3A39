@@ -18,8 +18,10 @@
 
         <ComboBox fx:id="filterComboBox" prefWidth="150" promptText="Filter Courses" styleClass="search-field"/>
 
-        <Button text="Ajouter Cours" onAction="#goToAjoutCours" styleClass="button-Enregistrer"/>
-    </HBox>
+        <Button fx:id="ajouterCoursButton"
+                text="Ajouter Cours"
+                onAction="#goToAjoutCours"
+                styleClass="button-Enregistrer"/>    </HBox>
 
     <!-- Scrollable Centered Grid for Course Cards -->
     <ScrollPane fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
