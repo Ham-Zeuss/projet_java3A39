@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controller.Oumaima.UpdateQuizController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="450.0" prefWidth="700.0"
+            style="-fx-background-color: white;">
 
-    <VBox spacing="15.0" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <stylesheets>
+        <URL value="@/css/updatequiz.css" />
+    </stylesheets>
 
-        <Label text="Modifier le Quiz" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <VBox spacing="10.0" styleClass="card" AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.bottomAnchor="15.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        </padding>
 
-        <TextField fx:id="titleField" promptText="Titre du Quiz"/>
-        <TextArea fx:id="descriptionArea" promptText="Description" prefRowCount="4"/>
-        <TextField fx:id="durationField" promptText="Durée en minutes"/>
-        <ComboBox fx:id="courseComboBox" promptText="Sélectionnez un cours"/>
+        <!-- Image au-dessus du contenu -->
+        <ImageView styleClass="card-image" fitWidth="200.0" preserveRatio="true">
+            <image>
+                <Image url="@/Images/play_pencil_boy.png" />
+            </image>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </ImageView>
 
-        <HBox spacing="10">
-            <Button fx:id="updateButton"
-                    text="Enregistrer les modifications"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Label text="Modifier le Quiz" styleClass="heading" />
 
-            <!-- New Return Button -->
-            <Button fx:id="returnButton"
-                    text="Retour à la liste des quiz"
-                    style="-fx-background-color: #007BFF; -fx-text-fill: white;"
-                    onAction="#returnToAffichageQuiz"/>
+        <TextField fx:id="titleField" promptText="Titre du Quiz" styleClass="input-field" prefWidth="500.0"/>
+        <TextArea fx:id="descriptionArea" promptText="Description" styleClass="input-field" prefWidth="500.0" prefHeight="80.0"/>
+        <TextField fx:id="durationField" promptText="Durée en minutes" styleClass="input-field" prefWidth="500.0"/>
+        <ComboBox fx:id="courseComboBox" promptText="Sélectionnez un cours" styleClass="combo-box" prefWidth="500.0"/>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="option-container">
+            <Button fx:id="updateButton" text="Enregistrer" styleClass="quiz-button" prefWidth="120.0"/>
+            <Button fx:id="returnButton" text="Retour" styleClass="return-button" onAction="#returnToAffichageQuiz" prefWidth="120.0"/>
         </HBox>
     </VBox>
 </AnchorPane>

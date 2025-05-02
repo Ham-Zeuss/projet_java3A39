@@ -4,31 +4,32 @@ import entite.Oumaima.Quiz;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import service.Oumaima.QuizService;
-import javafx.scene.web.WebView;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.scene.control.ScrollPane;
 
 public class affichageEtudiantQuiz implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private ScrollPane scrollPane;
 
     @FXML
     private FlowPane quizContainer;
@@ -38,11 +39,20 @@ public class affichageEtudiantQuiz implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         quizService = new QuizService();
+        setupQuizContainer();
         displayQuizzes(quizService.readAll());
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterQuizzes(newValue);
         });
+    }
+
+    private void setupQuizContainer() {
+        // Configuration pour 4 cartes par ligne
+        quizContainer.setHgap(20);
+        quizContainer.setVgap(30);
+        quizContainer.setAlignment(Pos.TOP_CENTER);
+        quizContainer.setPrefWrapLength(1260); // (290*4) + (20*3) = 1160 + 60 = 1220 (avec marge)
     }
 
     private void displayQuizzes(List<Quiz> quizzes) {
@@ -53,34 +63,37 @@ public class affichageEtudiantQuiz implements Initializable {
     }
 
     private VBox createQuizCard(Quiz quiz) {
-        VBox card = new VBox(12);
-        card.setPrefWidth(500);
-        card.setPadding(new javafx.geometry.Insets(20));
-        card.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 3);");
-        card.getStyleClass().add("quiz-card");
+        VBox card = new VBox(15);
+        card.setPrefSize(320, 300); // Augmentez légèrement la hauteur pour le bouton
+        card.setMaxSize(320, 300);
+        card.setPadding(new Insets(20));
+        card.getStyleClass().add("card");
+
+        // Content VBox
+        VBox content = new VBox(15);
+        content.getStyleClass().add("content");
 
         Label titleLabel = new Label(quiz.getTitle());
-        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;");
-        titleLabel.setWrapText(true);
+        titleLabel.getStyleClass().add("heading");
 
-        Label courseLabel = new Label("Cours: " + (quiz.getCourse() != null ? quiz.getCourse().getTitle() : "Non défini"));
-        courseLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
+        String description = String.format("Cours: %s\nDurée: %d min\nNote: %.1f",
+                quiz.getCourse() != null ? quiz.getCourse().getTitle() : "Non défini",
+                quiz.getDuration(),
+                quiz.getNote());
+        Label descLabel = new Label(description);
+        descLabel.getStyleClass().add("para");
 
-        Label durationLabel = new Label("Durée: " + quiz.getDuration() + " min");
-        durationLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
-
-        Label noteLabel = new Label("Note: " + quiz.getNote());
-        noteLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
-
+        // Bouton visible maintenant
         Button takeQuizButton = new Button("Passer Quiz");
-        takeQuizButton.getStyleClass().add("view-button");
+        takeQuizButton.getStyleClass().add("quiz-button"); // Utilisez la nouvelle classe CSS
         takeQuizButton.setOnAction(event -> goToQuestionList(quiz.getId()));
 
-        HBox buttonContainer = new HBox(takeQuizButton);
-        buttonContainer.setSpacing(10);
-        buttonContainer.setStyle("-fx-alignment: center;");
+        content.getChildren().addAll(titleLabel, descLabel, takeQuizButton);
+        card.getChildren().add(content);
 
-        card.getChildren().addAll(titleLabel, courseLabel, durationLabel, noteLabel, buttonContainer);
+        // Gardez aussi le clic sur la carte si besoin
+        card.setOnMouseClicked(event -> goToQuestionList(quiz.getId()));
+
         return card;
     }
 
@@ -94,79 +107,94 @@ public class affichageEtudiantQuiz implements Initializable {
 
     private void goToQuestionList(int quizId) {
         try {
-            // Validation du quizId
             if (quizId <= 0) {
-                throw new IllegalArgumentException("L'ID du quiz doit être supérieur à 0");
+                throw new IllegalArgumentException("ID de quiz invalide");
             }
 
-            Stage stage = (Stage) scrollPane.getScene().getWindow();
-            VBox mainContent = new VBox();
+            // Load the FXML for the question list
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/AfficherQuestionsEtudiant.fxml"));
+            Parent root = loader.load();
 
-            // Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            if (headerFxmlLoader.getLocation() == null) {
-                throw new IllegalStateException("Fichier /header.fxml introuvable");
-            }
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
-
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
-            }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
-
-            // Load body (AfficherQuestionsEtudiant.fxml)
-            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/AfficherQuestionsEtudiant.fxml"));
-            if (bodyLoader.getLocation() == null) {
-                throw new IllegalStateException("Fichier /OumaimaFXML/AfficherQuestionsEtudiant.fxml introuvable");
-            }
-            Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
-            mainContent.getChildren().add(bodyContent);
-
-            // Set controller data (utiliser le bon contrôleur)
-            AfficherQuestionsEtudiantController controller = bodyLoader.getController();
+            AfficherQuestionsEtudiantController controller = loader.getController();
             controller.setQuizId(quizId);
 
-            // Load footer.html
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
-            }
-            footerWebView.setPrefSize(1000, 830);
-            mainContent.getChildren().add(footerWebView);
+            // Get the current stage
+            Stage stage = (Stage) quizContainer.getScene().getWindow();
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
+            // 1. Add header image
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // 2. Add body content
+            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(root);
+
+            // 3. Add footer image
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Wrap the VBox in a ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 600, 400);
-            URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
-            if (cssUrl != null) {
-                scene.getStylesheets().add(cssUrl.toExternalForm());
+            // Calculate required height
+            double totalHeight = headerImageView.getFitHeight() +
+                    root.prefHeight(-1) +
+                    footerImageView.getFitHeight();
+
+            // Set scene to specified size
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Add CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) {
+                scene.getStylesheets().add(storeCards.toExternalForm());
             }
-            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
-            if (userTitlesCssUrl != null) {
-                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
             }
 
             stage.setScene(scene);
-            stage.setTitle("Passer le Quiz");
+            stage.setTitle("Questions du Quiz");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des questions : " + e.getMessage() + "\n" + e.getClass().getName());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
             alert.showAndWait();
         }
     }

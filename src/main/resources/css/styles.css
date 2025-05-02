@@ -259,12 +259,7 @@
 
 
 
-.quiz-card {
-    -fx-min-width: 300px; /* Largeur minimale pour chaque carte */
-    -fx-max-width: 300px; /* Largeur maximale pour uniformité */
-    -fx-alignment: center;
-    -fx-padding: 15px;
-}
+
 
 .hbox {
     -fx-alignment: center-left;

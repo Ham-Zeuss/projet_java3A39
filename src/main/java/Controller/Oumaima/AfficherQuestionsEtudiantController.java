@@ -2,23 +2,37 @@ package Controller.Oumaima;
 
 import entite.Oumaima.Question;
 import entite.Oumaima.Quiz;
+import entite.User;
+import entite.Oumaima.QuizResult;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.Oumaima.QuestionService;
 import service.Oumaima.QuizService;
-
+import service.Oumaima.QuizResultService;
+import service.UserService;
+import util.DataSource;
+import entite.Session;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 
 public class AfficherQuestionsEtudiantController {
 
@@ -33,10 +47,23 @@ public class AfficherQuestionsEtudiantController {
 
     private final QuestionService questionService = new QuestionService();
     private final QuizService quizService = new QuizService();
+    private QuizResultService quizResultService;
+    private UserService userService;
     private int quizId;
     private List<Question> questions;
     private final Map<Question, List<CheckBox>> questionCheckBoxes = new HashMap<>();
     private final Map<Question, List<RadioButton>> questionRadioButtons = new HashMap<>();
+
+    public AfficherQuestionsEtudiantController() {
+        Connection connection = DataSource.getInstance().getConnection();
+        if (connection == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur : Connexion à la base de données nulle");
+            alert.showAndWait();
+            throw new IllegalStateException("Impossible d'établir une connexion à la base de données");
+        }
+        this.quizResultService = new QuizResultService(connection);
+        this.userService = new UserService();
+    }
 
     public void setQuizId(int quizId) {
         if (quizId <= 0) {
@@ -61,7 +88,6 @@ public class AfficherQuestionsEtudiantController {
             }
 
             for (Question question : questions) {
-                System.out.println("Type de question pour " + question.getText() + " : " + question.getOptionType());
                 VBox box = createQuestionBox(question);
                 questionContainer.getChildren().add(box);
             }
@@ -73,14 +99,13 @@ public class AfficherQuestionsEtudiantController {
     }
 
     private VBox createQuestionBox(Question question) {
-        VBox box = new VBox(10);
+        VBox box = new VBox(8); // Reduced spacing for tighter layout
         box.getStyleClass().add("question-card");
 
-        // 1. Texte de la question
         Label questionText = new Label(question.getText());
         questionText.getStyleClass().add("question-text");
 
-        // 2. Options (A, B, C, D)
+        VBox optionsContainer = new VBox(6); // Container for all options
         List<CheckBox> checkBoxes = new ArrayList<>();
         List<RadioButton> radioButtons = new ArrayList<>();
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -94,34 +119,51 @@ public class AfficherQuestionsEtudiantController {
 
         String optionType = question.getOptionType() != null ? question.getOptionType().toLowerCase() : "";
         if ("checkbox".equals(optionType)) {
-            for (int i = 0; i < options.length; i++) {
-                CheckBox checkBox = new CheckBox((char) ('A' + i) + ") " + options[i]);
-                checkBox.getStyleClass().add("check-box");
+            int optionIndex = 1;
+            for (String option : options) {
+                HBox optionRow = new HBox(6);
+                optionRow.setAlignment(Pos.CENTER_LEFT);
+                VBox checkBoxCard = new VBox(4);
+                checkBoxCard.getStyleClass().add("custom-checkbox");
+                CheckBox checkBox = new CheckBox();
                 checkBoxes.add(checkBox);
-                box.getChildren().add(checkBox);
+                checkBoxCard.getChildren().add(checkBox);
+                Label optionLabel = new Label(option);
+                optionLabel.getStyleClass().add("option-label");
+                optionLabel.getStyleClass().add("option-" + optionIndex); // Add unique class
+                optionRow.getChildren().addAll(checkBoxCard, optionLabel);
+                optionsContainer.getChildren().add(optionRow);
+                optionIndex++;
             }
             questionCheckBoxes.put(question, checkBoxes);
         } else if ("radio".equals(optionType) || "radiobox".equals(optionType)) {
-            for (int i = 0; i < options.length; i++) {
-                RadioButton radioButton = new RadioButton((char) ('A' + i) + ") " + options[i]);
+            int optionIndex = 1;
+            for (String option : options) {
+                HBox optionRow = new HBox(6);
+                optionRow.setAlignment(Pos.CENTER_LEFT);
+                VBox radioBoxCard = new VBox(4);
+                radioBoxCard.getStyleClass().add("custom-radiobox");
+                RadioButton radioButton = new RadioButton();
                 radioButton.setToggleGroup(toggleGroup);
-                radioButton.getStyleClass().add("radio-button");
                 radioButtons.add(radioButton);
-                box.getChildren().add(radioButton);
+                radioBoxCard.getChildren().add(radioButton);
+                Label optionLabel = new Label(option);
+                optionLabel.getStyleClass().add("option-label");
+                optionLabel.getStyleClass().add("option-" + optionIndex); // Add unique class
+                optionRow.getChildren().addAll(radioBoxCard, optionLabel);
+                optionsContainer.getChildren().add(optionRow);
+                optionIndex++;
             }
             questionRadioButtons.put(question, radioButtons);
         } else {
             Label errorLabel = new Label("Type d'option inconnu : " + optionType);
             errorLabel.setStyle("-fx-text-fill: red;");
-            box.getChildren().add(errorLabel);
+            optionsContainer.getChildren().add(errorLabel);
         }
 
-        // Ajouter le texte de la question
-        box.getChildren().add(0, questionText);
-
+        box.getChildren().addAll(questionText, optionsContainer);
         return box;
     }
-
     @FXML
     private void submitAllAnswers() {
         int correctAnswersCount = 0;
@@ -141,25 +183,23 @@ public class AfficherQuestionsEtudiantController {
             };
 
             boolean isCorrect = false;
-            String submittedAnswer = null; // Utiliser NULL si aucune réponse n'est sélectionnée
+            String submittedAnswer = null;
 
-            // Collect submitted answer as a JSON array (e.g., ["NN"] or ["NN", "L"])
             if ("checkbox".equals(optionType)) {
                 List<CheckBox> checkBoxes = questionCheckBoxes.get(question);
                 if (checkBoxes != null) {
                     List<String> selectedOptions = new ArrayList<>();
                     for (int i = 0; i < checkBoxes.size(); i++) {
                         if (checkBoxes.get(i).isSelected()) {
-                            selectedOptions.add(options[i]); // Ajouter la valeur de l'option (e.g., "NN", "L")
+                            selectedOptions.add(options[i]);
                         }
                     }
                     if (selectedOptions.isEmpty()) {
-                        submittedAnswer = null; // Aucune réponse sélectionnée
+                        submittedAnswer = null;
                         reponseSoumise.append("]");
                     } else {
-                        // Formater comme un tableau JSON valide
                         Collections.sort(selectedOptions);
-                        String jsonArray = "[\"" + String.join("\",\"", selectedOptions) + "\"]"; // e.g., ["NN","L"]
+                        String jsonArray = "[\"" + String.join("\",\"", selectedOptions) + "\"]";
                         submittedAnswer = jsonArray;
                         reponseSoumise.append(String.join(",", selectedOptions)).append("]");
                     }
@@ -171,8 +211,7 @@ public class AfficherQuestionsEtudiantController {
                 if (radioButtons != null) {
                     for (int i = 0; i < radioButtons.size(); i++) {
                         if (radioButtons.get(i).isSelected()) {
-                            // Formater comme un tableau JSON valide avec une seule valeur
-                            submittedAnswer = "[\"" + options[i] + "\"]"; // e.g., ["NN"]
+                            submittedAnswer = "[\"" + options[i] + "\"]";
                             reponseSoumise.append(options[i]).append("]");
                             break;
                         }
@@ -184,53 +223,21 @@ public class AfficherQuestionsEtudiantController {
                 reponseSoumise.append("]");
             }
 
-            // Sauvegarder la réponse soumise dans l'objet Question
             question.setReponseSoumise(submittedAnswer);
 
-            // Log des données avant la mise à jour
-            System.out.println("Tentative de mise à jour de la question ID=" + question.getId());
-            System.out.println("Données de la question : " + question.toString());
-
-            // Mettre à jour la question dans la base de données
             try {
                 questionService.update(question);
-                System.out.println("Réponse soumise enregistrée pour la question " + question.getId() + " : " + submittedAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
-                String errorMessage = "Erreur lors de l'enregistrement de la réponse soumise pour la question ID=" + question.getId() + " : " + e.getMessage() + "\nStackTrace: " + e.toString();
-                System.err.println(errorMessage);
+                String errorMessage = "Erreur lors de l'enregistrement de la réponse soumise pour la question ID=" + question.getId() + " : " + e.getMessage();
                 Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
                 alert.showAndWait();
             }
 
-            // Normalize answers for comparison
             String normalizedCorrectAnswers = normalizeAnswer(correctAnswers);
             String normalizedSubmittedAnswer = normalizeAnswer(submittedAnswer != null ? submittedAnswer : "[]");
 
-            // Debug exact string content
-            System.out.println("Debug Correct Answers: " + toDebugString(correctAnswers));
-            System.out.println("Debug Normalized Correct: " + toDebugString(normalizedCorrectAnswers));
-            System.out.println("Debug Submitted Answer: " + toDebugString(submittedAnswer != null ? submittedAnswer : "[]"));
-            System.out.println("Debug Normalized Submitted: " + toDebugString(normalizedSubmittedAnswer));
-
-            // Compare
             isCorrect = normalizedSubmittedAnswer.equals(normalizedCorrectAnswers);
-            if (!isCorrect) {
-                System.out.println("Comparison failed. Lengths: Correct=" + normalizedCorrectAnswers.length() +
-                        ", Submitted=" + normalizedSubmittedAnswer.length());
-                System.out.println("Are strings equal? " + normalizedSubmittedAnswer.equals(normalizedCorrectAnswers));
-            }
-
-            // Log standard output
-            System.out.println("Question: " + question.getText());
-            System.out.println("Raw Correct Answers: " + correctAnswers);
-            System.out.println("Normalized Correct Answers: " + normalizedCorrectAnswers);
-            System.out.println("Submitted Answer: " + (submittedAnswer != null ? submittedAnswer : "[]"));
-            System.out.println("Normalized Submitted Answer: " + normalizedSubmittedAnswer);
-            System.out.println("Is Correct: " + isCorrect);
-            System.out.println("Options: A) " + options[0] + ", B) " + options[1] + ", C) " + options[2] + ", D) " + options[3]);
-            System.out.println("---");
-
             if (isCorrect) {
                 correctAnswersCount++;
             }
@@ -240,7 +247,6 @@ public class AfficherQuestionsEtudiantController {
             result.append("Réponse correcte: ").append(correctAnswers).append("\n\n");
         }
 
-        // Format and store score
         String finalNoteDisplay = correctAnswersCount + "/" + totalQuestions;
         result.append("Note finale: ").append(finalNoteDisplay);
 
@@ -252,10 +258,24 @@ public class AfficherQuestionsEtudiantController {
             }
             quiz.setNote(noteToStore);
             quizService.update(quiz);
-            System.out.println("Note enregistrée pour le quiz " + quizId + " : " + noteToStore);
+
+            Session session = Session.getInstance();
+            if (!session.isActive()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Aucune session active. Veuillez vous connecter.");
+                alert.showAndWait();
+                return;
+            }
+            int userId = session.getUserId();
+            User user = userService.getUserById(userId);
+            if (user == null) {
+                throw new IllegalStateException("Utilisateur avec ID " + userId + " introuvable");
+            }
+
+            QuizResult quizResult = new QuizResult(quiz, user, noteToStore);
+            quizResultService.addQuizResult(quizResult);
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement de la note : " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement de la note ou du résultat : " + e.getMessage());
             alert.showAndWait();
         }
 
@@ -268,15 +288,11 @@ public class AfficherQuestionsEtudiantController {
         if (answer == null || answer.trim().isEmpty()) {
             return "[]";
         }
-        // Clean JSON-like input (remove escaped quotes, extra whitespace)
         String cleaned = answer.replaceAll("[\"\\s]+", "").replaceAll("\\\\\"", "");
-        // Ensure lowercase
         String normalized = cleaned.toLowerCase();
-        // Ensure brackets
         if (!normalized.startsWith("[") || !normalized.endsWith("]")) {
             normalized = "[" + normalized.replaceAll("[\\[\\]]", "") + "]";
         }
-        // For multi-option answers (checkbox), sort the options
         if (normalized.length() > 3 && normalized.contains(",")) {
             String content = normalized.substring(1, normalized.length() - 1);
             String[] options = content.split(",");
@@ -298,14 +314,14 @@ public class AfficherQuestionsEtudiantController {
         debug.append("Length=").append(str.length()).append(", Chars=[");
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            String hex = Integer.toHexString(c); // Convertir le char en hexadécimal
+            String hex = Integer.toHexString(c);
             debug.append("0x").append(hex).append("(").append(c).append(")");
             if (i < str.length() - 1) {
                 debug.append(",");
             }
         }
         debug.append("]");
-        return debug.toString(); // StringBuilder.toString() est une méthode standard
+        return debug.toString();
     }
 
     private String safeText(String text) {
@@ -315,60 +331,69 @@ public class AfficherQuestionsEtudiantController {
     @FXML
     private void goBackToQuizList() {
         try {
-            if (backButton == null) {
-                throw new IllegalStateException("backButton est null");
-            }
-
             Stage stage = (Stage) backButton.getScene().getWindow();
             VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
-
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            mainContent.getChildren().add(headerImageView);
 
-            // Load body (affichageEtudiantQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
-            // Load footer.html
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
             }
-            footerWebView.setPrefSize(1000, 830);
-            mainContent.getChildren().add(footerWebView);
+            mainContent.getChildren().add(footerImageView);
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 600, 400);
-            URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
-            if (cssUrl != null) {
-                scene.getStylesheets().add(cssUrl.toExternalForm());
+            double totalHeight = headerImageView.getFitHeight() +
+                    bodyContent.prefHeight(-1) +
+                    footerImageView.getFitHeight();
+
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) {
+                scene.getStylesheets().add(storeCards.toExternalForm());
             }
-            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
-            if (userTitlesCssUrl != null) {
-                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
+
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
             }
 
             stage.setScene(scene);
@@ -376,7 +401,7 @@ public class AfficherQuestionsEtudiantController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des quiz : " + e.getMessage() + "\n" + e.getClass().getName());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des quiz : " + e.getMessage());
             alert.showAndWait();
         }
     }
