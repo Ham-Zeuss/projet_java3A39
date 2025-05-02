@@ -38,6 +38,7 @@ public class AffichageModuleController {
 
         for (Module module : modules) {
             VBox card = createModuleCard(module);
+            card.getStyleClass().add("module-card");
             GridPane.setMargin(card, new Insets(10));
             modulesGrid.add(card, column, row);
 
@@ -69,18 +70,20 @@ public class AffichageModuleController {
     private VBox createModuleCard(Module module) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
         card.setPrefSize(300, 180);
-        card.setOnMouseClicked(e -> showModuleCourses(module));
+
+        // ✅ Apply CSS class only — no inline styles!
+        card.getStyleClass().add("module-card");
+
         // Title
         Label titleLabel = new Label(module.getTitle());
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
-        titleLabel.setStyle("-fx-text-fill: #2c3e50;");
+        titleLabel.getStyleClass().add("heading"); // Use .heading from CSS
 
         // Description
         Label descLabel = new Label(module.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setStyle("-fx-text-fill: #7f8c8d;");
+        descLabel.getStyleClass().add("para"); // Use .para from CSS
 
         // Details
         HBox detailsBox = new HBox(10);
@@ -88,7 +91,9 @@ public class AffichageModuleController {
         Label levelLabel = new Label("Niveau: " + module.getLevel());
         detailsBox.getChildren().addAll(countLabel, levelLabel);
 
-        // Buttons
+        // Click handler
+        card.setOnMouseClicked(e -> showModuleCourses(module));
+
         // Add all components to card
         card.getChildren().addAll(titleLabel, descLabel, detailsBox);
 

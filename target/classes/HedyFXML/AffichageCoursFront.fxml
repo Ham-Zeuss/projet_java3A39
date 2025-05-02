@@ -7,22 +7,34 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controller.Hedy.AffichageCoursController"
             style="-fx-background-color: #f5f5f5;"
-            prefHeight="600.0" prefWidth="1000.0">
+            prefHeight="600.0" prefWidth="1000.0"
+            stylesheets="@/css/DesignFrontHedy.css">
 
     <!-- Header with Back, Filter, and Add Buttons -->
-    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 15;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label fx:id="moduleTitleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <ComboBox fx:id="filterComboBox" prefWidth="150" promptText="Filter Courses"/>
-        <Button text="Ajouter Cours" onAction="#goToAjoutCours" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;"/>
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label fx:id="moduleTitleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <ComboBox fx:id="filterComboBox" prefWidth="150" promptText="Filter Courses" styleClass="search-field"/>
+
+        <Button text="Ajouter Cours" onAction="#goToAjoutCours" styleClass="button-Enregistrer"/>
     </HBox>
 
-    <!-- Grid for Course Cards -->
-    <GridPane fx:id="coursGrid" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <padding>
-            <Insets top="20" bottom="20" left="20" right="20"/>
-        </padding>
-        <hgap>20</hgap>
-        <vgap>20</vgap>
-    </GridPane>
+    <!-- Scrollable Centered Grid for Course Cards -->
+    <ScrollPane fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="40" bottom="40" left="20" right="20"/>
+            </padding>
+            <GridPane fx:id="coursGrid"
+                      hgap="30"
+                      vgap="30"
+                      alignment="CENTER">
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+            </GridPane>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

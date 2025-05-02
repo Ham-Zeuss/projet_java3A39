@@ -181,35 +181,35 @@ public class AffichageCoursController {
     private VBox createCoursCard(Cours cours) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
         card.setPrefSize(300, 180);
+
+        // ✅ Apply CSS class instead of inline style
+        card.getStyleClass().add("module-card");
 
         // Title (clickable to open PDF)
         Label titleLabel = new Label(cours.getTitle());
-        titleLabel.setFont(javafx.scene.text.Font.font("System", javafx.scene.text.FontWeight.BOLD, 16));
-        titleLabel.setStyle("-fx-text-fill: #2c3e50;");
-        titleLabel.setOnMouseClicked(event -> openPdf(cours)); // Now only title opens the PDF
+        titleLabel.getStyleClass().add("heading");
+        titleLabel.setOnMouseClicked(event -> openPdf(cours));
 
         // PDF Name
         Label pdfLabel = new Label("PDF: " + cours.getPdfName());
-        pdfLabel.setStyle("-fx-text-fill: #7f8c8d;");
+        pdfLabel.getStyleClass().add("para");
 
         // Updated At
         String updatedAtText = (cours.getUpdatedAt() != null)
                 ? "Dernière modification: " + cours.getUpdatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 : "Dernière modification: N/A";
         Label updatedAtLabel = new Label(updatedAtText);
-        updatedAtLabel.setStyle("-fx-text-fill: #7f8c8d;");
+        updatedAtLabel.getStyleClass().add("para");
 
-        // Stars
+        // Stars Box
         Session session = Session.getInstance();
         String userRole = session.getRole();
         int currentUserId = session.getUserId();
-        HBox starsBox = new HBox(5);
 
+        HBox starsBox = new HBox(5);
         if ("ROLE_PARENT".equals(userRole)) {
             Label[] starLabels = new Label[5];
-
             int existingRating = RatingsStorage.getRatings().stream()
                     .filter(r -> r.getCourseId() == cours.getId() && r.getUserId() == currentUserId)
                     .map(Rating::getRating)
@@ -221,9 +221,8 @@ public class AffichageCoursController {
                 star.setStyle("-fx-font-size: 20px; -fx-text-fill: gold;");
                 final int ratingValue = i + 1;
 
-                // Prevent propagation to the card click
                 star.setOnMouseClicked(event -> {
-                    event.consume(); // Stop the event from propagating
+                    event.consume();
                     for (int j = 0; j < 5; j++) {
                         starLabels[j].setText(j < ratingValue ? "★" : "☆");
                     }
@@ -239,11 +238,10 @@ public class AffichageCoursController {
         HBox buttonBox = new HBox(10);
         Button editButton = new Button("Modifier");
         Button deleteButton = new Button("Supprimer");
-        editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        editButton.getStyleClass().add("button-Enregistrer");
+        deleteButton.getStyleClass().add("button-Reinitialiser");
 
         boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
-
         if (isCourseCreatedByUser) {
             buttonBox.getChildren().addAll(editButton, deleteButton);
         } else {
@@ -258,7 +256,6 @@ public class AffichageCoursController {
         });
 
         card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, starsBox, buttonBox);
-
         return card;
     }
 
