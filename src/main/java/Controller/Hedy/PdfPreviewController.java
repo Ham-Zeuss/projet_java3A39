@@ -8,7 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
-
+import java.io.InputStream;
+import java.net.URL;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -38,38 +39,42 @@ public class PdfPreviewController {
     }
     @FXML private Pagination pdfPagination;
     private List<Image> pdfPages; // Stores all rendered pages of the PDF
-    
+
 
     private List<Image> renderAllPdfPages(String pdfPath) throws Exception {
         List<Image> pages = new ArrayList<>();
-        try {
-            PDDocument document = PDDocument.load(new File(pdfPath));
-            PDFRenderer pdfRenderer = new PDFRenderer(document);
+        PDDocument document = null;
 
+        try {
+            if (pdfPath.startsWith("http://") || pdfPath.startsWith("https://")) {
+                // Handle Dropbox or any web-based PDF
+                System.out.println("Loading PDF from URL: " + pdfPath);
+                java.net.URL url = new java.net.URL(pdfPath.replace("?dl=0", "?raw=1")); // Force direct download
+                try (InputStream inputStream = url.openStream()) {
+                    document = PDDocument.load(inputStream);
+                }
+            } else {
+                // Handle local PDF file
+                document = PDDocument.load(new File(pdfPath));
+            }
+
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
             System.out.println("Rendering PDF with " + document.getNumberOfPages() + " pages.");
 
-            // Render each page of the PDF as an image
             for (int i = 0; i < document.getNumberOfPages(); i++) {
-                BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(i, 300); // 300 DPI
-                if (bufferedImage == null) {
-                    System.err.println("Failed to render page " + (i + 1));
-                    continue;
-                }
-
+                BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(i, 300);
                 Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
-                if (fxImage == null) {
-                    System.err.println("Failed to convert BufferedImage to JavaFX Image for page " + (i + 1));
-                    continue;
-                }
-
                 pages.add(fxImage);
                 System.out.println("Successfully rendered page " + (i + 1));
             }
 
-            document.close();
         } catch (Exception e) {
             System.err.println("Error rendering PDF: " + e.getMessage());
             throw e;
+        } finally {
+            if (document != null) {
+                document.close();
+            }
         }
 
         return pages;

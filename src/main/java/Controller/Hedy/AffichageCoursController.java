@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
+
+
 
 public class AffichageCoursController {
 
@@ -288,27 +292,38 @@ public class AffichageCoursController {
     @FXML
     private void openPdf(Cours cours) {
         try {
-            String pdfFileName = cours.getPdfName();
-            File pdfFile = new File("resources/pdf/" + pdfFileName);
+            // Get the Dropbox URL for the PDF file
+            String dropboxUrl = cours.getPdfName();
 
-            if (!pdfFile.exists()) {
-                System.err.println("PDF file not found: " + pdfFile.getAbsolutePath());
+            // Check if the URL is valid (basic validation)
+            if (dropboxUrl == null || dropboxUrl.isEmpty()) {
+                System.err.println("PDF URL is empty or null.");
                 return;
             }
 
-            System.out.println("Loading PDF file: " + pdfFile.getAbsolutePath());
+            // Dropbox URLs need to be transformed to the correct format for embedding
+            // If the URL looks like: https://www.dropbox.com/s/xxx/filename.pdf?dl=0
+            // We change it to: https://www.dropbox.com/s/xxx/filename.pdf?raw=1 to open the file directly
+            if (dropboxUrl.contains("https://www.dropbox.com/scl/fo/iprdgsydpiq7zr6wicdjm/AK0GS-0W5E1Crxu577QEjpI?rlkey=rdwm7g20fehv9vxcb1cyz9dzz&st=4es8duxl&raw=1")) {
+                dropboxUrl = dropboxUrl.replace("?dl=0", "?raw=1");
+            }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/PdfPreview.fxml"));
-            Parent root = loader.load();
+            // Debugging log to confirm URL formatting
+            System.out.println("Opening PDF from URL: " + dropboxUrl);
 
-            PdfPreviewController controller = loader.getController();
-            controller.setPdfFile(pdfFileName);
+            // Create a WebView to display the PDF preview from the Dropbox URL
+            WebView webView = new WebView();
+            WebEngine webEngine = webView.getEngine();
+            webEngine.load(dropboxUrl);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("PDF Preview: " + cours.getTitle());
-            stage.show();
+            // Set up a new stage to show the WebView
+            Stage pdfStage = new Stage();
+            pdfStage.setTitle("PDF Preview: " + cours.getTitle());
+            pdfStage.setScene(new Scene(webView, 800, 600));
+            pdfStage.show();
+
         } catch (Exception e) {
             System.err.println("Error loading PDF preview: " + e.getMessage());
         }
-    }}
+    }
+}

@@ -1,4 +1,5 @@
 package Controller.Hedy;
+import Controller.Hedy.Dahsboard.*;
 
 import entite.Cours;
 import entite.Module;
@@ -9,9 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.CoursService;
+import service.DropboxService;
+import java.io.File;
 import java.io.IOException;
 import javafx.stage.FileChooser;
-import java.io.File;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -36,14 +38,14 @@ public class AjoutCoursController {
     private void saveCours() {
         // Validate input fields
         String title = titleField.getText().trim();
-        String pdfName = pdfNameField.getText().trim();
+        String pdfUrl = pdfNameField.getText().trim();
 
         if (title.isEmpty()) {
             showAlert(AlertType.ERROR, "Erreur de saisie", "Le titre ne peut pas être vide.");
             return;
         }
 
-        if (pdfName.isEmpty()) {
+        if (pdfUrl.isEmpty()) {
             showAlert(AlertType.ERROR, "Erreur de saisie", "Aucun fichier PDF sélectionné. Veuillez choisir un fichier PDF.");
             return;
         }
@@ -55,11 +57,11 @@ public class AjoutCoursController {
                 return;
             }
 
-            // Create a new Cours object with the user's ID
+            // Create a new Cours object with the user's ID and the PDF URL
             Cours newCours = new Cours(
                     title,
                     currentModule,
-                    pdfName,
+                    pdfUrl, // Save the public URL of the PDF
                     currentUserId // Store the user's ID
             );
 
@@ -72,8 +74,11 @@ public class AjoutCoursController {
             // Return to the AffichageCours screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
-            AffichageCoursController controller = loader.getController();
+
+            // Use the correct controller class
+            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
             controller.setModule(currentModule);
+
             Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Cours: " + currentModule.getTitle());
@@ -87,8 +92,11 @@ public class AjoutCoursController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
-            AffichageCoursController controller = loader.getController();
+
+            // Use the correct controller class
+            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
             controller.setModule(currentModule);
+
             Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Cours: " + currentModule.getTitle());
@@ -102,8 +110,11 @@ public class AjoutCoursController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
-            AffichageCoursController controller = loader.getController();
+
+            // Use the correct controller class
+            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
             controller.setModule(currentModule); // Pass the current module to the controller
+
             Stage stage = (Stage) titleField.getScene().getWindow(); // Get the current stage
             stage.setScene(new Scene(root)); // Set the new scene
             stage.setTitle("Cours: " + currentModule.getTitle()); // Update the window title
@@ -122,20 +133,31 @@ public class AjoutCoursController {
 
         if (selectedFile != null) {
             try {
-                // Define the target directory for storing PDFs
-                File targetDirectory = new File("resources/pdf/");
-                if (!targetDirectory.exists()) {
-                    targetDirectory.mkdirs(); // Create the directory if it doesn't exist
+                // Initialize Dropbox Service
+                String dropboxAccessToken = "sl.u.AFtbinby3m22XcRR7qkRjB3rAd8GbjcJa7fHGSYUa3uFumv32WIPfcxtQxzyZ7eV5xTFGRVx8wdeK4NDkJy3y8g_mMyyUCyVWGpIamHlg29V24C1ns91aoTgozZtHCyEZgy2lVBYqSWogCqpCJ5HbqpkFxZ2zeYlXIwKoliQzqyjenVCX2XK8w2jzUHZyQW68F39ZOkIBx1C6slDTsVdz_cB9JuhswKrAhqBAOn0OI0lTlAj2VTBZuAgUhBBwKImVfcWdUyHrGwpsZqOZoBOm32YMFAZ1q6AIoj1wpTpWD9Puiy65R9jHfg90umjKVL-YDFTIWZ1Pmag5cQKBr_4HrpUCq_8KLOvijVgfGTvxbMN2qmhaaRdRd1o8V1HTCDkKkJdyGOUpu0GPl18VotkRhWfnVxEpHNRLPpn7hLtDWzJvjsADzS-54ADG00GhbEs__9vKjAC08GT0AxFTAOTjx8eF3F78BbVyTsgwV-t-CHGKk9f0cPmovMbVDbmRLLAi1I2aEIt5hRKoddTkxwRVIlkXRu--qEORLIOy49_-nqE2PIdCKqVepF_yGP4zmn98x-YzHwtvHTbp0vaFU55TNw2f1Y2huXBXU0988HlW47ccd9mmsTN0-TKdWqS-fSIkH6W5I4EL1krTE85OmrOGGbhROz0GNp1ym1x6v8-x6MUfK7HUIyGPMg1AgPqBXPnGfyqoAqRgyXyAIWyqIEN4Ob2PSsUEYwf9W3MI8sf0Fo8Ee5R1kH4IzulLOao9DfioVteziO4wstWnLNCwuiE-m2GuAx1FcZxUfsmpA2AvpKB2RLMOeq1bU-v-_3HXSvmKrg0JGqbIUde-6MvSOsEDUgenFZXCMzaQZzBkeTT9xN8I4-8PuAzbcWLRQpp974nm5dFKUUQVFQrBMRXTS_yv76i9H8ioK3kOPIK3nI2swOVzF5Ex78GyyswXMjXtesbsgK8zGfvuLI64EAiNUWkhQ_AxbY83AZyGrVGdmqfgaOYdoC9EQvV53wxo3CKkJVngNc2wlgtGUxJCjnQPx3DHyD7fqGYJE2dujZFAkdGHbMZqQ6FqXQec5mPTzIKhaJoQucEZDb4rkBQeRp2AvgERrgGmAFPW10VS_15G136hdYo8qvZJEk0zt8OWtST-xeaPruWmMmf3voAWGldp4e7lRPw7NFAwDOh5sdHAzrOHiv1QFKobDjYW71GA0I7mKDcriWR29DN8diiAj4cOp5NbgUsua-qNOeWcrsEV9vfXarxP3zxek64K51WNNR8tgshYPIvjBpXsmdgldh4f-Rnws_p"; // Replace with your Dropbox access token
+                DropboxService dropboxService = new DropboxService(dropboxAccessToken);
+
+                // Define the destination path in Dropbox
+                String dropboxPath = "/pdfs/" + selectedFile.getName(); // Destination path in Dropbox
+
+                // Upload the selected PDF file to Dropbox
+                dropboxService.uploadFile(selectedFile.getAbsolutePath(), dropboxPath);
+
+                // Retrieve the public URL of the uploaded file
+                String fileUrl = dropboxService.getFileUrl(dropboxPath);
+
+                if (fileUrl == null) {
+                    showAlert(AlertType.ERROR, "Erreur d'upload", "Impossible de récupérer l'URL du fichier.");
+                    return;
                 }
 
-                // Copy the selected PDF file to the target directory
-                File targetFile = new File(targetDirectory, selectedFile.getName());
-                java.nio.file.Files.copy(selectedFile.toPath(), targetFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                // Update the pdfNameField with the public URL of the uploaded file
+                pdfNameField.setText(fileUrl);
 
-                // Update the pdfNameField with the new file name
-                pdfNameField.setText(targetFile.getName());
+                // Show success message
+                showAlert(AlertType.INFORMATION, "Succès", "Le fichier PDF a été uploadé avec succès!");
             } catch (Exception e) {
-                System.err.println("Error selecting or saving PDF: " + e.getMessage());
+                showAlert(AlertType.ERROR, "Erreur d'upload", "Une erreur s'est produite lors de l'upload du fichier PDF: " + e.getMessage());
             }
         }
     }
