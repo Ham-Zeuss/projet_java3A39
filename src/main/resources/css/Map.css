@@ -1,0 +1,13 @@
+.map-container {
+    -fx-pref-height: 400px;
+    -fx-min-height: 400px;
+    -fx-max-height: 400px;
+    -fx-padding: 0;
+    -fx-background-color: transparent; /* Éviter des conflits de rendu */
+}
+
+.web-view {
+    -fx-pref-height: 400px;
+    -fx-min-height: 400px;
+    -fx-max-height: 400px;
+}

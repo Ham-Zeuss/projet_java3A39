@@ -9,8 +9,11 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+
 import javafx.scene.Parent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -64,40 +67,41 @@ public class TwoFAController {
             feedbackText.setText(isValid ? "✅ Code valide" : "❌ Code invalide");
 
             if (isValid) {
-                // Récupérer la session
                 Session session = Session.getInstance();
                 String role = session.getRole();
 
-                // Mappage des rôles aux chemins FXML
                 Map<String, String> roleToFxmlMap = new HashMap<>();
                 roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
                 roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageCours.fxml");
                 roleToFxmlMap.put("ROLE_PARENT", "/User/Home.fxml");
 
-                String defaultFxml = "/User/Home.fxml"; // Page par défaut
+                String defaultFxml = "/User/Home.fxml";
                 String fxmlPath = roleToFxmlMap.getOrDefault(role, defaultFxml);
 
-                // Create a VBox to stack the header, header.fxml, body, and footer
                 VBox mainContent = new VBox();
 
-                // Load header.fxml
-                FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-                VBox headerFxmlContent = headerFxmlLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
-                mainContent.getChildren().add(headerFxmlContent);
 
-                // Load header (header.html) using WebView
-                WebView headerWebView = new WebView();
-                URL headerUrl = getClass().getResource("/header.html");
-                if (headerUrl != null) {
-                    headerWebView.getEngine().load(headerUrl.toExternalForm());
-                } else {
-                    headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+
+
+                mainContent.setAlignment(Pos.TOP_CENTER);
+
+                // Load header image (PNG)
+                ImageView headerImageView = new ImageView();
+                try {
+                    Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                    headerImageView.setImage(headerImage);
+                    headerImageView.setPreserveRatio(true);
+                    headerImageView.setFitWidth(1920);
+                    headerImageView.setSmooth(true);
+                    VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+                    mainContent.getChildren().add(headerImageView);
+                } catch (Exception e) {
+                    Label errorLabel = new Label("Header image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    mainContent.getChildren().add(errorLabel);
                 }
-                headerWebView.setPrefSize(1000, 490);
-                mainContent.getChildren().add(headerWebView);
 
-                // Load body (based on role)
+                // Load role-specific body
                 URL fxmlUrl = getClass().getResource(fxmlPath);
                 if (fxmlUrl == null) {
                     throw new Exception("FXML file not found at path: " + fxmlPath);
@@ -106,35 +110,48 @@ public class TwoFAController {
                 VBox bodyContent = loader.load();
                 bodyContent.setPrefSize(1920, 1080);
 
-                // Set welcome message if loading Home.fxml
-                if (fxmlPath.equals("/User/Home.fxml")) {
+                if ("ROLE_MEDECIN".equals(role)) {
+                    bodyContent.setStyle("-fx-background-color: #B8DAB8FF;");
+                }
+
+                if ("ROLE_PARENT".equals(role)) {
+
+                    // Load header.fxml
+                    FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                    VBox headerFxmlContent = headerFxmlLoader.load();
+                    headerFxmlContent.setPrefSize(1000, 100);
+                    mainContent.getChildren().add(headerFxmlContent);
+
                     HomeController homeController = loader.getController();
                     if (homeController != null) {
                         homeController.setWelcomeMessage("Bienvenue ID: " + session.getUserId());
-                    } else {
-                        System.err.println("HomeController is null");
                     }
                 }
+
                 mainContent.getChildren().add(bodyContent);
 
-                // Load footer (footer.html) using WebView
-                WebView footerWebView = new WebView();
-                URL footerUrl = getClass().getResource("/footer.html");
-                if (footerUrl != null) {
-                    footerWebView.getEngine().load(footerUrl.toExternalForm());
-                } else {
-                    footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+                // Load footer image (PNG)
+                ImageView footerImageView = new ImageView();
+                try {
+                    Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                    footerImageView.setImage(footerImage);
+                    footerImageView.setPreserveRatio(true);
+                    footerImageView.setFitWidth(1920);
+                    footerImageView.setSmooth(true);
+                    mainContent.getChildren().add(footerImageView);
+                } catch (Exception e) {
+                    Label errorLabel = new Label("Footer image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    mainContent.getChildren().add(errorLabel);
                 }
-                footerWebView.setPrefSize(1000, 830);
-                mainContent.getChildren().add(footerWebView);
 
-                // Wrap the VBox in a ScrollPane
+                // Wrap VBox in ScrollPane
                 ScrollPane scrollPane = new ScrollPane(mainContent);
                 scrollPane.setFitToWidth(true);
                 scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-                // Set up the scene and apply CSS
+                // Set scene
                 Scene scene = new Scene(scrollPane, 1920, 1080);
                 scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
                 scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());

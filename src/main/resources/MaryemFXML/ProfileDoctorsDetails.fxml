@@ -7,33 +7,62 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import com.gluonhq.maps.MapView?>
 
-<VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDoctorsDetailsController">
+<VBox alignment="CENTER" spacing="10" styleClass="main-vbox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.ProfileDoctorsDetailsController" stylesheets="@/css/CommentsStyle.css">
     <HBox alignment="CENTER_LEFT" styleClass="header">
         <padding>
             <Insets top="10" right="20" bottom="10" left="20"/>
         </padding>
         <Text fx:id="headerTitle" text="Profile Details" styleClass="header-title"/>
         <HBox HBox.hgrow="ALWAYS"/>
-        <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
+        <Button fx:id="backButton" text="Retour" onAction="#goBack" styleClass="back-button"/>
     </HBox>
-    <VBox alignment="CENTER" spacing="10" styleClass="content">
+    <VBox alignment="CENTER" spacing="15" styleClass="content">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-        <Text fx:id="title" text="Profile Details" styleClass="title"/>
-        <Label fx:id="nameLabel" text="Name" styleClass="label"/>
-        <Label fx:id="biographyLabel" text="Biography" styleClass="label" wrapText="true"/>
-        <Label fx:id="specialtyLabel" text="Specialty" styleClass="label"/>
-        <Button fx:id="resourcesButton" text="View Resources" onAction="#openResources" styleClass="button"/>
-        <Label fx:id="priceLabel" text="Price" styleClass="label"/>
-        <Label fx:id="latitudeLabel" text="Latitude" styleClass="label"/>
-        <Label fx:id="longitudeLabel" text="Longitude" styleClass="label"/>
+        <Label fx:id="nameLabel" text="Name" styleClass="header-title"/>
+        <!-- Specialty and Biography Attribute Card -->
+        <VBox styleClass="attribute-card">
+            <Label text="Specialité" styleClass="attribute-title"/>
+            <Label fx:id="specialtyLabel" text="Specialty" styleClass="attribute-value" wrapText="true"/>
+            <Label text="Biographie" styleClass="attribute-title"/>
+            <Label fx:id="biographyLabel" text="Biography" styleClass="attribute-value" wrapText="true"/>
+        </VBox>
+        <!-- Price Attribute Card -->
+        <VBox styleClass="attribute-card">
+            <Label text="Prix Consultation" styleClass="attribute-title"/>
+            <Label fx:id="priceLabel" text="Price" styleClass="attribute-value"/>
+        </VBox>
+        <!-- Latitude and Longitude Attribute Card -->
+        <VBox styleClass="attribute-card">
+            <Label text="Latitude" styleClass="attribute-title"/>
+            <Label fx:id="latitudeLabel" text="Latitude" styleClass="attribute-value"/>
+            <Label text="Longitude" styleClass="attribute-title"/>
+            <Label fx:id="longitudeLabel" text="Longitude" styleClass="attribute-value"/>
+        </VBox>
+        <!-- Resources, Update, and Delete Buttons -->
         <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="resourcesButton" text="Voir Resources" onAction="#openResources" styleClass="button"/>
             <Button fx:id="updateButton" text="Update" onAction="#openUpdateProfile" styleClass="button" visible="false" managed="false"/>
             <Button fx:id="deleteButton" text="Delete" onAction="#deleteProfile" styleClass="button" visible="false" managed="false"/>
         </HBox>
+        <!-- MapView Container -->
+        <MapView fx:id="mapView" prefWidth="600" prefHeight="400" style="-fx-border-color: gray; -fx-border-width: 1;"/>
+        <!-- Comments Section -->
         <Label fx:id="commentsErrorLabel" text="" styleClass="error-label"/>
-        <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container"/>
+        <VBox fx:id="commentsContainer" spacing="10" styleClass="comments-container">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </VBox>
+        <!-- Comment Input -->
+
     </VBox>
+    <HBox alignment="CENTER" styleClass="footer">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+    </HBox>
 </VBox>

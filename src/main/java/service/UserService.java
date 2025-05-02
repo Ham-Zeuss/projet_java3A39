@@ -455,6 +455,20 @@ public class UserService implements IService<User> {
         return users;
     }
 
+    public List<User> getAllUsersWithStringStatus() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user";
+        try (Statement stmt = cnx.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                users.add(mapResultSetToUseroumaima(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la récupération des utilisateurs: " + e.getMessage());
+        }
+        return users;
+    }
+
     public User getUserById(int id) {
         String sql = "SELECT id, nom, prenom, email, password, roles, is_active FROM user WHERE id = ?"; // Replaced status with is_active
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
@@ -600,6 +614,26 @@ public class UserService implements IService<User> {
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         user.setActive(rs.getBoolean("is_active")); // Fixed: Use is_active
+        String rolesJson = rs.getString("roles");
+        user.setRolesFromJson(rolesJson);
+        return user;
+    }
+
+    private User mapResultSetToUseroumaima(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setNom(rs.getString("nom"));
+        user.setPrenom(rs.getString("prenom"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        String statusValue = rs.getString("status");
+        boolean isActive;
+        if (statusValue == null || statusValue.isEmpty()) {
+            isActive = false;
+        } else {
+            isActive = statusValue.equalsIgnoreCase("true") || statusValue.equals("1");
+        }
+        user.setActive(isActive);
         String rolesJson = rs.getString("roles");
         user.setRolesFromJson(rolesJson);
         return user;

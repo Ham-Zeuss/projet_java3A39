@@ -14,6 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import service.UserService;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -417,6 +420,7 @@ public class UserController {
             showAlert("Aucune sélection", "Veuillez sélectionner un utilisateur à supprimer.");
         }
     }
+
 
     @FXML
     private void handleClearForm() {
