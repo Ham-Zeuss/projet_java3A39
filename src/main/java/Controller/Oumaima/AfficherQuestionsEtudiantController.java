@@ -99,13 +99,13 @@ public class AfficherQuestionsEtudiantController {
     }
 
     private VBox createQuestionBox(Question question) {
-        VBox box = new VBox(15); // Increased spacing for better layout
+        VBox box = new VBox(8); // Reduced spacing for tighter layout
         box.getStyleClass().add("question-card");
 
         Label questionText = new Label(question.getText());
         questionText.getStyleClass().add("question-text");
 
-        VBox optionsContainer = new VBox(10); // Container for all options
+        VBox optionsContainer = new VBox(6); // Container for all options
         List<CheckBox> checkBoxes = new ArrayList<>();
         List<RadioButton> radioButtons = new ArrayList<>();
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -119,36 +119,40 @@ public class AfficherQuestionsEtudiantController {
 
         String optionType = question.getOptionType() != null ? question.getOptionType().toLowerCase() : "";
         if ("checkbox".equals(optionType)) {
+            int optionIndex = 1;
             for (String option : options) {
-                HBox optionRow = new HBox(10); // Horizontal layout for checkbox and label
+                HBox optionRow = new HBox(6);
                 optionRow.setAlignment(Pos.CENTER_LEFT);
-                VBox checkBoxCard = new VBox(5);
-                checkBoxCard.getStyleClass().addAll("custom-checkbox", "option-container");
+                VBox checkBoxCard = new VBox(4);
+                checkBoxCard.getStyleClass().add("custom-checkbox");
                 CheckBox checkBox = new CheckBox();
-                checkBox.setSelected(true); // Default checked
                 checkBoxes.add(checkBox);
                 checkBoxCard.getChildren().add(checkBox);
-                Label optionLabel = new Label(option); // Label outside the card
+                Label optionLabel = new Label(option);
                 optionLabel.getStyleClass().add("option-label");
+                optionLabel.getStyleClass().add("option-" + optionIndex); // Add unique class
                 optionRow.getChildren().addAll(checkBoxCard, optionLabel);
                 optionsContainer.getChildren().add(optionRow);
+                optionIndex++;
             }
             questionCheckBoxes.put(question, checkBoxes);
         } else if ("radio".equals(optionType) || "radiobox".equals(optionType)) {
+            int optionIndex = 1;
             for (String option : options) {
-                HBox optionRow = new HBox(10); // Horizontal layout for radiobox and label
+                HBox optionRow = new HBox(6);
                 optionRow.setAlignment(Pos.CENTER_LEFT);
-                VBox radioBoxCard = new VBox(5);
-                radioBoxCard.getStyleClass().addAll("custom-radiobox", "option-container");
+                VBox radioBoxCard = new VBox(4);
+                radioBoxCard.getStyleClass().add("custom-radiobox");
                 RadioButton radioButton = new RadioButton();
                 radioButton.setToggleGroup(toggleGroup);
-                radioButton.setSelected(options[0].equals(option)); // Default first option checked
                 radioButtons.add(radioButton);
                 radioBoxCard.getChildren().add(radioButton);
-                Label optionLabel = new Label(option); // Label outside the card
+                Label optionLabel = new Label(option);
                 optionLabel.getStyleClass().add("option-label");
+                optionLabel.getStyleClass().add("option-" + optionIndex); // Add unique class
                 optionRow.getChildren().addAll(radioBoxCard, optionLabel);
                 optionsContainer.getChildren().add(optionRow);
+                optionIndex++;
             }
             questionRadioButtons.put(question, radioButtons);
         } else {
@@ -160,7 +164,6 @@ public class AfficherQuestionsEtudiantController {
         box.getChildren().addAll(questionText, optionsContainer);
         return box;
     }
-
     @FXML
     private void submitAllAnswers() {
         int correctAnswersCount = 0;
