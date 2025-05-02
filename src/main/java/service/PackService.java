@@ -3,10 +3,7 @@ package service;
 import entite.Pack;
 import util.DataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +13,9 @@ public class PackService {
         return DataSource.getInstance().getConnection();
     }
 
+    /**
+     * Fetches all packs from the database.
+     */
     public List<Pack> getAllPacks() {
         List<Pack> packs = new ArrayList<>();
         String query = "SELECT * FROM pack";
@@ -24,13 +24,7 @@ public class PackService {
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Pack pack = new Pack(
-                        rs.getInt("id"),
-                        rs.getDouble("price"),
-                        rs.getString("features"),
-                        rs.getInt("validity_period"),
-                        rs.getString("name")
-                );
+                Pack pack = mapResultSetToPack(rs);
                 packs.add(pack);
                 System.out.println("Fetched pack: " + pack.getName());
             }
@@ -42,6 +36,9 @@ public class PackService {
         return packs;
     }
 
+    /**
+     * Adds a new pack to the database.
+     */
     public void addPack(Pack pack) {
         String query = "INSERT INTO pack (price, features, validity_period, name) VALUES (?, ?, ?, ?)";
         System.out.println("Adding pack: " + pack.getName());
@@ -59,15 +56,38 @@ public class PackService {
         }
     }
 
-    public void updatePack(Pack pack) {
-        String query = "UPDATE pack SET price = ?, features = ?, validity_period = ?, name = ? WHERE id = ?";
-        System.out.println("Updating pack ID: " + pack.getId());
+    /**
+     * Fetches a single pack by its ID.
+     */
+    public Pack getPackById(int id) {
+        String query = "SELECT * FROM pack WHERE id = ?";
+        System.out.println("Fetching pack with ID: " + id);
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setDouble(1, pack.getPrice());
-            stmt.setString(2, pack.getFeatures());
-            stmt.setInt(3, pack.getValidityPeriod());
-            stmt.setString(4, pack.getName());
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToPack(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching pack by ID: " + e.getMessage());
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+        return null; // Return null if no pack is found
+    }
+
+    /**
+     * Updates an existing pack in the database.
+     */
+    public void updatePack(Pack pack) {
+        String query = "UPDATE pack SET name = ?, price = ?, features = ?, validity_period = ? WHERE id = ?";
+        System.out.println("Updating pack: " + pack.getName());
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, pack.getName());
+            stmt.setDouble(2, pack.getPrice());
+            stmt.setString(3, pack.getFeatures());
+            stmt.setInt(4, pack.getValidityPeriod());
             stmt.setInt(5, pack.getId());
             int rows = stmt.executeUpdate();
             System.out.println("Pack updated, rows affected: " + rows);
@@ -77,9 +97,12 @@ public class PackService {
         }
     }
 
+    /**
+     * Deletes a pack from the database by its ID.
+     */
     public void deletePack(int id) {
         String query = "DELETE FROM pack WHERE id = ?";
-        System.out.println("Deleting pack ID: " + id);
+        System.out.println("Deleting pack with ID: " + id);
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -90,4 +113,18 @@ public class PackService {
             throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
+
+    /**
+     * Maps a ResultSet to a Pack object.
+     */
+    private Pack mapResultSetToPack(ResultSet rs) throws SQLException {
+        return new Pack(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getDouble("price"),
+                rs.getString("features"),
+                rs.getInt("validity_period")
+        );
+    }
+
 }

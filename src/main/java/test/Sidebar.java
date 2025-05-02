@@ -83,7 +83,7 @@ public class Sidebar {
         HBox dashboardBtn = createSidebarItemWithDropdown("Dashboard", "dashboard", stage, dashboardAction);
         HBox analyticsBtn = createSidebarItem("Utilisateurs", "utilisateurs", stage, utilisateursAction);
         HBox ecommerceBtn = createSidebarItem("Paiement", "paiement", stage, () -> {
-            System.out.println("Paiement clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/Boubaker/paiement_management.fxml");
         });
 
         // Application Section

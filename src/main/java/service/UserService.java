@@ -6,9 +6,23 @@ import util.DataSource;
 import entite.Title;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import entite.User;
+import util.DataSource;
+import entite.Title;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
+
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class UserService implements IService<User> {
 
@@ -317,6 +331,111 @@ public class UserService implements IService<User> {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+
+    public User getUserByIdForPack(int id) {
+        String requete = "SELECT id, nom, prenom, email, password, roles, status, balance, points, features_unlocked FROM user WHERE id = ?";
+        try (Connection conn = DataSource.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                // Manually parse roles
+                String rolesJson = rs.getString("roles");
+                List<String> roles = new ArrayList<>();
+                if (rolesJson != null && !rolesJson.isEmpty()) {
+                    rolesJson = rolesJson.trim();
+                    if (rolesJson.startsWith("[") && rolesJson.endsWith("]")) {
+                        // JSON array: ["ROLE_1","ROLE_2"]
+                        rolesJson = rolesJson.substring(1, rolesJson.length() - 1);
+                        if (!rolesJson.isEmpty()) {
+                            for (String role : rolesJson.split(",")) {
+                                roles.add(role.replace("\"", "").trim());
+                            }
+                        }
+                    } else {
+                        // Fallback: single role or comma-separated
+                        for (String role : rolesJson.split(",")) {
+                            roles.add(role.trim());
+                        }
+                    }
+                }
+
+                // Create User object
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRoles(roles);
+                user.setActive(rs.getBoolean("status"));
+                user.setBalance(rs.getObject("balance", Double.class));
+                user.setPoints(rs.getObject("points", Integer.class));
+                user.setFeaturesUnlocked(rs.getString("features_unlocked"));
+                return user;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la recherche d'utilisateur pour pack par ID: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void addBalance(int userId, double amount) {
+        String requete = "UPDATE user SET balance = balance + ? WHERE id = ?";
+        try (Connection conn = DataSource.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+            pstmt.setDouble(1, amount);
+            pstmt.setInt(2, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Solde mis à jour : userId=" + userId + ", montant=" + amount + ", lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du solde : " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final Gson gson = new Gson();
+    private static final Type listType = new TypeToken<List<String>>() {}.getType();
+
+    public void updateFeaturesUnlocked(int userId, String features) {
+        String requete = "UPDATE user SET features_unlocked = ? WHERE id = ?";
+        try (Connection conn = DataSource.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+            // features is already a JSON string (e.g., ["More Quizzes"]), so pass it directly
+            System.out.println("Tentative de mise à jour : userId=" + userId + ", features='" + features + "'");
+            pstmt.setString(1, features);
+            pstmt.setInt(2, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Fonctionnalités mises à jour : userId=" + userId + ", features='" + features + "', lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour des fonctionnalités : " + e.getMessage());
+            // Fallback: Try setting NULL
+            try (Connection conn = DataSource.getInstance().getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement("UPDATE user SET features_unlocked = NULL WHERE id = ?")) {
+                pstmt.setInt(1, userId);
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Fallback : features_unlocked mis à NULL pour userId=" + userId + ", lignes affectées=" + rowsAffected);
+            } catch (SQLException fallbackEx) {
+                System.err.println("Erreur lors du fallback à NULL : " + fallbackEx.getMessage());
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void resetFeaturesUnlocked(int userId) {
+        String requete = "UPDATE user SET features_unlocked = '[]' WHERE id = ?";
+        try (Connection conn = DataSource.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(requete)) {
+            pstmt.setInt(1, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Fonctionnalités réinitialisées : userId=" + userId + ", lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la réinitialisation des fonctionnalités : " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public void updatePoints(int userId, int points) {

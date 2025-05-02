@@ -46,7 +46,6 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
-
 /* Root Styles */
 .root {
     -fx-font-family: "Arial";
@@ -607,6 +606,9 @@
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
 }
+
+
+
 
 .stats-container {
     -fx-padding: 20;

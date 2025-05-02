@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Boubaker.ViewPacksController"
+      alignment="CENTER" spacing="20" style="-fx-background-color: #F7F7F7;"
+      prefWidth="800">
+    <stylesheets>
+        <URL value="@/css/dashboard-sidebar.css" />
+    </stylesheets>
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <Label text="Packs List" style="-fx-font-family: Arial; -fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333333;" />
+
+    <TableView fx:id="packsTable" prefWidth="750" prefHeight="500" styleClass="styled-table">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+            <TableColumn fx:id="validityColumn" text="Validity (Days)" prefWidth="120"/>
+            <TableColumn fx:id="featuresColumn" text="Features" prefWidth="200"/>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="200"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: #C20114; -fx-font-family: Arial; -fx-font-size: 12;"/>
+</VBox>
