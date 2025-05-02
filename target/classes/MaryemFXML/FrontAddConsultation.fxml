@@ -11,29 +11,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER" spacing="20.0" styleClass="consultation-form" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.FrontAddConsultationController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text text="Book Consultation" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Text text="Book Consultation" styleClass="form-title"/>
 
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text="User:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="userComboBox" prefWidth="300.0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <GridPane hgap="10.0" vgap="10.0" styleClass="form-grid">
 
-        <Label text="Consultation Date:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <DatePicker fx:id="consultationDatePicker" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Consultation Date:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="form-label"/>
+        <DatePicker fx:id="consultationDatePicker" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="form-date-picker"/>
 
-        <Label text="Time (HH:mm):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="consultationTimeField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Time (HH:mm):" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="form-label"/>
+        <TextField fx:id="consultationTimeField" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="form-text-field"/>
     </GridPane>
 
     <HBox spacing="10.0" alignment="CENTER">
-        <Button fx:id="saveButton" text="Book" onAction="#saveConsultation"/>
-        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel"/>
+        <Button fx:id="saveButton" text="Book" onAction="#saveConsultation" styleClass="save-button"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel" styleClass="cancel-button"/>
     </HBox>
 
-    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+    <Label fx:id="errorLabel" text="" styleClass="error-label"/>
 </VBox>

@@ -101,9 +101,7 @@ public class Sidebar {
         pagesLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
-        HBox authBtn = createSidebarItem("Module", "module", stage, () -> {
-            System.out.println("Module clicked (no navigation implemented)");
-        });
+        HBox authBtn = createSidebarItem("Module", "module", stage, () -> loadFXML.accept("/HedyFXML/AffichageModuleDashboardHedy.fxml"));
         HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> loadFXML.accept("/OumaimaFXML/affichageBackQuiz.fxml"));
 
         // Elements Section

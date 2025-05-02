@@ -1,0 +1,39 @@
+.consultations-container {
+    -fx-background-color: #f5f5f5;
+}
+
+.consultations-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.consultations-scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.consultations-list {
+    -fx-padding: 10;
+}
+
+.consultation-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+.bullet-label {
+    -fx-font-size: 16px;
+    -fx-padding: 0 5 0 0;
+}
+
+.details-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+.close-button {
+    -fx-background-color: #ff4d4d;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}

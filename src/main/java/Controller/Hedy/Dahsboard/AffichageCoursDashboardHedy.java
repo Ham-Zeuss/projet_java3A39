@@ -1,10 +1,7 @@
-<<<<<<<< HEAD:src/main/java/Controller/Hedy/AffichageCoursController.java
-package Controller.Hedy;
 
-========
 package Controller.Hedy.Dahsboard;
 import Controller.Hedy.*;
->>>>>>>> origin/hedyene:src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java
+
 import entite.Cours;
 import entite.Module;
 import entite.Session; // Import the Session class

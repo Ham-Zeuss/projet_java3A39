@@ -1,0 +1,99 @@
+/* Root container */
+.root {
+    -fx-background-color: #d4d4e4; /* Purple background */
+    -fx-padding: 20;
+}
+
+/* Header styling */
+.header {
+    -fx-alignment: center-left;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF; /* White text for contrast */
+    -fx-font-family: "Arial";
+}
+
+/* Table styling */
+.notification-table {
+    -fx-background-color: #FFFFFF; /* White table background */
+    -fx-border-color: #FFFFFF;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 3); /* Slightly stronger shadow for elegance */
+}
+
+.notification-table .column-header {
+    -fx-background-color: #FF4081; /* Pink header */
+    -fx-text-fill: #FFFFFF; /* White text */
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-alignment: center;
+    -fx-padding: 12; /* Increased padding for a premium look */
+    -fx-font-size: 14px;
+}
+
+.notification-table .column-header-background {
+    -fx-background-color: #FF4081; /* Pink header background */
+    -fx-background-radius: 10 10 0 0; /* Rounded top corners */
+}
+
+.notification-table .table-row-cell {
+    -fx-background-color: #FFFFFF; /* White row background */
+    -fx-border-color: #E0E0E0; /* Light gray border for rows */
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12; /* Increased padding for elegance */
+    -fx-font-size: 14px;
+    -fx-text-fill: #212121; /* Dark gray text for readability */
+    -fx-font-family: "Arial";
+}
+
+.notification-table .table-row-cell:hover {
+    -fx-background-color: #FFC107; /* Yellow hover effect */
+    -fx-text-fill: #212121;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.02; /* Slightly larger scale for elegance */
+    -fx-scale-y: 1.02;
+    -fx-transition: all 0.3s ease-in-out; /* Smoother transition */
+}
+
+.notification-table .table-row-cell:odd {
+    -fx-background-color: #F5F5F5; /* Slightly off-white for odd rows */
+}
+
+/* Button styling */
+.btn-danger {
+    -fx-background-color: #FF4081; /* Pink button */
+    -fx-text-fill: #FFFFFF; /* White text */
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-padding: 10 20; /* Larger padding for a premium feel */
+    -fx-background-radius: 8; /* More rounded corners */
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #D81B60; /* Darker pink on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.btn-danger:disabled {
+    -fx-background-color: #B0BEC5; /* Muted gray for disabled state */
+    -fx-text-fill: #78909C;
+    -fx-cursor: default;
+}
+
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #6B5B95, #4A406F);
+    -fx-padding: 20;
+}
+
+.title, .notification-table, .btn-danger {
+    -fx-font-family: "BubblegumSans-Regular";
+}
+

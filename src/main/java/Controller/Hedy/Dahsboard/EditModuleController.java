@@ -1,8 +1,6 @@
-<<<<<<<< HEAD:src/main/java/Controller/Hedy/EditModuleController.java
-package Controller.Hedy;
-========
+
 package Controller.Hedy.Dahsboard;
->>>>>>>> origin/hedyene:src/main/java/Controller/Hedy/Dahsboard/EditModuleController.java
+
 
 import entite.Module;
 import javafx.fxml.FXML;
@@ -82,22 +80,10 @@ public class EditModuleController {
     }
 
     @FXML
-<<<<<<<< HEAD:src/main/java/Controller/Hedy/EditModuleController.java
-    private void returnToTable() {
-        try {
-            // Use correct path to your affichagemodule.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/HedyFXML/AffichageModule.fxml"));
-            Stage stage = (Stage) titleField.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Liste des Modules");
-        } catch (Exception e) {
-            System.out.println("Erreur lors du retour à la liste: " + e.getMessage());
-            e.printStackTrace();
-        }
-========
+
     private void cancel() {
         closePopup();
->>>>>>>> origin/hedyene:src/main/java/Controller/Hedy/Dahsboard/EditModuleController.java
+
     }
 
     // Helper method to close the popup
