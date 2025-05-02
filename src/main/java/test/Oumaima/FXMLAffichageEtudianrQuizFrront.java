@@ -61,7 +61,7 @@ public class FXMLAffichageEtudianrQuizFrront extends Application {
         // 3. Load body (affichageEtudiantQuiz.fxml)
         FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
         if (bodyLoader.getLocation() == null) {
-            throw new IllegalStateException("Fichier /OumaimaFXML/affichageEtudiantQuiz.fxml introuvable");
+            throw new IllegalStateException("Fichier /OumaimaFXML/affichageEtudiantQuiz.fxml");
         }
         Parent bodyContent = bodyLoader.load();
         bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");

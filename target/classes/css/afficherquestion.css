@@ -1,0 +1,117 @@
+/* Custom checkbox design */
+.custom-checkbox {
+    -fx-padding: 8px;
+    -fx-cursor: hand;
+    -fx-user-select: none;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #333333;
+}
+
+/* Style the checkbox container */
+.custom-checkbox .check-box {
+    -fx-background-color: #f0f4f8;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 24px;
+    -fx-pref-width: 24px;
+    -fx-border-color: #d1d9e6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Style when checkbox is selected */
+.custom-checkbox .check-box:selected {
+    -fx-background-color: #a3bffa;
+    -fx-border-color: #667eea;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.3), 10, 0, 0, 2);
+}
+
+/* Style the checkmark */
+.custom-checkbox .check-box .mark {
+    -fx-background-color: transparent;
+    -fx-pref-height: 12px;
+    -fx-pref-width: 6px;
+    -fx-border-color: transparent transparent #ffffff transparent;
+    -fx-border-width: 0 2px 2px 0;
+    -fx-translate-x: 8px;
+    -fx-translate-y: 4px;
+    -fx-rotate: 45deg;
+    -fx-opacity: 0;
+    -fx-transition: -fx-opacity 0.3s ease-in-out;
+}
+
+/* Show checkmark when selected */
+.custom-checkbox .check-box:selected .mark {
+    -fx-opacity: 1;
+}
+
+/* Custom radiobox design */
+.custom-radiobox {
+    -fx-padding: 8px;
+    -fx-cursor: hand;
+    -fx-user-select: none;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #333333;
+}
+
+/* Style the radiobox container */
+.custom-radiobox .radio-button {
+    -fx-background-color: #f0f4f8;
+    -fx-background-radius: 50%;
+    -fx-pref-height: 24px;
+    -fx-pref-width: 24px;
+    -fx-border-color: #d1d9e6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Style when radiobox is selected */
+.custom-radiobox .radio-button:selected {
+    -fx-background-color: #ff9aa2;
+    -fx-border-color: #ff6f61;
+    -fx-effect: dropshadow(gaussian, rgba(255, 111, 97, 0.3), 10, 0, 0, 2);
+}
+
+/* Style the radiomark */
+.custom-radiobox .radio-button .mark {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 50%;
+    -fx-pref-height: 12px;
+    -fx-pref-width: 12px;
+    -fx-translate-x: 6px;
+    -fx-translate-y: 6px;
+    -fx-opacity: 0;
+    -fx-transition: -fx-opacity 0.3s ease-in-out;
+}
+
+/* Show radiomark when selected */
+.custom-radiobox .radio-button:selected .mark {
+    -fx-opacity: 1;
+}
+
+/* Option container - applies to checkbox/radiobox card only */
+.option-container {
+    -fx-padding: 5px;
+    -fx-background-radius: 6px;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
+    -fx-transition: -fx-background-color 0.3s ease-in-out;
+}
+
+/* Style for option labels outside the card */
+.option-label {
+    -fx-padding: 5px;
+    -fx-font-size: 16px;
+    -fx-text-fill: #444444;
+    -fx-alignment: center-left;
+}
+
+/* Hover effect for option containers */
+.option-container:hover {
+    -fx-background-color: #f5f5f5;
+}
