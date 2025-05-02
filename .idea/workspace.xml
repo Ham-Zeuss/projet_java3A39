@@ -6,20 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Module.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/CoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/CoursService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AjoutModuleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AjoutModuleController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/entite/Module.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/entite/Module.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/CoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/CoursService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/ModuleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/ModuleService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SecurityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SecurityController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +60,7 @@
       <recent name="C:\Users\hedyene\Desktop\projet_java3A39\src\main\resources\JasonKey" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dashboard">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Dashboard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Dashboard" />
       <module name="projet_java_gestion_evaluation" />
@@ -159,11 +146,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Dashboard" />
         <item itemvalue="Application.LeaderboardMain" />
         <item itemvalue="Application.Mainx" />
         <item itemvalue="Application.FXMLTestMain" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -186,6 +173,10 @@
       <workItem from="1746124249686" duration="17333000" />
       <workItem from="1746162409160" duration="17982000" />
       <workItem from="1746186539123" duration="4355000" />
+      <workItem from="1746195555416" duration="7224000" />
+      <workItem from="1746203040133" duration="1111000" />
+      <workItem from="1746204178273" duration="60000" />
+      <workItem from="1746205591292" duration="504000" />
     </task>
     <servers />
   </component>
