@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
@@ -12,10 +11,8 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text text="Public Profiles" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
-
     <!-- Container for profile cards -->
-    <FlowPane fx:id="profilesContainer" hgap="15.0" vgap="15.0" alignment="CENTER">
+    <FlowPane fx:id="profilesContainer" hgap="15.0" vgap="15.0" alignment="CENTER" prefWrapLength="1445.0">
         <!-- Profile cards added dynamically -->
     </FlowPane>
 

@@ -92,7 +92,7 @@ public class FXMLFrontDisplayProfile extends Application {
                 footerImageView.getFitHeight();
 
         // Set scene to window height or content height, whichever is smaller
-        Scene scene = new Scene(scrollPane, 1500, 700);
+        Scene scene = new Scene(scrollPane, 1485, 700);
 
         // Add CSS files
         URL storeCards = getClass().getResource("/css/store-cards.css");
@@ -103,6 +103,11 @@ public class FXMLFrontDisplayProfile extends Application {
         URL NavBar = getClass().getResource("/navbar.css");
         if (NavBar != null) {
             scene.getStylesheets().add(NavBar.toExternalForm());
+        }
+
+        URL fronprofile = getClass().getResource("/css/affichageprofilefront.css");
+        if (fronprofile != null) {
+            scene.getStylesheets().add(fronprofile.toExternalForm());
         }
 
         primaryStage.setTitle("JavaFX Scrollable Window");

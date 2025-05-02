@@ -63,7 +63,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(38, "abir@gmail.com", "ROLE_MEDECIN");
+                session.setUser(55, "abir@gmail.com", "ROLE_PARENT");
 
                 // Create a VBox to stack header, body, and footer
                 VBox mainContent = new VBox();
@@ -97,7 +97,7 @@ public class SecurityController {
 
                 // 3. Load body (ListStoreItemsFront.fxml)
                 Parent bodyContent;
-                String fxmlPath = "MaryemFXML/FrontDoctorsDisplayProfiles.fxml";
+                String fxmlPath = "MaryemFXML/FrontDisplayProfiles.fxml";
                 URL resourceUrl = getClass().getResource("/" + fxmlPath);
                 if (resourceUrl == null) {
                     throw new Exception("Resource not found: /" + fxmlPath);

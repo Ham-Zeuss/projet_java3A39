@@ -155,43 +155,26 @@ public class ProfileDetailsController {
                                 (commenter.getPrenom() != null ? commenter.getPrenom() : "") : "Anonymous";
                 commenterName = commenterName.trim().isEmpty() ? "Anonymous" : commenterName.trim();
 
-                User profileUser = profile.getUserId();
-                String profileName = (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
-                        (profileUser.getPrenom() != null ? profileUser.getPrenom() : "");
-                profileName = profileName.trim().isEmpty() ? "Anonymous" : profileName.trim();
+                // Create card-like structure
+                VBox card = new VBox();
+                card.getStyleClass().add("card");
+                card.setSpacing(20);
 
-                HBox commentBox = new HBox();
-                commentBox.getStyleClass().add("comment-box");
-                commentBox.setSpacing(5);
-                commentBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                // Title (Commenter Name)
+                Label titleLabel = new Label(commenterName);
+                titleLabel.getStyleClass().add("title");
+                titleLabel.setWrapText(true);
 
-                HBox commenterBox = new HBox();
-                commenterBox.getStyleClass().add("commenter-box");
-                Label commenterLabel = new Label(commenterName);
-                commenterLabel.setWrapText(true);
-                commenterBox.getChildren().add(commenterLabel);
+                // Description (Comment Content)
+                Label descriptionLabel = new Label(comment.getComment());
+                descriptionLabel.getStyleClass().add("description");
+                descriptionLabel.setWrapText(true);
 
-                HBox actionBox = new HBox();
-                actionBox.getStyleClass().add("action-box");
-                Label actionLabel = new Label("a écrit dans le profil de");
-                actionLabel.setWrapText(true);
-                actionBox.getChildren().add(actionLabel);
+                // Add title and description to card
+                card.getChildren().addAll(titleLabel, descriptionLabel);
 
-                HBox profileBox = new HBox();
-                profileBox.getStyleClass().add("profile-box");
-                Label profileLabel = new Label(profileName);
-                profileLabel.setWrapText(true);
-                profileBox.getChildren().add(profileLabel);
-
-                HBox contentBox = new HBox();
-                contentBox.getStyleClass().add("content-box");
-                Label contentLabel = new Label(": " + comment.getComment());
-                contentLabel.setWrapText(true);
-                contentBox.getChildren().add(contentLabel);
-
-                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox);
-
-                commentsContainer.getChildren().add(commentBox);
+                // Add card to comments container
+                commentsContainer.getChildren().add(card);
             }
 
         } catch (Exception e) {

@@ -3,6 +3,9 @@ package Controller.Maryem;
 import entite.Profile;
 import entite.User;
 import entite.Session;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,11 +14,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
+import javafx.util.Duration;
 import service.ProfileService;
 import javafx.scene.shape.Circle;
 import javafx.scene.effect.DropShadow;
@@ -65,10 +70,13 @@ public class FrontDisplayProfilesController {
                 return;
             }
 
+            profilesContainer.setPrefWidth(1445.0); // 4 cards × 350px + 3 gaps × 15px
+            profilesContainer.setMaxWidth(1445.0);
+
             // Dynamically create a card for each profile
             int index = 0;
             for (Profile profile : profiles) {
-                VBox profileCard = createProfileCard(profile);
+                StackPane profileCard = createProfileCard(profile);
                 // Add staggered animation delay
                 profileCard.setStyle("-fx-animation-delay: " + (index * 0.1) + "s;");
                 profilesContainer.getChildren().add(profileCard);
@@ -82,11 +90,24 @@ public class FrontDisplayProfilesController {
         System.out.println("Exiting FrontDisplayProfilesController.initialize");
     }
 
-    private VBox createProfileCard(Profile profile) {
-        VBox profileCard = new VBox();
+
+
+    private StackPane createProfileCard(Profile profile) {
+        // Create StackPane as the root for layering
+        StackPane profileCard = new StackPane();
         profileCard.getStyleClass().add("profile-card");
-        profileCard.setSpacing(5);
-        profileCard.setAlignment(Pos.CENTER);
+
+        // Create a Rectangle for the gradient background (top 100px)
+        Rectangle gradientBackground = new Rectangle(350, 100);
+        gradientBackground.getStyleClass().add("gradient-background");
+        gradientBackground.setManaged(false); // Prevent layout interference
+        gradientBackground.setY(0); // Ensure it's at the top
+
+        // Content VBox
+        VBox content = new VBox();
+        content.getStyleClass().add("card-content");
+        content.setSpacing(5);
+        content.setAlignment(Pos.CENTER);
 
         // Extract user info
         User user = profile.getUserId();
@@ -98,16 +119,13 @@ public class FrontDisplayProfilesController {
         String photoPath = user.getPhoto();
         if (photoPath != null && !photoPath.isEmpty()) {
             try {
-                // Load image from the file path or URL stored in user.photo
-                Image image = new Image(photoPath, true); // 'true' for background loading
+                Image image = new Image(photoPath, true);
                 profileImage = new ImageView(image);
             } catch (Exception e) {
                 System.err.println("Error loading profile image for user " + user.getId() + ": " + e.getMessage());
-                // Fallback to default image
                 profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
             }
         } else {
-            // Use default image if photo is null or empty
             profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
         }
         profileImage.setFitWidth(80);
@@ -115,10 +133,13 @@ public class FrontDisplayProfilesController {
         Circle clip = new Circle(40, 40, 40);
         profileImage.setClip(clip);
         profileImage.setEffect(new DropShadow(5, 2, 2, Color.color(0.5, 0.5, 0.5, 0.2)));
+        profileImage.getStyleClass().add("profile-image");
+        VBox.setMargin(profileImage, new Insets(30, 0, 0, 0)); // Position image to overlap gradient
 
         // Make name a clickable Hyperlink
         Hyperlink nameLink = new Hyperlink(fullName.trim());
         nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
+        nameLink.getStyleClass().add("name-link");
 
         Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
         Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
@@ -126,6 +147,7 @@ public class FrontDisplayProfilesController {
 
         // Create buttons
         Button resourcesButton = new Button("View PDF");
+        resourcesButton.getStyleClass().add("resource-button");
         resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
         Button commentButton = new Button("👀");
@@ -148,16 +170,44 @@ public class FrontDisplayProfilesController {
 
         // HBox for icon buttons
         HBox iconButtonsContainer = new HBox();
+        iconButtonsContainer.getStyleClass().add("button-container");
         iconButtonsContainer.setSpacing(10);
         iconButtonsContainer.setAlignment(Pos.CENTER);
         iconButtonsContainer.getChildren().addAll(commentButton, addCommentButton, bookButton);
 
-        // Add elements to card
-        profileCard.getChildren().addAll(
+        // Add elements to content VBox
+        content.getChildren().addAll(
                 profileImage,
                 nameLink, bioLabel, specialtyLabel, priceLabel,
                 resourcesButton, iconButtonsContainer
         );
+
+        // Add gradient background and content to StackPane
+        profileCard.getChildren().addAll(gradientBackground, content);
+
+        // Animation for gradient expansion on hover
+        Timeline hoverAnimation = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(gradientBackground.heightProperty(), 100)),
+                new KeyFrame(Duration.millis(500), new KeyValue(gradientBackground.heightProperty(), 370))
+        );
+        Timeline exitAnimation = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(gradientBackground.heightProperty(), 350)),
+                new KeyFrame(Duration.millis(600), new KeyValue(gradientBackground.heightProperty(), 100))
+        );
+
+        // Add hover effects
+        profileCard.setOnMouseEntered(event -> {
+            profileCard.setEffect(new DropShadow(10, 5, 5, Color.color(0, 0, 0, 0.3)));
+            hoverAnimation.play();
+            profileCard.setScaleX(0.95);
+            profileCard.setScaleY(0.95);
+        });
+        profileCard.setOnMouseExited(event -> {
+            profileCard.setEffect(null);
+            exitAnimation.play();
+            profileCard.setScaleX(1.0);
+            profileCard.setScaleY(1.0);
+        });
 
         return profileCard;
     }
@@ -184,14 +234,7 @@ public class FrontDisplayProfilesController {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
 
-            // 1. Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            if (headerFxmlLoader.getLocation() == null) {
-                throw new IOException("FXML file not found: /header.fxml");
-            }
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
+
 
             // 2. Add header image right below the header.fxml content
             ImageView headerImageView = new ImageView();
@@ -202,7 +245,7 @@ public class FrontDisplayProfilesController {
 
                 // Set image properties
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920); // Match header width
+                headerImageView.setFitWidth(1500); // Match header width
                 headerImageView.setSmooth(true);   // Better quality when scaling
                 headerImageView.setCache(true);    // Better performance
 
@@ -211,7 +254,7 @@ public class FrontDisplayProfilesController {
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
                 // Fallback if image fails to load
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(1500, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -238,7 +281,7 @@ public class FrontDisplayProfilesController {
                 }
                 throw e; // Re-throw to be caught by the outer catch block
             }
-            bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 2000; -fx-max-height: 5000;");
             mainContent.getChildren().add(bodyContent);
 
             // 4. Load footer as ImageView
@@ -247,10 +290,10 @@ public class FrontDisplayProfilesController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(1500);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(1500, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -265,7 +308,7 @@ public class FrontDisplayProfilesController {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable vertical scrollbar
 
             // Calculate required height
-            double totalHeight = headerFxmlContent.getPrefHeight() +
+            double totalHeight =
                     headerImageView.getFitHeight() +
                     bodyContent.prefHeight(-1) +
                     footerImageView.getFitHeight();
@@ -401,7 +444,7 @@ public class FrontDisplayProfilesController {
 
             int index = 0;
             for (Profile profile : profiles) {
-                VBox profileCard = createProfileCard(profile);
+                StackPane profileCard = createProfileCard(profile);
                 profileCard.setStyle("-fx-animation-delay: " + (index * 0.1) + "s;");
                 profilesContainer.getChildren().add(profileCard);
                 index++;
@@ -427,7 +470,7 @@ public class FrontDisplayProfilesController {
             if (loader.getLocation() == null) {
                 throw new IOException("FXML file not found: /MaryemFXML/FrontDisplayProfiles.fxml");
             }
-            Scene scene = new Scene(loader.load(), 600, 800);
+            Scene scene = new Scene(loader.load(), 1485, 800); // Increased width to 1485px
             scene.getStylesheets().add(getClass().getResource("/css/affichageprofilefront.css").toExternalForm());
 
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();

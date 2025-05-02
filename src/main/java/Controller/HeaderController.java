@@ -202,6 +202,12 @@ public class HeaderController {
                 scene.getStylesheets().add(storeCards.toExternalForm());
             }
 
+
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) {
+                scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            }
+
             URL NavBar = getClass().getResource("/navbar.css");
             if (NavBar != null) {
                 scene.getStylesheets().add(NavBar.toExternalForm());
