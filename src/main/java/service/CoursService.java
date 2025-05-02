@@ -39,14 +39,25 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public void delete(Cours cours) {
+        int moduleId = cours.getModuleId().getId(); // Get module ID before deletion
+
         String requete = "DELETE FROM cours WHERE id = ?";
+
         try (PreparedStatement pst = cnx.prepareStatement(requete)) {
             pst.setInt(1, cours.getId());
-            pst.executeUpdate();
+            int rowsDeleted = pst.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                ModuleService moduleService = new ModuleService();
+                moduleService.decrementNombreCours(moduleId);
+                System.out.println("Successfully deleted course and decremented nombre_cours for module ID: " + moduleId);
+            }
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error deleting course", e);
         }
     }
+
 
     @Override
     public void update(Cours cours) {

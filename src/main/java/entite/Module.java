@@ -1,8 +1,8 @@
 package entite;
-
 import javafx.beans.property.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Module {
     private final IntegerProperty id = new SimpleIntegerProperty();
@@ -21,7 +21,6 @@ public class Module {
         setLevel(level);
         this.coursList = new ArrayList<>();
     }
-
     public Module(Integer id, String title, String description, Integer nombreCours, String level) {
         setId(id);
         setTitle(title);

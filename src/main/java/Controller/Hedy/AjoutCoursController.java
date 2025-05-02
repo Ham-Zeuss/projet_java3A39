@@ -1,6 +1,6 @@
 package Controller.Hedy;
 import Controller.Hedy.Dahsboard.*;
-
+import service.ModuleService;
 import entite.Cours;
 import entite.Module;
 import javafx.fxml.FXML;
@@ -36,7 +36,6 @@ public class AjoutCoursController {
 
     @FXML
     private void saveCours() {
-        // Validate input fields
         String title = titleField.getText().trim();
         String pdfUrl = pdfNameField.getText().trim();
 
@@ -51,37 +50,37 @@ public class AjoutCoursController {
         }
 
         try {
-            // Ensure the current user's ID is set
             if (currentUserId == null) {
                 showAlert(AlertType.ERROR, "Erreur", "Impossible de récupérer l'utilisateur actuel.");
                 return;
             }
 
-            // Create a new Cours object with the user's ID and the PDF URL
             Cours newCours = new Cours(
                     title,
                     currentModule,
-                    pdfUrl, // Save the public URL of the PDF
-                    currentUserId // Store the user's ID
+                    pdfUrl,
+                    currentUserId
             );
 
-            // Save the course to the database
             coursService.createPst(newCours);
 
-            // Show success message
+            // 👇 Increment module's course count and update DB
+            ModuleService moduleService = new ModuleService();
+            currentModule.setNombreCours(currentModule.getNombreCours() + 1);
+            moduleService.update(currentModule); // Make sure this method exists!
+
             showAlert(AlertType.INFORMATION, "Succès", "Le cours a été ajouté avec succès!");
 
-            // Return to the AffichageCours screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
 
-            // Use the correct controller class
-            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
+            AffichageCoursDashboardHedy controller = loader.getController();
             controller.setModule(currentModule);
 
             Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Cours: " + currentModule.getTitle());
+
         } catch (Exception e) {
             showAlert(AlertType.ERROR, "Erreur inattendue", "Une erreur s'est produite lors de l'ajout du cours: " + e.getMessage());
         }
@@ -134,7 +133,7 @@ public class AjoutCoursController {
         if (selectedFile != null) {
             try {
                 // Initialize Dropbox Service
-                String dropboxAccessToken = "sl.u.AFtbinby3m22XcRR7qkRjB3rAd8GbjcJa7fHGSYUa3uFumv32WIPfcxtQxzyZ7eV5xTFGRVx8wdeK4NDkJy3y8g_mMyyUCyVWGpIamHlg29V24C1ns91aoTgozZtHCyEZgy2lVBYqSWogCqpCJ5HbqpkFxZ2zeYlXIwKoliQzqyjenVCX2XK8w2jzUHZyQW68F39ZOkIBx1C6slDTsVdz_cB9JuhswKrAhqBAOn0OI0lTlAj2VTBZuAgUhBBwKImVfcWdUyHrGwpsZqOZoBOm32YMFAZ1q6AIoj1wpTpWD9Puiy65R9jHfg90umjKVL-YDFTIWZ1Pmag5cQKBr_4HrpUCq_8KLOvijVgfGTvxbMN2qmhaaRdRd1o8V1HTCDkKkJdyGOUpu0GPl18VotkRhWfnVxEpHNRLPpn7hLtDWzJvjsADzS-54ADG00GhbEs__9vKjAC08GT0AxFTAOTjx8eF3F78BbVyTsgwV-t-CHGKk9f0cPmovMbVDbmRLLAi1I2aEIt5hRKoddTkxwRVIlkXRu--qEORLIOy49_-nqE2PIdCKqVepF_yGP4zmn98x-YzHwtvHTbp0vaFU55TNw2f1Y2huXBXU0988HlW47ccd9mmsTN0-TKdWqS-fSIkH6W5I4EL1krTE85OmrOGGbhROz0GNp1ym1x6v8-x6MUfK7HUIyGPMg1AgPqBXPnGfyqoAqRgyXyAIWyqIEN4Ob2PSsUEYwf9W3MI8sf0Fo8Ee5R1kH4IzulLOao9DfioVteziO4wstWnLNCwuiE-m2GuAx1FcZxUfsmpA2AvpKB2RLMOeq1bU-v-_3HXSvmKrg0JGqbIUde-6MvSOsEDUgenFZXCMzaQZzBkeTT9xN8I4-8PuAzbcWLRQpp974nm5dFKUUQVFQrBMRXTS_yv76i9H8ioK3kOPIK3nI2swOVzF5Ex78GyyswXMjXtesbsgK8zGfvuLI64EAiNUWkhQ_AxbY83AZyGrVGdmqfgaOYdoC9EQvV53wxo3CKkJVngNc2wlgtGUxJCjnQPx3DHyD7fqGYJE2dujZFAkdGHbMZqQ6FqXQec5mPTzIKhaJoQucEZDb4rkBQeRp2AvgERrgGmAFPW10VS_15G136hdYo8qvZJEk0zt8OWtST-xeaPruWmMmf3voAWGldp4e7lRPw7NFAwDOh5sdHAzrOHiv1QFKobDjYW71GA0I7mKDcriWR29DN8diiAj4cOp5NbgUsua-qNOeWcrsEV9vfXarxP3zxek64K51WNNR8tgshYPIvjBpXsmdgldh4f-Rnws_p"; // Replace with your Dropbox access token
+                String dropboxAccessToken = "sl.u.AFs7qV8GBEh-LQ2nMtSvs9JipnXS9eF8cmTkqdgOsrpbNfPZD6wh8MUzKza633w9484zX9-EZfGcPJtxMTvsw98AxAKUlR9mpv6cd2g-_OJYBhxbDBQgY2lniqFdtgyMa6LIm6NANChQYY3Xlo3QpzyC1BD7O6CJwubUA8SbTKbTyulwsIpcYz_JlmlZXphrY_U5q2Hnuh1zY447uSA3lU5rt5x80i1S-tbBjEid4a2KVLxGhEuZJm0ti9qtUMFGNGWWJti9eu9wy9ilpumTPBhIFgniygTLDn_I4VfBO99Zy70calPIgsS7qRXnkPBX4vYtdsbISbiTiAlsUD8ia-jCTUIZU-hKTt7HWP-5DMIifDONJZxEO0RzmmtVrb5V12VkX62IxOqYw7NEhHgpc_HSyr3kgRoyLUdQlmHZPth0i_3hcAWk7FGvLKJGnd-Gk8pyYHQgxcZH-VwUiGizjDG6-ISJ7eQGSNDQzhnWUQKG-LKHC1G2HaxbVdEdupAnrcNvGmuTwTojv9iyjoD5pW2YuxLvkEIUUQrlpzqwEf-B1CEjwtNqcnNgQNyDDm3i8zNLmM_ojPlLcx-fcpDgUV4g4TKMs_bC7szq5zsU0vxcLYxRTLCxsx5wzQOwBCF4l-zOODENzquIk4mWhY-zPOr22pdKOHvxEgrY6xn9RR49DUEZwLrAQ5EYZVEe8beCh-ifX43POygNyeJiToDEkBbNBdU6P18SDE2zQBLYsAeJ8_8x4q1wa7TjEgxR-s81SBWTwF7TQR_O1McklMBszKOG6BWPjhiIdqy9e4ST791O-XGCnnoJcK7AaVyFK1ZvWUOSTc-5_T9rPLSvm4mWqoBEWKdfe8s8at_EuKQEeSo5feGP3fLmK30ZgaQ4Bz2WNcgdVKYqTqYbJqsCNnK4vsTxWaGCMhvKMczvdWfAkDaa0ruBlf9Zb7ZobUcthDvGij-VhEFHzUws4j3P-WHtgEdETehJ5MYwgp9aPjgdOal5dDv0gLwyuee4NxKaAWzblihvd3sXwCiB0JeBmXsO3UplowPjGooCSOYGuD_LWyLgn0d1lYXaLKWhA48boxRXKF8iJclX7o2033z0fHc_KgpVIUfzwp8-92QXBFBm0BMxfcN4yeMSD27Lj-ffj8MOpzBJ_YolHIQyNQpP25Ce5XHzNJW1eO7dvhA8F2m653Mbdg7-jnQGd1F_sasHKr85jyjvFaKaxZP0v-XAuR1YSuMWlwKqUv5penAnQgMSFmZV_DXI3Oy1r_0xxh4XrMBd7KAKsmwSvqn116Oe-Gu40dPJ"; // Replace with your Dropbox access token
                 DropboxService dropboxService = new DropboxService(dropboxAccessToken);
 
                 // Define the destination path in Dropbox

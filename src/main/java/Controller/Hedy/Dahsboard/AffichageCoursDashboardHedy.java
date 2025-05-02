@@ -26,6 +26,8 @@ public class AffichageCoursDashboardHedy{
 
     @FXML private Label moduleTitleLabel;
     @FXML private GridPane coursGrid; // GridPane for course cards
+    @FXML
+    private Label courseCountLabel;
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
@@ -38,9 +40,15 @@ public class AffichageCoursDashboardHedy{
         }
     }
 
-    private void loadCoursCards() {
-        coursGrid.getChildren().clear(); // Clear existing cards
+    public void loadCoursCards() {
+        coursGrid.getChildren().clear();  // Clear previous courses
+
         List<Cours> coursList = coursService.getCoursByModule(currentModule.getId());
+
+        // ✅ Update course count label safely
+        if (courseCountLabel != null) {
+            courseCountLabel.setText("Nombre de cours : " + coursList.size());
+        }
 
         int columns = 3;
         int row = 0;
@@ -59,13 +67,15 @@ public class AffichageCoursDashboardHedy{
         }
     }
 
+
+    // Create the course card with buttons (Edit and Delete)
     private VBox createCoursCard(Cours cours) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
         card.setPrefSize(300, 180);
         card.setOnMouseClicked(event -> {
-            openPdf(cours);
+            openPdf(cours); // Handle PDF open
         });
 
         // Title
@@ -93,8 +103,10 @@ public class AffichageCoursDashboardHedy{
 
         editButton.setOnAction(e -> editCours(cours));
         deleteButton.setOnAction(e -> {
+            // Delete the course
             coursService.delete(cours);
-            loadCoursCards(); // Refresh after delete
+            // After deleting, reload the course cards and update the count label
+            loadCoursCards();
         });
 
         buttonBox.getChildren().addAll(editButton, deleteButton);
@@ -157,18 +169,37 @@ public class AffichageCoursDashboardHedy{
     }
     private void openPdf(Cours cours) {
         try {
-            // Resolve the full file path using the stored file name
-            File pdfFile = new File("resources/pdf/" + cours.getPdfName());
+            // Get the Dropbox URL for the PDF file
+            String dropboxUrl = cours.getPdfName();
 
-            if (!pdfFile.exists()) {
-                System.err.println("PDF file not found: " + pdfFile.getAbsolutePath());
+            // Check if the URL is valid (basic validation)
+            if (dropboxUrl == null || dropboxUrl.isEmpty()) {
+                System.err.println("PDF URL is empty or null.");
                 return;
             }
 
-            // Open the PDF file in the default viewer
-            Desktop.getDesktop().open(pdfFile);
+            // Dropbox URLs need to be transformed to the correct format for embedding
+            // If the URL looks like: https://www.dropbox.com/s/xxx/filename.pdf?dl=0
+            // We change it to: https://www.dropbox.com/s/xxx/filename.pdf?raw=1 to open the file directly
+            if (dropboxUrl.contains("https://www.dropbox.com/scl/fo/iprdgsydpiq7zr6wicdjm/AK0GS-0W5E1Crxu577QEjpI?rlkey=rdwm7g20fehv9vxcb1cyz9dzz&st=4es8duxl&raw=1")) {
+                dropboxUrl = dropboxUrl.replace("?dl=0", "?raw=1");
+            }
+
+            // Debugging log to confirm URL formatting
+            System.out.println("Opening PDF from URL: " + dropboxUrl);
+
+            // Create a WebView to display the PDF preview from the Dropbox URL
+            javafx.scene.web.WebView webView = new javafx.scene.web.WebView();
+            javafx.scene.web.WebEngine webEngine = webView.getEngine();
+            webEngine.load(dropboxUrl);
+
+            // Set up a new stage to show the WebView
+            Stage pdfStage = new Stage();
+            pdfStage.setTitle("PDF Preview: " + cours.getTitle());
+            pdfStage.setScene(new Scene(webView, 800, 600));
+            pdfStage.show();
         } catch (Exception e) {
-            System.err.println("Error opening PDF: " + e.getMessage());
+            System.err.println("Error loading PDF preview: " + e.getMessage());
         }
     }
 }

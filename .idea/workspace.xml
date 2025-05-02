@@ -5,21 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35416d26-1990-4c6c-b3e9-77260f787920" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/RatingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/RatingsStorage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entite/Rating.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/footer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/header.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/HeaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/HeaderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TwoFAController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/TwoFAController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/header.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/header.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/HeaderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/HeaderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AffichageCoursController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/TwoFAController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/TwoFAController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/AjoutCoursController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Hedy/Dahsboard/AjoutModuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entite/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entite/Module.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/CoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/CoursService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ModuleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HedyFXML/AffichageCoursDashboard.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/AjoutCoursController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AffichageCoursDashboardHedy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AjoutModuleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/Hedy/Dahsboard/AjoutModuleController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HedyFXML/AffichageCoursDashboard.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/entite/Module.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/entite/Module.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/CoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/CoursService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/ModuleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/ModuleService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,27 +44,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Dashboard.executor": "Run",
-    "Application.FXMLTestMain.executor": "Run",
-    "Application.LeaderboardMain.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Mainx.executor": "Run",
-    "Application.test.executor": "Run",
-    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
-    "Maven.projet_java_gestion_evaluation [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Dashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FXMLTestMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LeaderboardMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Mainx.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.projet_java_gestion_evaluation [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.projet_java_gestion_evaluation [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\hedyene\Desktop\projet_java3A39\src\main\resources" />
@@ -184,7 +184,8 @@
       <option name="presentableId" value="Default" />
       <updated>1746124248292</updated>
       <workItem from="1746124249686" duration="17333000" />
-      <workItem from="1746162409160" duration="9610000" />
+      <workItem from="1746162409160" duration="17982000" />
+      <workItem from="1746186539123" duration="4355000" />
     </task>
     <servers />
   </component>

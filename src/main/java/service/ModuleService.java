@@ -3,7 +3,6 @@ package service;
 import entite.Cours;
 import entite.Module;
 import util.DataSource;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +19,7 @@ public class ModuleService implements IService<Module> {
         List<Module> result = new ArrayList<>();
         String query = "SELECT * FROM modules WHERE LOWER(title) LIKE ?";
 
-        // Use a try-with-resources block to ensure the connection is properly closed
-        try (Connection conn = DataSource.getInstance().getConnection(); // Get a fresh connection
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
             stmt.setString(1, "%" + searchTerm.toLowerCase() + "%");
             ResultSet rs = stmt.executeQuery();
 
@@ -43,6 +39,42 @@ public class ModuleService implements IService<Module> {
 
         return result;
     }
+
+    // Method to increment nombreCours by 1
+    // Method to increment nombreCours by 1
+    public void incrementNombreCours(int moduleId) {
+        String sql = "UPDATE module SET nombreCours = nombreCours + 1 WHERE id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, moduleId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void decrementNombreCours(int moduleId) {
+        System.out.println("Attempting to decrement course count for module ID: " + moduleId);
+
+        String sql = "UPDATE module SET nombre_cours = CASE " +
+                "WHEN nombre_cours > 0 THEN nombre_cours - 1 " +
+                "ELSE 0 END WHERE id = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, moduleId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                System.out.println("No module found with ID: " + moduleId);
+            } else {
+                System.out.println("Successfully decremented course count.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void create(Module module){
 

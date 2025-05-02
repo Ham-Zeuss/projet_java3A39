@@ -16,8 +16,8 @@ public class AjoutModuleController {
     @FXML private TextField levelField;
 
     private final ModuleService moduleService = new ModuleService();
+    private Module currentModule; // To hold the loaded or newly created module
 
-    // Reference to the popup stage
     private Stage popupStage;
 
     public void setPopupStage(Stage stage) {
@@ -30,15 +30,33 @@ public class AjoutModuleController {
         nombreCoursField.setDisable(true);
     }
 
+    // Load an existing module (for editing)
+    public void setModule(Module module) {
+        this.currentModule = module;
+        titleField.setText(module.getTitle());
+        descriptionField.setText(module.getDescription());
+        nombreCoursField.setText(String.valueOf(module.getNombreCours()));
+        levelField.setText(module.getLevel());
+    }
+
+    public Module getModule() {
+        if (currentModule == null) {
+            currentModule = new Module();
+        }
+        currentModule.setTitle(titleField.getText().trim());
+        currentModule.setDescription(descriptionField.getText().trim());
+        currentModule.setLevel(levelField.getText().trim());
+        currentModule.setNombreCours(Integer.parseInt(nombreCoursField.getText()));
+        return currentModule;
+    }
+
     @FXML
     private void saveModule() {
         try {
-            // Get values from form
             String title = titleField.getText().trim();
             String description = descriptionField.getText().trim();
             String level = levelField.getText().trim();
 
-            // Validate inputs
             if (title.isEmpty()) {
                 showAlert(AlertType.ERROR, "Erreur de saisie", "Le titre ne peut pas être vide.");
                 return;
@@ -54,22 +72,50 @@ public class AjoutModuleController {
                 return;
             }
 
-            // Set default number of courses to 0
-            int nombreCours = 0;
+            Module module = getModule();
+            if (module.getId() == 0) {
+                // New module
+                module.setNombreCours(0); // Default
+                moduleService.createPst(module);
+            } else {
+                // Existing module, just update
+                moduleService.update(module);
+            }
 
-            // Create and save module
-            Module module = new Module(title, description, nombreCours, level);
-            moduleService.createPst(module);
-
-            // Show success message
-            showAlert(AlertType.INFORMATION, "Succès", "Le module a été ajouté avec succès!");
-
-            // Close the popup
+            showAlert(AlertType.INFORMATION, "Succès", "Le module a été sauvegardé avec succès!");
             closePopup();
 
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Erreur inattendue", "Une erreur s'est produite lors de l'ajout du module.");
+        }
+    }
+
+    // Increment number of courses
+    public void incrementNombreCours() {
+        int current = Integer.parseInt(nombreCoursField.getText());
+        current++;
+        nombreCoursField.setText(String.valueOf(current));
+        currentModule.setNombreCours(current);
+        moduleService.update(currentModule); // Save updated value
+    }
+
+    // Decrement number of courses
+    @FXML
+    private void decrementNombreCours() {
+        int current = Integer.parseInt(nombreCoursField.getText());
+        if (current > 0) {
+            current--;
+            nombreCoursField.setText(String.valueOf(current));
+            currentModule.setNombreCours(current);
+
+            // Call dedicated decrement method instead of full update
+            moduleService.decrementNombreCours(currentModule.getId());
+
+            // Confirm the decrement happened
+            System.out.println("Decrementing course count for module ID: " + currentModule.getId());
+        } else {
+            System.out.println("Cannot decrement below zero.");
         }
     }
 
@@ -81,7 +127,6 @@ public class AjoutModuleController {
         levelField.clear();
     }
 
-    // Helper method to show alerts
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -90,7 +135,6 @@ public class AjoutModuleController {
         alert.showAndWait();
     }
 
-    // Method to close the popup
     private void closePopup() {
         if (popupStage != null) {
             popupStage.close();
