@@ -7,8 +7,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" styleClass="appointments-container" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER" spacing="20.0" fx:id="rootContainer"
+      styleClass="appointments-container" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.UserConsultationsController">
+
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>

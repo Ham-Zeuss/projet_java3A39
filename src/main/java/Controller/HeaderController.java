@@ -213,6 +213,11 @@ public class HeaderController {
                 scene.getStylesheets().add(NavBar.toExternalForm());
             }
 
+            URL userconsultation = getClass().getResource("/css/appointments.css");
+            if (userconsultation != null) {
+                scene.getStylesheets().add(userconsultation.toExternalForm());
+            }
+
             // Get the Stage from the source button
             Stage stage = (Stage) sourceButton.getScene().getWindow();
             stage.setScene(scene);

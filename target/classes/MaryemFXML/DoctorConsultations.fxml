@@ -24,4 +24,7 @@
     </ScrollPane>
 
     <Button fx:id="closeButton" text="Close" onAction="#close" styleClass="close-button"/>
+    <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
+
+
 </VBox>

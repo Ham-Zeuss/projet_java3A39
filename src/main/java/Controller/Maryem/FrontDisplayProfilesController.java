@@ -26,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -119,8 +120,16 @@ public class FrontDisplayProfilesController {
         String photoPath = user.getPhoto();
         if (photoPath != null && !photoPath.isEmpty()) {
             try {
-                Image image = new Image(photoPath, true);
-                profileImage = new ImageView(image);
+                // Convert the local file path to a file:// URL
+                File file = new File(photoPath);
+                if (file.exists()) {
+                    String fileUrl = file.toURI().toURL().toString();
+                    Image image = new Image(fileUrl, true);
+                    profileImage = new ImageView(image);
+                } else {
+                    System.err.println("Profile image file does not exist: " + photoPath);
+                    profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
+                }
             } catch (Exception e) {
                 System.err.println("Error loading profile image for user " + user.getId() + ": " + e.getMessage());
                 profileImage = new ImageView(new Image(getClass().getResourceAsStream("/Images/default-profile.png")));
@@ -210,9 +219,7 @@ public class FrontDisplayProfilesController {
         });
 
         return profileCard;
-    }
-
-    private void openPDF(String pdfPath) {
+    }    private void openPDF(String pdfPath) {
         try {
             if (pdfPath != null && !pdfPath.isEmpty()) {
                 System.out.println("Opening PDF: " + pdfPath);

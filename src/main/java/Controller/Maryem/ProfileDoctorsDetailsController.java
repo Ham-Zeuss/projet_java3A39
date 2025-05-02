@@ -1,5 +1,6 @@
 package Controller.Maryem;
 
+import com.gluonhq.maps.MapLayer;
 import com.gluonhq.maps.MapPoint;
 import com.gluonhq.maps.MapView;
 import entite.Commentaire;
@@ -9,11 +10,9 @@ import entite.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -125,13 +124,12 @@ public class ProfileDoctorsDetailsController {
         specialtyLabel.setText(profile.getSpecialite() != null ? profile.getSpecialite() : "N/A");
         resourcesButton.setDisable(profile.getRessources() == null || profile.getRessources().isEmpty());
         priceLabel.setText(profile.getPrixConsultation() != 0 ? String.format("%.2f", profile.getPrixConsultation()) : "N/A");
-        latitudeLabel.setText(profile.getLatitude() != null ? String.valueOf(profile.getLatitude()) : "N/A");
-        longitudeLabel.setText(profile.getLongitude() != null ? String.valueOf(profile.getLongitude()) : "N/A");
+        latitudeLabel.setText(profile.getLatitude() != 0 ? String.valueOf(profile.getLatitude()) : "N/A");
+        longitudeLabel.setText(profile.getLongitude() != 0 ? String.valueOf(profile.getLongitude()) : "N/A");
     }
 
     private void initializeMap() {
-        if (profile == null || profile.getLatitude() == null || profile.getLongitude() == null ||
-                profile.getLatitude() == 0 || profile.getLongitude() == 0) {
+        if (profile == null || profile.getLatitude() == 0 || profile.getLongitude() == 0) {
             latitudeLabel.setText("N/A");
             longitudeLabel.setText("N/A");
             mapView.setDisable(true);
@@ -150,20 +148,27 @@ public class ProfileDoctorsDetailsController {
 
         // Prevent map dragging by consuming mouse drag events
         mapView.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> event.consume());
+
+        // Allow clicking to update marker
+        mapView.setOnMouseClicked(event -> {
+            if (event.isStillSincePress()) {
+                MapPoint clickedPoint = mapView.getMapPosition(event.getX(), event.getY());
+                markerPosition = clickedPoint;
+                markerLayer.updateMarker(markerPosition);
+                latitudeLabel.setText(String.format("%.6f", markerPosition.getLatitude()));
+                longitudeLabel.setText(String.format("%.6f", markerPosition.getLongitude()));
+                System.out.println("Marker set to: Lat=" + markerPosition.getLatitude() +
+                        ", Lon=" + markerPosition.getLongitude());
+            }
+        });
     }
 
     private void loadComments() {
-
         commentsContainer.getChildren().clear();
         commentsErrorLabel.setText("");
 
         try {
             Session session = Session.getInstance();
-            System.out.println("[DEBUG] Session active: " + session.isActive());
-            System.out.println("[DEBUG] User ID: " + session.getUserId());
-            System.out.println("[DEBUG] Role: " + session.getRole());
-            System.out.println("[DEBUG] Profile Owner ID: " + profile.getUserId().getId());
-            // Vérifie si l'utilisateur connecté est le propriétaire du profil ET un médecin
             boolean isProfileOwnerDoctor = session.isActive() &&
                     session.getUserId() == profile.getUserId().getId() &&
                     "ROLE_MEDECIN".equals(session.getRole());
@@ -181,49 +186,33 @@ public class ProfileDoctorsDetailsController {
                                 (commenter.getPrenom() != null ? commenter.getPrenom() : "") : "Anonymous";
                 commenterName = commenterName.trim().isEmpty() ? "Anonymous" : commenterName.trim();
 
-                User profileUser = profile.getUserId();
-                String profileName = (profileUser.getNom() != null ? profileUser.getNom() : "") + " " +
-                        (profileUser.getPrenom() != null ? profileUser.getPrenom() : "");
-                profileName = profileName.trim().isEmpty() ? "Anonymous" : profileName.trim();
+                // Create card-like structure
+                VBox card = new VBox();
+                card.getStyleClass().add("card");
+                card.setSpacing(20);
 
-                HBox commentBox = new HBox();
-                commentBox.getStyleClass().add("comment-box");
-                commentBox.setSpacing(5);
-                commentBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                // Title (Commenter Name)
+                Label titleLabel = new Label(commenterName);
+                titleLabel.getStyleClass().add("title");
+                titleLabel.setWrapText(true);
 
-                HBox commenterBox = new HBox();
-                commenterBox.getStyleClass().add("commenter-box");
-                Label commenterLabel = new Label(commenterName);
-                commenterLabel.setWrapText(true);
-                commenterBox.getChildren().add(commenterLabel);
+                // Description (Comment Content)
+                Label descriptionLabel = new Label(comment.getComment());
+                descriptionLabel.getStyleClass().add("description");
+                descriptionLabel.setWrapText(true);
 
-                HBox actionBox = new HBox();
-                actionBox.getStyleClass().add("action-box");
-                Label actionLabel = new Label("a écrit dans le profil de");
-                actionLabel.setWrapText(true);
-                actionBox.getChildren().add(actionLabel);
-
-                HBox profileBox = new HBox();
-                profileBox.getStyleClass().add("profile-box");
-                Label profileLabel = new Label(profileName);
-                profileLabel.setWrapText(true);
-                profileBox.getChildren().add(profileLabel);
-
-                HBox contentBox = new HBox();
-                contentBox.getStyleClass().add("content-box");
-                Label contentLabel = new Label(": " + comment.getComment());
-                contentLabel.setWrapText(true);
-                contentBox.getChildren().add(contentLabel);
-
+                // Report Button
                 Button reportButton = new Button("Report");
-                reportButton.getStyleClass().add("report-button");
+                reportButton.getStyleClass().add("button");
                 reportButton.setDisable(comment.isReported());
-                reportButton.setVisible(isProfileOwnerDoctor); // Visible seulement pour le médecin propriétaire
+                reportButton.setVisible(isProfileOwnerDoctor);
                 reportButton.setOnAction(event -> openReportPopup(comment));
 
-                commentBox.getChildren().addAll(commenterBox, actionBox, profileBox, contentBox, reportButton);
+                // Add title, description, and report button to card
+                card.getChildren().addAll(titleLabel, descriptionLabel, reportButton);
 
-                commentsContainer.getChildren().add(commentBox);
+                // Add card to comments container
+                commentsContainer.getChildren().add(card);
             }
 
         } catch (Exception e) {
@@ -294,7 +283,6 @@ public class ProfileDoctorsDetailsController {
         }
     }
 
-
     @FXML
     private void openResources() {
         if (profile.getRessources() != null && !profile.getRessources().isEmpty()) {
@@ -320,7 +308,7 @@ public class ProfileDoctorsDetailsController {
             VBox root = loader.load();
 
             UpdateProfileController controller = loader.getController();
-            controller.setProfile(profile, null); // Pass null for parentController if not needed
+            controller.setProfile(profile, null);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -328,8 +316,7 @@ public class ProfileDoctorsDetailsController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
-            // Refresh profile details after update
-            profile = profileService.readById(profile.getId()); // Reload profile from database
+            profile = profileService.readById(profile.getId());
             populateProfileDetails();
             initializeMap();
         } catch (IOException e) {
@@ -350,7 +337,7 @@ public class ProfileDoctorsDetailsController {
                 try {
                     profileService.delete(profile);
                     showAlert("Success", "Profile deleted successfully.");
-                    goBack(); // Close the window after deletion
+                    goBack();
                 } catch (Exception e) {
                     e.printStackTrace();
                     showAlert("Error", "Failed to delete profile: " + e.getMessage());
@@ -365,5 +352,65 @@ public class ProfileDoctorsDetailsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private class CustomMarkerLayer extends MapLayer {
+        private final ImageView marker;
+        private final MapView mapView;
+        private MapPoint currentPosition;
+        private static final double ICON_WIDTH = 40.0;
+        private static final double ICON_HEIGHT = 47.0;
+        private static final double ICON_ANCHOR_X = ICON_WIDTH / 2.0;
+        private static final double ICON_ANCHOR_Y = ICON_HEIGHT;
+
+        public CustomMarkerLayer(MapView mapView, MapPoint initialPosition) {
+            this.mapView = mapView;
+            this.currentPosition = initialPosition;
+
+            Image icon = new Image("https://img.icons8.com/?size=100&id=gh2uD53Hj8rj&format=png&color=000000");
+            marker = new ImageView(icon);
+            marker.setFitWidth(ICON_WIDTH);
+            marker.setFitHeight(ICON_HEIGHT);
+            this.getChildren().add(marker);
+
+            layoutLayer();
+        }
+
+        public void updateMarker(MapPoint newPosition) {
+            currentPosition = newPosition;
+            layoutLayer();
+        }
+
+        @Override
+        protected void layoutLayer() {
+            if (currentPosition == null || mapView == null) return;
+
+            MapPoint center = mapView.getCenter();
+            double zoom = mapView.getZoom();
+            double width = mapView.getWidth();
+            double height = mapView.getHeight();
+
+            double tileSize = 256;
+            double pixelsPerLonDegree = tileSize * Math.pow(2, zoom) / 360;
+            double pixelsPerLonRadian = tileSize * Math.pow(2, zoom) / (2 * Math.PI);
+
+            double latRad = Math.toRadians(currentPosition.getLatitude());
+            double centerLatRad = Math.toRadians(center.getLatitude());
+
+            double mercatorY = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+            double centerMercatorY = Math.log(Math.tan(Math.PI / 4 + centerLatRad / 2));
+
+            double x = (currentPosition.getLongitude() - center.getLongitude()) * pixelsPerLonDegree;
+            double y = (centerMercatorY - mercatorY) * pixelsPerLonRadian;
+
+            marker.setTranslateX(width / 2 + x - ICON_ANCHOR_X);
+            marker.setTranslateY(height / 2 + y - ICON_ANCHOR_Y);
+        }
+
+        @Override
+        public void layoutChildren() {
+            super.layoutChildren();
+            layoutLayer();
+        }
     }
 }

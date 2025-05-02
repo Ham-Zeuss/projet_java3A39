@@ -4,29 +4,26 @@ import entite.Profile;
 import entite.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import javafx.stage.Modality;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import service.ProfileService;
 
 import java.io.IOException;
 import java.net.URL;
 
-import javafx.geometry.Insets;
-
-
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.stage.Stage;
 
 
 public class FrontDoctorsDisplayProfilesController {
@@ -40,6 +37,7 @@ public class FrontDoctorsDisplayProfilesController {
     private ProfileService profileService;
 
     private int userId;
+
     public void setUserId(int userId) {
         this.userId = userId;
         System.out.println("FrontDisplayProfilesController - User ID set: " + userId);
@@ -51,6 +49,16 @@ public class FrontDoctorsDisplayProfilesController {
         try {
             profileService = new ProfileService();
             System.out.println("ProfileService initialized");
+
+            // Appliquer le CSS une fois que la scène est prête
+            javafx.application.Platform.runLater(() -> {
+                Scene scene = profilesContainer.getScene();
+                if (scene != null) {
+                    scene.getStylesheets().add(
+                            getClass().getResource("/css/profile-card.css").toExternalForm()
+                    );
+                }
+            });
 
             var profiles = profileService.readAll();
             System.out.println("Profiles loaded: " + profiles.size());
@@ -65,6 +73,12 @@ public class FrontDoctorsDisplayProfilesController {
                 profileCard.getStyleClass().add("profile-card");
                 profileCard.setSpacing(5);
                 profileCard.setAlignment(Pos.CENTER);
+                profileCard.setPadding(new Insets(10));
+                profileCard.setPrefWidth(220);
+                profileCard.setMaxWidth(220);
+                profileCard.setPrefHeight(300); // ou ajuste à ton goût
+
+
 
                 User user = profile.getUserId();
                 String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
@@ -75,15 +89,20 @@ public class FrontDoctorsDisplayProfilesController {
                 nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
 
                 Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
-                Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
-                Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
+                bioLabel.getStyleClass().add("label");
 
-                Button resourcesButton = new Button("View PDF");
+                Label specialtyLabel = new Label("Spécialité: " + profile.getSpecialite());
+                specialtyLabel.getStyleClass().add("label");
+
+                Label priceLabel = new Label("Prix: $" + profile.getPrixConsultation());
+                priceLabel.getStyleClass().add("label");
+
+                Button resourcesButton = new Button("Voir PDF");
+                resourcesButton.getStyleClass().add("button");
                 resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
                 profileCard.getChildren().addAll(
-                        nameLink, bioLabel, specialtyLabel, priceLabel,
-                        resourcesButton
+                        nameLink, bioLabel, specialtyLabel, priceLabel, resourcesButton
                 );
 
                 profilesContainer.getChildren().add(profileCard);
@@ -114,29 +133,23 @@ public class FrontDoctorsDisplayProfilesController {
         try {
             System.out.println("Attempting to open profile details for profile ID: " + profile.getId());
 
-            // Create a VBox to stack header image, body, and footer
+            // Create a VBox to stack header, header image, body, and footer
             VBox mainContent = new VBox();
-            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // 1. Add header image
+            // Header image
             ImageView headerImageView = new ImageView();
             try {
-                // Load the header image from resources
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
-
-                // Set image properties
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1000); // As in provided code
-                headerImageView.setSmooth(true);   // Better quality when scaling
-                headerImageView.setCache(true);    // Better performance
-
-                // Add some spacing below the image if needed
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                // Fallback if image fails to load
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(1500, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -144,34 +157,34 @@ public class FrontDoctorsDisplayProfilesController {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // 2. Load body (ProfileDoctorsDetails.fxml)
+            // Load ProfileDoctorsDetails.fxml
             URL fxmlResource = getClass().getResource("/MaryemFXML/ProfileDoctorsDetails.fxml");
             if (fxmlResource == null) {
-                throw new IOException("Could not find ProfileDoctorsDetails.fxml at /MaryemFXML/ProfileDoctorsDetails.fxml");
+                throw new IOException("Could not find ProfileDoctorsDetails.fxml");
             }
             System.out.println("Loading ProfileDoctorsDetails.fxml from: " + fxmlResource.toExternalForm());
 
-            FXMLLoader bodyLoader = new FXMLLoader(fxmlResource);
+            FXMLLoader loader = new FXMLLoader(fxmlResource);
             VBox bodyContent;
             try {
-                bodyContent = bodyLoader.load();
+                bodyContent = loader.load();
             } catch (IOException e) {
                 System.err.println("Failed to load ProfileDoctorsDetails.fxml: " + e.getMessage());
-                throw e; // Re-throw to be caught by the outer catch block
+                throw e;
             }
-            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 2000; -fx-max-height: 5000;-fx-background-color: #DCE6D7FF;");
             mainContent.getChildren().add(bodyContent);
 
-            // 3. Load footer as ImageView
+            // Footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(1500);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(1500, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -179,18 +192,13 @@ public class FrontDoctorsDisplayProfilesController {
             }
             mainContent.getChildren().add(footerImageView);
 
-            // Wrap the VBox in a ScrollPane
+            // Wrap in ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable vertical scrollbar
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            // Calculate required height
-            double totalHeight = headerImageView.getFitHeight() +
-                    bodyContent.prefHeight(-1) +
-                    footerImageView.getFitHeight();
-
-            // Set scene to specified window size
+            // Create scene
             Scene scene = new Scene(scrollPane, 1500, 700);
 
             // Add CSS files
@@ -198,21 +206,24 @@ public class FrontDoctorsDisplayProfilesController {
             if (storeCards != null) {
                 scene.getStylesheets().add(storeCards.toExternalForm());
             }
-
-            URL NavBar = getClass().getResource("/navbar.css");
-            if (NavBar != null) {
-                scene.getStylesheets().add(NavBar.toExternalForm());
+            URL navBar = getClass().getResource("/css/navbar.css");
+            if (navBar != null) {
+                scene.getStylesheets().add(navBar.toExternalForm());
+            }
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) {
+                scene.getStylesheets().add(commentsStyle.toExternalForm());
             }
 
-            // Create and configure the new stage
+            // Create and configure stage
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.setTitle("Profile Details");
             newStage.setResizable(false);
             newStage.show();
 
-            // Initialize the ProfileDoctorsDetailsController
-            ProfileDoctorsDetailsController controller = bodyLoader.getController();
+            // Initialize controller
+            ProfileDoctorsDetailsController controller = loader.getController();
             controller.initialize(profile);
 
             System.out.println("Profile details page loaded in new window with headers and footer");
@@ -224,115 +235,30 @@ public class FrontDoctorsDisplayProfilesController {
             showAlert("Error", "Unexpected error opening profile details page: " + e.getMessage());
         }
     }
+
+
+
     @FXML
     public void showConsultationsPage() {
         try {
             System.out.println("Navigating to consultations page");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/DoctorConsultations.fxml"));
+            VBox root = loader.load();
 
-            // Create a VBox to stack header image, body, and footer
-            VBox mainContent = new VBox();
-            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
+            Scene scene = new Scene(root, 800, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/profile-card.css").toExternalForm());
 
-            // 1. Add header image
-            ImageView headerImageView = new ImageView();
-            try {
-                // Load the header image from resources
-                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
-                headerImageView.setImage(headerImage);
-
-                // Set image properties
-                headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920); // Consistent with previous transformations
-                headerImageView.setSmooth(true);   // Better quality when scaling
-                headerImageView.setCache(true);    // Better performance
-
-                // Add some spacing below the image if needed
-                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
-            } catch (Exception e) {
-                System.err.println("Error loading header image: " + e.getMessage());
-                // Fallback if image fails to load
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
-                Label errorLabel = new Label("Header image not found");
-                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
-                mainContent.getChildren().add(fallbackBox);
-            }
-            mainContent.getChildren().add(headerImageView);
-
-            // 2. Load body (DoctorConsultations.fxml)
-            URL fxmlResource = getClass().getResource("/MaryemFXML/DoctorConsultations.fxml");
-            if (fxmlResource == null) {
-                throw new IOException("FXML file not found: /MaryemFXML/DoctorConsultations.fxml");
-            }
-            System.out.println("Loading DoctorConsultations.fxml from: " + fxmlResource.toExternalForm());
-
-            FXMLLoader loader = new FXMLLoader(fxmlResource);
-            VBox bodyContent;
-            try {
-                bodyContent = loader.load();
-            } catch (IOException e) {
-                System.err.println("Failed to load DoctorConsultations.fxml: " + e.getMessage());
-                throw e; // Re-throw to be caught by the outer catch block
-            }
-            bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
-            mainContent.getChildren().add(bodyContent);
-
-            // 3. Load footer as ImageView
-            ImageView footerImageView = new ImageView();
-            try {
-                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
-                footerImageView.setImage(footerImage);
-                footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
-            } catch (Exception e) {
-                System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
-                Label errorLabel = new Label("Footer image not found");
-                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
-                mainContent.getChildren().add(fallbackBox);
-            }
-            mainContent.getChildren().add(footerImageView);
-
-            // Wrap the VBox in a ScrollPane
-            ScrollPane scrollPane = new ScrollPane(mainContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable vertical scrollbar
-
-            // Calculate required height
-            double totalHeight = headerImageView.getFitHeight() +
-                    bodyContent.prefHeight(-1) +
-                    footerImageView.getFitHeight();
-
-            // Set up the scene
-            Scene scene = new Scene(scrollPane, 1500, 700);
-
-            // Add CSS files
-            URL storeCards = getClass().getResource("/css/store-cards.css");
-            if (storeCards != null) {
-                scene.getStylesheets().add(storeCards.toExternalForm());
-            }
-
-            URL NavBar = getClass().getResource("/navbar.css");
-            if (NavBar != null) {
-                scene.getStylesheets().add(NavBar.toExternalForm());
-            }
-
-            // Set the new scene
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();
             currentStage.setScene(scene);
             currentStage.setTitle("My Consultations");
-            currentStage.setResizable(false); // Align with previous transformations
+            currentStage.setResizable(true);
+            currentStage.centerOnScreen();
             currentStage.show();
 
             System.out.println("Consultations page loaded");
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Could not load consultations page: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Unexpected error loading consultations page: " + e.getMessage());
         }
     }
 
@@ -350,6 +276,12 @@ public class FrontDoctorsDisplayProfilesController {
                 profileCard.getStyleClass().add("profile-card");
                 profileCard.setSpacing(5);
                 profileCard.setAlignment(Pos.CENTER);
+                profileCard.setPadding(new Insets(10));
+                profileCard.setPrefWidth(220);
+                profileCard.setMaxWidth(220);
+                profileCard.setPrefHeight(300); // ou ajuste à ton goût
+
+
 
                 User user = profile.getUserId();
                 String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
@@ -360,15 +292,20 @@ public class FrontDoctorsDisplayProfilesController {
                 nameLink.setOnAction(event -> openProfileDetailsWindow(profile));
 
                 Label bioLabel = new Label("Bio: " + (profile.getBiographie() != null ? profile.getBiographie() : "N/A"));
+                bioLabel.getStyleClass().add("label");
+
                 Label specialtyLabel = new Label("Specialty: " + profile.getSpecialite());
+                specialtyLabel.getStyleClass().add("label");
+
                 Label priceLabel = new Label("Price: $" + profile.getPrixConsultation());
+                priceLabel.getStyleClass().add("label");
 
                 Button resourcesButton = new Button("View PDF");
+                resourcesButton.getStyleClass().add("button");
                 resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
                 profileCard.getChildren().addAll(
-                        nameLink, bioLabel, specialtyLabel, priceLabel,
-                        resourcesButton
+                        nameLink, bioLabel, specialtyLabel, priceLabel, resourcesButton
                 );
 
                 profilesContainer.getChildren().add(profileCard);
@@ -394,20 +331,20 @@ public class FrontDoctorsDisplayProfilesController {
             if (loader.getLocation() == null) {
                 throw new IOException("FXML file not found: /MaryemFXML/FrontDisplayProfiles.fxml");
             }
-            Scene scene = new Scene(loader.load(), 600, 800);
-            scene.getStylesheets().add(getClass().getResource("/css/affichageprofilefront.css").toExternalForm());
+            Scene scene = new Scene(loader.load(), 800, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/profile-card.css").toExternalForm());
 
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();
             currentStage.setScene(scene);
             currentStage.setTitle("Public Profiles");
+            currentStage.setResizable(true);
+            currentStage.centerOnScreen();
+            currentStage.show();
 
             System.out.println("Profiles page loaded");
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Could not load profiles page: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Unexpected error loading profiles page: " + e.getMessage());
         }
     }
 }

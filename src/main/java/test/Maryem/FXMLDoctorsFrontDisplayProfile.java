@@ -66,6 +66,8 @@ public class FXMLDoctorsFrontDisplayProfile extends Application {
             throw e;
         }
         bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+        bodyContent.setStyle(bodyContent.getStyle() + "; -fx-background-color: #B8DAB8FF;"); // here
+
         mainContent.getChildren().add(bodyContent);
 
         // 3. Load footer as ImageView
