@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -39,6 +38,7 @@ public class AffichageModuleController {
 
         for (Module module : modules) {
             VBox card = createModuleCard(module);
+            card.getStyleClass().add("module-card");
             GridPane.setMargin(card, new Insets(10));
             modulesGrid.add(card, column, row);
 
@@ -51,7 +51,7 @@ public class AffichageModuleController {
     }
     private void showModuleCourses(Module module) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursFront.fxml"));
             Parent root = loader.load();
 
             // Pass the selected module to the AffichageCoursController
@@ -63,25 +63,27 @@ public class AffichageModuleController {
             stage.setScene(new Scene(root));
             stage.setTitle("Cours: " + module.getTitle());
         } catch (IOException e) {
-            System.err.println("Error loading AffichageCours.fxml: " + e.getMessage());
+            System.err.println("Error loading AffichageCoursFront.fxml: " + e.getMessage());
         }
     }
 
     private VBox createModuleCard(Module module) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
         card.setPrefSize(300, 180);
-        card.setOnMouseClicked(e -> showModuleCourses(module));
+
+        // ✅ Apply CSS class only — no inline styles!
+        card.getStyleClass().add("module-card");
+
         // Title
         Label titleLabel = new Label(module.getTitle());
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
-        titleLabel.setStyle("-fx-text-fill: #2c3e50;");
+        titleLabel.getStyleClass().add("heading"); // Use .heading from CSS
 
         // Description
         Label descLabel = new Label(module.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setStyle("-fx-text-fill: #7f8c8d;");
+        descLabel.getStyleClass().add("para"); // Use .para from CSS
 
         // Details
         HBox detailsBox = new HBox(10);
@@ -89,39 +91,13 @@ public class AffichageModuleController {
         Label levelLabel = new Label("Niveau: " + module.getLevel());
         detailsBox.getChildren().addAll(countLabel, levelLabel);
 
-        // Buttons
-        HBox buttonBox = new HBox(10);
-        Button editButton = new Button("Modifier");
-        Button deleteButton = new Button("Supprimer");
-        editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-        editButton.setOnAction(e -> editModule(module));
-        deleteButton.setOnAction(e -> {
-            moduleService.delete(module);
-            loadModuleCards(); // Refresh after delete
-        });
-        buttonBox.getChildren().addAll(editButton, deleteButton);
+        // Click handler
+        card.setOnMouseClicked(e -> showModuleCourses(module));
 
         // Add all components to card
-        card.getChildren().addAll(titleLabel, descLabel, detailsBox, buttonBox);
+        card.getChildren().addAll(titleLabel, descLabel, detailsBox);
 
         return card;
-    }
-
-    private void editModule(Module module) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/EditModule.fxml"));
-            Parent root = loader.load();
-
-            EditModuleController controller = loader.getController();
-            controller.setModuleToEdit(module);
-
-            Stage stage = (Stage) modulesGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Modifier Module");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

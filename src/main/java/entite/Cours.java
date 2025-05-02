@@ -9,21 +9,26 @@ public class Cours {
     private Module moduleId; // Reference to Module
     private String pdfName;
     private LocalDateTime updatedAt;
+    private Integer userId; // Foreign key referencing the User table
 
     public Cours() {}
 
-    public Cours(String title, Module moduleId, String pdfName) {
+    // Constructor without ID (used for creating a new course)
+    public Cours(String title, Module moduleId, String pdfName, Integer userId) {
         this.title = title;
         this.moduleId = moduleId;
         this.pdfName = pdfName;
+        this.userId = userId; // Store the user's ID
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Cours(Integer id, String title, Module moduleId, String pdfName, LocalDateTime updatedAt) {
+    // Constructor with ID (used for fetching an existing course from the database)
+    public Cours(Integer id, String title, Module moduleId, String pdfName, Integer userId, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.moduleId = moduleId;
         this.pdfName = pdfName;
+        this.userId = userId; // Store the user's ID
         this.updatedAt = updatedAt;
     }
 
@@ -68,6 +73,14 @@ public class Cours {
         this.updatedAt = updatedAt;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "Cours{" +
@@ -75,6 +88,7 @@ public class Cours {
                 ", title='" + title + '\'' +
                 ", moduleId=" + moduleId +
                 ", pdfName='" + pdfName + '\'' +
+                ", userId=" + userId + // Include userId in the string representation
                 ", updatedAt=" + updatedAt +
                 '}';
     }

@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.control.ScrollPane;
@@ -28,7 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
-
+import java.util.ResourceBundle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
@@ -67,7 +68,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(55, "abir@gmail.com", "ROLE_PARENT");
+                session.setUser(42, "66damm.mmad66@gmail.com", "ROLE_PARENT");
 
                 // Create a VBox to stack header, body, and footer
                 VBox mainContent = new VBox();
@@ -226,7 +227,6 @@ public class SecurityController {
         }
     }
 
-
     private String parseRoleFromJson(String rolesJson) {
         try {
             JSONArray rolesArray = new JSONArray(rolesJson);
@@ -321,7 +321,6 @@ public class SecurityController {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page : " + e.getMessage());
         }
     }
-
 
     public void createAccountFormin(ActionEvent event) {
         try {
