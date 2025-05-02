@@ -1,5 +1,5 @@
 package Controller.Hedy;
-
+import entite.Rating;
 import entite.Cours;
 import entite.Module;
 import entite.Session; // Import the Session class
@@ -57,8 +57,18 @@ public class AffichageCoursController {
         filterComboBox.getItems().addAll(FILTER_ALL, FILTER_CREATED_BY_ME, FILTER_RECENTLY_ADDED);
         filterComboBox.setValue(FILTER_ALL); // Default selection
 
-        // Add a listener to handle filter changes
-        filterComboBox.setOnAction(event -> applyFilter());
+        // Retrieve the session and check the user's role
+        Session session = Session.getInstance();
+        String userRole = session.getRole();
+
+        // Hide the filterComboBox if the user's role is ROLE_ETUDIANT
+        if ("ROLE_PARENT".equals(userRole)) {
+            filterComboBox.setVisible(false); // Hide from UI
+            filterComboBox.setManaged(false); // Don't take up space
+        } else {
+            // Add a listener to handle filter changes for other roles
+            filterComboBox.setOnAction(event -> applyFilter());
+        }
     }
 
     private void loadCoursCards() {
@@ -169,19 +179,16 @@ public class AffichageCoursController {
     }
 
     private VBox createCoursCard(Cours cours) {
-        // Create the card layout
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);");
         card.setPrefSize(300, 180);
-        card.setOnMouseClicked(event -> {
-            openPdf(cours);
-        });
 
-        // Title
+        // Title (clickable to open PDF)
         Label titleLabel = new Label(cours.getTitle());
         titleLabel.setFont(javafx.scene.text.Font.font("System", javafx.scene.text.FontWeight.BOLD, 16));
         titleLabel.setStyle("-fx-text-fill: #2c3e50;");
+        titleLabel.setOnMouseClicked(event -> openPdf(cours)); // Now only title opens the PDF
 
         // PDF Name
         Label pdfLabel = new Label("PDF: " + cours.getPdfName());
@@ -194,6 +201,40 @@ public class AffichageCoursController {
         Label updatedAtLabel = new Label(updatedAtText);
         updatedAtLabel.setStyle("-fx-text-fill: #7f8c8d;");
 
+        // Stars
+        Session session = Session.getInstance();
+        String userRole = session.getRole();
+        int currentUserId = session.getUserId();
+        HBox starsBox = new HBox(5);
+
+        if ("ROLE_PARENT".equals(userRole)) {
+            Label[] starLabels = new Label[5];
+
+            int existingRating = RatingsStorage.getRatings().stream()
+                    .filter(r -> r.getCourseId() == cours.getId() && r.getUserId() == currentUserId)
+                    .map(Rating::getRating)
+                    .findFirst()
+                    .orElse(0);
+
+            for (int i = 0; i < 5; i++) {
+                Label star = new Label(i < existingRating ? "★" : "☆");
+                star.setStyle("-fx-font-size: 20px; -fx-text-fill: gold;");
+                final int ratingValue = i + 1;
+
+                // Prevent propagation to the card click
+                star.setOnMouseClicked(event -> {
+                    event.consume(); // Stop the event from propagating
+                    for (int j = 0; j < 5; j++) {
+                        starLabels[j].setText(j < ratingValue ? "★" : "☆");
+                    }
+                    RatingsStorage.addOrUpdateRating(cours.getId(), currentUserId, ratingValue);
+                });
+
+                starLabels[i] = star;
+                starsBox.getChildren().add(star);
+            }
+        }
+
         // Buttons
         HBox buttonBox = new HBox(10);
         Button editButton = new Button("Modifier");
@@ -201,42 +242,28 @@ public class AffichageCoursController {
         editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
         deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
-        // Retrieve the logged-in user's ID and role
-        Session session = Session.getInstance();
-        int currentUserId = session.getUserId(); // Get the logged-in user's ID
-        String userRole = session.getRole(); // Get the logged-in user's role
-
-        // Debugging logs
-        System.out.println("Logged-in User ID: " + currentUserId);
-        System.out.println("Course: " + cours.getTitle() + ", Created By: " + cours.getUserId());
-
-        // Check if the course was created by the logged-in user
         boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
 
-        System.out.println("Is course created by logged-in user? " + isCourseCreatedByUser);
-
-        // Show buttons only for the course creator
         if (isCourseCreatedByUser) {
-            System.out.println("Adding buttons for course: " + cours.getTitle());
             buttonBox.getChildren().addAll(editButton, deleteButton);
         } else {
-            System.out.println("Hiding buttons for course: " + cours.getTitle());
             buttonBox.setVisible(false);
-            buttonBox.setManaged(false); // Ensures it doesn't take up space in the layout
+            buttonBox.setManaged(false);
         }
 
-        // Add actions to the buttons
         editButton.setOnAction(e -> editCours(cours));
         deleteButton.setOnAction(e -> {
             coursService.delete(cours);
-            loadCoursCards(); // Refresh after delete
+            loadCoursCards();
         });
 
-        // Add all components to the card
-        card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, buttonBox);
+        card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, starsBox, buttonBox);
 
         return card;
     }
+
+
+
 
     private void editCours(Cours cours) {
         try {
