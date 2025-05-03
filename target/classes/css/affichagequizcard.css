@@ -1,0 +1,107 @@
+.card {
+    -fx-background-color: #fae6e7; /* Changed to baby pink almost white */
+    -fx-border-radius: 10;
+    -fx-alignment: center;
+    -fx-pref-width: 320;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 10, 10);
+    -fx-padding: 32;
+    -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.5s, -fx-border-color 0.5s, -fx-effect 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card:hover {
+    -fx-background-color: linear-gradient(to bottom right, #441151 0%, #ff0f7b 100%);
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.card:hover .heading, .card:hover .para {
+    -fx-text-fill: #212121;
+}
+
+.card:hover:hover {
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(to bottom right, #441151 0%, #441151 100%);;
+    -fx-border-width: 2;
+}
+
+.card:hover:hover .heading, .card:hover:hover .para {
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #ff0f7b 100%);;
+}
+
+.card:pressed {
+    -fx-effect: none;
+}
+
+.content {
+    -fx-alignment: top-left;
+    -fx-spacing: 20;
+}
+
+.heading {
+    -fx-font-size: 32;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);;
+    -fx-transition: -fx-text-fill 0.5s;
+}
+
+.para {
+    -fx-font-size: 14;
+    -fx-line-spacing: 1.5;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);;
+    -fx-transition: -fx-text-fill 0.5s;
+}
+
+.btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 0;
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-effect: none;
+    -fx-cursor: none;
+}
+
+/* Style de la barre de recherche */
+.search-field {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-font-size: 18px;
+    -fx-text-fill: #441151;
+    -fx-prompt-text-fill: derive(#441151, 30%);
+    -fx-padding: 5 0 5 15;
+}
+
+.search-field:focused {
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+
+
+
+
+/* Nouveau style pour le bouton */
+.quiz-button {
+    -fx-background-color: #441151;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.quiz-button:hover {
+    -fx-background-color: #a74482;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.quiz-button:pressed {
+    -fx-background-color: #a74482;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}

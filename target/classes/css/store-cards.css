@@ -1,0 +1,208 @@
+.card {
+    -fx-background-color: linear-gradient(to bottom, #FFFFFF, #FFFFFF); /* Gradient: silver to light gray */
+    -fx-background-radius: 20;
+    -fx-border-color: #c3c6ce;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-padding: 10;
+    -fx-effect: none;
+    -fx-transition: -fx-border-color 0.5s, -fx-effect 0.5s;
+}
+
+.card:hover {
+    -fx-border-color: #008bf8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 18, 0, 0, 4);
+}
+
+/* Override shadow color based on card color class */
+.card.color-1:hover {
+    -fx-border-color: #008bf8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 139, 248, 0.5), 18, 0, 0, 4); /* Blue */
+}
+
+.card.color-2:hover {
+    -fx-border-color: #e91e63;
+    -fx-effect: dropshadow(gaussian, rgba(233, 30, 99, 0.5), 18, 0, 0, 4); /* Pink */
+}
+
+.card.color-3:hover {
+    -fx-border-color: #4caf50;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.5), 18, 0, 0, 4); /* Green */
+}
+
+.card.color-4:hover {
+    -fx-border-color: #ff9800;
+    -fx-effect: dropshadow(gaussian, rgba(255, 152, 0, 0.5), 18, 0, 0, 4); /* Orange */
+}
+
+.image-container {
+    -fx-pref-width: 280;
+    -fx-pref-height: 140;
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+}
+
+.card-details {
+    -fx-text-fill: black;
+    -fx-spacing: 5;
+    -fx-pref-height: 140;
+}
+
+.card-button {
+    -fx-background-radius: 10;
+    -fx-border-width: 0;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-padding: 8 16;
+    -fx-opacity: 0;
+    -fx-translate-y: 20;
+    -fx-transition: -fx-opacity 0.3s, -fx-translate-y 0.3s;
+}
+
+.card:hover .card-button {
+    -fx-opacity: 1;
+    -fx-translate-y: 0;
+}
+
+.text-title {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.text-body {
+    -fx-font-size: 16;
+    -fx-fill: #868686;
+}
+
+.status-message {
+    -fx-font-size: 14;
+    -fx-text-fill: #333333;
+    -fx-pref-height: 20;
+}
+
+.status-message-error {
+    -fx-text-fill: red;
+}
+
+.status-message-info {
+    -fx-text-fill: #008bf8;
+}
+
+.status-message-ok {
+    -fx-text-fill: green;
+}
+
+/* Random button colors */
+.card-button.color-1 {
+    -fx-background-color: #008bf8; /* Blue */
+}
+
+.card-button.color-2 {
+    -fx-background-color: #e91e63; /* Pink */
+}
+
+.card-button.color-3 {
+    -fx-background-color: #4caf50; /* Green */
+}
+
+.card-button.color-4 {
+    -fx-background-color: #ff9800; /* Orange */
+}
+
+/* Custom dialog styles */
+.dialog-card {
+    -fx-max-width: 320;
+    -fx-border-color: #dbeafe;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-color: #ffffff;
+    -fx-padding: 16;
+}
+
+.dialog-header {
+    -fx-alignment: center-left;
+    -fx-spacing: 16;
+}
+
+.dialog-icon {
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-background-color: #60a5fa;
+    -fx-background-radius: 9999;
+    -fx-alignment: center;
+}
+
+.dialog-icon .image-view {
+    -fx-image-width: 16;
+    -fx-image-height: 16;
+}
+
+.dialog-alert {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-text-fill: #6b7280;
+}
+
+.dialog-close-button {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14;
+    -fx-text-fill: #6b7280;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+    -fx-transition: -fx-background-color 0.25s;
+}
+
+.dialog-close-button:hover {
+    -fx-background-color: #e61919;
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-message {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14;
+    -fx-wrap-text: true;
+    -fx-max-width: 280;
+}
+
+.dialog-actions {
+    -fx-spacing: 8;
+    -fx-alignment: center;
+}
+
+.dialog-read {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 12 20;
+    -fx-pref-width: 280;
+    -fx-pref-height: 40;
+    -fx-transition: -fx-background-color 0.15s;
+}
+
+.dialog-read:hover {
+    -fx-background-color: #1168f5;
+}
+
+.dialog-mark-as-read {
+    -fx-background-color: #f9fafb;
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 12 20;
+    -fx-pref-width: 280;
+    -fx-pref-height: 40;
+    -fx-transition: -fx-background-color 0.15s;
+}
+
+.dialog-mark-as-read:hover {
+    -fx-background-color: #e6e7e9;
+}
+
+
+

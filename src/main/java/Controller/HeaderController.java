@@ -251,6 +251,9 @@ if (userconsultation != null) {
     @SuppressWarnings("unused")
     private void goToAppointments() {
         navigateToPage(doctorsButton, "MaryemFXML/UserConsultations.fxml", "My Appointments");
+
+    }
+    @FXML
     private void goToStore() {
         navigateToPage(gamesButton, "HamzaFXML/ListStoreItemsFront.fxml", "Store");
     }
@@ -259,6 +262,9 @@ if (userconsultation != null) {
     @SuppressWarnings("unused")
     private void goToListDoctors() {
         navigateToPage(doctorsButton, "MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
+
+    }
+    @FXML
     private void goToLeaderboard() {
         navigateToPage(gamesButton, "HamzaFXML/Leaderboard.fxml", "Leaderboard");
     }

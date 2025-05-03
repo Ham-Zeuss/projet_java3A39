@@ -1,0 +1,237 @@
+.card {
+    -fx-background-color: #fae6e7; /* Baby pink almost white */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 10, 10);
+    -fx-transition: -fx-background-color 0.5s, -fx-border-color 0.5s, -fx-effect 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card:hover {
+    -fx-background-color: linear-gradient(to bottom right, #441151 0%, #ff0f7b 100%);
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.card:hover .heading, .card:hover .para {
+    -fx-text-fill: #ffffff; /* Texte blanc au survol pour lisibilité */
+}
+
+.card:hover:hover {
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(to bottom right, #441151 0%, #441151 100%);
+    -fx-border-width: 2;
+}
+
+.card:hover:hover .heading, .card:hover:hover .para {
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #ff0f7b 100%);
+}
+
+.card:pressed {
+    -fx-effect: none;
+}
+
+.content {
+    -fx-alignment: center; /* Centré pour utiliser l'espace horizontal */
+    -fx-spacing: 20;
+    -fx-padding: 10; /* Espacement du contenu */
+}
+
+.heading {
+    -fx-font-size: 44; /* Grand pour les cartes et popup */
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);
+    -fx-transition: -fx-text-fill 0.5s;
+}
+
+.para {
+    -fx-font-size: 20; /* Augmenté pour lisibilité */
+    -fx-line-spacing: 1.5;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);
+    -fx-transition: -fx-text-fill 0.5s;
+}
+
+/* Style de la barre de recherche */
+.search-field {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-font-size: 20px;
+    -fx-text-fill: #441151;
+    -fx-prompt-text-fill: derive(#441151, 30%);
+    -fx-padding: 5 0 5 15;
+}
+
+.search-field:focused {
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+
+/* Style des boutons */
+.quiz-button {
+    -fx-background-color: #441151;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 25 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.quiz-button:hover {
+    -fx-background-color: #a74482;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.quiz-button:pressed {
+    -fx-background-color: #a74482;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.delete-button {
+    -fx-background-color: #cf5de8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 25 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+    -fx-background-color: #fababa;
+    -fx-effect: dropshadow(gaussian, rgb(52, 7, 62), 8, 0, 0, 3);
+}
+
+.delete-button:pressed {
+    -fx-background-color: #fababa;
+    -fx-effect: dropshadow(gaussian, rgb(52, 7, 62), 3, 0, 0, 1);
+}
+
+.update-button {
+    -fx-background-color: #9db8dc;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 25 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.update-button:hover {
+    -fx-background-color: #629ff1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.update-button:pressed {
+    -fx-background-color: #76a2ea;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.view-button {
+    -fx-background-color: #f4bb87;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 25 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.view-button:hover {
+    -fx-background-color: #1976D2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.view-button:pressed {
+    -fx-background-color: #1976D2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.button-container {
+    -fx-spacing: 25; /* Espacement pour les cartes larges */
+    -fx-alignment: center;
+}
+
+/* Styles pour les statistiques */
+.stats-container {
+    -fx-background-color: transparent; /* Transparent pour laisser le style card dominer */
+    -fx-padding: 20;
+}
+
+.stats-card {
+    -fx-background-color: #ffffff; /* Blanc pour contraste dans la carte */
+    -fx-padding: 15;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 5, 5);
+}
+
+.stats-row {
+    -fx-padding: 5 0 5 0;
+}
+
+.chart {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff; /* Fond blanc pour harmonie */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.pie-chart {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff; /* Fond blanc pour harmonie */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+/* Style pour le ScrollPane transparent */
+.transparent-scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane .scroll-bar:horizontal,
+.transparent-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane .scroll-bar .thumb {
+    -fx-background-color: derive(#441151, 50%); /* Violet semi-transparent */
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 10;
+}
+
+.transparent-scroll-pane .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane .scroll-bar .increment-button,
+.transparent-scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.transparent-scroll-pane .scroll-bar .increment-arrow,
+.transparent-scroll-pane .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}

@@ -83,7 +83,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Dashboard">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="BoubakerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Boubaker.BoubakerMain" />
       <module name="projet_java_gestion_evaluation" />
@@ -170,8 +170,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Dashboard" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Dashboard" />
         <item itemvalue="Application.BoubakerMain" />
         <item itemvalue="Application.FXMLAffichageEtudianrQuizFrront" />
         <item itemvalue="Application.UserTitlesMain" />

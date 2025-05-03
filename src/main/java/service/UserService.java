@@ -781,7 +781,17 @@ public class UserService implements IService<User> {
         }
         return users;
     }
-
+    // New method to update scoreTotal
+    public void updateScoreTotal(int userId, int scoreTotal) {
+        String requete = "UPDATE user SET score_total = ? WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(requete)) {
+            pst.setInt(1, scoreTotal);
+            pst.setInt(2, userId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean validateUser(User user, boolean isUpdate) {
         if (user.getNom() == null || !user.getNom().matches("^[a-zA-ZÀ-ÿ\\-]+$")) {
             return false;
