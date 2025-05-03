@@ -85,6 +85,7 @@ service\Oumaima\CoursService.class
 service\Oumaima\QuizService.class
 Controller\Maryem\ProfileDetailsController$CustomMarkerLayer.class
 Controller\Maryem\ProfileDoctorsDetailsController.class
+Controller\Oumaima\UpdateQuizBck$2.class
 test\Ham\UserTitlesMain.class
 org\example\NotificationController.class
 service\ProfileService.class
@@ -97,6 +98,7 @@ Controller\Ham\ListStoreItemsController$4.class
 Controller\Hedy\Dahsboard\AjoutModuleController.class
 Controller\Hedy\Dahsboard\AffichageModuleDashboardController.class
 Controller\Maryem\ProfileDetailsController.class
+Controller\Oumaima\UpdateQuizBck$1.class
 service\NotificationService.class
 test\Ham\CreateStoreItemMain.class
 service\StoreItemService.class
@@ -104,6 +106,7 @@ Controller\Oumaima\addQuizcontroller$3.class
 Controller\Maryem\AddConsultationController.class
 Controller\Ham\ListStoreItemsController$2.class
 Controller\Boubaker\ViewOrdersController$1.class
+Controller\Oumaima\UpdateQuizBck.class
 service\TitleService.class
 entite\Commentaire.class
 entite\Oumaima\Cours.class
@@ -138,6 +141,7 @@ test\Sidebar.class
 Controller\Maryem\FrontDoctorsDisplayProfilesController.class
 Controller\Oumaima\EmailTest$1.class
 Controller\Ham\ListStoreItemsAdminController$2.class
+service\Oumaima\QuizResultService.class
 service\DropboxService.class
 Controller\Ham\ListStoreItemsController.class
 Controller\Hedy\RatingsStorage.class
@@ -169,6 +173,7 @@ Controller\Hedy\Dahsboard\AffichageModuleDashboardController$1.class
 Controller\Ham\GamesMenu.class
 Controller\Maryem\UpdateConsultationController$2.class
 entite\Commande.class
+entite\Oumaima\QuizResult.class
 service\PackService.class
 org\example\Main.class
 Controller\Oumaima\AffichageBackQuizController.class

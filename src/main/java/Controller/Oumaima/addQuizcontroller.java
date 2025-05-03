@@ -165,7 +165,7 @@ public class addQuizcontroller {
 
     private void sendEmail(Quiz quiz) {
         final String fromEmail = "66damm.mmad66@gmail.com";
-        final String password = "lclb spfk rcpk mtjw";
+        final String password = "tcrx etrl ypbq omsd";
 
         // Retrieve all users using the new method and filter those with the ROLE_PARENT role
         List<User> allUsers = userService.getAllUsersWithStringStatus();

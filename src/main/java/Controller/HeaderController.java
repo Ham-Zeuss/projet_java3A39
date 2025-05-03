@@ -220,7 +220,7 @@ public class HeaderController {
     @FXML
     @SuppressWarnings("unused")
     private void goToQuizes() {
-        navigateToPage(learnButton, "OumaimaFXML/affichageQuiz.fxml", "Quizzes");
+        navigateToPage(learnButton, "OumaimaFXML/affichageEtudiantQuiz.fxml", "Quizzes");
     }
 
     @FXML
