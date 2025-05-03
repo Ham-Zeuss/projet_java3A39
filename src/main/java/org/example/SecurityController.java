@@ -102,7 +102,7 @@ public class SecurityController {
 
                 // 3. Load body (ListStoreItemsFront.fxml)
                 Parent bodyContent;
-                String fxmlPath = "MaryemFXML/FrontDisplayProfiles.fxml";
+                String fxmlPath = "HamzaFXML/ListStoreItemsFront.fxml";
                 URL resourceUrl = getClass().getResource("/" + fxmlPath);
                 if (resourceUrl == null) {
                     throw new Exception("Resource not found: /" + fxmlPath);
@@ -322,6 +322,109 @@ public class SecurityController {
         }
     }
 
+    public void DoubleAuthentication(ActionEvent event) throws SQLException {
+        try {
+            Parent twoFARoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/TwoFA.fxml")));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            if (currentStage != null) {
+                Scene twoFAScene = new Scene(twoFARoot);
+                currentStage.setScene(twoFAScene);
+                currentStage.sizeToScene();
+                currentStage.setResizable(false);
+                currentStage.show();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page 2FA : stage is null");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page 2FA : " + e.getMessage());
+        }
+    }
+
+    private String parseRoleFromJson(String rolesJson) {
+        try {
+            JSONArray rolesArray = new JSONArray(rolesJson);
+            if (rolesArray.length() > 0) {
+                return rolesArray.getString(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "default";
+    }
+
+    public void loadHomePage(ActionEvent event, int userId, String email) {
+        try {
+            VBox mainContent = new VBox();
+            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerFxmlLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            WebView headerWebView = new WebView();
+            URL headerUrl = getClass().getResource("/header.html");
+            if (headerUrl != null) {
+                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            }
+            headerWebView.setPrefSize(1000, 490);
+            mainContent.getChildren().add(headerWebView);
+
+            String fxmlPath = "/User/Home.fxml";
+            URL fxmlUrl = getClass().getResource(fxmlPath);
+            if (fxmlUrl == null) {
+                throw new Exception("Home.fxml not found at path: " + fxmlPath);
+            }
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            VBox bodyContent = loader.load();
+            bodyContent.setPrefSize(1920, 1080);
+
+            HomeController homeController = loader.getController();
+            if (homeController != null) {
+                homeController.setWelcomeMessage("Bienvenue ID: " + userId);
+            } else {
+                System.err.println("HomeController is null");
+            }
+            mainContent.getChildren().add(bodyContent);
+
+            WebView footerWebView = new WebView();
+            URL footerUrl = getClass().getResource("/footer.html");
+            if (footerUrl != null) {
+                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            }
+            footerWebView.setPrefSize(1000, 830);
+            mainContent.getChildren().add(footerWebView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            Scene scene = new Scene(scrollPane, 1920, 1080);
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/navbar.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/store-cards.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/leaderboard.css").toExternalForm());
+
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.setScene(scene);
+            currentStage.setTitle("Home");
+            currentStage.setWidth(1920);
+            currentStage.setHeight(1080);
+            currentStage.setResizable(true);
+            currentStage.setFullScreen(false);
+            currentStage.centerOnScreen();
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page : " + e.getMessage());
+        }
+    }
+
     public void createAccountFormin(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/User/register.fxml")));
@@ -329,7 +432,7 @@ public class SecurityController {
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.setTitle("Register");
-            currentStage.setResizable(true); // Allow resizing
+            currentStage.setResizable(true);
             currentStage.centerOnScreen();
             currentStage.show();
         } catch (Exception e) {
@@ -345,7 +448,7 @@ public class SecurityController {
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.setTitle("Reset Password");
-            currentStage.setResizable(true); // Allow resizing
+            currentStage.setResizable(true);
             currentStage.centerOnScreen();
             currentStage.show();
         } catch (Exception e) {

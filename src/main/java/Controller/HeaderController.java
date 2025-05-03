@@ -2,6 +2,7 @@ package Controller;
 
 import Controller.Maryem.FrontDisplayProfilesController;
 import entite.Session;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -14,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -22,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.web.WebView;
 import Controller.Boubaker.MainBoubakerController;
 import java.io.IOException;
 import java.net.URL;
@@ -75,7 +78,6 @@ public class HeaderController {
         packsIcon.setPreserveRatio(true);
         packsIcon.setFitWidth(20);
         packsIcon.setFitHeight(20);
-        // Repeat for other icons...
     }
 
 
@@ -91,7 +93,7 @@ public class HeaderController {
         try {
             // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
-            mainContent.setAlignment(Pos.TOP_CENTER);
+            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
 
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
@@ -180,12 +182,28 @@ public class HeaderController {
             if (NavBar != null) {
                 scene.getStylesheets().add(NavBar.toExternalForm());
             }
-            URL userconsultation = getClass().getResource("/css/appointments.css");
-            if (userconsultation != null) {
-                scene.getStylesheets().add(userconsultation.toExternalForm());
+URL userconsultation = getClass().getResource("/css/appointments.css");
+if (userconsultation != null) {
+    scene.getStylesheets().add(userconsultation.toExternalForm());
+}
+
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) {
+                scene.getStylesheets().add(gooButton.toExternalForm());
+            } else {
+                System.err.println("CSS file not found: /css/GooButton.css");
             }
 
-            // Set stage
+            URL GamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (GamesMenuStyling != null) {
+                scene.getStylesheets().add(GamesMenuStyling.toExternalForm());
+                System.err.println("CSS loaded: /css/GamesMenuStyling.css");
+            } else {
+                System.err.println("CSS file not found: /css/GamesMenuStyling.css");
+
+            }
+
+            // Get the Stage from the source button
             Stage stage = (Stage) sourceButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle(title);
@@ -233,22 +251,14 @@ public class HeaderController {
     @SuppressWarnings("unused")
     private void goToAppointments() {
         navigateToPage(doctorsButton, "MaryemFXML/UserConsultations.fxml", "My Appointments");
-    }
-
-    @FXML
-    @SuppressWarnings("unused")
-    private void goToListDoctors() {
-        navigateToPage(doctorsButton, "MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
-    }
-
-    @FXML
-    @SuppressWarnings("unused")
     private void goToStore() {
         navigateToPage(gamesButton, "HamzaFXML/ListStoreItemsFront.fxml", "Store");
     }
 
     @FXML
     @SuppressWarnings("unused")
+    private void goToListDoctors() {
+        navigateToPage(doctorsButton, "MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
     private void goToLeaderboard() {
         navigateToPage(gamesButton, "HamzaFXML/Leaderboard.fxml", "Leaderboard");
     }

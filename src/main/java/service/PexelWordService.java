@@ -108,4 +108,24 @@ public class PexelWordService implements IService<PexelWord> {
         }
         return null;
     }
+
+    public List<PexelWord> readByDifficulty(String difficulty) {
+        List<PexelWord> list = new ArrayList<>();
+        String requete = "select * from pexel_words where difficulty = ?";
+        try {
+            pst = cnx.prepareStatement(requete);
+            pst.setString(1, difficulty);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                list.add(new PexelWord(
+                        rs.getInt("id"),
+                        rs.getString("word"),
+                        rs.getString("difficulty")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
 }

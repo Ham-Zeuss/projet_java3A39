@@ -8,9 +8,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
-
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
+
 <GridPane fx:id="gamesGrid" alignment="CENTER" hgap="20" vgap="20" styleClass="grid-pane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Ham.GamesMenuController">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
@@ -26,60 +27,43 @@
     </rowConstraints>
 
     <!-- Card 1: Word Scramble Game -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
-        <Label text="2 days ago" styleClass="timestamp"/>
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="Word Scramble Game" styleClass="timestamp"/>
         <ImageView fitWidth="200" fitHeight="150">
             <image>
                 <Image url="/Images/word_scramble.png"/>
             </image>
         </ImageView>
-        <Label text="Word Scramble Game" styleClass="game-title"/>
-        <Label text="HamzaDev" styleClass="game-creator"/>
-        <Button fx:id="playScrambleGameButton" text="Play" styleClass="play-button" onAction="#playScrambleGame"/>
+        <Label text="" styleClass="game-title"/>
+        <Label text="" styleClass="game-creator"/>
+        <Pane fx:id="scrambleButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playScrambleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playScrambleGame"/>
+        </Pane>
     </VBox>
 
-    <!-- Card 2: Placeholder 1 -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
-        <Label text="3 days ago" styleClass="timestamp"/>
-        <Rectangle width="200" height="150" styleClass="game-image"/>
-        <Label text="Placeholder Game 1" styleClass="game-title"/>
-        <Label text="Creator1" styleClass="game-creator"/>
-        <Button text="Play" styleClass="play-button"/>
+    <!-- Card 2: Pixel Games -->
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Label text="Pixel Games" styleClass="timestamp"/>
+        <ImageView fitWidth="200" fitHeight="150">
+            <image>
+                <Image url="/Images/Pixel.png"/>
+            </image>
+        </ImageView>
+        <Label text="" styleClass="game-title"/>
+        <Label text="" styleClass="game-creator"/>
+        <Pane fx:id="pexelleButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playPexelleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playPexelleGame"/>
+        </Pane>
     </VBox>
 
     <!-- Card 3: Placeholder 2 -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
         <Label text="5 days ago" styleClass="timestamp"/>
         <Rectangle width="200" height="150" styleClass="game-image"/>
         <Label text="Placeholder Game 2" styleClass="game-title"/>
         <Label text="Creator2" styleClass="game-creator"/>
-        <Button text="Play" styleClass="play-button"/>
-    </VBox>
-
-    <!-- Card 4: Placeholder 3 -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
-        <Label text="1 week ago" styleClass="timestamp"/>
-        <Rectangle width="200" height="150" styleClass="game-image"/>
-        <Label text="Placeholder Game 3" styleClass="game-title"/>
-        <Label text="Creator3" styleClass="game-creator"/>
-        <Button text="Play" styleClass="play-button"/>
-    </VBox>
-
-    <!-- Card 5: Placeholder 4 -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <Label text="2 weeks ago" styleClass="timestamp"/>
-        <Rectangle width="200" height="150" styleClass="game-image"/>
-        <Label text="Placeholder Game 4" styleClass="game-title"/>
-        <Label text="Creator4" styleClass="game-creator"/>
-        <Button text="Play" styleClass="play-button"/>
-    </VBox>
-
-    <!-- Card 6: Placeholder 5 -->
-    <VBox alignment="CENTER" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="1">
-        <Label text="3 weeks ago" styleClass="timestamp"/>
-        <Rectangle width="200" height="150" styleClass="game-image"/>
-        <Label text="Placeholder Game 5" styleClass="game-title"/>
-        <Label text="Creator5" styleClass="game-creator"/>
-        <Button text="Play" styleClass="play-button"/>
+        <Pane fx:id="placeholderButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playPlaceholderGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button"/>
+        </Pane>
     </VBox>
 </GridPane>
