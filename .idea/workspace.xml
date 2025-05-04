@@ -19,6 +19,9 @@
       </list>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -30,49 +33,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BoubakerMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.CreateTitleMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dashboard.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayPexelWordsMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsAdminMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsFrontMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayStoreItemsMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DisplayTitlesMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLAffichageBackQuizQuestionMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLAffichageEtudianrQuizFrront.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLAffichageQuizFront.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLDisplayConsultations.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLFrontDisplayProfile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLaddprofile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FXMLdisplayprofile.executor&quot;: &quot;Run&quot;,
-    &quot;Application.LeaderboardMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Mainx.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UserTitlesMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.mes_rendezvous.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.hedy.Mainx.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.projet_java_gestion_evaluation [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.projet_java_gestion_evaluation [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.projet_java_gestion_evaluation [package].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.46206897&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BoubakerMain.executor": "Run",
+    "Application.CreateTitleMain.executor": "Run",
+    "Application.Dashboard.executor": "Run",
+    "Application.DisplayPexelWordsMain.executor": "Run",
+    "Application.DisplayStoreItemsAdminMain.executor": "Run",
+    "Application.DisplayStoreItemsFrontMain.executor": "Run",
+    "Application.DisplayStoreItemsMain.executor": "Run",
+    "Application.DisplayTitlesMain.executor": "Run",
+    "Application.FXMLAffichageBackQuizQuestionMain.executor": "Run",
+    "Application.FXMLAffichageEtudianrQuizFrront.executor": "Run",
+    "Application.FXMLAffichageQuizFront.executor": "Run",
+    "Application.FXMLDisplayConsultations.executor": "Run",
+    "Application.FXMLFrontDisplayProfile.executor": "Run",
+    "Application.FXMLaddprofile.executor": "Run",
+    "Application.FXMLdisplayprofile.executor": "Run",
+    "Application.LeaderboardMain.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Mainx.executor": "Run",
+    "Application.UserTitlesMain.executor": "Run",
+    "Application.mes_rendezvous.executor": "Run",
+    "Application.test.hedy.Mainx.executor": "Run",
+    "Maven.projet_java_gestion_evaluation [clean...].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [clean].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [install].executor": "Run",
+    "Maven.projet_java_gestion_evaluation [package].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/wiemh/IdeaProjects/ProjetPiDev3A39/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.46206897",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="entite" />
@@ -80,6 +84,7 @@
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="mvn clean install" />
       <command value="mvn clean" />
     </option>
   </component>
@@ -181,8 +186,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
       </set>
     </attachedChunks>
   </component>
@@ -213,6 +218,7 @@
       <workItem from="1746201295316" duration="2977000" />
       <workItem from="1746218839180" duration="3028000" />
       <workItem from="1746223977347" duration="8269000" />
+      <workItem from="1746312964825" duration="4583000" />
     </task>
     <servers />
   </component>
