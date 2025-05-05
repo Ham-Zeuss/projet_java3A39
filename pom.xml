@@ -88,21 +88,6 @@
             <artifactId>util</artifactId>
             <version>${gluon-attach.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>24</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>23.0.1</version>
-        </dependency>
 
         <!-- Gluon Charm Glisten (for TextField) -->
         <dependency>
@@ -125,26 +110,18 @@
             <version>0.10.2</version>
         </dependency>
 
-        <!-- JavaMail (for sending emails, compatible with your original code) -->
+        <!-- JavaMail (for colleague's Gmail integration) -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
 
-
         <!-- Gson for JSON handling -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
-        </dependency>
-
-        <!-- Jakarta Mail -->
-        <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-mail</artifactId>
-            <version>2.0.3</version>
         </dependency>
 
         <!-- JSON library -->
@@ -209,64 +186,6 @@
             <version>3.5.1</version>
         </dependency>
 
-
-        <!-- MySQL Connector -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-
-        <!-- Jakarta Mail -->
-        <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-mail</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-
-        <!-- JFoenix for UI components -->
-        <dependency>
-            <groupId>com.jfoenix</groupId>
-            <artifactId>jfoenix</artifactId>
-            <version>9.0.10</version>
-        </dependency>
-
-        <!-- Stripe for payments -->
-        <dependency>
-            <groupId>com.stripe</groupId>
-            <artifactId>stripe-java</artifactId>
-            <version>25.3.0</version>
-        </dependency>
-
-        <!-- iText for PDF generation -->
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itext7-core</artifactId>
-            <version>8.0.2</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- Apache HttpClient -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.14</version>
-        </dependency>
-
-        <!-- OkHttp -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.12.0</version>
-        </dependency>
-
-        <!-- JSON library -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
-        </dependency>
-
         <!-- GMapsFX for Google Maps integration -->
         <dependency>
             <groupId>com.lynden</groupId>
@@ -274,46 +193,48 @@
             <version>2.12.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>21</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jfoenix</groupId>
-            <artifactId>jfoenix</artifactId>
-            <version>9.0.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-
+        <!-- Caffeine for caching -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>3.0.5</version>
         </dependency>
-
-
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jakarta-mail</id>
+            <dependencies>
+                <!-- Jakarta Mail for SendEmailController -->
+                <dependency>
+                    <groupId>org.eclipse.angus</groupId>
+                    <artifactId>angus-mail</artifactId>
+                    <version>2.0.3</version>
+                </dependency>
+                <!-- Angus Activation for MIME content handling -->
+                <dependency>
+                    <groupId>org.eclipse.angus</groupId>
+                    <artifactId>angus-activation</artifactId>
+                    <version>2.0.2</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
-            <id>gluon-releases</id>
-            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
-        </repository>
-        <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>gluon-releases</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -342,7 +263,10 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>test.Ham.ScrambleGame</mainClass>
+                    <mainClass>org.example.Main</mainClass>
+                    <options>
+                        <option>--enable-native-access=ALL-UNNAMED,javafx.graphics</option>
+                    </options>
                 </configuration>
             </plugin>
         </plugins>
