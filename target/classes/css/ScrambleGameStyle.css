@@ -1,8 +1,4 @@
-.root {
-    -fx-background-color: linear-gradient(to bottom, #e6f3fa 0%, #f9e6f0 100%);
-    -fx-font-family: "Comic Sans MS", "Arial", sans-serif;
-    -fx-padding: 20;
-}
+
 
 .label {
     -fx-font-size: 18px;
@@ -21,23 +17,7 @@
     -fx-prompt-text-fill: #888;
 }
 
-.button {
-    -fx-background-color: #4a90e2;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-padding: 10 20;
-    -fx-background-radius: 15;
-    -fx-border-radius: 15;
-    -fx-cursor: hand;
-}
 
-.button:hover {
-    -fx-background-color: #357abd;
-}
-
-.button:pressed {
-    -fx-background-color: #2a6099;
-}
 
 #scrambledWordLabel {
     -fx-font-size: 24px;

@@ -1,0 +1,142 @@
+/* General popup styling */
+.popup-container {
+    -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 5, 0);
+}
+
+/* TextField Styling */
+.text-field {
+    -fx-background-color: #F4F7FA;
+    -fx-border-color: #D1D1D1;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+/* General Button Style */
+.button {
+    -fx-font-size: 13px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 25px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-radius: 25px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Save / Add Module Button */
+.button-Enregistrer {
+    -fx-background-color: linear-gradient(to right, #FFA500, #FF8C00); /* Orange gradient */
+}
+
+.button-Enregistrer:hover {
+    -fx-background-color: linear-gradient(to right, #FF8C00, #FF4500); /* Deeper orange on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Reset Button */
+.button-Reinitialiser {
+    -fx-background-color: linear-gradient(#F75E5E, #e74c3c);
+}
+
+.button-Reinitialiser:hover {
+    -fx-background-color: #e74c3c;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Search Field Styling */
+.search-field {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 25px;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 15px;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #aaa;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.search-field:focused {
+    -fx-border-color: #4CAF50; /* Green border on focus */
+    -fx-border-width: 2px;
+    -fx-border-radius: 25px;
+}
+
+/* ComboBox override to match search field */
+.combo-box-base,
+.combo-box-base .arrow-button {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-padding: 0 10 0 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.combo-box-base .text-field {
+    -fx-background-color: transparent;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-padding: 5 10;
+}
+
+/* Card Styles */
+.module-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 128, 0, 0.1), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-translate-z: 0;
+    -fx-transition: all 0.3s ease;
+
+    /* 🔥 Thick green border (always visible) */
+    -fx-border-width: 4;
+    -fx-border-color: #4CAF50;
+    -fx-border-radius: 10;
+}
+
+.module-card:hover {
+    /* 💚 Light green background on hover */
+    -fx-background-color: #E8F5E9;
+
+    /* Slight elevation */
+    -fx-translate-z: 3;
+
+    /* Drop shadow for depth */
+    -fx-effect: dropshadow(gaussian, rgba(0, 128, 0, 0.2), 10, 0, 0, 4);
+}
+
+/* Text styles reused in cards */
+.heading {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-line-height: 1.2;
+    -fx-transition: all 0.3s ease;
+}
+
+.para {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-wrap-text: true;
+    -fx-transition: all 0.3s ease;
+}
+
+/* Ensure parent containers don't add unwanted backgrounds or borders */
+.AnchorPane,
+.GridPane,
+.VBox,
+.HBox {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}

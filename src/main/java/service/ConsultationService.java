@@ -28,11 +28,16 @@ public class ConsultationService {
     }
 
     public boolean checkForConflict(int profileId, LocalDateTime consultationDateTime) throws Exception {
-        String query = "SELECT COUNT(*) FROM consultation WHERE profile_id = ? AND consultation_date = ?";
+        String query = "SELECT COUNT(*) FROM consultation WHERE profile_id = ? AND " +
+                "consultation_date BETWEEN ? AND ?";
         Connection conn = DataSource.getInstance().getConnection();
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, profileId);
-            ps.setTimestamp(2, Timestamp.valueOf(consultationDateTime));
+            // Check for consultations within a 30-minute window before and after
+            LocalDateTime startTime = consultationDateTime.minusMinutes(30);
+            LocalDateTime endTime = consultationDateTime.plusMinutes(30);
+            ps.setTimestamp(2, Timestamp.valueOf(startTime));
+            ps.setTimestamp(3, Timestamp.valueOf(endTime));
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;

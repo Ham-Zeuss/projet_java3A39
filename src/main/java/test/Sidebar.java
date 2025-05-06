@@ -83,7 +83,7 @@ public class Sidebar {
         HBox dashboardBtn = createSidebarItemWithDropdown("Dashboard", "dashboard", stage, dashboardAction);
         HBox analyticsBtn = createSidebarItem("Utilisateurs", "utilisateurs", stage, utilisateursAction);
         HBox ecommerceBtn = createSidebarItem("Paiement", "paiement", stage, () -> {
-            System.out.println("Paiement clicked (no navigation implemented)");
+            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/Boubaker/paiement_management.fxml");
         });
 
         // Application Section
@@ -101,9 +101,7 @@ public class Sidebar {
         pagesLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
-        HBox authBtn = createSidebarItem("Module", "module", stage, () -> {
-            System.out.println("Module clicked (no navigation implemented)");
-        });
+        HBox authBtn = createSidebarItem("Module", "module", stage, () -> loadFXML.accept("/HedyFXML/AffichageModuleDashboardHedy.fxml"));
         HBox utilityBtn = createSidebarItem("Quiz", "quiz", stage, () -> loadFXML.accept("/OumaimaFXML/affichageBackQuiz.fxml"));
 
         // Elements Section

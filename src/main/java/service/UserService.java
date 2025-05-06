@@ -1,15 +1,28 @@
 package service;
 
+import entite.Notification;
+import entite.User;
+import util.DataSource;
+import entite.Title;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import entite.User;
 import util.DataSource;
 import entite.Title;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class UserService implements IService<User> {
 
@@ -17,11 +30,13 @@ public class UserService implements IService<User> {
     private Statement ste;
     private PreparedStatement pst;
     private ResultSet rs;
-    private TitleService titleService; // To fetch Title objects
+    private TitleService titleService;
+    private final NotificationService notificationService;
 
     public UserService() {
         cnx = DataSource.getInstance().getConnection();
         titleService = new TitleService();
+        notificationService = new NotificationService();
     }
 
     @Override
@@ -318,6 +333,110 @@ public class UserService implements IService<User> {
         return null;
     }
 
+
+    public User getUserByIdForPack(int id) {
+        String requete = "SELECT id, nom, prenom, email, password, roles, status, balance, points, features_unlocked FROM user WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Manually parse roles
+                    String rolesJson = rs.getString("roles");
+                    List<String> roles = new ArrayList<>();
+                    if (rolesJson != null && !rolesJson.isEmpty()) {
+                        rolesJson = rolesJson.trim();
+                        if (rolesJson.startsWith("[") && rolesJson.endsWith("]")) {
+                            // JSON array: ["ROLE_1","ROLE_2"]
+                            rolesJson = rolesJson.substring(1, rolesJson.length() - 1);
+                            if (!rolesJson.isEmpty()) {
+                                for (String role : rolesJson.split(",")) {
+                                    roles.add(role.replace("\"", "").trim());
+                                }
+                            }
+                        } else {
+                            // Fallback: single role or comma-separated
+                            for (String role : rolesJson.split(",")) {
+                                roles.add(role.trim());
+                            }
+                        }
+                    }
+
+                    // Create User object
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setRoles(roles);
+                    user.setActive(rs.getBoolean("status"));
+                    user.setBalance(rs.getObject("balance", Double.class));
+                    user.setPoints(rs.getObject("points", Integer.class));
+                    user.setFeaturesUnlocked(rs.getString("features_unlocked"));
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la recherche d'utilisateur pour pack par ID: " + e.getMessage());
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public void addBalance(int userId, double amount) {
+        String requete = "UPDATE user SET balance = balance + ? WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
+            pstmt.setDouble(1, amount);
+            pstmt.setInt(2, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Solde mis à jour : userId=" + userId + ", montant=" + amount + ", lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du solde : " + e.getMessage());
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+    }
+
+    private static final Gson gson = new Gson();
+    private static final Type listType = new TypeToken<List<String>>() {}.getType();
+
+    public void updateFeaturesUnlocked(int userId, String features) {
+        String requete = "UPDATE user SET features_unlocked = ? WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
+            // features is already a JSON string (e.g., ["More Quizzes"]), so pass it directly
+            System.out.println("Tentative de mise à jour : userId=" + userId + ", features='" + features + "'");
+            pstmt.setString(1, features);
+            pstmt.setInt(2, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Fonctionnalités mises à jour : userId=" + userId + ", features='" + features + "', lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour des fonctionnalités : " + e.getMessage());
+            // Fallback: Try setting NULL
+            try (PreparedStatement pstmt = cnx.prepareStatement("UPDATE user SET features_unlocked = NULL WHERE id = ?")) {
+                pstmt.setInt(1, userId);
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Fallback : features_unlocked mis à NULL pour userId=" + userId + ", lignes affectées=" + rowsAffected);
+            } catch (SQLException fallbackEx) {
+                System.err.println("Erreur lors du fallback à NULL : " + fallbackEx.getMessage());
+            }
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Resets the unlocked features for a user to an empty JSON array.
+     */
+    public void resetFeaturesUnlocked(int userId) {
+        String requete = "UPDATE user SET features_unlocked = '[]' WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(requete)) {
+            pstmt.setInt(1, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Fonctionnalités réinitialisées : userId=" + userId + ", lignes affectées=" + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la réinitialisation des fonctionnalités : " + e.getMessage());
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+    }
+
     public void updatePoints(int userId, int points) {
         String requete = "UPDATE user SET points = ? WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(requete)) {
@@ -441,7 +560,7 @@ public class UserService implements IService<User> {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user";
+        String sql = "SELECT id, nom, prenom, email, password, roles, is_active FROM user"; // Replaced status with is_active
         try (Statement stmt = cnx.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -449,6 +568,7 @@ public class UserService implements IService<User> {
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la récupération des utilisateurs: " + e.getMessage());
+            throw new RuntimeException(e);
         }
         return users;
     }
@@ -468,44 +588,44 @@ public class UserService implements IService<User> {
     }
 
     public User getUserById(int id) {
-        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE id = ?";
+        String sql = "SELECT id, nom, prenom, email, password, roles, is_active FROM user WHERE id = ?"; // Replaced status with is_active
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToUser(rs);
-                }
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToUser(rs);
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la recherche d'utilisateur par ID: " + e.getMessage());
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     public User getUserByEmail(String email) {
-        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE email = ?";
+        String sql = "SELECT id, nom, prenom, email, password, roles, is_active FROM user WHERE email = ?"; // Replaced status with is_active
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, email);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToUser(rs);
-                }
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToUser(rs);
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la recherche d'utilisateur par email: " + e.getMessage());
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     public void addUser(User user) {
-        String sql = "INSERT INTO user (nom, prenom, email, password, roles, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (nom, prenom, email, password, roles, is_active) VALUES (?, ?, ?, ?, ?, ?)"; // Removed status
         try (PreparedStatement pstmt = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, user.getNom());
             pstmt.setString(2, user.getPrenom());
             pstmt.setString(3, user.getEmail());
             pstmt.setString(4, hashPassword(user.getPassword()));
             pstmt.setString(5, user.getRolesAsJson());
-            pstmt.setString(6, user.getStatus());
+            pstmt.setBoolean(6, user.isActive());
             pstmt.executeUpdate();
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -515,15 +635,31 @@ public class UserService implements IService<User> {
             System.out.println("✅ Utilisateur ajouté avec succès: " + user.getEmail());
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de l'ajout de l'utilisateur: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
+    public Boolean getUserActiveStatus(int userId) {
+        String sql = "SELECT is_active FROM user WHERE id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("is_active");
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Erreur lors de la récupération du statut actif: " + e.getMessage());
+        }
+        return null;
+    }
+
     public void updateUser(User user, boolean isAdmin, String newPassword) {
+        Boolean wasActive = getUserActiveStatus(user.getId());
         String sql;
         if (isAdmin && newPassword != null && !newPassword.isEmpty()) {
-            sql = "UPDATE user SET nom = ?, prenom = ?, email = ?, password = ?, roles = ?, status = ? WHERE id = ?";
+            sql = "UPDATE user SET nom = ?, prenom = ?, email = ?, password = ?, roles = ?, is_active = ? WHERE id = ?";
         } else {
-            sql = "UPDATE user SET nom = ?, prenom = ?, email = ?, roles = ?, status = ? WHERE id = ?";
+            sql = "UPDATE user SET nom = ?, prenom = ?, email = ?, roles = ?, is_active = ? WHERE id = ?";
         }
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, user.getNom());
@@ -532,17 +668,24 @@ public class UserService implements IService<User> {
             if (isAdmin && newPassword != null && !newPassword.isEmpty()) {
                 pstmt.setString(4, hashPassword(newPassword));
                 pstmt.setString(5, user.getRolesAsJson());
-                pstmt.setString(6, user.getStatus());
+                pstmt.setBoolean(6, user.isActive());
                 pstmt.setInt(7, user.getId());
             } else {
                 pstmt.setString(4, user.getRolesAsJson());
-                pstmt.setString(5, user.getStatus());
+                pstmt.setBoolean(5, user.isActive());
                 pstmt.setInt(6, user.getId());
             }
             pstmt.executeUpdate();
+
+            if (wasActive != null && wasActive && !user.isActive()) {
+                Notification notification = new Notification("🔴 L'utilisateur " + user.getEmail() + " a été désactivé.");
+                notificationService.create(notification);
+            }
+
             System.out.println("✅ Utilisateur mis à jour avec succès: " + user.getEmail());
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la mise à jour de l'utilisateur: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -587,11 +730,10 @@ public class UserService implements IService<User> {
         user.setNom(rs.getString("nom"));
         user.setPrenom(rs.getString("prenom"));
         user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password")); // Hashed password
-        user.setActive(rs.getBoolean("status"));
+        user.setPassword(rs.getString("password"));
+        user.setActive(rs.getBoolean("is_active")); // Fixed: Use is_active
         String rolesJson = rs.getString("roles");
         user.setRolesFromJson(rolesJson);
-
         return user;
     }
 
@@ -615,29 +757,41 @@ public class UserService implements IService<User> {
         return user;
     }
 
+
+
     public boolean emailExists(String email) {
         return getUserByEmail(email) != null;
     }
 
     public List<User> searchUsers(String query) {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT id, nom, prenom, email, password, roles, status FROM user WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?";
+        String sql = "SELECT id, nom, prenom, email, password, roles, is_active FROM user WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?"; // Replaced status with is_active
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             String searchParam = "%" + query + "%";
             pstmt.setString(1, searchParam);
             pstmt.setString(2, searchParam);
             pstmt.setString(3, searchParam);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    users.add(mapResultSetToUser(rs));
-                }
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                users.add(mapResultSetToUser(rs));
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la recherche d'utilisateurs: " + e.getMessage());
+            throw new RuntimeException(e);
         }
         return users;
     }
-
+    // New method to update scoreTotal
+    public void updateScoreTotal(int userId, int scoreTotal) {
+        String requete = "UPDATE user SET score_total = ? WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(requete)) {
+            pst.setInt(1, scoreTotal);
+            pst.setInt(2, userId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean validateUser(User user, boolean isUpdate) {
         if (user.getNom() == null || !user.getNom().matches("^[a-zA-ZÀ-ÿ\\-]+$")) {
             return false;

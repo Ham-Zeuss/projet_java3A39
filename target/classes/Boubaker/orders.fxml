@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
+<?import java.net.URL?>
 <VBox fx:id="ordersContainer" alignment="CENTER" spacing="20" styleClass="orders-container" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Boubaker.OrdersController">
     <children>
         <VBox fx:id="ordersHeader" alignment="CENTER" styleClass="orders-header">
@@ -12,13 +13,12 @@
                 <Label fx:id="ordersTitle" styleClass="orders-title" text="Your Orders" />
             </children>
         </VBox>
+
         <TableView fx:id="ordersTable" styleClass="pack-table">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
-                <TableColumn fx:id="userIdColumn" prefWidth="80" text="User ID" />
-                <TableColumn fx:id="packIdColumn" prefWidth="80" text="Pack ID" />
-                <TableColumn fx:id="amountColumn" prefWidth="100" text="Amount" />
-                <TableColumn fx:id="dateColumn" prefWidth="150" text="Date" />
+                <TableColumn fx:id="packNameColumn" prefWidth="100" text="Pack" />
+                <TableColumn fx:id="amountColumn" prefWidth="100" text="Amount (TND)" />
+                <TableColumn fx:id="dateColumn" prefWidth="150" text="Purchase Date" />
                 <TableColumn fx:id="paymentMethodColumn" prefWidth="120" text="Payment Method" />
                 <TableColumn fx:id="expiryDateColumn" prefWidth="100" text="Expiry Date" />
                 <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
@@ -26,4 +26,7 @@
         </TableView>
         <Label fx:id="errorLabel" styleClass="error-label" text="" />
     </children>
+    <stylesheets>
+        <URL value="@/style.css"/>
+    </stylesheets>
 </VBox>

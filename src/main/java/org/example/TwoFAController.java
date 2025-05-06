@@ -9,6 +9,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -42,7 +43,7 @@ public class TwoFAController {
     public void initialize() {
         TwoFactorAuthService authService = new TwoFactorAuthService();
         GoogleAuthenticatorKey key = authService.generateSecretKey();
-        secretKey = key.getKey();
+        secretKey = key.getKey(); // 🔒 à enregistrer en DB
 
         try {
             String otpURL = "otpauth://totp/MonAppEducative:user@example.com?secret=" + secretKey + "&issuer=MonAppEducative";
@@ -70,17 +71,13 @@ public class TwoFAController {
 
                 Map<String, String> roleToFxmlMap = new HashMap<>();
                 roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
-                roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageCours.fxml");
+                roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageModule.fxml");
                 roleToFxmlMap.put("ROLE_PARENT", "/User/Home.fxml");
 
                 String defaultFxml = "/User/Home.fxml";
                 String fxmlPath = roleToFxmlMap.getOrDefault(role, defaultFxml);
 
                 VBox mainContent = new VBox();
-
-
-
-
                 mainContent.setAlignment(Pos.TOP_CENTER);
 
                 // Load header image (PNG)
@@ -104,17 +101,15 @@ public class TwoFAController {
                 if (fxmlUrl == null) {
                     throw new Exception("FXML file not found at path: " + fxmlPath);
                 }
-
                 FXMLLoader loader = new FXMLLoader(fxmlUrl);
-                VBox bodyContent = loader.load();
-                bodyContent.setPrefSize(1920, 1080);
+                Parent bodyContent = loader.load(); // Use Parent instead of VBox
+                bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080;"); // Set size via style
 
                 if ("ROLE_MEDECIN".equals(role)) {
-                    bodyContent.setStyle("-fx-background-color: #B8DAB8FF;");
+                    bodyContent.setStyle("-fx-background-color: #B8DAB8FF; -fx-pref-width: 1920; -fx-pref-height: 1080;");
                 }
 
                 if ("ROLE_PARENT".equals(role)) {
-
                     // Load header.fxml
                     FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                     VBox headerFxmlContent = headerFxmlLoader.load();
@@ -172,9 +167,9 @@ public class TwoFAController {
         }
     }
 
-
     @FXML
     private void annnulerButtonClicked(ActionEvent event) {
+        // Close the 2FA window
         Stage stage = (Stage) qrCodeImage.getScene().getWindow();
         stage.close();
     }

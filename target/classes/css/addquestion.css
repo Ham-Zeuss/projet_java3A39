@@ -1,0 +1,132 @@
+/* Conteneur principal (carte) */
+.card {
+    -fx-background-color: #fae6e7; /* Baby pink almost white */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 10, 10);
+}
+
+/* Titre */
+.heading {
+    -fx-font-size: 44;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);
+}
+
+/* Labels et textes */
+.para {
+    -fx-font-size: 20;
+    -fx-line-spacing: 1.5;
+    -fx-text-fill: linear-gradient(to bottom right, #441151 0%, #441151 100%);
+}
+
+/* Champs de texte (TextField, TextArea) */
+.input-field {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #fae6e7;
+    -fx-border-width: 2;
+    -fx-font-size: 20;
+    -fx-text-fill: #a74482; /* Violet clair pour le texte saisi */
+    -fx-prompt-text-fill: derive(#a74482, 50%); /* Placeholder plus clair */
+    -fx-padding: 10;
+    -fx-transition: all 0.3s ease;
+}
+
+.input-field:focused {
+    -fx-border-color: #441151;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* TitledPane */
+.titled-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #fae6e7;
+    -fx-border-width: 2;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #fae6e7;
+    -fx-background-radius: 10 10 0 0;
+    -fx-text-fill: #441151;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 5;
+}
+
+.titled-pane > .content {
+    -fx-background-color: white;
+    -fx-background-radius: 0 0 10 10;
+    -fx-border-color: #fae6e7;
+    -fx-border-width: 0 2 2 2;
+}
+
+/* RadioButton et CheckBox */
+.option-control {
+    -fx-font-size: 20;
+    -fx-text-fill: #441151;
+    -fx-padding: 5;
+}
+
+.option-control:hover {
+    -fx-background-color: #fae6e7;
+    -fx-background-radius: 5;
+}
+
+/* Boutons */
+.quiz-button {
+    -fx-background-color: #4CAF50; /* Vert */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-padding: 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.quiz-button:hover {
+    -fx-background-color: #45a049; /* Vert clair */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.quiz-button:pressed {
+    -fx-background-color: #45a049;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.return-button {
+    -fx-background-color: #cf5de8; /* Rose */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-padding: 10 25;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.return-button:hover {
+    -fx-background-color: #fababa; /* Rose clair */
+    -fx-effect: dropshadow(gaussian, rgb(52, 7, 62), 8, 0, 0, 3);
+}
+
+.return-button:pressed {
+    -fx-background-color: #fababa;
+    -fx-effect: dropshadow(gaussian, rgb(52, 7, 62), 3, 0, 0, 1);
+}
+
+/* Conteneur des options et boutons */
+.option-container {
+    -fx-spacing: 15;
+    -fx-alignment: center-left;
+}

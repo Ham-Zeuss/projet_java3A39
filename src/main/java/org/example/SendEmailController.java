@@ -2,12 +2,14 @@ package org.example;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.gluonhq.charm.glisten.control.TextField;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +23,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Properties;
@@ -119,10 +120,10 @@ public class SendEmailController {
         props.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
-            protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new jakarta.mail.PasswordAuthentication("628d2c7935a2da", "4d1baf0d355e70");
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new javax.mail.PasswordAuthentication("628d2c7935a2da", "4d1baf0d355e70");
             }
         });
 

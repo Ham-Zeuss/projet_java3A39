@@ -12,6 +12,7 @@
       <root url="jar://$PROJECT_DIR$/../../../../openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jdk.jsobject.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../../openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.input.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../../openjfx-24_windows-x64_bin-sdk/javafx-sdk-24/lib/jfx.incubator.richtext.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../gson-2.10.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

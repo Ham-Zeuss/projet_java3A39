@@ -1,24 +1,34 @@
 package Controller.Oumaima;
 
 import entite.Oumaima.Quiz;
+import entite.Oumaima.QuizResult;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import service.Oumaima.QuizResultService;
 import service.Oumaima.QuizService;
-import javafx.scene.web.WebView;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -31,21 +41,28 @@ public class affichageQuizcontroller implements Initializable {
     private Button addQuizButton;
 
     @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
     private FlowPane quizContainer;
 
     private QuizService quizService;
+    private QuizResultService quizResultService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         quizService = new QuizService();
+        quizResultService = new QuizResultService();
+        setupQuizContainer();
         displayQuizzes(quizService.readAll());
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterQuizzes(newValue);
         });
+    }
+
+    private void setupQuizContainer() {
+        quizContainer.setHgap(25);
+        quizContainer.setVgap(35);
+        quizContainer.setAlignment(Pos.TOP_CENTER);
+        quizContainer.setPrefWrapLength(1900); // Pour 3 cartes : (600*3) + (25*2) = 1850, arrondi à 1900
     }
 
     private void displayQuizzes(List<Quiz> quizzes) {
@@ -56,27 +73,32 @@ public class affichageQuizcontroller implements Initializable {
     }
 
     private VBox createQuizCard(Quiz quiz) {
-        VBox card = new VBox(12);
-        card.setPrefWidth(500);
-        card.setPadding(new javafx.geometry.Insets(20));
-        card.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 3);");
-        card.getStyleClass().add("quiz-card");
+        VBox card = new VBox(15);
+        card.setPrefSize(600, 400); // Taille rectangulaire horizontale
+        card.setMaxSize(600, 400);
+        card.setPadding(new Insets(20));
+        card.getStyleClass().add("card");
+
+        VBox content = new VBox(15);
+        content.getStyleClass().add("content");
 
         Label titleLabel = new Label(quiz.getTitle());
-        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;");
-        titleLabel.setWrapText(true);
+        titleLabel.getStyleClass().add("heading");
 
-        Label courseLabel = new Label("Cours: " + (quiz.getCourse() != null ? quiz.getCourse().getTitle() : "Non défini"));
-        courseLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
+        String description = String.format("Cours: %s\nDurée: %d min\nNote: %.1f",
+                quiz.getCourse() != null ? quiz.getCourse().getTitle() : "Non défini",
+                quiz.getDuration(),
+                quiz.getNote());
+        Label descLabel = new Label(description);
+        descLabel.getStyleClass().add("para");
 
-        Label durationLabel = new Label("Durée: " + quiz.getDuration() + " min");
-        durationLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
-
-        Label noteLabel = new Label("Note: " + quiz.getNote());
-        noteLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4a5568;");
+        HBox buttonContainer = new HBox(20); // Espacement accru
+        buttonContainer.getStyleClass().add("button-container");
+        buttonContainer.setAlignment(Pos.CENTER); // Centrer les boutons
 
         Button deleteButton = new Button("Supprimer");
         deleteButton.getStyleClass().add("delete-button");
+        deleteButton.setPrefWidth(120); // Largeur augmentée
         deleteButton.setOnAction(event -> {
             quizService.delete(quiz);
             quizContainer.getChildren().remove(card);
@@ -84,17 +106,25 @@ public class affichageQuizcontroller implements Initializable {
 
         Button updateButton = new Button("Modifier");
         updateButton.getStyleClass().add("update-button");
+        updateButton.setPrefWidth(120);
         updateButton.setOnAction(event -> goToUpdateQuiz(quiz));
 
-        Button viewQuestionsButton = new Button("Voir les questions");
+        Button viewQuestionsButton = new Button("Questions");
         viewQuestionsButton.getStyleClass().add("view-button");
+        viewQuestionsButton.setPrefWidth(120);
         viewQuestionsButton.setOnAction(event -> goToQuestionList(quiz.getId()));
 
-        HBox buttonContainer = new HBox(updateButton, deleteButton, viewQuestionsButton);
-        buttonContainer.setSpacing(10);
-        buttonContainer.setStyle("-fx-alignment: center;");
+        Button viewStatsButton = new Button("Statistiques");
+        viewStatsButton.getStyleClass().add("view-button");
+        viewStatsButton.setPrefWidth(120);
+        viewStatsButton.setOnAction(event -> viewStatistics(quiz));
 
-        card.getChildren().addAll(titleLabel, courseLabel, durationLabel, noteLabel, buttonContainer);
+        buttonContainer.getChildren().addAll(updateButton, deleteButton, viewQuestionsButton, viewStatsButton);
+        content.getChildren().addAll(titleLabel, descLabel, buttonContainer);
+        card.getChildren().add(content);
+
+        card.setOnMouseClicked(event -> goToQuestionList(quiz.getId()));
+
         return card;
     }
 
@@ -106,62 +136,202 @@ public class affichageQuizcontroller implements Initializable {
         displayQuizzes(filteredQuizzes);
     }
 
+    private void viewStatistics(Quiz quiz) {
+        try {
+            List<QuizResult> quizResults = quizResultService.readAll().stream()
+                    .filter(result -> result.getQuiz().getId() == quiz.getId())
+                    .collect(Collectors.toList());
+
+            if (quizResults.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aucune donnée disponible pour les statistiques de ce quiz.");
+                alert.showAndWait();
+                return;
+            }
+
+            Stage statsStage = new Stage();
+            statsStage.initModality(Modality.APPLICATION_MODAL);
+            statsStage.setTitle("Statistiques du Quiz : " + quiz.getTitle());
+
+            // Conteneur principal avec style de carte
+            VBox statsContainer = new VBox(20);
+            statsContainer.setPadding(new Insets(20));
+            statsContainer.getStyleClass().add("card"); // Appliquer le style des cartes
+            statsContainer.setPrefWidth(600); // Largeur raisonnable pour le popup
+            statsContainer.setAlignment(Pos.CENTER);
+
+            // Titre avec style heading
+            Label titleLabel = new Label("Statistiques pour " + quiz.getTitle());
+            titleLabel.getStyleClass().add("heading");
+
+            // Conteneur de contenu avec style content
+            VBox statsContent = new VBox(15);
+            statsContent.getStyleClass().add("content");
+
+            int attemptCount = quizResults.size();
+            double averageScore = quizResults.stream()
+                    .mapToDouble(QuizResult::getNote)
+                    .average()
+                    .orElse(0.0);
+            Map<Float, Long> scoreDistribution = quizResults.stream()
+                    .collect(Collectors.groupingBy(QuizResult::getNote, Collectors.counting()));
+            long uniqueStudents = quizResults.stream()
+                    .filter(result -> result.getUser() != null)
+                    .map(result -> result.getUser().getId())
+                    .distinct()
+                    .count();
+
+            // Carte interne pour les stats textuelles
+            VBox quizStatsCard = new VBox(10);
+            quizStatsCard.getStyleClass().add("stats-card");
+
+            Label quizLabel = new Label("Quiz : " + quiz.getTitle());
+            quizLabel.getStyleClass().add("para"); // Style para pour cohérence
+
+            HBox attemptsRow = new HBox(8);
+            attemptsRow.getStyleClass().add("stats-row");
+            Label attemptsLabel = new Label("\uD83D\uDCCB Nombre de tentatives : " + attemptCount);
+            attemptsLabel.getStyleClass().add("para");
+            attemptsRow.getChildren().add(attemptsLabel);
+
+            HBox averageRow = new HBox(8);
+            averageRow.getStyleClass().add("stats-row");
+            Label averageLabel = new Label("\uD83C\uDFC6 Note moyenne : " + String.format("%.2f", averageScore));
+            averageLabel.getStyleClass().add("para");
+            averageRow.getChildren().add(averageLabel);
+
+            HBox distributionRow = new HBox(8);
+            distributionRow.getStyleClass().add("stats-row");
+            Label distributionLabel = new Label("\uD83D\uDCCA Répartition des notes : " + scoreDistribution.entrySet().stream()
+                    .map(e -> "Note " + e.getKey() + " : " + e.getValue() + " fois")
+                    .collect(Collectors.joining(", ")));
+            distributionLabel.getStyleClass().add("para");
+            distributionRow.getChildren().add(distributionLabel);
+
+            HBox studentsRow = new HBox(8);
+            studentsRow.getStyleClass().add("stats-row");
+            Label studentsLabel = new Label("\uD83D\uDC65 Nombre d'étudiants : " + uniqueStudents);
+            studentsLabel.getStyleClass().add("para");
+            studentsRow.getChildren().add(studentsLabel);
+
+            quizStatsCard.getChildren().addAll(quizLabel, attemptsRow, averageRow, distributionRow, studentsRow);
+            statsContent.getChildren().add(quizStatsCard);
+
+            // Graphique en barres
+            CategoryAxis xAxis = new CategoryAxis();
+            NumberAxis yAxis = new NumberAxis();
+            xAxis.setLabel("Note");
+            yAxis.setLabel("Nombre de tentatives");
+
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setTitle("Répartition des notes (Barres)");
+            barChart.setPrefHeight(200);
+            barChart.getStyleClass().add("chart");
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Notes");
+
+            for (Map.Entry<Float, Long> entry : scoreDistribution.entrySet()) {
+                series.getData().add(new XYChart.Data<>(String.valueOf(entry.getKey()), entry.getValue()));
+            }
+
+            barChart.getData().add(series);
+            barChart.setLegendVisible(false);
+
+            // Graphique circulaire
+            PieChart pieChart = new PieChart();
+            pieChart.setTitle("Répartition des notes (Circulaire)");
+            pieChart.setPrefHeight(200);
+            pieChart.getStyleClass().add("pie-chart");
+
+            for (Map.Entry<Float, Long> entry : scoreDistribution.entrySet()) {
+                pieChart.getData().add(new PieChart.Data("Note " + entry.getKey(), entry.getValue()));
+            }
+
+            pieChart.setLegendVisible(true);
+
+            statsContent.getChildren().addAll(barChart, pieChart);
+            statsContainer.getChildren().addAll(titleLabel, statsContent);
+
+            Scene statsScene = new Scene(statsContainer, 600, 650);
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (cssUrl != null) {
+                statsScene.getStylesheets().add(cssUrl.toExternalForm());
+            } else {
+                System.out.println("Erreur : Fichier CSS oumaimastyle.css non trouvé.");
+            }
+
+            statsStage.setScene(statsScene);
+            statsStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des statistiques : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+
     private void goToUpdateQuiz(Quiz quiz) {
         try {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
-
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            mainContent.getChildren().add(headerImageView);
 
-            // Load body (updateQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuiz.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /OumaimaFXML/updateQuiz.fxml introuvable");
+            }
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
-            // Set controller data
             UpdateQuizController controller = bodyLoader.getController();
             controller.setQuizToUpdate(quiz);
 
-            // Load footer.html
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
             }
-            footerWebView.setPrefSize(1000, 830);
-            mainContent.getChildren().add(footerWebView);
+            mainContent.getChildren().add(footerImageView);
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 600, 400);
-            URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
-            }
-            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
-            if (userTitlesCssUrl != null) {
-                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
             }
 
             stage.setScene(scene);
@@ -179,54 +349,61 @@ public class affichageQuizcontroller implements Initializable {
         try {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
-
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            mainContent.getChildren().add(headerImageView);
 
-            // Load body (addQuiz.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/addQuiz.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /OumaimaFXML/addQuiz.fxml introuvable");
+            }
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
-            // Load footer.html
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
             }
-            footerWebView.setPrefSize(1000, 830);
-            mainContent.getChildren().add(footerWebView);
+            mainContent.getChildren().add(footerImageView);
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 600, 400);
-            URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
-            }
-            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
-            if (userTitlesCssUrl != null) {
-                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
             }
 
             stage.setScene(scene);
@@ -243,58 +420,64 @@ public class affichageQuizcontroller implements Initializable {
         try {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header.fxml
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
-            mainContent.getChildren().add(headerFxmlContent);
-
-            // Load header.html
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
             }
-            headerWebView.setPrefSize(1000, 490);
-            mainContent.getChildren().add(headerWebView);
+            mainContent.getChildren().add(headerImageView);
 
-            // Load body (afficherQuestions.fxml)
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/afficherQuestions.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /OumaimaFXML/afficherQuestions.fxml introuvable");
+            }
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 600; -fx-pref-height: 600; -fx-max-height: 600;");
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
-            // Set controller data
             AfficherQuestionsController controller = bodyLoader.getController();
             controller.setQuizId(quizId);
 
-            // Load footer.html
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
             }
-            footerWebView.setPrefSize(1000, 830);
-            mainContent.getChildren().add(footerWebView);
+            mainContent.getChildren().add(footerImageView);
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 600, 400);
-            URL cssUrl = getClass().getResource("/OumaimaFXML/styles.css");
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
-            }
-            URL userTitlesCssUrl = getClass().getResource("/css/UserTitlesStyle.css");
-            if (userTitlesCssUrl != null) {
-                scene.getStylesheets().add(userTitlesCssUrl.toExternalForm());
             }
 
             stage.setScene(scene);
@@ -304,6 +487,17 @@ public class affichageQuizcontroller implements Initializable {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des questions : " + e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    public QuizService getQuizService() {
+        return quizService;
+    }
+
+    public void displayQuizzes1(List<Quiz> quizzes) {
+        quizContainer.getChildren().clear();
+        for (Quiz quiz : quizzes) {
+            quizContainer.getChildren().add(createQuizCard(quiz));
         }
     }
 }

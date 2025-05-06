@@ -24,12 +24,13 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public void createPst(Cours cours) {
-        String requete = "INSERT INTO cours (title, module_id, pdf_name, updated_at) VALUES (?, ?, ?, ?)";
+        String requete = "INSERT INTO cours (title, module_id, pdf_name, user_id, updated_at) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(requete)) {
             pst.setString(1, cours.getTitle());
             pst.setInt(2, cours.getModuleId().getId());
             pst.setString(3, cours.getPdfName());
-            pst.setTimestamp(4, Timestamp.valueOf(cours.getUpdatedAt()));
+            pst.setInt(4, cours.getUserId()); // Add the user_id field
+            pst.setTimestamp(5, Timestamp.valueOf(cours.getUpdatedAt()));
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -38,14 +39,25 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public void delete(Cours cours) {
+        int moduleId = cours.getModuleId().getId(); // Get module ID before deletion
+
         String requete = "DELETE FROM cours WHERE id = ?";
+
         try (PreparedStatement pst = cnx.prepareStatement(requete)) {
             pst.setInt(1, cours.getId());
-            pst.executeUpdate();
+            int rowsDeleted = pst.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                ModuleService moduleService = new ModuleService();
+                moduleService.decrementNombreCours(moduleId);
+                System.out.println("Successfully deleted course and decremented nombre_cours for module ID: " + moduleId);
+            }
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error deleting course", e);
         }
     }
+
 
     @Override
     public void update(Cours cours) {
@@ -69,11 +81,13 @@ public class CoursService implements IService<Cours> {
             while (rs.next()) {
                 Module module = new Module();
                 module.setId(rs.getInt("module_id"));
+                Integer userId = rs.getObject("user_id") != null ? rs.getInt("user_id") : null; // Handle NULL values for user_id
                 list.add(new Cours(
                         rs.getInt("id"),
                         rs.getString("title"),
                         module,
                         rs.getString("pdf_name"),
+                        userId, // Pass the user_id
                         rs.getTimestamp("updated_at").toLocalDateTime()
                 ));
             }
@@ -92,11 +106,13 @@ public class CoursService implements IService<Cours> {
             if (rs.next()) {
                 Module module = new Module();
                 module.setId(rs.getInt("module_id"));
+                Integer userId = rs.getObject("user_id") != null ? rs.getInt("user_id") : null; // Handle NULL values for user_id
                 return new Cours(
                         rs.getInt("id"),
                         rs.getString("title"),
                         module,
                         rs.getString("pdf_name"),
+                        userId, // Pass the user_id
                         rs.getTimestamp("updated_at").toLocalDateTime()
                 );
             }
@@ -115,24 +131,24 @@ public class CoursService implements IService<Cours> {
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String title = rs.getString("title");
-                int moduleIdValue = rs.getInt("module_id"); // Assuming moduleId is stored as an integer
+                int moduleIdValue = rs.getInt("module_id");
                 String pdfName = rs.getString("pdf_name");
+                Integer userId = rs.getObject("user_id") != null ? rs.getInt("user_id") : null; // Handle NULL values for user_id
                 Timestamp updatedAtTimestamp = rs.getTimestamp("updated_at");
 
                 // Handle NULL values for updatedAt
                 LocalDateTime updatedAt = (updatedAtTimestamp != null) ? updatedAtTimestamp.toLocalDateTime() : null;
 
-                // Create a Module object (replace with actual logic if needed)
+                // Create a Module object
                 Module module = new Module();
                 module.setId(moduleIdValue);
 
                 // Create and add the Cours object
-                Cours cours = new Cours(id, title, module, pdfName, updatedAt);
+                Cours cours = new Cours(id, title, module, pdfName, userId, updatedAt); // Pass the user_id
                 coursList.add(cours);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return coursList;
-    }
-}
+    }}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.Ham.PexelController"
+      stylesheets="/css/Pexel.css"
+      alignment="CENTER"
+      spacing="30"
+      style="-fx-padding: 30; -fx-background-color: linear-gradient(to bottom, #f0f8ff, #e6f2ff);"
+      fx:id="gameContainer">
+
+    <Label text="Pexels Matching Game" styleClass="game-title"/>
+
+    <HBox alignment="CENTER" spacing="20">
+        <Button fx:id="easyModeButton" text="Easy Mode" styleClass="mode-button"/>
+        <Button fx:id="hardModeButton" text="Hard Mode" styleClass="mode-button"/>
+        <Button fx:id="restartButton" text="Restart" styleClass="mode-button"/>
+    </HBox>
+
+    <VBox alignment="CENTER" spacing="20">
+        <Label text="Match the words with their pictures" styleClass="instruction-label"/>
+
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="Words:" styleClass="section-header"/>
+            <FlowPane fx:id="wordsContainer" hgap="20" vgap="20" alignment="CENTER"
+                      prefWrapLength="800" style="-fx-padding: 10;"/>
+        </VBox>
+
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="Pictures:" styleClass="section-header"/>
+            <FlowPane fx:id="imagesContainer" hgap="20" vgap="20" alignment="CENTER"
+                      prefWrapLength="800" style="-fx-padding: 10;"/>
+        </VBox>
+    </VBox>
+
+    <HBox alignment="CENTER" spacing="30">
+        <Label fx:id="timerLabel" text="Time: 0s" styleClass="status-label"/>
+        <Label fx:id="attemptsLabel" text="Attempts: 0" styleClass="status-label"/>
+        <Label fx:id="scoreLabel" text="Score: 0" styleClass="status-label"/>
+    </HBox>
+</VBox>

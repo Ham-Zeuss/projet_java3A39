@@ -3,16 +3,25 @@ package org.example;
 import entite.User;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import service.UserService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserController {
     @FXML
@@ -29,6 +38,8 @@ public class UserController {
     private ListView<String> rolesList;
     @FXML
     private CheckBox activeCheckBox;
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<User> userTable;
     @FXML
@@ -47,6 +58,20 @@ public class UserController {
     private Button addButton;
     @FXML
     private Button updateButton;
+    @FXML
+    private Label totalUsersLabel;
+    @FXML
+    private Label activeUsersLabel;
+    @FXML
+    private Label roleUsersLabel;
+    @FXML
+    private PieChart rolesPieChart;
+    @FXML
+    private VBox totalUsersCard;
+    @FXML
+    private VBox activeInactiveCard;
+    @FXML
+    private VBox roleUsersCard;
 
     @FXML
     private TableColumn<User, Integer> idColumn;
@@ -62,14 +87,12 @@ public class UserController {
     private TableColumn<User, Boolean> activeColumn;
 
     private final UserService userService = new UserService();
-    private User currentUser; // Assume this is set to the logged-in user
+    private User currentUser;
 
     @FXML
     public void initialize() {
         rolesList.setItems(FXCollections.observableArrayList(
-                "ROLE_MEDECIN",
-                "ROLE_ENSEIGNANT",
-                "ROLE_PARENT"
+                "ROLE_MEDECIN", "ROLE_ENSEIGNANT", "ROLE_PARENT"
         ));
         rolesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -83,6 +106,8 @@ public class UserController {
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         loadUsers();
         setupValidation();
+        setupSearch();
+        setupStatistics();
         userTable.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
@@ -92,6 +117,95 @@ public class UserController {
 
         currentUser = new User();
         currentUser.setRoles(new ArrayList<>(List.of("ROLE_ADMIN")));
+        configurePieChart();
+    }
+
+    private void setupStatistics() {
+        updateStatistics();
+    }
+
+    private void updateStatistics() {
+        List<User> users = userService.getAllUsers();
+
+        // Total Users
+        totalUsersLabel.setText(String.valueOf(users.size()));
+
+        // Active/Inactive Users
+        long activeCount = users.stream().filter(User::isActive).count();
+        long inactiveCount = users.size() - activeCount;
+        activeUsersLabel.setText(activeCount + " / " + inactiveCount);
+
+        // Users by Role (e.g., ROLE_MEDECIN)
+        long roleCount = users.stream()
+                .filter(user -> user.getRoles().contains("ROLE_MEDECIN"))
+                .count();
+        roleUsersLabel.setText(String.valueOf(roleCount));
+
+        // Role Distribution
+        Map<String, Integer> roleDistribution = new HashMap<>();
+        for (User user : users) {
+            for (String role : user.getRoles()) {
+                roleDistribution.put(role, roleDistribution.getOrDefault(role, 0) + 1);
+            }
+        }
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        roleDistribution.forEach((role, count) -> {
+            PieChart.Data data = new PieChart.Data(role, count);
+            pieChartData.add(data);
+        });
+        rolesPieChart.setData(pieChartData);
+    }
+    private void configurePieChart() {
+        // Ensure labels are visible and show role names
+        rolesPieChart.setLabelsVisible(true);
+        rolesPieChart.setLabelLineLength(10); // Shorten the label lines for better appearance
+        rolesPieChart.setLegendVisible(true); // Show legend for clarity
+
+        // Customize each slice to ensure the role name is displayed
+        for (PieChart.Data data : rolesPieChart.getData()) {
+            data.getNode().setStyle("-fx-pie-label-visible: true;");
+            // Optionally, set the name again to ensure it’s displayed (redundant but ensures compatibility)
+            data.nameProperty().set(data.getName());
+        }
+    }
+
+    @FXML
+    private void handleTotalUsersClick() {
+        loadUsers();
+        searchField.clear();
+    }
+
+    @FXML
+    private void handleActiveInactiveClick() {
+        List<User> activeUsers = userService.getAllUsers().stream()
+                .filter(User::isActive)
+                .collect(Collectors.toList());
+        userTable.getItems().setAll(activeUsers);
+        searchField.clear();
+    }
+
+    @FXML
+    private void handleRoleUsersClick() {
+        List<User> roleUsers = userService.getAllUsers().stream()
+                .filter(user -> user.getRoles().contains("ROLE_MEDECIN"))
+                .collect(Collectors.toList());
+        userTable.getItems().setAll(roleUsers);
+        searchField.clear();
+    }
+
+    private void setupSearch() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterUsers(newValue);
+        });
+    }
+
+    private void filterUsers(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            loadUsers();
+        } else {
+            List<User> filteredUsers = userService.searchUsers(query.trim());
+            userTable.getItems().setAll(filteredUsers);
+        }
     }
 
     private void setupValidation() {
@@ -189,6 +303,7 @@ public class UserController {
 
     private void loadUsers() {
         userTable.getItems().setAll(userService.getAllUsers());
+        updateStatistics();
     }
 
     private void populateFormWithUser(User user) {
@@ -199,7 +314,6 @@ public class UserController {
         confirmPasswordField.setText("");
         activeCheckBox.setSelected(user.isActive());
 
-        // Disable password fields unless current user is admin
         boolean isAdmin = userService.isAdmin(currentUser);
         passwordField.setEditable(isAdmin);
         confirmPasswordField.setEditable(isAdmin);
@@ -219,10 +333,16 @@ public class UserController {
 
     @FXML
     private void handleAddUser() {
+        String email = emailField.getText();
+        if (userService.emailExists(email)) {
+            showAlert("Erreur", "Cet email est déjà utilisé.");
+            return;
+        }
+
         User user = new User();
         user.setNom(nomField.getText());
         user.setPrenom(prenomField.getText());
-        user.setEmail(emailField.getText());
+        user.setEmail(email);
         user.setPassword(passwordField.getText());
         user.setRoles(new ArrayList<>(rolesList.getSelectionModel().getSelectedItems()));
         user.setActive(activeCheckBox.isSelected());
@@ -241,9 +361,15 @@ public class UserController {
     private void handleUpdateUser() {
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
+            String newEmail = emailField.getText();
+            if (!newEmail.equals(selectedUser.getEmail()) && userService.emailExists(newEmail)) {
+                showAlert("Erreur", "Cet email est déjà utilisé.");
+                return;
+            }
+
             selectedUser.setNom(nomField.getText());
             selectedUser.setPrenom(prenomField.getText());
-            selectedUser.setEmail(emailField.getText());
+            selectedUser.setEmail(newEmail);
             selectedUser.setRoles(new ArrayList<>(rolesList.getSelectionModel().getSelectedItems()));
             selectedUser.setActive(activeCheckBox.isSelected());
 
@@ -264,10 +390,23 @@ public class UserController {
     }
 
     @FXML
+    private void handleShowNotifications() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/notifications.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Notifications");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            showAlert("Erreur", "Impossible d'ouvrir la vue des notifications: " + e.getMessage());
+        }
+    }
+
+    @FXML
     private void handleDeleteUser() {
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
-            // Vérifier si l'utilisateur a des cours associés
             if (userService.hasAssociatedCours(selectedUser.getId())) {
                 showAlert("Suppression impossible",
                         "Cet utilisateur a des cours associés. Veuillez supprimer ou réassigner les cours avant de supprimer l'utilisateur.");

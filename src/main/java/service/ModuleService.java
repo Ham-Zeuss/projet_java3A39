@@ -3,7 +3,6 @@ package service;
 import entite.Cours;
 import entite.Module;
 import util.DataSource;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,65 @@ public class ModuleService implements IService<Module> {
 
     public ModuleService() {
         cnx = DataSource.getInstance().getConnection();
+    }
+
+    public List<Module> searchModulesByTitle(String searchTerm) {
+        List<Module> result = new ArrayList<>();
+        String query = "SELECT * FROM modules WHERE LOWER(title) LIKE ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setString(1, "%" + searchTerm.toLowerCase() + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Module module = new Module(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("nombre_cours"),
+                        rs.getString("level")
+                );
+                result.add(module);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    // Method to increment nombreCours by 1
+    // Method to increment nombreCours by 1
+    public void incrementNombreCours(int moduleId) {
+        String sql = "UPDATE module SET nombreCours = nombreCours + 1 WHERE id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, moduleId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void decrementNombreCours(int moduleId) {
+        System.out.println("Attempting to decrement course count for module ID: " + moduleId);
+
+        String sql = "UPDATE module SET nombre_cours = CASE " +
+                "WHEN nombre_cours > 0 THEN nombre_cours - 1 " +
+                "ELSE 0 END WHERE id = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, moduleId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                System.out.println("No module found with ID: " + moduleId);
+            } else {
+                System.out.println("Successfully decremented course count.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

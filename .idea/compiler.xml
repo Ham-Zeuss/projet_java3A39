@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="projet_java_gestion_evaluation" />
-        <module name="ProjetPiDev3A39" />
       </profile>
     </annotationProcessing>
   </component>
