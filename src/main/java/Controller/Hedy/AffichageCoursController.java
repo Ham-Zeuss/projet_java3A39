@@ -1,4 +1,5 @@
 package Controller.Hedy;
+import Controller.Oumaima.affichageEtudiantQuiz;
 import entite.Rating;
 import entite.Cours;
 import entite.Module;
@@ -29,9 +30,7 @@ import entite.Oumaima.Quiz;
 import Controller.Oumaima.affichageQuizcontroller;
 import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
-
-
-
+import service.Oumaima.QuizService;
 
 
 public class AffichageCoursController {
@@ -161,7 +160,7 @@ public class AffichageCoursController {
         card.setAlignment(Pos.TOP_LEFT);
         card.setPrefSize(300, 180);
 
-        // ✅ Apply only CSS class styling
+        // Apply CSS class styling
         card.getStyleClass().add("module-card");
 
         // Title
@@ -180,7 +179,7 @@ public class AffichageCoursController {
         Label updatedAtLabel = new Label(updatedAtText);
         updatedAtLabel.getStyleClass().add("para");
 
-        // Stars Box
+        // Stars Box (only for parents)
         Session session = Session.getInstance();
         String userRole = session.getRole();
         int currentUserId = session.getUserId();
@@ -217,30 +216,47 @@ public class AffichageCoursController {
         Button editButton = new Button("Modifier");
         Button deleteButton = new Button("Supprimer");
 
-        
-        Button viewQuizButton = new Button("Voir Quiz"); // New button
+        // Always show "Voir Quiz" button
+        Button viewQuizButton = new Button("Voir Quiz");
         viewQuizButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+        viewQuizButton.getStyleClass().add("button-view-quiz");
+
         editButton.getStyleClass().add("button-Enregistrer");
         deleteButton.getStyleClass().add("button-Reinitialiser");
 
-        boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
-        if (isCourseCreatedByUser) {
-            buttonBox.getChildren().addAll(editButton, deleteButton,viewQuizButton);
-        } else {
-            buttonBox.setVisible(false);
-            buttonBox.setManaged(false);
+        // Show "Voir Quiz" if user is ROLE_PARENT or ROLE_ENSEIGNANT
+        if ("ROLE_PARENT".equals(userRole) || "ROLE_ENSEIGNANT".equals(userRole)) {
+            buttonBox.getChildren().add(viewQuizButton);
         }
 
+        // Show Edit/Delete buttons only to the course owner
+        boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
+        if (isCourseCreatedByUser) {
+            buttonBox.getChildren().addAll(editButton, deleteButton);
+        }
+
+        // Ensure buttonBox visibility
+        buttonBox.setVisible(!buttonBox.getChildren().isEmpty());
+        buttonBox.setManaged(!buttonBox.getChildren().isEmpty());
+
+        // Actions
         editButton.setOnAction(e -> editCours(cours));
         deleteButton.setOnAction(e -> {
             coursService.delete(cours);
             loadCoursCards();
         });
 
-        card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, starsBox, buttonBox);
-//   code li zedtou oumaimaa
-        viewQuizButton.setOnAction(e -> goToQuizList(cours)); // Attach action
+        // 🔥 Attach different actions to "Voir Quiz" based on role
+        viewQuizButton.setOnAction(e -> {
+            if ("ROLE_PARENT".equals(userRole)) {
+                goToQuizList2(cours); // Parent-specific quiz list
+            } else if ("ROLE_ENSEIGNANT".equals(userRole)) {
+                goToQuizList(cours); // Teacher-specific quiz list
+            }
+        });
 
+        // Add everything to the card
+        card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, starsBox, buttonBox);
 
         return card;
     }
@@ -336,6 +352,39 @@ public class AffichageCoursController {
             stage.setTitle("Quizzes du Cours: " + cours.getTitle());
         } catch (IOException e) {
             System.err.println("Error loading affichageQuiz.fxml: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des quizzes: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    private void goToQuizList2(Cours cours) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass filtered quizzes
+            affichageEtudiantQuiz controller = loader.getController();
+            if (controller == null) {
+                throw new IllegalStateException("Controller is null for affichageEtudiantQuiz.fxml");
+            }
+
+            // Load and filter quizzes by course ID
+            QuizService quizService = new QuizService();
+            List<Quiz> allQuizzes = quizService.readAll();
+            List<Quiz> filteredQuizzes = allQuizzes.stream()
+                    .filter(quiz -> quiz.getCourse() != null && quiz.getCourse().getId() == cours.getId())
+                    .collect(Collectors.toList());
+
+            // ✅ Pass filtered quizzes to the controller
+            controller.displayQuizzes1(filteredQuizzes);
+
+            // Open the scene
+            Stage stage = (Stage) coursGrid.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Quizzes du Cours: " + cours.getTitle());
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error loading affichageEtudiantQuiz.fxml: " + e.getMessage());
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des quizzes: " + e.getMessage());
             alert.showAndWait();
         }

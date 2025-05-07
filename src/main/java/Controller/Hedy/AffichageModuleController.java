@@ -56,19 +56,35 @@ public class AffichageModuleController {
             }
         }
     }
+
     private void showModuleCourses(Module module) {
         try {
+            if (module == null) {
+                throw new IllegalArgumentException("Module invalide");
+            }
+
             Stage stage = (Stage) modulesGrid.getScene().getWindow();
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load Header Image
+            // 🔐 Check Role Before Loading Navbar
+            String userRole = getCurrentUserRole();
+
+            // 1. Conditionally Load header.fxml (Navbar)
+            if ("ROLE_PARENT".equals(userRole)) {
+                FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                VBox headerFxmlContent = headerLoader.load();
+                headerFxmlContent.setPrefSize(1000, 100);
+                mainContent.getChildren().add(headerFxmlContent);
+            }
+
+            // 2. Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
+                headerImageView.setFitWidth(1920);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
@@ -82,26 +98,23 @@ public class AffichageModuleController {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // Load the Cours Page (Body)
+            // 3. Load body content
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursFront.fxml"));
-            if (loader.getLocation() == null) {
-                throw new IllegalStateException("Fichier /HedyFXML/AffichageCoursFront.fxml introuvable");
-            }
-
             Parent bodyContent = loader.load();
+
             AffichageCoursController coursController = loader.getController();
             coursController.setModule(module); // Pass selected module to controller
 
-            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
-            // Load Footer Image
+            // 4. Load footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
+                footerImageView.setFitWidth(1920);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
                 Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
@@ -118,18 +131,28 @@ public class AffichageModuleController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            // Create Scene
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            Scene scene = new Scene(scrollPane, 1920, 1080);
 
-            // Load CSS
-            URL cssUrl = getClass().getResource("/css/your-cours-style.css"); // Replace with actual CSS path
-            if (cssUrl != null) {
-                scene.getStylesheets().add(cssUrl.toExternalForm());
-            } else {
-                System.err.println("CSS file not found: /css/your-cours-style.css");
-            }
+            // Load CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
 
-            // Set Scene on Stage
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
+
+            URL otherCss = getClass().getResource("/css/affichageprofilefront.css");
+            if (otherCss != null) scene.getStylesheets().add(otherCss.toExternalForm());
+
+            URL appointmentsCss = getClass().getResource("/css/appointments.css");
+            if (appointmentsCss != null) scene.getStylesheets().add(appointmentsCss.toExternalForm());
+
+            URL gooButtonCss = getClass().getResource("/css/GooButton.css");
+            if (gooButtonCss != null) scene.getStylesheets().add(gooButtonCss.toExternalForm());
+
+            URL gamesMenuStylingCss = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStylingCss != null) scene.getStylesheets().add(gamesMenuStylingCss.toExternalForm());
+
+            // Set scene
             stage.setScene(scene);
             stage.setTitle("Cours: " + module.getTitle());
             stage.show();
@@ -141,34 +164,31 @@ public class AffichageModuleController {
         }
     }
 
+    // Helper method to get current user role from Session
+    private String getCurrentUserRole() {
+        return entite.Session.getInstance().getRole();
+    }
+
     private VBox createModuleCard(Module module) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.TOP_LEFT);
         card.setPrefSize(300, 180);
-
-        // ✅ Apply CSS class only — no inline styles!
         card.getStyleClass().add("module-card");
 
-        // Title
         Label titleLabel = new Label(module.getTitle());
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
-        titleLabel.getStyleClass().add("heading"); // Use .heading from CSS
+        titleLabel.getStyleClass().add("heading");
 
-        // Description
         Label descLabel = new Label(module.getDescription());
         descLabel.setWrapText(true);
-        descLabel.getStyleClass().add("para"); // Use .para from CSS
+        descLabel.getStyleClass().add("para");
 
-        // Details
         HBox detailsBox = new HBox(10);
         Label countLabel = new Label(module.getNombreCours() + " cours");
         Label levelLabel = new Label("Niveau: " + module.getLevel());
         detailsBox.getChildren().addAll(countLabel, levelLabel);
 
-        // Click handler
         card.setOnMouseClicked(e -> showModuleCourses(module));
-
-        // Add all components to card
         card.getChildren().addAll(titleLabel, descLabel, detailsBox);
 
         return card;

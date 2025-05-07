@@ -197,5 +197,13 @@ public class affichageEtudiantQuiz implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
             alert.showAndWait();
         }
+
+    }
+    public void displayQuizzes1(List<Quiz> quizzes) {
+        quizContainer.getChildren().clear(); // Clear old cards
+
+        for (Quiz quiz : quizzes) {
+            quizContainer.getChildren().add(createQuizCard(quiz)); // Create and add new cards
+        }
     }
 }
