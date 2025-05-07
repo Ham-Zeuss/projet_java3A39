@@ -65,7 +65,7 @@ public class DisplayConsultationsController {
             System.out.println("ConsultationService initialized");
 
             // Configure addButton with icon
-            setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Consultation");
+            setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Consultation",true);
 
             // Configure table columns
             idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()));
@@ -102,7 +102,7 @@ public class DisplayConsultationsController {
                 private final Button editButton = new Button();
 
                 {
-                    setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Consultation");
+                    setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Consultation",false);
                 }
 
                 @Override
@@ -123,7 +123,7 @@ public class DisplayConsultationsController {
                 private final Button deleteButton = new Button();
 
                 {
-                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Consultation");
+                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Consultation",false);
                 }
 
                 @Override
@@ -153,16 +153,18 @@ public class DisplayConsultationsController {
         System.out.println("Exiting DisplayConsultationsController.initialize");
     }
 
-    private void setupButton(Button button, String iconUrl, String tooltipText) {
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
         try {
             ImageView icon = new ImageView(new Image(iconUrl));
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            button.setText("");
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
             button.setTooltip(new Tooltip(tooltipText));
             button.setMinSize(60, 60);
-            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            // Apply styling for larger, bold text and hand cursor
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent; ");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
@@ -170,6 +172,8 @@ public class DisplayConsultationsController {
             button.setText(tooltipText);
             button.setTooltip(new Tooltip(tooltipText));
             button.setMinSize(60, 60);
+            // Apply same styling in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;");
             button.getStyleClass().add("icon-button");
         }
     }

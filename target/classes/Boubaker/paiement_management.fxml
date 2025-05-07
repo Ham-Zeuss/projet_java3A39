@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import java.net.URL?>
+        <?import javafx.scene.layout.VBox?>
+        <?import javafx.scene.layout.HBox?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.Button?>
+        <?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.Boubaker.PaiementManagementController"
@@ -18,7 +18,7 @@
     <VBox spacing="10" alignment="TOP_LEFT" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;">
         <Label text="Orders" style="-fx-font-family: Arial; -fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #333333;" />
         <HBox spacing="10">
-            <Button fx:id="viewOrdersBtn" text="View Orders" style="-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5;" />
+            <Button fx:id="viewOrdersBtn" />
         </HBox>
     </VBox>
 
@@ -26,8 +26,8 @@
     <VBox spacing="10" alignment="TOP_LEFT" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;">
         <Label text="Packs" style="-fx-font-family: Arial; -fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #333333;" />
         <HBox spacing="10">
-            <Button fx:id="viewPacksBtn" text="View Packs" style="-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5;" />
-            <Button fx:id="addPackBtn" text="Add Pack" style="-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5;" />
+            <Button fx:id="viewPacksBtn" />
+            <Button fx:id="addPackBtn" />
         </HBox>
     </VBox>
 </VBox>

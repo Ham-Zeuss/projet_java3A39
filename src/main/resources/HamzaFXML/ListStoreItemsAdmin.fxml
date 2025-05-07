@@ -8,6 +8,7 @@
       fx:controller="Controller.Ham.ListStoreItemsAdminController">
     <stylesheets>
         <URL value="@/css/displayprofilesback.css"/>
+        <URL value="@/style.css"/>
     </stylesheets>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>

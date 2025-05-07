@@ -12,6 +12,7 @@
       prefWidth="900">
     <stylesheets>
         <URL value="@/css/dashboard-sidebar.css" />
+        <URL value="@/style.css"/>
     </stylesheets>
     <padding>
         <Insets bottom="20" left="20" right="20" top="20"/>

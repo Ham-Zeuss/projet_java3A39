@@ -41,7 +41,8 @@
             <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150.0" style="-fx-alignment: CENTER;"/>
         </columns>
         <stylesheets>
-            <URL value="@/css/displayprofilesback.css"/>
+
+            <URL value="@/style.css"/>
         </stylesheets>
     </TableView>
 

@@ -1,4 +1,5 @@
-package Controller.Oumaima;
+
+        package Controller.Oumaima;
 
 import entite.Oumaima.Quiz;
 import entite.Oumaima.Cours;
@@ -10,18 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-
 import test.Sidebar;
 import java.util.function.Consumer;
 import javafx.scene.layout.BorderPane;
@@ -29,10 +24,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 
-import Controller.Oumaima.addQuestionBackController;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 public class AddQuizBackendController {
 
@@ -53,6 +52,9 @@ public class AddQuizBackendController {
 
     @FXML
     private Button returnButton;
+
+    @FXML
+    private Button createButton;
 
     private final QuizService quizService = new QuizService();
     private final CoursService coursService = new CoursService();
@@ -83,6 +85,35 @@ public class AddQuizBackendController {
                 setText(empty || cours == null ? null : cours.getTitle());
             }
         });
+
+        // Configure buttons with icons and text
+        setupButton(createButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Create Quiz", true);
+        setupButton(returnButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Return", true);
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 120 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 120 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     @FXML
@@ -251,6 +282,7 @@ public class AddQuizBackendController {
                     stage,
                     () -> loadDashboard(stage),
                     () -> loadFXML(stage, "/User/index_user.fxml"),
+
                     () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                     () -> System.out.println("Logout clicked (implement logout logic here)"),
                     loadFXMLConsumer

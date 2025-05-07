@@ -40,11 +40,11 @@ public class AffichageCoursDashboardHedy {
             moduleTitleLabel.setText("Module: " + module.getTitle());
             loadCoursCards();
 
-            // Configure addButton with icon
+            // Configure addButton with icon and text
             Platform.runLater(() -> {
                 Button addButton = (Button) coursTable.getScene().lookup("#addButton");
                 if (addButton != null) {
-                    setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Course");
+                    setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Course", true);
                 }
             });
         }
@@ -81,8 +81,8 @@ public class AffichageCoursDashboardHedy {
             private final Button deleteButton = new Button();
 
             {
-                setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Course");
-                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Course");
+                setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Course", false);
+                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Course", false);
 
                 editButton.setOnAction(event -> {
                     Cours cours = getTableRow().getItem();
@@ -116,23 +116,27 @@ public class AffichageCoursDashboardHedy {
         coursTable.getItems().addAll(coursList);
     }
 
-    private void setupButton(Button button, String iconUrl, String tooltipText) {
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
         try {
             ImageView icon = new ImageView(new Image(iconUrl));
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            button.setText("");
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
             button.setTooltip(new Tooltip(tooltipText));
-            button.setMinSize(60, 60);
-            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.setMinSize(showText ? 120 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
             // Fallback: Set text if icon fails to load
             button.setText(tooltipText);
             button.setTooltip(new Tooltip(tooltipText));
-            button.setMinSize(60, 60);
+            button.setMinSize(showText ? 120 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         }
     }

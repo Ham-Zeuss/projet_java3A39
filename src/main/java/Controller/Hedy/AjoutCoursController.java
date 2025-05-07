@@ -47,29 +47,33 @@ public class AjoutCoursController {
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
-            setupButton(retourButton, "https://img.icons8.com/?size=100&id=85853&format=png&color=000000", "Return to Courses");
-            setupButton(selectPdfButton, "https://img.icons8.com/?size=100&id=115637&format=png&color=000000", "Select PDF File");
-            setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Add Course");
+            setupButton(retourButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Return to Courses", true);
+            setupButton(selectPdfButton, "https://img.icons8.com/?size=100&id=115637&format=png&color=000000", "Select PDF File", true);
+            setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Add Course", true);
         });
     }
 
-    private void setupButton(Button button, String iconUrl, String tooltipText) {
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
         try {
             ImageView icon = new ImageView(new Image(iconUrl));
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            button.setText("");
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
             button.setTooltip(new javafx.scene.control.Tooltip(tooltipText));
-            button.setMinSize(60, 60);
-            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
             // Fallback: Set text if icon fails to load
             button.setText(tooltipText);
             button.setTooltip(new javafx.scene.control.Tooltip(tooltipText));
-            button.setMinSize(60, 60);
+            button.setMinSize(showText ? 150 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         }
     }

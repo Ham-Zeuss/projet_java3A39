@@ -17,7 +17,8 @@
         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
     </padding>
     <stylesheets>
-        <URL value="@/css/reportedcomments.css"/>
+
+        <URL value="@/style.css"/>
     </stylesheets>
 
     <HBox alignment="CENTER" spacing="10.0">

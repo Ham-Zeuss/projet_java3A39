@@ -16,6 +16,7 @@
       spacing="10">
     <stylesheets>
         <URL value="@/css/displayprofilesback.css"/>
+        <URL value="@/style.css"/>
     </stylesheets>
 
     <!-- Title -->

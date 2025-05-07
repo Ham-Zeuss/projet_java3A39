@@ -11,6 +11,7 @@
       spacing="15">
     <stylesheets>
         <URL value="@/css/displayprofilesback.css"/>
+        <URL value="@/style.css"/>
     </stylesheets>
     <padding>
         <Insets top="20" bottom="20" left="20" right="20"/>
@@ -18,7 +19,7 @@
 
     <!-- Titre et bouton "Ajouter Quiz" -->
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Gestion des Quiz (Backend)"/>
+        <Label text="Gestion des Quiz"/>
         <Button fx:id="addQuizButton" styleClass="icon-button" onAction="#goToAddQuiz"/>
     </HBox>
 

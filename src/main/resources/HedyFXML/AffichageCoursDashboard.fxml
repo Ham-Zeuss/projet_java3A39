@@ -10,6 +10,7 @@
       prefHeight="600" prefWidth="1000">
     <stylesheets>
         <URL value="@/css/displayprofilesback.css"/>
+        <URL value="@/style.css"/>
     </stylesheets>
 
     <!-- Header with Module Title -->

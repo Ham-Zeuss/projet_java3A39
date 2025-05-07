@@ -9,11 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import service.CommandeService;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class ViewOrdersController {
 
@@ -44,12 +45,12 @@ public class ViewOrdersController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Edit");
-            private final Button deleteButton = new Button("Delete");
+            private final Button editButton = new Button();
+            private final Button deleteButton = new Button();
 
             {
-                editButton.setStyle("-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-background-radius: 5;");
-                deleteButton.setStyle("-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-background-radius: 5;");
+                setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit", true);
+                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete", true);
 
                 editButton.setOnAction(event -> {
                     Commande commande = getTableView().getItems().get(getIndex());
@@ -100,6 +101,31 @@ public class ViewOrdersController {
 
         ordersTable.setItems(commandes);
         loadOrders();
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 120 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 120 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     private void loadOrders() {
