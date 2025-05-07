@@ -2,8 +2,8 @@ package entite;
 
 public class Commentaire {
     private int id;
-    private User userId;
-    private int profileId; // Doit être un int, pas un Profile
+    private int userId; // Changed from User to int
+    private int profileId;
     private String comment;
     private int consultationId;
     private String reportReason;
@@ -22,11 +22,11 @@ public class Commentaire {
         this.id = id;
     }
 
-    public User getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

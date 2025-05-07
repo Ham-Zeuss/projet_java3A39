@@ -1,4 +1,6 @@
+
 package Controller.Hedy.Dahsboard;
+
 
 import entite.Module;
 import javafx.fxml.FXML;
@@ -78,8 +80,10 @@ public class EditModuleController {
     }
 
     @FXML
+
     private void cancel() {
         closePopup();
+
     }
 
     // Helper method to close the popup

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Boubaker.AddPackController"
+      alignment="CENTER" spacing="20" style="-fx-background-color: #F7F7F7;"
+      prefWidth="400">
+    <stylesheets>
+        <URL value="@/css/dashboard-sidebar.css" />
+    </stylesheets>
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <Label text="Add Pack" style="-fx-font-family: Arial; -fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333333;" />
+
+    <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;">
+        <Label text="Name" style="-fx-font-family: Arial; -fx-font-size: 14; -fx-text-fill: #333333;" />
+        <TextField fx:id="nameField" style="-fx-font-family: Arial; -fx-font-size: 12;" />
+        <Label fx:id="nameError" text="" style="-fx-text-fill: #C20114; -fx-font-family: Arial; -fx-font-size: 12;" />
+
+        <Label text="Price" style="-fx-font-family: Arial; -fx-font-size: 14; -fx-text-fill: #333333;" />
+        <TextField fx:id="priceField" style="-fx-font-family: Arial; -fx-font-size: 12;" />
+        <Label fx:id="priceError" text="" style="-fx-text-fill: #C20114; -fx-font-family: Arial; -fx-font-size: 12;" />
+
+        <Label text="Validity (Days)" style="-fx-font-family: Arial; -fx-font-size: 14; -fx-text-fill: #333333;" />
+        <TextField fx:id="validityField" style="-fx-font-family: Arial; -fx-font-size: 12;" />
+        <Label fx:id="validityError" text="" style="-fx-text-fill: #C20114; -fx-font-family: Arial; -fx-font-size: 12;" />
+
+        <Label text="Features" style="-fx-font-family: Arial; -fx-font-size: 14; -fx-text-fill: #333333;" />
+        <TextArea fx:id="featuresField" prefHeight="100" style="-fx-font-family: Arial; -fx-font-size: 12;" />
+        <Label fx:id="featuresError" text="" style="-fx-text-fill: #C20114; -fx-font-family: Arial; -fx-font-size: 12;" />
+
+        <Button fx:id="addButton" text="Add Pack" onAction="#handleSave" style="-fx-background-color: #C20114; -fx-text-fill: #FFFFFF; -fx-font-family: Arial; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5;" />
+    </VBox>
+</VBox>

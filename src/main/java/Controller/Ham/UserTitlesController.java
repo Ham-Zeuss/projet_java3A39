@@ -1,5 +1,6 @@
 package Controller.Ham;
 
+import entite.Session;
 import entite.Title;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,6 @@ public class UserTitlesController implements Initializable {
 
     private TitleService titleService;
     private UserService userService;
-    private static final int BUYER_ID = 14;
     private static final int COLUMNS = 3; // Number of cards per row
 
     @Override
@@ -36,7 +36,24 @@ public class UserTitlesController implements Initializable {
 
     private void loadUserTitles() {
         titlesGrid.getChildren().clear();
-        List<Title> titles = titleService.readByUserId(BUYER_ID);
+        Session session = Session.getInstance();
+        int userId = session.getUserId();
+
+        if (!session.isActive() || userId == 0) {
+            feedbackLabel.setText("Please log in to view your titles.");
+            feedbackLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        List<Title> titles;
+        try {
+            titles = titleService.readByUserId(userId);
+        } catch (Exception e) {
+            feedbackLabel.setText("Error loading titles: " + e.getMessage());
+            feedbackLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
         if (titles.isEmpty()) {
             feedbackLabel.setText("No titles owned.");
             feedbackLabel.setStyle("-fx-text-fill: red;");
@@ -45,14 +62,14 @@ public class UserTitlesController implements Initializable {
 
         for (int i = 0; i < titles.size(); i++) {
             Title title = titles.get(i);
-            VBox card = createTitleCard(title);
+            VBox card = createTitleCard(title, userId);
             int row = i / COLUMNS;
             int col = i % COLUMNS;
             titlesGrid.add(card, col, row);
         }
     }
 
-    private VBox createTitleCard(Title title) {
+    private VBox createTitleCard(Title title, int userId) {
         VBox card = new VBox();
         card.getStyleClass().add("title-card");
         card.setPadding(new Insets(10));
@@ -65,7 +82,7 @@ public class UserTitlesController implements Initializable {
         card.getChildren().add(nameLabel);
         card.setOnMouseClicked(event -> {
             try {
-                userService.updateCurrentTitleId(BUYER_ID, title.getId());
+                userService.updateCurrentTitleId(userId, title.getId());
                 feedbackLabel.setText("Title '" + title.getName() + "' set successfully!");
                 feedbackLabel.setStyle("-fx-text-fill: green;");
             } catch (Exception e) {

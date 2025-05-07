@@ -3,77 +3,88 @@ package test.Boubaker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import Controller.Boubaker.MainBoubakerController;
-import java.net.URL;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 
 public class BoubakerMain extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Main container - using StackPane as you requested
-        StackPane windowRoot = new StackPane();
-        windowRoot.getStyleClass().add("window-root");
-
-        // Scrollable content container
-        ScrollPane mainScrollPane = new ScrollPane();
-        mainScrollPane.setFitToWidth(true);
-        mainScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        mainScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        mainScrollPane.getStyleClass().add("main-scroll");
-
-        // Content container (will hold header, body, footer)
-        VBox contentContainer = new VBox();
-        contentContainer.getStyleClass().add("content-container");
-
+    public void start(Stage primaryStage) {
         try {
-            // 1. HEADER (always visible)
-            VBox headerContainer = new VBox();
-            headerContainer.getStyleClass().add("header-container");
+            // Main content container
+            VBox mainContent = new VBox();
+            mainContent.setId("contentContainer");
 
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
+            // Load header (navbar, header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            if (headerLoader.getLocation() == null) {
+                throw new Exception("header.fxml not found");
+            }
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1000, 100);
+            mainContent.getChildren().add(headerFxmlContent);
 
+            // Load header (banner, header.html)
             WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/hheader.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
+            if (getClass().getResource("/header.html") != null) {
+                headerWebView.getEngine().load(getClass().getResource("/header.html").toExternalForm());
+            } else {
+                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
             }
-            headerContainer.getChildren().addAll(headerFxmlContent, headerWebView);
+            headerWebView.setPrefSize(1000, 490);
+            headerWebView.getStyleClass().add("header-webview");
+            mainContent.getChildren().add(headerWebView);
 
-            // 2. BODY CONTENT (expandable)
-            MainBoubakerController mainBoubakerController = new MainBoubakerController();
-            VBox bodyContent = mainBoubakerController.getRoot();
-            bodyContent.getStyleClass().add("body-content");
-
-            // Make body content expandable
+            // Welcome body
+            VBox bodyContent = new VBox();
+            bodyContent.setId("bodyContent");
+            bodyContent.getStyleClass().add("main-container");
+            bodyContent.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+            bodyContent.setSpacing(30);
+            Label titleLabel = new Label("Welcome to Boubaker’s Module!");
+            titleLabel.getStyleClass().add("main-title");
+            Label messageLabel = new Label("Explore our features using the navigation above.");
+            messageLabel.getStyleClass().add("pack-features");
+            bodyContent.getChildren().addAll(titleLabel, messageLabel);
             VBox.setVgrow(bodyContent, Priority.ALWAYS);
+            mainContent.getChildren().add(bodyContent);
 
-            // 3. FOOTER (always visible, larger size)
+            // Load footer (footer.html)
             WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
+            if (getClass().getResource("/footer.html") != null) {
+                footerWebView.getEngine().load(getClass().getResource("/footer.html").toExternalForm());
+            } else {
+                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
             }
+            footerWebView.setPrefSize(1000, 830);
+            footerWebView.setId("footerWebView");
             footerWebView.getStyleClass().add("footer-webview");
+            mainContent.getChildren().add(footerWebView);
 
-            // Create a container for the footer to control its size
-            StackPane footerContainer = new StackPane(footerWebView);
-            footerContainer.getStyleClass().add("footer-container");
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            // Assemble everything
-            contentContainer.getChildren().addAll(headerContainer, bodyContent, footerContainer);
-            mainScrollPane.setContent(contentContainer);
-            windowRoot.getChildren().add(mainScrollPane);
-
-            // Scene setup
-            Scene scene = new Scene(windowRoot, 1000, 700); // Increased window size
+            // Scene
+            Scene scene = new Scene(scrollPane, 1200, 800);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-            primaryStage.setTitle("KPI Packs");
+            // Fade-in transition
+            FadeTransition fade = new FadeTransition(Duration.millis(500), scrollPane);
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            fade.play();
+
+            // Stage
+            primaryStage.setTitle("Boubaker's Module");
             primaryStage.setScene(scene);
             primaryStage.setMinWidth(900);
             primaryStage.setMinHeight(650);

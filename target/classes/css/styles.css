@@ -228,3 +228,94 @@
     -fx-font-weight: bold;
     -fx-text-fill: #2d3748;
 }
+
+
+
+
+
+
+
+.generate-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+.generate-button:hover {
+    -fx-background-color: #45a049;
+}
+
+
+
+
+
+.flow-pane {
+    -fx-padding: 20;
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+}
+
+
+
+
+
+.hbox {
+    -fx-alignment: center-left;
+    -fx-spacing: 20px; /* Espacement entre les cartes */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.update-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-pref-width: 120px; /* Ajouté pour afficher "Modifier" en entier */
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.delete-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-pref-width: 120px; /* Ajouté pour afficher "Supprimer" en entier */
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.view-button {
+    -fx-background-color: #17a2b8;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 15 5 15;
+    -fx-pref-width: 120px; /* Ajouté pour afficher "Voir les questions" en entier */
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+

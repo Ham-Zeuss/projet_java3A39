@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controller.Ham.UserTitlesController" stylesheets="/css/UserTitlesStyle.css">
+<GridPane fx:id="gamesGrid" alignment="CENTER" hgap="20" vgap="20" styleClass="grid-pane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Ham.GamesMenuController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="33.33"/>
+        <ColumnConstraints percentWidth="33.33"/>
+        <ColumnConstraints percentWidth="33.33"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="50"/>
+        <RowConstraints percentHeight="50"/>
+    </rowConstraints>
 
-    <Text text="My Titles" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    <!-- Card 1: Word Scramble Game -->
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="Word Scramble Game" styleClass="timestamp"/>
+        <ImageView fitWidth="200" fitHeight="150">
+            <image>
+                <Image url="/Images/word_scramble.png"/>
+            </image>
+        </ImageView>
+        <Label text="" styleClass="game-title"/>
+        <Label text="" styleClass="game-creator"/>
+        <Pane fx:id="scrambleButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playScrambleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playScrambleGame"/>
+        </Pane>
+    </VBox>
 
-    <GridPane fx:id="titlesGrid" hgap="15.0" vgap="15.0" alignment="CENTER"/>
+    <!-- Card 2: Pixel Games -->
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Label text="Pixel Games" styleClass="timestamp"/>
+        <ImageView fitWidth="200" fitHeight="150">
+            <image>
+                <Image url="/Images/Pixel.png"/>
+            </image>
+        </ImageView>
+        <Label text="" styleClass="game-title"/>
+        <Label text="" styleClass="game-creator"/>
+        <Pane fx:id="pexelleButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playPexelleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playPexelleGame"/>
+        </Pane>
+    </VBox>
 
-    <Label fx:id="feedbackLabel" text="" style="-fx-text-fill: green;"/>
-</VBox>
+    <!-- Card 3: Placeholder 2 -->
+    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
+        <Label text="5 days ago" styleClass="timestamp"/>
+        <Rectangle width="200" height="150" styleClass="game-image"/>
+        <Label text="Placeholder Game 2" styleClass="game-title"/>
+        <Label text="Creator2" styleClass="game-creator"/>
+        <Pane fx:id="placeholderButtonPane" prefWidth="550" prefHeight="50">
+            <Button fx:id="playPlaceholderGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button"/>
+        </Pane>
+    </VBox>
+</GridPane>

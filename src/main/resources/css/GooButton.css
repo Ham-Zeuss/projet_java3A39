@@ -1,0 +1,15 @@
+.gooey-button {
+    -fx-background-color: transparent;
+    -fx-font-family: "System";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: #06c8d9;
+    -fx-border-width: 4px;
+    -fx-border-radius: 0;
+    -fx-text-alignment: center;
+    -fx-letter-spacing: 2px;
+    -fx-text-fill: #06c8d9;
+}
+.gooey-button.gooey-button-hover {
+    -fx-text-fill: #ffffff;
+}

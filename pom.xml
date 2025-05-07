@@ -13,6 +13,10 @@
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>24</javafx.version>
+        <gson.version>2.10.1</gson.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <gluon-maps.version>2.0.0-ea+6</gluon-maps.version>
+        <gluon-attach.version>4.0.11</gluon-attach.version>
     </properties>
 
     <dependencies>
@@ -23,14 +27,6 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.dropbox.core</groupId>
-            <artifactId>dropbox-core-sdk</artifactId>
-            <version>3.0.11</version>
-        </dependency>
-
-
-
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
@@ -39,11 +35,6 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
             <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>2.0.27</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -61,36 +52,44 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.dropbox.core</groupId>
-            <artifactId>dropbox-core-sdk</artifactId>
-            <version>6.0.0</version> <!-- Use the latest version -->
-        </dependency>
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- BCrypt for Password Hashing -->
+        <!-- Dropbox SDK -->
         <dependency>
-            <groupId>at.favre.lib</groupId>
-            <artifactId>bcrypt</artifactId>
-            <version>0.10.2</version>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>6.0.0</version>
         </dependency>
 
-        <!-- JSON and Gson -->
+        <!-- PDFBox for PDF handling -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.27</version>
         </dependency>
 
-        <!-- Gluon Charm Glisten -->
+        <!-- Gluon Maps and Attach -->
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>maps</artifactId>
+            <version>${gluon-maps.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>storage</artifactId>
+            <version>${gluon-attach.version}</version>
+            <classifier>desktop</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>util</artifactId>
+            <version>${gluon-attach.version}</version>
+        </dependency>
+
+        <!-- Gluon Charm Glisten (for TextField) -->
         <dependency>
             <groupId>com.gluonhq</groupId>
             <artifactId>charm-glisten</artifactId>
@@ -104,45 +103,68 @@
             <version>8.0.33</version>
         </dependency>
 
-        <!-- Jakarta Mail -->
+        <!-- BCrypt for Password Hashing -->
         <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-mail</artifactId>
-            <version>2.0.3</version>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
         </dependency>
 
-        <!-- JFoenix -->
+        <!-- JavaMail (for colleague's Gmail integration) -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- Gson for JSON handling -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <!-- JSON library -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
+
+        <!-- JFoenix for UI components -->
         <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
             <version>9.0.10</version>
         </dependency>
 
-        <!-- Stripe -->
+        <!-- Stripe for payments -->
         <dependency>
             <groupId>com.stripe</groupId>
             <artifactId>stripe-java</artifactId>
             <version>25.3.0</version>
         </dependency>
 
-        <!-- iText PDF -->
+        <!-- iText for PDF generation -->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext7-core</artifactId>
-            <version>7.2.5</version>
+            <version>8.0.5</version>
             <type>pom</type>
         </dependency>
 
-        <!-- HTTP Client -->
+        <!-- Apache HttpClient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
         </dependency>
+
+        <!-- OkHttp -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.10.0</version>
+            <version>${okhttp.version}</version>
         </dependency>
 
         <!-- 2FA TOTP -->
@@ -152,7 +174,7 @@
             <version>1.5.0</version>
         </dependency>
 
-        <!-- ZXing for QR Codes -->
+        <!-- ZXing for QR codes -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
@@ -163,12 +185,56 @@
             <artifactId>javase</artifactId>
             <version>3.5.1</version>
         </dependency>
+
+        <!-- GMapsFX for Google Maps integration -->
+        <dependency>
+            <groupId>com.lynden</groupId>
+            <artifactId>GMapsFX</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+
+        <!-- Caffeine for caching -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.0.5</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jakarta-mail</id>
+            <dependencies>
+                <!-- Jakarta Mail for SendEmailController -->
+                <dependency>
+                    <groupId>org.eclipse.angus</groupId>
+                    <artifactId>angus-mail</artifactId>
+                    <version>2.0.3</version>
+                </dependency>
+                <!-- Angus Activation for MIME content handling -->
+                <dependency>
+                    <groupId>org.eclipse.angus</groupId>
+                    <artifactId>angus-activation</artifactId>
+                    <version>2.0.2</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>gluon-releases</id>
             <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -187,8 +253,20 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>24</source>
-                    <target>24</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <!-- JavaFX Maven Plugin -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>org.example.Main</mainClass>
+                    <options>
+                        <option>--enable-native-access=ALL-UNNAMED,javafx.graphics</option>
+                    </options>
                 </configuration>
             </plugin>
         </plugins>

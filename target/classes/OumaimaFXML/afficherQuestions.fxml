@@ -6,7 +6,7 @@
 <?import java.net.URL?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
-            fx:controller="controller.Oumaima.AfficherQuestionsController" prefHeight="600" prefWidth="800"
+            fx:controller="Controller.Oumaima.AfficherQuestionsController" prefHeight="600" prefWidth="800"
             style="-fx-background-color: #eceff1;">
     <stylesheets>
         <URL value="@../css/styles.css" />

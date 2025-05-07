@@ -17,16 +17,17 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class Dashboard extends Application {
 
     private static final String TEXT_COLOR_DARK = "#333333";
 
-    // Static variable to simulate the logged-in user's ID
-    public static int loggedInUserId = 22; // Set the user ID to 22 for testing
-
     @Override
     public void start(Stage primaryStage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(primaryStage, fxmlPath);
+
         // Create sidebar
         Sidebar sidebarCreator = new Sidebar();
         ScrollPane sidebar = sidebarCreator.createSidebar(
@@ -34,8 +35,8 @@ public class Dashboard extends Application {
                 () -> loadDashboard(primaryStage), // Dashboard action
                 () -> loadFXML(primaryStage, "/User/index_user.fxml"), // Utilisateurs action
                 () -> loadFXML(primaryStage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
-                () -> System.out.println("Logout clicked (implement logout logic here)"),// Logout action
-                (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
+                () -> System.out.println("Logout clicked (implement logout logic here)") ,// Logout action
+        (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
         );
 
         // Main layout
@@ -43,6 +44,7 @@ public class Dashboard extends Application {
         root.setStyle("-fx-background-color: #F7F7F7;");
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         // Scene and stage
         Scene scene = new Scene(root, 1000, 600);
@@ -53,6 +55,9 @@ public class Dashboard extends Application {
     }
 
     private void loadDashboard(Stage stage) {
+        // Create a Consumer<String> that wraps loadFXML with the current stage
+        Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
+
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #F7F7F7;");
 
@@ -63,29 +68,25 @@ public class Dashboard extends Application {
                 () -> loadFXML(stage, "/User/index_user.fxml"),
                 () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                 () -> System.out.println("Logout clicked (implement logout logic here)"),
-                (fxmlPath) -> loadFXML(stage, fxmlPath)
+        (fxmlPath) -> loadFXML(stage, fxmlPath)
         );
 
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
+        root.setUserData(this); // Set userData to this Dashboard instance
 
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
     }
 
-    private void loadFXML(Stage stage, String fxmlPath) {
+    void loadFXML(Stage stage, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
 
-            // Pass the logged-in user ID to the controller if applicable
-            Object controller = loader.getController();
-            if (controller instanceof Controller.Hedy.AjoutCoursController) {
-                ((Controller.Hedy.AjoutCoursController) controller).setCurrentUserId(loggedInUserId);
-            } else if (controller instanceof Controller.Hedy.Dahsboard.AffichageModuleDashboardController) {
-                ((Controller.Hedy.Dahsboard.AffichageModuleDashboardController) controller).setLoggedInUserId(loggedInUserId);
-            }
+            // Create a Consumer<String> that wraps loadFXML with the current stage
+            Consumer<String> loadFXMLConsumer = path -> loadFXML(stage, path);
 
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #F7F7F7;");
@@ -97,11 +98,12 @@ public class Dashboard extends Application {
                     () -> loadFXML(stage, "/User/index_user.fxml"),
                     () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                     () -> System.out.println("Logout clicked (implement logout logic here)"),
-                    (fxmlPathInner) -> loadFXML(stage, fxmlPathInner)
+            (fxmlPathInner) -> loadFXML(stage, fxmlPathInner)
             );
 
             root.setLeft(sidebar);
             root.setCenter(fxmlContent); // Set the loaded FXML content as center
+            root.setUserData(this); // Set userData to this Dashboard instance
 
             Scene scene = new Scene(root, 1000, 600);
             scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());

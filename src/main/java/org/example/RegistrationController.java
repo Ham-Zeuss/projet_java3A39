@@ -1,5 +1,7 @@
 package org.example;
 
+import Controller.Maryem.AddProfileController;
+import entite.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +23,10 @@ import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.Collections; // For creating a singleton list
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -315,6 +321,122 @@ public class RegistrationController implements Initializable {
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12, motdepasse.toCharArray());
 
+        String role = switch (selectedRoleButton.getText()) {
+            case "Parent" -> "[\"ROLE_PARENT\"]";
+            case "Enseignant" -> "[\"ROLE_ENSEIGNANT\"]";
+            case "Médecin" -> "[\"ROLE_MEDECIN\"]";
+            default -> "[\"ROLE_USER\"]";
+        };
+
+        String insertQuery = "INSERT INTO user (nom, prenom, email, roles, password, is_verified, age, gouvernorat, numero, photo, is_active) " +
+                "VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?, 1)";
+
+        try {
+            PreparedStatement preparedStatement = connectDB.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, lastname);
+            preparedStatement.setString(2, firstname);
+            preparedStatement.setString(3, username);
+            preparedStatement.setString(4, role);
+            preparedStatement.setString(5, hashedPassword);
+            preparedStatement.setInt(6, ageInt);
+            preparedStatement.setString(7, gouvernoratValue);
+            preparedStatement.setString(8, numeroTel);
+            preparedStatement.setString(9, photoPath == null ? "" : photoPath);
+
+            int result = preparedStatement.executeUpdate();
+
+            if (result > 0) {
+                registrationMessagelabel.setText("Utilisateur inscrit avec succès !");
+                clearForm();
+
+                // Create User object for the newly registered user
+                User newUser = new User();
+                newUser.setNom(lastname);
+                newUser.setPrenom(firstname);
+                newUser.setEmail(username);
+                // Convert the role string (e.g., ["ROLE_MEDECIN"]) to a List<String>
+                String roleValue = role.substring(2, role.length() - 2); // Extract "ROLE_MEDECIN" from ["ROLE_MEDECIN"]
+                newUser.setRoles(Collections.singletonList(roleValue)); // Set as a List<String>
+                newUser.setPassword(hashedPassword);
+                newUser.setVerified(false);
+                newUser.setAge(ageInt);
+                newUser.setGouvernorat(gouvernoratValue);
+                newUser.setNumero(numeroTel);
+                newUser.setPhoto(photoPath == null ? "" : photoPath);
+                newUser.setActive(true);
+
+                // Retrieve the generated ID
+                ResultSet rs = preparedStatement.getGeneratedKeys();
+                if (rs.next()) {
+                    newUser.setId(rs.getInt(1)); // Set the generated ID
+                }
+
+                // Redirect to AddProfile.fxml if the role is Médecin
+                if (selectedRoleButton.getText().equals("Médecin")) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/AddProfile.fxml"));
+                        Parent root = loader.load();
+                        AddProfileController controller = (AddProfileController) loader.getController();
+                        controller.setSelectedUser(newUser); // Pass the user to AddProfileController
+                        Stage currentStage = (Stage) registrationMessagelabel.getScene().getWindow();
+                        Scene scene = new Scene(root);
+                        currentStage.setScene(scene);
+                        currentStage.setWidth(1500); // Explicitly set width
+                        currentStage.setHeight(900); // Explicitly set height
+                        currentStage.setResizable(false);
+                        currentStage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        registrationMessagelabel.setText("Erreur lors du chargement de la page de profil.");
+                    }
+                }
+            } else {
+                registrationMessagelabel.setText("Échec de l'inscription.");
+            }
+
+            preparedStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            registrationMessagelabel.setText("Erreur lors de l'inscription.");
+        }
+    }
+   /*
+    public void registerUser() {
+        Connection connectDB = DataSource.getInstance().getConnection();
+
+        String firstname = nom.getText();
+        String lastname = prenom.getText();
+        String username = email.getText();
+        String motdepasse = password.getText();
+        String confirmPassword = confirm_password.getText();
+        String ageValue = age.getText();
+        String gouvernoratValue = gouvernorat.getValue();
+        String numeroTel = numero.getText();
+        String photoPath = selectedPhotoPath;
+        RadioButton selectedRoleButton = (RadioButton) tgSelect.getSelectedToggle();
+
+        if (firstname.isEmpty() || lastname.isEmpty() || username.isEmpty() || motdepasse.isEmpty()
+                || confirmPassword.isEmpty() || ageValue.isEmpty() || gouvernoratValue == null
+                || numeroTel.isEmpty() || selectedRoleButton == null) {
+            registrationMessagelabel.setText("Veuillez remplir tous les champs obligatoires.");
+            return;
+        }
+
+        if (!motdepasse.equals(confirmPassword)) {
+            registrationMessagelabel.setText("Les mots de passe ne correspondent pas.");
+            return;
+        }
+
+        int ageInt;
+        try {
+            ageInt = Integer.parseInt(ageValue);
+        } catch (NumberFormatException e) {
+            registrationMessagelabel.setText("L'âge doit être un nombre valide.");
+            return;
+        }
+
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, motdepasse.toCharArray());
+
 
         String role = switch (selectedRoleButton.getText()) {
             case "Parent" -> "[\"ROLE_PARENT\"]";
@@ -353,6 +475,7 @@ public class RegistrationController implements Initializable {
             registrationMessagelabel.setText("Erreur lors de l'inscription.");
         }
     }
+    */
 
     public void createAccountForm(ActionEvent event) {
         try {
@@ -363,7 +486,6 @@ public class RegistrationController implements Initializable {
             currentStage.sizeToScene();
             currentStage.setResizable(false);
             currentStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Erreur : " + e.getCause());

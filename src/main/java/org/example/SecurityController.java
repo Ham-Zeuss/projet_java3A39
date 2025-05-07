@@ -18,6 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.control.ScrollPane;
 import org.json.JSONArray;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import javafx.scene.control.ScrollPane;
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
@@ -64,7 +68,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(23, "hedyene8@gmail.com", "ROLE_PARENT");
+                session.setUser(22, "66damm.mmad66@gmail.com", "ROLE_ENSEIGNANT");
 
                 // Create a VBox to stack header, body, and footer
                 VBox mainContent = new VBox();
@@ -73,7 +77,7 @@ public class SecurityController {
                 // 1. Load header.fxml
                 FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                 VBox headerFxmlContent = headerFxmlLoader.load();
-                headerFxmlContent.setPrefSize(1400, 700);
+                headerFxmlContent.setPrefSize(1000, 100);
                 mainContent.getChildren().add(headerFxmlContent);
 
                 // 2. Load header.png
@@ -88,7 +92,7 @@ public class SecurityController {
                     VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
                 } catch (Exception e) {
                     System.err.println("Error loading header image: " + e.getMessage());
-                    Rectangle fallbackHeader = new Rectangle(1400, 150, Color.LIGHTGRAY);
+                    Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Header image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -105,7 +109,7 @@ public class SecurityController {
                 }
                 FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
                 bodyContent = bodyLoader.load();
-                bodyContent.setStyle("-fx-pref-width: 1400; -fx-pref-height: 900; -fx-max-height: 2000;");
+                bodyContent.setStyle("-fx-pref-width: 1400; -fx-pref-height: 800; -fx-max-height: 2000;");
                 mainContent.getChildren().add(bodyContent);
 
                 // 4. Load footer.png
@@ -117,7 +121,7 @@ public class SecurityController {
                     footerImageView.setFitWidth(1400);
                 } catch (Exception e) {
                     System.err.println("Error loading footer image: " + e.getMessage());
-                    Rectangle fallbackFooter = new Rectangle(1400, 700, Color.LIGHTGRAY);
+                    Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Footer image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -132,7 +136,7 @@ public class SecurityController {
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
                 // Create scene
-                Scene scene = new Scene(scrollPane, 1400, 900);
+                Scene scene = new Scene(scrollPane, 1400, 800);
                 // Add CSS files
                 String[] cssFiles = {
                         "/css/store-cards.css",
@@ -153,7 +157,7 @@ public class SecurityController {
                 currentStage.setScene(scene);
                 currentStage.setTitle("Store");
                 currentStage.setWidth(1400);
-                currentStage.setHeight(900);
+                currentStage.setHeight(800);
                 currentStage.setResizable(true);
                 currentStage.setFullScreen(false);
                 currentStage.centerOnScreen();
@@ -177,12 +181,18 @@ public class SecurityController {
                     String storedHashedPassword = queryResult.getString("password");
                     int userId = queryResult.getInt("id");
                     String email = queryResult.getString("email");
-                    String rolesJson = queryResult.getString("roles");
+                    String rolesJson = queryResult.getString("roles"); // Récupérer la chaîne JSON
 
+                    // Vérifier le mot de passe
                     if (BCrypt.verifyer().verify(_password.getText().trim().toCharArray(), storedHashedPassword).verified) {
+                        // Parser le JSON pour extraire le rôle principal
                         String role = parseRoleFromJson(rolesJson);
+
+                        // Enregistrer la session avec le rôle
                         Session session = Session.getInstance();
                         session.setUser(userId, email, role);
+
+                        // Rediriger vers 2FA
                         DoubleAuthentication(event);
                         return;
                     } else {
@@ -229,77 +239,12 @@ public class SecurityController {
         return "default";
     }
 
-    public void loadHomePage(ActionEvent event, int userId, String email) {
-        try {
-            VBox mainContent = new VBox();
-            FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1400, 700);
-            mainContent.getChildren().add(headerFxmlContent);
 
-            WebView headerWebView = new WebView();
-            URL headerUrl = getClass().getResource("/header.html");
-            if (headerUrl != null) {
-                headerWebView.getEngine().load(headerUrl.toExternalForm());
-            } else {
-                headerWebView.getEngine().loadContent("<html><body><h1>Header Not Found</h1></body></html>");
-            }
-            headerWebView.setPrefSize(1400, 490);
-            mainContent.getChildren().add(headerWebView);
 
-            String fxmlPath = "/User/Home.fxml";
-            URL fxmlUrl = getClass().getResource(fxmlPath);
-            if (fxmlUrl == null) {
-                throw new Exception("Home.fxml not found at path: " + fxmlPath);
-            }
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            VBox bodyContent = loader.load();
-            bodyContent.setPrefSize(1400, 900);
 
-            HomeController homeController = loader.getController();
-            if (homeController != null) {
-                homeController.setWelcomeMessage("Bienvenue ID: " + userId);
-            } else {
-                System.err.println("HomeController is null");
-            }
-            mainContent.getChildren().add(bodyContent);
 
-            WebView footerWebView = new WebView();
-            URL footerUrl = getClass().getResource("/footer.html");
-            if (footerUrl != null) {
-                footerWebView.getEngine().load(footerUrl.toExternalForm());
-            } else {
-                footerWebView.getEngine().loadContent("<html><body><h1>Footer Not Found</h1></body></html>");
-            }
-            footerWebView.setPrefSize(1400, 830);
-            mainContent.getChildren().add(footerWebView);
 
-            ScrollPane scrollPane = new ScrollPane(mainContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            Scene scene = new Scene(scrollPane, 1400, 900);
-            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/navbar.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/css/store-cards.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/css/leaderboard.css").toExternalForm());
-
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(scene);
-            currentStage.setTitle("Home");
-            currentStage.setWidth(1400);
-            currentStage.setHeight(900);
-            currentStage.setResizable(true);
-            currentStage.setFullScreen(false);
-            currentStage.centerOnScreen();
-            currentStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page : " + e.getMessage());
-        }
-    }
 
     public void createAccountFormin(ActionEvent event) {
         try {

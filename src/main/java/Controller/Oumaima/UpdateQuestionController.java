@@ -1,20 +1,29 @@
-package controller.Oumaima;
+package Controller.Oumaima;
 
 import entite.Oumaima.Question;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import service.Oumaima.QuestionService;
-
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 
-public class UpdateQuestionController {
+public class UpdateQuestionController implements Initializable {
 
     @FXML
     private TextArea questionTextArea;
@@ -67,6 +76,21 @@ public class UpdateQuestionController {
     private ChangeListener<Boolean> correctOption2Listener;
     private ChangeListener<Boolean> correctOption3Listener;
     private ChangeListener<Boolean> correctOption4Listener;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set "Enregistrer" text and action for updateQuestionButton
+        if (updateQuestionButton != null) {
+            updateQuestionButton.setText("Enregistrer");
+            updateQuestionButton.setOnAction(e -> handleUpdateQuestion());
+        }
+
+        // Set "Retour" text and action for cancelButton
+        if (cancelButton != null) {
+            cancelButton.setText("Retour");
+            cancelButton.setOnAction(e -> handleCancel());
+        }
+    }
 
     // Méthode pour initialiser la question à modifier
     public void setQuestionToUpdate(Question question, int quizId) {
@@ -235,20 +259,14 @@ public class UpdateQuestionController {
 
     private void goBackToQuestionList() {
         try {
+            Stage stage = (Stage) updateQuestionButton.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/afficherQuestions.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("Fichier FXML introuvable : /afficherQuestions.fxml");
+                throw new IllegalStateException("Fichier /OumaimaFXML/afficherQuestions.fxml introuvable");
             }
-            Parent root = loader.load();
-
+            Parent bodyContent = loader.load();
             AfficherQuestionsController controller = loader.getController();
-            controller.setQuizId(quizId);
-
-            Stage stage = (Stage) updateQuestionButton.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Questions du Quiz");
-            stage.show();
+            controller.displayQuestionsPage(stage, quizId);
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Erreur", "Erreur lors du retour à la liste des questions : " + e.toString());
@@ -276,5 +294,92 @@ public class UpdateQuestionController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void displayUpdateQuestionPage(Stage stage, Question question, int quizId) {
+        try {
+            setQuestionToUpdate(question, quizId); // Set the question and quizId
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
+
+            // 1. Add header image as the first element
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // 2. Load body (updateQuestion.fxml)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/updateQuestion.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /OumaimaFXML/updateQuestion.fxml introuvable");
+            }
+            bodyLoader.setController(this); // Set this controller to handle the FXML
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(bodyContent);
+
+            // 3. Load footer as ImageView
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Wrap the VBox in a ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            // Calculate required height
+            double totalHeight = headerImageView.getFitHeight() +
+                    bodyContent.prefHeight(-1) +
+                    footerImageView.getFitHeight();
+
+            // Set scene to specified size
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Add CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) {
+                scene.getStylesheets().add(storeCards.toExternalForm());
+            }
+
+            URL NavBar = getClass().getResource("/navbar.css");
+            if (NavBar != null) {
+                scene.getStylesheets().add(NavBar.toExternalForm());
+            }
+
+            stage.setScene(scene);
+            stage.setTitle("Modifier une Question");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur lors du chargement de la page de modification de question : " + e.getMessage());
+        }
     }
 }
