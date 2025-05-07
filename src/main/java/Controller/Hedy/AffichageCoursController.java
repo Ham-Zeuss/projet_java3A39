@@ -1,46 +1,50 @@
 package Controller.Hedy;
+
 import Controller.Oumaima.affichageEtudiantQuiz;
+import Controller.Oumaima.affichageQuizcontroller;
 import entite.Rating;
 import entite.Cours;
 import entite.Module;
 import entite.Session;
+import entite.Oumaima.Quiz;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.CoursService;
+import service.Oumaima.QuizService;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-
-
-
-//oumaima code li zetou :
-
-import entite.Oumaima.Quiz;
-import Controller.Oumaima.affichageQuizcontroller;
 import java.util.stream.Collectors;
-import javafx.scene.control.Alert;
-import service.Oumaima.QuizService;
-
 
 public class AffichageCoursController {
 
-    @FXML private Label moduleTitleLabel;
-    @FXML private GridPane coursGrid;
-    @FXML private ComboBox<String> filterComboBox;
+    @FXML
+    private Label moduleTitleLabel;
+    @FXML
+    private GridPane coursGrid;
+    @FXML
+    private ComboBox<String> filterComboBox;
 
-    // 🔥 Add this field to access the "Ajouter Cours" button
-    @FXML private Button ajouterCoursButton;
+    @FXML
+    private Button ajouterCoursButton;
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
@@ -59,7 +63,6 @@ public class AffichageCoursController {
         Session session = Session.getInstance();
         String userRole = session.getRole();
 
-        // ✅ Hide the "Ajouter Cours" button for parents
         if ("ROLE_PARENT".equals(userRole)) {
             ajouterCoursButton.setVisible(false);
             ajouterCoursButton.setManaged(false);
@@ -86,13 +89,12 @@ public class AffichageCoursController {
     }
 
     private void loadCoursCards() {
-        coursGrid.getChildren().clear(); // Clear existing cards
+        coursGrid.getChildren().clear();
         List<Cours> coursList = coursService.getCoursByModule(currentModule.getId());
 
         Session session = Session.getInstance();
         int currentUserId = session.getUserId();
 
-        // Sort by owner first
         coursList.sort((c1, c2) -> {
             boolean isC1CreatedByUser = c1.getUserId() == currentUserId;
             boolean isC2CreatedByUser = c2.getUserId() == currentUserId;
@@ -137,7 +139,7 @@ public class AffichageCoursController {
                 coursList.sort((c1, c2) -> {
                     LocalDateTime updatedAt1 = c1.getUpdatedAt() != null ? c1.getUpdatedAt() : LocalDateTime.MIN;
                     LocalDateTime updatedAt2 = c2.getUpdatedAt() != null ? c2.getUpdatedAt() : LocalDateTime.MIN;
-                    return updatedAt2.compareTo(updatedAt1); // Descending
+                    return updatedAt2.compareTo(updatedAt1);
                 });
                 break;
 
@@ -160,26 +162,21 @@ public class AffichageCoursController {
         card.setAlignment(Pos.TOP_LEFT);
         card.setPrefSize(300, 180);
 
-        // Apply CSS class styling
         card.getStyleClass().add("module-card");
 
-        // Title
         Label titleLabel = new Label(cours.getTitle());
         titleLabel.getStyleClass().add("heading");
         titleLabel.setOnMouseClicked(event -> openPdf(cours));
 
-        // PDF Name
         Label pdfLabel = new Label("PDF: " + cours.getPdfName());
         pdfLabel.getStyleClass().add("para");
 
-        // Updated At
         String updatedAtText = (cours.getUpdatedAt() != null)
                 ? "Dernière modification: " + cours.getUpdatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 : "Dernière modification: N/A";
         Label updatedAtLabel = new Label(updatedAtText);
         updatedAtLabel.getStyleClass().add("para");
 
-        // Stars Box (only for parents)
         Session session = Session.getInstance();
         String userRole = session.getRole();
         int currentUserId = session.getUserId();
@@ -187,36 +184,60 @@ public class AffichageCoursController {
         HBox starsBox = new HBox(5);
         if ("ROLE_PARENT".equals(userRole)) {
             Label[] starLabels = new Label[5];
+
             int existingRating = RatingsStorage.getRatings().stream()
                     .filter(r -> r.getCourseId() == cours.getId() && r.getUserId() == currentUserId)
                     .map(Rating::getRating)
                     .findFirst()
                     .orElse(0);
 
+            boolean alreadyRated = existingRating > 0;
+
             for (int i = 0; i < 5; i++) {
                 Label star = new Label(i < existingRating ? "★" : "☆");
                 star.setStyle("-fx-font-size: 20px; -fx-text-fill: gold;");
                 final int ratingValue = i + 1;
 
-                star.setOnMouseClicked(event -> {
-                    event.consume();
-                    for (int j = 0; j < 5; j++) {
-                        starLabels[j].setText(j < ratingValue ? "★" : "☆");
-                    }
-                    RatingsStorage.addOrUpdateRating(cours.getId(), currentUserId, ratingValue);
-                });
+                if (alreadyRated) {
+                    star.setDisable(true); // Disable interaction
+                    star.setCursor(Cursor.DEFAULT);
+                } else {
+                    star.setOnMouseClicked(event -> {
+                        event.consume();
+
+                        boolean success = RatingsStorage.addRatingIfNotExists(cours.getId(), currentUserId, ratingValue);
+
+                        if (!success) {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Avis déjà soumis");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Vous avez déjà noté ce cours. Vous ne pouvez pas voter à nouveau.");
+                            alert.showAndWait();
+                            return;
+                        }
+
+                        // Update UI after successful rating
+                        for (int j = 0; j < 5; j++) {
+                            starLabels[j].setText(j < ratingValue ? "★" : "☆");
+                        }
+
+                        // Optionally disable stars after rating
+                        for (Label s : starLabels) {
+                            s.setDisable(true);
+                            s.setCursor(Cursor.DEFAULT);
+                        }
+                    });
+                }
 
                 starLabels[i] = star;
                 starsBox.getChildren().add(star);
             }
         }
 
-        // Buttons
         HBox buttonBox = new HBox(10);
         Button editButton = new Button("Modifier");
         Button deleteButton = new Button("Supprimer");
 
-        // Always show "Voir Quiz" button
         Button viewQuizButton = new Button("Voir Quiz");
         viewQuizButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
         viewQuizButton.getStyleClass().add("button-view-quiz");
@@ -224,38 +245,32 @@ public class AffichageCoursController {
         editButton.getStyleClass().add("button-Enregistrer");
         deleteButton.getStyleClass().add("button-Reinitialiser");
 
-        // Show "Voir Quiz" if user is ROLE_PARENT or ROLE_ENSEIGNANT
         if ("ROLE_PARENT".equals(userRole) || "ROLE_ENSEIGNANT".equals(userRole)) {
             buttonBox.getChildren().add(viewQuizButton);
         }
 
-        // Show Edit/Delete buttons only to the course owner
         boolean isCourseCreatedByUser = cours.getUserId() == currentUserId;
         if (isCourseCreatedByUser) {
             buttonBox.getChildren().addAll(editButton, deleteButton);
         }
 
-        // Ensure buttonBox visibility
         buttonBox.setVisible(!buttonBox.getChildren().isEmpty());
         buttonBox.setManaged(!buttonBox.getChildren().isEmpty());
 
-        // Actions
         editButton.setOnAction(e -> editCours(cours));
         deleteButton.setOnAction(e -> {
             coursService.delete(cours);
             loadCoursCards();
         });
 
-        // 🔥 Attach different actions to "Voir Quiz" based on role
         viewQuizButton.setOnAction(e -> {
             if ("ROLE_PARENT".equals(userRole)) {
-                goToQuizList2(cours); // Parent-specific quiz list
+                goToQuizList2(cours);
             } else if ("ROLE_ENSEIGNANT".equals(userRole)) {
-                goToQuizList(cours); // Teacher-specific quiz list
+                goToQuizList(cours);
             }
         });
 
-        // Add everything to the card
         card.getChildren().addAll(titleLabel, pdfLabel, updatedAtLabel, starsBox, buttonBox);
 
         return card;
@@ -291,7 +306,8 @@ public class AffichageCoursController {
     @FXML
     private void goToAjoutCours() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AjoutCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AjoutCours" +
+                    ".fxml"));
             Parent root = loader.load();
             AjoutCoursController controller = loader.getController();
             controller.setCurrentModule(currentModule);
@@ -334,66 +350,202 @@ public class AffichageCoursController {
         }
     }
 
-
-
-
     private void goToQuizList(Cours cours) {
         try {
+            if (cours == null || cours.getId() <= 0) {
+                throw new IllegalArgumentException("Cours invalide");
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageQuiz.fxml"));
             Parent root = loader.load();
             affichageQuizcontroller controller = loader.getController();
-            // Filter quizzes by course ID
+
             List<Quiz> filteredQuizzes = controller.getQuizService().readAll().stream()
                     .filter(quiz -> quiz.getCourse() != null && quiz.getCourse().getId() == cours.getId())
                     .collect(Collectors.toList());
             controller.displayQuizzes1(filteredQuizzes);
+
             Stage stage = (Stage) coursGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150);
+                fallbackHeader.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox();
+                fallbackBox.getChildren().addAll(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(root);
+
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100);
+                fallbackFooter.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox();
+                fallbackBox.getChildren().addAll(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            double headerHeight = headerImageView.getImage() != null ? headerImageView.getImage().getHeight() : 150;
+            double footerHeight = footerImageView.getImage() != null ? footerImageView.getImage().getHeight() : 100;
+            double totalHeight = headerHeight + root.prefHeight(-1) + footerHeight;
+
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            try {
+                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
+                scene.getStylesheets().add(storeCardsCss);
+            } catch (Exception e) {
+                System.err.println("Error loading store-cards.css: " + e.getMessage());
+            }
+
+            try {
+                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
+                scene.getStylesheets().add(navBarCss);
+            } catch (Exception e) {
+                System.err.println("Error loading navbar.css: " + e.getMessage());
+            }
+
+            stage.setScene(scene);
             stage.setTitle("Quizzes du Cours: " + cours.getTitle());
-        } catch (IOException e) {
-            System.err.println("Error loading affichageQuiz.fxml: " + e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des quizzes: " + e.getMessage());
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
             alert.showAndWait();
         }
     }
+
     private void goToQuizList2(Cours cours) {
         try {
+            if (cours == null || cours.getId() <= 0) {
+                throw new IllegalArgumentException("Cours invalide");
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and pass filtered quizzes
             affichageEtudiantQuiz controller = loader.getController();
             if (controller == null) {
                 throw new IllegalStateException("Controller is null for affichageEtudiantQuiz.fxml");
             }
 
-            // Load and filter quizzes by course ID
             QuizService quizService = new QuizService();
             List<Quiz> allQuizzes = quizService.readAll();
             List<Quiz> filteredQuizzes = allQuizzes.stream()
                     .filter(quiz -> quiz.getCourse() != null && quiz.getCourse().getId() == cours.getId())
                     .collect(Collectors.toList());
 
-            // ✅ Pass filtered quizzes to the controller
             controller.displayQuizzes1(filteredQuizzes);
 
-            // Open the scene
             Stage stage = (Stage) coursGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150);
+                fallbackHeader.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox();
+                fallbackBox.getChildren().addAll(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(root);
+
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100);
+                fallbackFooter.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox();
+                fallbackBox.getChildren().addAll(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            double headerHeight = headerImageView.getImage() != null ? headerImageView.getImage().getHeight() : 150;
+            double footerHeight = footerImageView.getImage() != null ? footerImageView.getImage().getHeight() : 100;
+            double totalHeight = headerHeight + root.prefHeight(-1) + footerHeight;
+
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            try {
+                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
+                scene.getStylesheets().add(storeCardsCss);
+            } catch (Exception e) {
+                System.err.println("Error loading store-cards.css: " + e.getMessage());
+            }
+
+            try {
+                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
+                scene.getStylesheets().add(navBarCss);
+            } catch (Exception e) {
+                System.err.println("Error loading navbar.css: " + e.getMessage());
+            }
+
+            stage.setScene(scene);
             stage.setTitle("Quizzes du Cours: " + cours.getTitle());
             stage.show();
-
-        } catch (IOException e) {
-            System.err.println("Error loading affichageEtudiantQuiz.fxml: " + e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des quizzes: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
             alert.showAndWait();
         }
     }
-    }
-
-
-
-
-
-
-
+}

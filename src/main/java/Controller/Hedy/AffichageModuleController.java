@@ -84,7 +84,7 @@ public class AffichageModuleController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920);
+                headerImageView.setFitWidth(1400);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
@@ -105,7 +105,7 @@ public class AffichageModuleController {
             AffichageCoursController coursController = loader.getController();
             coursController.setModule(module); // Pass selected module to controller
 
-            bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: 1400; -fx-pref-height: 800; -fx-max-height: 2000;");
             mainContent.getChildren().add(bodyContent);
 
             // 4. Load footer image
@@ -114,7 +114,7 @@ public class AffichageModuleController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(1400);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
                 Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
@@ -131,7 +131,7 @@ public class AffichageModuleController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 1920, 1080);
+            Scene scene = new Scene(scrollPane, 1400, 800);
 
             // Load CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");

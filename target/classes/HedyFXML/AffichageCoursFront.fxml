@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controller.Hedy.AffichageCoursController"
             style="-fx-background-color: #f5f5f5;"
@@ -21,7 +21,15 @@
         <Button fx:id="ajouterCoursButton"
                 text="Ajouter Cours"
                 onAction="#goToAjoutCours"
-                styleClass="button-Enregistrer"/>    </HBox>
+                styleClass="button-Enregistrer"/>
+    </HBox>
+
+    <!-- Retour Modules Button -->
+    <Button fx:id="retourModulesButton"
+            text="Retour aux Modules"
+            onAction="#retourModules"
+            prefWidth="160"
+            styleClass="button-Enregistrer"/>
 
     <!-- Scrollable Centered Grid for Course Cards -->
     <ScrollPane fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
@@ -39,4 +47,4 @@
             </GridPane>
         </VBox>
     </ScrollPane>
-</AnchorPane>
+</VBox>
