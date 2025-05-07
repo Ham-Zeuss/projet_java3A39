@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="TOP_CENTER" spacing="20.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Ham.ListPexelWordsController">
+    <stylesheets>
+        <URL value="@/css/displayprofilesback.css"/>
+    </stylesheets>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text text="Pexel Words List" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Label text="Pexel Words List"/>
 
-    <TableView fx:id="pexelWordsTable" prefWidth="600.0">
+    <TableView fx:id="pexelWordsTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="100.0"/>
-            <TableColumn fx:id="wordColumn" text="Word" prefWidth="250.0"/>
-            <TableColumn fx:id="difficultyColumn" text="Difficulty" prefWidth="250.0"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="wordColumn" text="Word" prefWidth="250.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="difficultyColumn" text="Difficulty" prefWidth="250.0" style="-fx-alignment: CENTER;"/>
         </columns>
     </TableView>
 
-    <HBox spacing="10.0" alignment="CENTER">
-        <Button fx:id="createButton" text="Create New Word" onAction="#handleCreate"/>
-        <Button fx:id="updateButton" text="Update Selected Word" onAction="#handleUpdate" disable="true"/>
-        <Button fx:id="deleteButton" text="Delete Selected Word" onAction="#handleDelete" disable="true"/>
+    <HBox spacing="15.0" alignment="CENTER">
+        <Button fx:id="createButton" styleClass="icon-button" onAction="#handleCreate"/>
+        <Button fx:id="updateButton" styleClass="icon-button" onAction="#handleUpdate" disable="true"/>
+        <Button fx:id="deleteButton" styleClass="icon-button" onAction="#handleDelete" disable="true"/>
     </HBox>
 
-    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
+    <Label fx:id="errorLabel" text=""/>
 </VBox>

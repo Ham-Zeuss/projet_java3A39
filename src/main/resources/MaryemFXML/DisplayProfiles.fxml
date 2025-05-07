@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -32,14 +31,13 @@
         <columns>
             <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="userIdColumn" text="Nom" prefWidth="150.0"/>
-            <TableColumn fx:id="biographyColumn" text="Biographie" prefWidth="150.0"/>
-            <TableColumn fx:id="specialtyColumn" text="Specialté" prefWidth="100.0"/>
-            <TableColumn fx:id="consultationPriceColumn" text="Prix" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="biographyColumn" text="Biographie" prefWidth="200.0"/>
+            <TableColumn fx:id="specialtyColumn" text="Specialté" prefWidth="150.0"/>
+            <TableColumn fx:id="consultationPriceColumn" text="Prix" prefWidth="80.0" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="latitudeColumn" text="Latitude" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="longitudeColumn" text="Longitude" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
-            <TableColumn fx:id="resourcesColumn" text="Ressources" prefWidth="100.0"/>
-            <TableColumn fx:id="commentColumn" text="Commentaires" prefWidth="100.0"/>
-            <TableColumn fx:id="addCommentColumn" text="Ajouter" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="resourcesColumn" text="Ressources" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="commentColumn" text="Commentaires" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150.0" style="-fx-alignment: CENTER;"/>
         </columns>
         <stylesheets>
@@ -47,8 +45,8 @@
         </stylesheets>
     </TableView>
 
-    <Button fx:id="addProfileButton" text="Ajouter un nouveau profile" onAction="#openAddProfileWindow"/>
+    <Button fx:id="addProfileButton" onAction="#openAddProfileWindow" styleClass="icon-button"/>
 
-    <Label fx:id="errorLabel" text="" visible="false"/>
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;" visible="false"/>
 
 </VBox>

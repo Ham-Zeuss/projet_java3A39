@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.Oumaima.AffichageBackQuizController"
-            prefHeight="600.0" prefWidth="1000.0"
-            style="-fx-background-color: #f5f7fa;">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Oumaima.AffichageBackQuizController"
+      prefHeight="600.0" prefWidth="1000.0"
+      spacing="15">
     <stylesheets>
-        <URL value="@../css/styles.css" />
+        <URL value="@/css/displayprofilesback.css"/>
     </stylesheets>
+    <padding>
+        <Insets top="20" bottom="20" left="20" right="20"/>
+    </padding>
 
-    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20"
-          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <!-- Titre et bouton "Ajouter Quiz" -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Gestion des Quiz (Backend)" styleClass="title-label" />
-            <Button fx:id="addQuizButton" text="Ajouter Quiz" styleClass="add-button" onAction="#goToAddQuiz" />
-        </HBox>
+    <!-- Titre et bouton "Ajouter Quiz" -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Gestion des Quiz (Backend)"/>
+        <Button fx:id="addQuizButton" styleClass="icon-button" onAction="#goToAddQuiz"/>
+    </HBox>
 
-        <!-- Tableau des quiz -->
-        <TableView fx:id="quizTable" prefHeight="500.0">
-            <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="50" />
-                <TableColumn fx:id="courseColumn" text="Cours" prefWidth="150" />
-                <TableColumn fx:id="titleColumn" text="Titre" prefWidth="200" />
-                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="200" />
-                <TableColumn fx:id="durationColumn" text="Durée (min)" prefWidth="80" />
-                <TableColumn fx:id="createdAtColumn" text="Créé le" prefWidth="120" />
-                <TableColumn fx:id="noteColumn" text="Note" prefWidth="60" />
-                <TableColumn fx:id="actionColumn" text="Action" prefWidth="250" />
-            </columns>
-        </TableView>
-    </VBox>
-</AnchorPane>
+    <!-- Tableau des quiz -->
+    <TableView fx:id="quizTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="courseColumn" text="Cours" prefWidth="150" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="titleColumn" text="Titre" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="durationColumn" text="Durée (min)" prefWidth="80" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="createdAtColumn" text="Créé le" prefWidth="120" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="noteColumn" text="Note" prefWidth="60" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="actionColumn" text="Action" prefWidth="270"/>
+        </columns>
+    </TableView>
+
+</VBox>

@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.ProfileService;
@@ -47,8 +49,7 @@ public class DisplayProfilesController {
     @FXML
     private TableColumn<Profile, Void> commentColumn;
 
-    @FXML
-    private TableColumn<Profile, Void> addCommentColumn;
+
 
     @FXML
     private TableColumn<Profile, Void> actionColumn;
@@ -67,6 +68,9 @@ public class DisplayProfilesController {
         try {
             profileService = new ProfileService();
             System.out.println("ProfileService initialized");
+
+            // Configure addProfileButton
+            setupButton(addProfileButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Profile");
 
             // Configure table columns
             idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()));
@@ -89,7 +93,11 @@ public class DisplayProfilesController {
             });
 
             resourcesColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button resourcesButton = new Button("View PDF");
+                private final Button resourcesButton = new Button();
+
+                {
+                    setupButton(resourcesButton, "https://img.icons8.com/?size=100&id=115637&format=png&color=000000", "View PDF");
+                }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
@@ -105,7 +113,11 @@ public class DisplayProfilesController {
             });
 
             commentColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button commentButton = new Button("View Comments");
+                private final Button commentButton = new Button();
+
+                {
+                    setupButton(commentButton, "https://img.icons8.com/?size=100&id=116714&format=png&color=000000", "View Comments");
+                }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
@@ -120,25 +132,15 @@ public class DisplayProfilesController {
                 }
             });
 
-            addCommentColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button addCommentButton = new Button("Add Comment");
-
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Profile profile = getTableView().getItems().get(getIndex());
-                        addCommentButton.setOnAction(event -> openAddCommentWindow(profile));
-                        setGraphic(addCommentButton);
-                    }
-                }
-            });
 
             actionColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button editButton = new Button("Edit");
-                private final Button deleteButton = new Button("Delete");
+                private final Button editButton = new Button();
+                private final Button deleteButton = new Button();
+
+                {
+                    setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Profile");
+                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Profile");
+                }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
@@ -155,17 +157,34 @@ public class DisplayProfilesController {
             });
 
             // Load profiles
-            profilesTable.getItems().setAll(profileService.readAll());
+            refreshTable();
             System.out.println("Profiles loaded: " + profilesTable.getItems().size());
 
-            if (profilesTable.getItems().isEmpty()) {
-                errorLabel.setText("No profiles found in the database.");
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            errorLabel.setText("Error loading profiles: " + e.getMessage());
+            errorLabel.setText("Error initializing profiles: " + e.getMessage());
+            errorLabel.setVisible(true);
         }
         System.out.println("Exiting DisplayProfilesController.initialize");
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(30, 30);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(30, 30);
+        }
     }
 
     private void openPDF(String pdfPath) {
@@ -253,6 +272,7 @@ public class DisplayProfilesController {
             showAlert("Error", "Could not open edit window: " + e.getMessage());
         }
     }
+
     @FXML
     private void openAddProfileWindow() {
         try {
@@ -285,6 +305,7 @@ public class DisplayProfilesController {
                 profileService.delete(profile);
                 refreshTable();
                 errorLabel.setText("Profile deleted successfully.");
+                errorLabel.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
                 showAlert("Error", "Could not delete profile: " + e.getMessage());
@@ -297,12 +318,15 @@ public class DisplayProfilesController {
             profilesTable.getItems().setAll(profileService.readAll());
             if (profilesTable.getItems().isEmpty()) {
                 errorLabel.setText("No profiles found in the database.");
+                errorLabel.setVisible(true);
             } else {
                 errorLabel.setText("");
+                errorLabel.setVisible(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
             errorLabel.setText("Error refreshing table: " + e.getMessage());
+            errorLabel.setVisible(true);
         }
     }
 

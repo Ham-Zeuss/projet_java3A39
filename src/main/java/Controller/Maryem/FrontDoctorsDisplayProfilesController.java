@@ -242,12 +242,71 @@ public class FrontDoctorsDisplayProfilesController {
     public void showConsultationsPage() {
         try {
             System.out.println("Navigating to consultations page");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/DoctorConsultations.fxml"));
-            VBox root = loader.load();
 
-            Scene scene = new Scene(root, 800, 600);
+            // Create a VBox to stack header, header image, body, and footer
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Header image
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1500, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // Load DoctorConsultations.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/DoctorConsultations.fxml"));
+            VBox bodyContent;
+            try {
+                bodyContent = loader.load();
+            } catch (IOException e) {
+                System.err.println("Failed to load DoctorConsultations.fxml: " + e.getMessage());
+                throw e;
+            }
+            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 2000; -fx-max-height: 5000;-fx-background-color: #DCE6D7FF;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Footer image
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1500, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, 1500, 700);
             scene.getStylesheets().add(getClass().getResource("/css/profile-card.css").toExternalForm());
 
+            // Configure stage
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();
             currentStage.setScene(scene);
             currentStage.setTitle("My Consultations");
@@ -255,7 +314,7 @@ public class FrontDoctorsDisplayProfilesController {
             currentStage.centerOnScreen();
             currentStage.show();
 
-            System.out.println("Consultations page loaded");
+            System.out.println("Consultations page loaded with headers and footer");
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Could not load consultations page: " + e.getMessage());

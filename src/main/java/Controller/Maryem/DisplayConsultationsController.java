@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.ConsultationService;
@@ -48,7 +50,7 @@ public class DisplayConsultationsController {
     private TableColumn<Consultation, Void> editColumn;
 
     @FXML
-    private Button addButton; // Nouveau bouton
+    private Button addButton;
 
     @FXML
     private Label errorLabel;
@@ -61,6 +63,9 @@ public class DisplayConsultationsController {
         try {
             consultationService = new ConsultationService();
             System.out.println("ConsultationService initialized");
+
+            // Configure addButton with icon
+            setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Consultation");
 
             // Configure table columns
             idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()));
@@ -92,26 +97,13 @@ public class DisplayConsultationsController {
 
             isCompletedColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isCompleted()));
 
-            // Configure delete column with button
-            deleteColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
-
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Consultation consultation = getTableView().getItems().get(getIndex());
-                        deleteButton.setOnAction(event -> deleteConsultation(consultation));
-                        setGraphic(deleteButton);
-                    }
-                }
-            });
-
-            // Configure edit column with button
+            // Configure edit column with icon button
             editColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button editButton = new Button("Edit");
+                private final Button editButton = new Button();
+
+                {
+                    setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Consultation");
+                }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
@@ -122,6 +114,27 @@ public class DisplayConsultationsController {
                         Consultation consultation = getTableView().getItems().get(getIndex());
                         editButton.setOnAction(event -> openEditWindow(consultation));
                         setGraphic(editButton);
+                    }
+                }
+            });
+
+            // Configure delete column with icon button
+            deleteColumn.setCellFactory(param -> new TableCell<>() {
+                private final Button deleteButton = new Button();
+
+                {
+                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Consultation");
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        Consultation consultation = getTableView().getItems().get(getIndex());
+                        deleteButton.setOnAction(event -> deleteConsultation(consultation));
+                        setGraphic(deleteButton);
                     }
                 }
             });
@@ -138,6 +151,27 @@ public class DisplayConsultationsController {
             errorLabel.setText("Error loading consultations: " + e.getMessage());
         }
         System.out.println("Exiting DisplayConsultationsController.initialize");
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     private void deleteConsultation(Consultation consultation) {

@@ -4,10 +4,9 @@ import entite.Commentaire;
 import entite.User;
 import entite.Profile;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import service.CommentaireService;
 import service.UserService;
@@ -54,6 +53,7 @@ public class ReportedCommentsController {
 
     @FXML
     public void initialize() {
+        System.out.println("Entering ReportedCommentsController.initialize");
         try {
             // Initialize services
             commentaireService = new CommentaireService();
@@ -100,7 +100,7 @@ public class ReportedCommentsController {
                         }
                     });
                     if (profile != null && profile.getUserId() != null) {
-                        User user = profile.getUserId(); // Directly use the User object from Profile
+                        User user = profile.getUserId();
                         return new javafx.beans.property.SimpleStringProperty(
                                 user != null ? user.getPrenom() + " " + user.getNom() : "Unknown"
                         );
@@ -113,18 +113,16 @@ public class ReportedCommentsController {
             });
 
             // Set up delete button column
-            deleteColumn.setCellFactory(param -> new javafx.scene.control.TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
+            deleteColumn.setCellFactory(param -> new TableCell<>() {
+                private final Button deleteButton = new Button();
 
                 {
-                    deleteButton.setStyle("-fx-background-color: #e57373; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;");
-                    deleteButton.setOnMouseEntered(e -> deleteButton.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;"));
-                    deleteButton.setOnMouseExited(e -> deleteButton.setStyle("-fx-background-color: #e57373; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 12; -fx-padding: 5 10; -fx-background-radius: 5; -fx-border-radius: 5;"));
+                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Comment");
                     deleteButton.setOnAction(event -> {
                         Commentaire commentaire = getTableView().getItems().get(getIndex());
                         try {
                             commentaireService.delete(commentaire);
-                            loadReportedComments(); // Refresh table
+                            loadReportedComments();
                         } catch (Exception e) {
                             e.printStackTrace();
                             errorLabel.setText("Error deleting comment: " + e.getMessage());
@@ -148,6 +146,28 @@ public class ReportedCommentsController {
         } catch (Exception e) {
             e.printStackTrace();
             errorLabel.setText("Error initializing table: " + e.getMessage());
+        }
+        System.out.println("Exiting ReportedCommentsController.initialize");
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
         }
     }
 

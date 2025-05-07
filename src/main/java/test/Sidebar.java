@@ -24,7 +24,7 @@ public class Sidebar {
     private final List<HBox> sidebarButtons = new ArrayList<>();
     private static final Map<String, Image> ICON_CACHE = new HashMap<>();
 
-    public ScrollPane createSidebar(Stage stage, Runnable dashboardAction, Runnable utilisateursAction, Runnable pixelWordsAction, Runnable logoutAction, java.util.function.Consumer<String> loadFXML){
+    public ScrollPane createSidebar(Stage stage, Runnable dashboardAction, Runnable utilisateursAction, Runnable pixelWordsAction, Runnable logoutAction, Consumer<String> loadFXML) {
         // Preload images into cache
         ICON_CACHE.put("dashboard", new Image("https://img.icons8.com/?size=100&id=91234&format=png&color=000000"));
         ICON_CACHE.put("utilisateurs", new Image("https://img.icons8.com/?size=100&id=109466&format=png&color=000000"));
@@ -47,6 +47,7 @@ public class Sidebar {
         ICON_CACHE.put("search", new Image("https://img.icons8.com/?size=100&id=7694&format=png&color=000000"));
         ICON_CACHE.put("grid", new Image("https://img.icons8.com/?size=100&id=10482&format=png&color=000000"));
         ICON_CACHE.put("brightness", new Image("https://img.icons8.com/?size=100&id=12347&format=png&color=000000"));
+
         // Load the custom font
         Font.loadFont(getClass().getResource("/Fonts/BubblegumSans-Regular.ttf").toExternalForm(), 14);
 
@@ -82,9 +83,7 @@ public class Sidebar {
         // Sidebar buttons
         HBox dashboardBtn = createSidebarItemWithDropdown("Dashboard", "dashboard", stage, dashboardAction);
         HBox analyticsBtn = createSidebarItem("Utilisateurs", "utilisateurs", stage, utilisateursAction);
-        HBox ecommerceBtn = createSidebarItem("Paiement", "paiement", stage, () -> {
-            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/Boubaker/paiement_management.fxml");
-        });
+        HBox ecommerceBtn = createSidebarItem("Paiement", "paiement", stage, () -> loadFXML.accept("/Boubaker/paiement_management.fxml")); // Updated
 
         // Application Section
         Label appLabel = new Label("Medecins");
@@ -93,8 +92,9 @@ public class Sidebar {
         appLabel.setPadding(new Insets(20, 0, 5, 0));
 
         HBox chatBtn = createSidebarItem("Docteurs", "docteurs", stage, () -> loadFXML.accept("/MaryemFXML/DisplayProfiles.fxml"));
-        HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () ->loadFXML.accept("/MaryemFXML/DisplayConsultations.fxml"));
+        HBox emailBtn = createSidebarItem("Consultation", "consultation", stage, () -> loadFXML.accept("/MaryemFXML/DisplayConsultations.fxml"));
         HBox kanbanBtn = createSidebarItem("Commentaire", "commentaire", stage, () -> loadFXML.accept("/MaryemFXML/ReportedComments.fxml"));
+
         // Pages Section
         Label pagesLabel = new Label("Contenu");
         pagesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -110,16 +110,12 @@ public class Sidebar {
         elementsLabel.setTextFill(javafx.scene.paint.Color.web(TEXT_COLOR_DARK));
         elementsLabel.setPadding(new Insets(20, 0, 5, 0));
 
-        HBox storeBtn = createSidebarItem("Store Items", "store-items", stage, () -> {
-            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListStoreItemsAdmin.fxml");
-        });
-        HBox titlesBtn = createSidebarItem("Titles", "titles", stage, () -> {
-            ((Dashboard) stage.getScene().getRoot().getUserData()).loadFXML(stage, "/HamzaFXML/ListTitles.fxml");
-        });
+        HBox storeBtn = createSidebarItem("Store Items", "store-items", stage, () -> loadFXML.accept("/HamzaFXML/ListStoreItemsAdmin.fxml")); // Updated
+        HBox titlesBtn = createSidebarItem("Titles", "titles", stage, () -> loadFXML.accept("/HamzaFXML/ListTitles.fxml")); // Updated
         HBox pixelWordsBtn = createSidebarItem("Pixel Words", "pixel-words", stage, pixelWordsAction);
 
         // Logout Button
-        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, pixelWordsAction);
+        HBox logoutBtn = createSidebarItem("Logout", "logout", stage, logoutAction); // Fixed: Use logoutAction instead of pixelWordsAction
 
         // Add buttons to tracking list
         sidebarButtons.addAll(List.of(dashboardBtn, analyticsBtn, ecommerceBtn, chatBtn, emailBtn, kanbanBtn, authBtn, utilityBtn, storeBtn, titlesBtn, pixelWordsBtn, logoutBtn));
@@ -146,6 +142,7 @@ public class Sidebar {
 
         return sidebar;
     }
+
 
     private HBox createSidebarItem(String text, String iconKey, Stage stage, Runnable action) {
         HBox item = new HBox(10);

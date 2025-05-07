@@ -5,6 +5,8 @@ import entite.Profile;
 import entite.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import service.ConsultationService;
@@ -56,10 +58,15 @@ public class UpdateConsultationController {
     }
 
     private void initialize() {
+        System.out.println("Entering UpdateConsultationController.initialize");
         try {
             consultationService = new ConsultationService();
             userService = new UserService();
             profileService = new ProfileService();
+
+            // Configure buttons with icons
+            setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Save Consultation");
+            setupButton(cancelButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Cancel");
 
             // Populate userComboBox
             userComboBox.getItems().setAll(userService.readAll());
@@ -123,6 +130,28 @@ public class UpdateConsultationController {
         } catch (Exception e) {
             e.printStackTrace();
             errorLabel.setText("Error initializing form: " + e.getMessage());
+        }
+        System.out.println("Exiting UpdateConsultationController.initialize");
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
         }
     }
 

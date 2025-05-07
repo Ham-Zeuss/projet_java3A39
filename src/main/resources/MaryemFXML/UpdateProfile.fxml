@@ -5,17 +5,21 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?> <!-- Ajout de l'importation -->
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.UpdateProfileController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
+    <stylesheets>
+        <URL value="@/css/ButtonsWithIcons.css"/>
+    </stylesheets>
 
     <Text text="Update Profile" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
@@ -24,7 +28,7 @@
         <TextArea fx:id="biographyField" prefWidth="300.0" prefHeight="100.0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Specialty:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="specialtyComboBox" prefWidth="300.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/> <!-- Remplacement du TextField -->
+        <ComboBox fx:id="specialtyComboBox" prefWidth="300.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
         <Label text="Resources (PDF Path):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <TextField fx:id="resourcesField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
@@ -40,8 +44,8 @@
     </GridPane>
 
     <HBox spacing="10.0" alignment="CENTER">
-        <Button fx:id="saveButton" text="Save" onAction="#saveProfile"/>
-        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel"/>
+        <Button fx:id="saveButton" styleClass="icon-button" onAction="#saveProfile"/>
+        <Button fx:id="cancelButton" styleClass="icon-button" onAction="#cancel"/>
     </HBox>
 
     <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>

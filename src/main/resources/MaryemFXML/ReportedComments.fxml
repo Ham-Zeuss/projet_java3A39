@@ -16,6 +16,9 @@
     <padding>
         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
     </padding>
+    <stylesheets>
+        <URL value="@/css/reportedcomments.css"/>
+    </stylesheets>
 
     <HBox alignment="CENTER" spacing="10.0">
         <ImageView fitHeight="50" fitWidth="50">
@@ -29,17 +32,14 @@
     <TableView fx:id="commentsTable" prefWidth="1200.0">
         <columns>
             <TableColumn fx:id="idColumn" text="ID" prefWidth="60.0" style="-fx-alignment: CENTER;"/>
-            <TableColumn fx:id="userNameColumn" text="nom de l'utilisateur" prefWidth="200.0"/>
-            <TableColumn fx:id="profileNameColumn" text="Profile" prefWidth="150.0"/>
-            <TableColumn fx:id="commentColumn" text="Commentaire" prefWidth="388.0"/>
-            <TableColumn fx:id="reportReasonColumn" text="Raison du rapport" prefWidth="200.0"/>
+            <TableColumn fx:id="userNameColumn" text="nom de l'utilisateur" prefWidth="200.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="profileNameColumn" text="Profile" prefWidth="150.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="commentColumn" text="Commentaire" prefWidth="388.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="reportReasonColumn" text="Raison du rapport" prefWidth="200.0" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="reportedColumn" text="Signalé" prefWidth="90.0" style="-fx-alignment: CENTER;"/>
-            <TableColumn fx:id="deleteColumn" text="Action" prefWidth="90.0" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="deleteColumn" text="Action" prefWidth="100.0" style="-fx-alignment: CENTER;"/>
         </columns>
-        <stylesheets>
-            <URL value="@/css/reportedcomments.css"/>
-        </stylesheets>
     </TableView>
 
-    <Label fx:id="errorLabel" text=""/>
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
 </VBox>

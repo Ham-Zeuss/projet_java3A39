@@ -56,14 +56,49 @@
     -fx-text-fill: #ffffff;
 }
 
-#errorLabel {
-    -fx-text-fill: #b91c1c; /* Brighter red */
-    -fx-background-color: #fee2e2; /* Light red background */
-    -fx-padding: 10;
-    -fx-border-color: #dc2626; /* Red border */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-font-family: 'Arial, sans-serif';
-    -fx-font-size: 14; /* Larger font */
-    -fx-font-weight: bold;
+
+
+
+
+
+/* Styling for icon buttons */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-padding: 5px;
 }
+
+.icon-button:hover {
+    -fx-background-color: #a0a8d6;
+}
+
+.icon-button:pressed {
+    -fx-background-color: #858dc1;
+}
+
+/* Ensure table cells center their content */
+.table-cell {
+    -fx-alignment: center;
+}
+
+/* Error label styling */
+.label {
+    -fx-font-size: 14px;
+}
+/* Styling for icon buttons */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-padding: 5px;
+}
+
+.icon-button:hover {
+    -fx-background-color: #a0a8d6;
+}
+
+.icon-button:pressed {
+    -fx-background-color: #858dc1;
+}
+

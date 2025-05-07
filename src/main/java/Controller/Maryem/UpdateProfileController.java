@@ -4,6 +4,8 @@ import entite.Profile;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import service.ProfileService;
 
@@ -41,29 +43,61 @@ public class UpdateProfileController {
     private DisplayProfilesController parentController;
 
     public void setProfile(Profile profile, DisplayProfilesController parentController) {
+        System.out.println("Entering UpdateProfileController.setProfile");
         this.profileToUpdate = profile;
         this.parentController = parentController;
         this.profileService = new ProfileService();
 
-        // Initialiser le ComboBox avec les options
-        specialtyComboBox.setItems(FXCollections.observableArrayList("Psychologue", "Nutritionniste"));
+        try {
+            // Configure buttons with icons
+            setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Save Profile");
+            setupButton(cancelButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Cancel");
 
-        // Pré-remplir les champs avec les données du profil
-        biographyField.setText(profile.getBiographie() != null ? profile.getBiographie() : "");
-        specialtyComboBox.setValue(profile.getSpecialite() != null ? profile.getSpecialite() : null);
-        resourcesField.setText(profile.getRessources() != null ? profile.getRessources() : "");
-        priceField.setText(profile.getPrixConsultation() != 0 ? String.valueOf(profile.getPrixConsultation()) : "");
-        latitudeField.setText(profile.getLatitude() != null ? String.valueOf(profile.getLatitude()) : "");
-        longitudeField.setText(profile.getLongitude() != null ? String.valueOf(profile.getLongitude()) : "");
+            // Initialize the ComboBox with options
+            specialtyComboBox.setItems(FXCollections.observableArrayList("Psychologue", "Nutritionniste"));
+
+            // Pre-fill fields with profile data
+            biographyField.setText(profile.getBiographie() != null ? profile.getBiographie() : "");
+            specialtyComboBox.setValue(profile.getSpecialite() != null ? profile.getSpecialite() : null);
+            resourcesField.setText(profile.getRessources() != null ? profile.getRessources() : "");
+            priceField.setText(profile.getPrixConsultation() != 0 ? String.valueOf(profile.getPrixConsultation()) : "");
+            latitudeField.setText(profile.getLatitude() != null ? String.valueOf(profile.getLatitude()) : "");
+            longitudeField.setText(profile.getLongitude() != null ? String.valueOf(profile.getLongitude()) : "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorLabel.setText("Error initializing form: " + e.getMessage());
+        }
+        System.out.println("Exiting UpdateProfileController.setProfile");
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     @FXML
     private void saveProfile() {
         try {
-            // Réinitialiser le message d'erreur
+            // Reset error message
             errorLabel.setText("");
 
-            // Validation des champs
+            // Validate fields
             String selectedSpecialty = specialtyComboBox.getValue();
             if (selectedSpecialty == null) {
                 errorLabel.setText("Specialty is required.");
@@ -110,7 +144,7 @@ public class UpdateProfileController {
                 }
             }
 
-            // Mettre à jour le profil
+            // Update profile
             profileToUpdate.setBiographie(biographyField.getText().isEmpty() ? null : biographyField.getText());
             profileToUpdate.setSpecialite(selectedSpecialty);
             profileToUpdate.setRessources(resourcesField.getText().isEmpty() ? null : resourcesField.getText());
@@ -118,15 +152,15 @@ public class UpdateProfileController {
             profileToUpdate.setLatitude(latitude);
             profileToUpdate.setLongitude(longitude);
 
-            // Appeler le service pour mettre à jour
+            // Call service to update
             profileService.update(profileToUpdate);
 
-            // Rafraîchir la table dans le contrôleur parent
+            // Refresh table in parent controller
             if (parentController != null) {
                 parentController.refreshTable();
             }
 
-            // Fermer la fenêtre
+            // Close window
             Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
 
@@ -138,7 +172,7 @@ public class UpdateProfileController {
 
     @FXML
     private void cancel() {
-        // Fermer la fenêtre sans sauvegarder
+        // Close window without saving
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }

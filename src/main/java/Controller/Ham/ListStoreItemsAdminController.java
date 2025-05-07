@@ -2,6 +2,7 @@ package Controller.Ham;
 
 import entite.StoreItem;
 import entite.Title;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +11,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import service.StoreItemService;
 import service.TitleService;
-
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -21,44 +24,19 @@ import java.util.regex.Pattern;
 
 public class ListStoreItemsAdminController implements Initializable {
 
-    @FXML
-    private TableView<StoreItem> storeItemsTable;
-
-    @FXML
-    private TableColumn<StoreItem, Integer> idColumn;
-
-    @FXML
-    private TableColumn<StoreItem, String> titleColumn;
-
-    @FXML
-    private TableColumn<StoreItem, String> nameColumn;
-
-    @FXML
-    private TableColumn<StoreItem, String> descriptionColumn;
-
-    @FXML
-    private TableColumn<StoreItem, Integer> priceColumn;
-
-    @FXML
-    private TableColumn<StoreItem, String> imageColumn;
-
-    @FXML
-    private TableColumn<StoreItem, Integer> stockColumn;
-
-    @FXML
-    private TableColumn<StoreItem, Void> updateColumn;
-
-    @FXML
-    private TableColumn<StoreItem, Void> deleteColumn;
-
-    @FXML
-    private Button createTitleButton;
-
-    @FXML
-    private Button createStoreItemButton;
-
-    @FXML
-    private Label errorLabel;
+    @FXML private TableView<StoreItem> storeItemsTable;
+    @FXML private TableColumn<StoreItem, Integer> idColumn;
+    @FXML private TableColumn<StoreItem, String> titleColumn;
+    @FXML private TableColumn<StoreItem, String> nameColumn;
+    @FXML private TableColumn<StoreItem, String> descriptionColumn;
+    @FXML private TableColumn<StoreItem, Integer> priceColumn;
+    @FXML private TableColumn<StoreItem, String> imageColumn;
+    @FXML private TableColumn<StoreItem, Integer> stockColumn;
+    @FXML private TableColumn<StoreItem, Void> updateColumn;
+    @FXML private TableColumn<StoreItem, Void> deleteColumn;
+    @FXML private Button createTitleButton;
+    @FXML private Button createStoreItemButton;
+    @FXML private Label errorLabel;
 
     private StoreItemService storeItemService;
     private TitleService titleService;
@@ -88,7 +66,13 @@ public class ListStoreItemsAdminController implements Initializable {
 
         // Update Column
         updateColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button updateButton = new Button("Update");
+            private final Button updateButton = new Button();
+
+            {
+                setupButton(updateButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Update Item", "");
+            }
+            // ... rest of the cell factory code remains unchanged
+
 
             @Override
             protected void updateItem(Void item, boolean empty) {
@@ -96,8 +80,8 @@ public class ListStoreItemsAdminController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
+                    StoreItem storeItem = getTableView().getItems().get(getIndex());
                     updateButton.setOnAction(event -> {
-                        StoreItem storeItem = getTableView().getItems().get(getIndex());
                         Dialog<StoreItem> dialog = createUpdateDialog(storeItem);
                         Optional<StoreItem> result = dialog.showAndWait();
                         result.ifPresent(updatedItem -> {
@@ -118,7 +102,11 @@ public class ListStoreItemsAdminController implements Initializable {
 
         // Delete Column
         deleteColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Delete");
+            private final Button deleteButton = new Button();
+
+            {
+                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Item", "");
+            }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
@@ -138,19 +126,55 @@ public class ListStoreItemsAdminController implements Initializable {
             }
         });
 
+        // Configure buttons with icons
+        Platform.runLater(() -> {
+            setupButton(createTitleButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Create Title", "Create Title");
+            setupButton(createStoreItemButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Create Store Item", "Create Store Item");
+        });
+
         // Load data
         refreshTable();
     }
 
+    private void setupButton(Button button, String iconUrl, String tooltipText, String buttonText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+
+            if (buttonText != null && !buttonText.isEmpty()) {
+                Label textLabel = new Label(buttonText);
+                textLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+                HBox content = new HBox(5, icon, textLabel);
+                content.setAlignment(javafx.geometry.Pos.CENTER);
+                button.setGraphic(content);
+                button.setText("");
+                button.setMinSize(120, 60); // Increased width for text
+                button.getStyleClass().add("icon-button-with-text");
+            } else {
+                button.setGraphic(icon);
+                button.setText("");
+                button.setMinSize(60, 60);
+                button.getStyleClass().add("icon-button");
+            }
+
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            button.setText(buttonText != null && !buttonText.isEmpty() ? buttonText : tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(buttonText != null && !buttonText.isEmpty() ? 120 : 60, 60);
+            button.getStyleClass().add(buttonText != null && !buttonText.isEmpty() ? "icon-button-with-text" : "icon-button");
+        }
+    }
     @FXML
     private void handleCreateTitle() {
         Dialog<Title> dialog = createTitleDialog();
         Optional<Title> result = dialog.showAndWait();
         result.ifPresent(newTitle -> {
             try {
-                // Create the title
                 titleService.createPst(newTitle);
-                // If price > 0 and points == 0, create a store item
                 if (newTitle.getPrice() > 0 && newTitle.getpoints_required() == 0) {
                     StoreItem storeItem = new StoreItem(
                             newTitle,
@@ -192,11 +216,9 @@ public class ListStoreItemsAdminController implements Initializable {
         dialog.setTitle("Create New Title");
         dialog.setHeaderText("Enter details for the new title");
 
-        // Set the button types
-        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType saveButtonType = new ButtonType("", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Create the form
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -218,7 +240,11 @@ public class ListStoreItemsAdminController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Mutual exclusivity for points and price
+        Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Save","Save");
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        setupButton(cancelButton, "https://img.icons8.com/?size=100&id=85853&format=png&color=000000", "Cancel","Cancel");
+
         pointsField.textProperty().addListener((obs, oldValue, newValue) -> {
             String trimmed = newValue.trim();
             if (!trimmed.isEmpty() && !trimmed.equals("0")) {
@@ -243,8 +269,6 @@ public class ListStoreItemsAdminController implements Initializable {
             }
         });
 
-        // Enable Save button only if inputs are valid
-        Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
         saveButton.setDisable(true);
         nameField.textProperty().addListener((obs, old, newValue) -> {
             boolean isValid = !newValue.trim().isEmpty() && isValidTitleInput(pointsField, priceField);
@@ -259,7 +283,6 @@ public class ListStoreItemsAdminController implements Initializable {
             saveButton.setDisable(!isValid);
         });
 
-        // Convert dialog result to Title
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 String name = nameField.getText().trim();
@@ -321,11 +344,9 @@ public class ListStoreItemsAdminController implements Initializable {
         dialog.setTitle("Create New Store Item");
         dialog.setHeaderText("Enter details for the new store item");
 
-        // Set the button types
-        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType saveButtonType = new ButtonType("", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Create the form
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -342,10 +363,9 @@ public class ListStoreItemsAdminController implements Initializable {
         TextField stockField = new TextField();
         stockField.setPromptText("Stock");
 
-        // ComboBox for titles
         ComboBox<Title> titleComboBox = new ComboBox<>();
         ObservableList<Title> titleOptions = FXCollections.observableArrayList();
-        titleOptions.add(null); // Option for no title
+        titleOptions.add(null);
         titleOptions.addAll(titleService.readAll());
         titleComboBox.setItems(titleOptions);
         titleComboBox.setPromptText("Select Title (optional)");
@@ -379,8 +399,11 @@ public class ListStoreItemsAdminController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Enable Save button only if inputs are valid
         Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Save","");
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        setupButton(cancelButton, "https://img.icons8.com/?size=100&id=85853&format=png&color=000000", "Cancel","");
+
         saveButton.setDisable(true);
         nameField.textProperty().addListener((obs, old, newValue) -> {
             saveButton.setDisable(!isValidStoreItemInput(nameField, descriptionArea, priceField, imageField, stockField));
@@ -398,7 +421,6 @@ public class ListStoreItemsAdminController implements Initializable {
             saveButton.setDisable(!isValidStoreItemInput(nameField, descriptionArea, priceField, imageField, stockField));
         });
 
-        // Convert dialog result to StoreItem
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 String name = nameField.getText().trim();
@@ -407,19 +429,16 @@ public class ListStoreItemsAdminController implements Initializable {
                 String image = imageField.getText().trim();
                 String stockText = stockField.getText().trim();
 
-                // Name validation: at least 3 characters
                 if (name.isEmpty() || name.length() < 3) {
                     setMessage("Name must be at least 3 characters long.", false);
                     return null;
                 }
 
-                // Description validation: optional, but if provided, at least 5 characters
                 if (!description.isEmpty() && description.length() < 5) {
                     setMessage("Description, if provided, must be at least 5 characters.", false);
                     return null;
                 }
 
-                // Price validation: must be positive
                 int price;
                 try {
                     price = Integer.parseInt(priceText);
@@ -432,13 +451,11 @@ public class ListStoreItemsAdminController implements Initializable {
                     return null;
                 }
 
-                // Image URL validation: optional, but if provided, must match URL pattern
                 if (!image.isEmpty() && !URL_PATTERN.matcher(image).matches()) {
                     setMessage("Image URL, if provided, must be valid.", false);
                     return null;
                 }
 
-                // Stock validation: must be non-negative
                 int stock;
                 try {
                     stock = Integer.parseInt(stockText);
@@ -471,11 +488,9 @@ public class ListStoreItemsAdminController implements Initializable {
         dialog.setTitle("Update Store Item");
         dialog.setHeaderText("Edit item: " + storeItem.getName());
 
-        // Set the button types
-        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType saveButtonType = new ButtonType("", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Create the form
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -492,10 +507,9 @@ public class ListStoreItemsAdminController implements Initializable {
         TextField stockField = new TextField(String.valueOf(storeItem.getStock()));
         stockField.setPromptText("Stock");
 
-        // ComboBox for titles
         ComboBox<Title> titleComboBox = new ComboBox<>();
         ObservableList<Title> titleOptions = FXCollections.observableArrayList();
-        titleOptions.add(null); // Option for no title
+        titleOptions.add(null);
         titleOptions.addAll(titleService.readAll());
         titleComboBox.setItems(titleOptions);
         titleComboBox.setPromptText("Select Title (optional)");
@@ -530,8 +544,11 @@ public class ListStoreItemsAdminController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Enable Save button only if inputs are valid
         Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Save","");
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        setupButton(cancelButton, "https://img.icons8.com/?size=100&id=85853&format=png&color=000000", "Cancel","");
+
         saveButton.setDisable(true);
         nameField.textProperty().addListener((obs, old, newValue) -> {
             saveButton.setDisable(!isValidStoreItemInput(nameField, descriptionArea, priceField, imageField, stockField));
@@ -549,7 +566,6 @@ public class ListStoreItemsAdminController implements Initializable {
             saveButton.setDisable(!isValidStoreItemInput(nameField, descriptionArea, priceField, imageField, stockField));
         });
 
-        // Convert dialog result to StoreItem
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 String name = nameField.getText().trim();
@@ -558,19 +574,16 @@ public class ListStoreItemsAdminController implements Initializable {
                 String image = imageField.getText().trim();
                 String stockText = stockField.getText().trim();
 
-                // Name validation: at least 3 characters
                 if (name.isEmpty() || name.length() < 3) {
                     setMessage("Name must be at least 3 characters long.", false);
                     return null;
                 }
 
-                // Description validation: optional, but if provided, at least 5 characters
                 if (!description.isEmpty() && description.length() < 5) {
                     setMessage("Description, if provided, must be at least 5 characters.", false);
                     return null;
                 }
 
-                // Price validation: must be positive
                 int price;
                 try {
                     price = Integer.parseInt(priceText);
@@ -583,13 +596,11 @@ public class ListStoreItemsAdminController implements Initializable {
                     return null;
                 }
 
-                // Image URL validation: optional, but if provided, must match URL pattern
                 if (!image.isEmpty() && !URL_PATTERN.matcher(image).matches()) {
                     setMessage("Image URL, if provided, must be valid.", false);
                     return null;
                 }
 
-                // Stock validation: must be non-negative
                 int stock;
                 try {
                     stock = Integer.parseInt(stockText);
@@ -651,17 +662,14 @@ public class ListStoreItemsAdminController implements Initializable {
         String image = imageField.getText().trim();
         String stockText = stockField.getText().trim();
 
-        // Name validation: at least 3 characters
         if (name.isEmpty() || name.length() < 3) {
             return false;
         }
 
-        // Description validation: optional, but if provided, at least 5 characters
         if (!description.isEmpty() && description.length() < 5) {
             return false;
         }
 
-        // Price validation: must be positive
         try {
             int price = Integer.parseInt(priceText);
             if (price <= 0) {
@@ -671,12 +679,10 @@ public class ListStoreItemsAdminController implements Initializable {
             return false;
         }
 
-        // Image URL validation: optional, but if provided, must match URL pattern
         if (!image.isEmpty() && !URL_PATTERN.matcher(image).matches()) {
             return false;
         }
 
-        // Stock validation: must be non-negative
         try {
             int stock = Integer.parseInt(stockText);
             if (stock < 0) {

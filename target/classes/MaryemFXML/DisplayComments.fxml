@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.DisplayCommentsController">
@@ -17,13 +18,17 @@
 
     <TableView fx:id="commentsTable">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
-            <TableColumn fx:id="userNameColumn" text="User Name" prefWidth="150"/>            <TableColumn fx:id="commentColumn" text="Comment" prefWidth="200"/>
-            <TableColumn fx:id="consultationIdColumn" text="Consultation ID" prefWidth="100"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="userNameColumn" text="User Name" prefWidth="150"/>
+            <TableColumn fx:id="commentColumn" text="Comment" prefWidth="200"/>
+            <TableColumn fx:id="consultationIdColumn" text="Consultation ID" prefWidth="100" style="-fx-alignment: CENTER;"/>
             <TableColumn fx:id="reportReasonColumn" text="Report Reason" prefWidth="150"/>
-            <TableColumn fx:id="reportedColumn" text="Reported" prefWidth="80"/>
-            <TableColumn fx:id="actionColumn" text="Action" prefWidth="100"/>
+            <TableColumn fx:id="reportedColumn" text="Reported" prefWidth="80" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="actionColumn" text="Action" prefWidth="100" style="-fx-alignment: CENTER;"/>
         </columns>
+        <stylesheets>
+            <URL value="@/css/displayprofilesback.css"/>
+        </stylesheets>
     </TableView>
 
     <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>

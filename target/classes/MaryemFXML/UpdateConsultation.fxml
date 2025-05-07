@@ -11,12 +11,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.UpdateConsultationController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
+    <stylesheets>
+        <URL value="@/css/ButtonsWithIcons.css"/>
+    </stylesheets>
 
     <Text text="Update Consultation" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
@@ -38,11 +42,10 @@
     </GridPane>
 
     <HBox spacing="10.0" alignment="CENTER">
-        <Button fx:id="saveButton" text="Save" onAction="#saveConsultation"/>
-        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel"/>
+        <Button fx:id="saveButton" styleClass="icon-button" onAction="#saveConsultation"/>
+        <Button fx:id="cancelButton" styleClass="icon-button" onAction="#cancel"/>
     </HBox>
 
     <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
 
 </VBox>
-

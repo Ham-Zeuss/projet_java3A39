@@ -1,11 +1,14 @@
 package Controller.Hedy.Dahsboard;
+
 import entite.Module;
-import javafx.application.Platform; // Import Platform for focus management
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import service.ModuleService;
@@ -21,10 +24,10 @@ public class AffichageModuleDashboardController {
     @FXML private TableColumn<Module, String> descriptionColumn;
     @FXML private TableColumn<Module, Integer> coursesColumn;
     @FXML private TableColumn<Module, String> levelColumn;
-    @FXML private TextField searchField; // Search field
+    @FXML private TextField searchField;
 
     private final ModuleService moduleService = new ModuleService();
-    private Integer loggedInUserId; // Field to store the logged-in user's ID
+    private Integer loggedInUserId;
 
     public void setLoggedInUserId(Integer userId) {
         this.loggedInUserId = userId;
@@ -32,9 +35,6 @@ public class AffichageModuleDashboardController {
 
     @FXML
     public void initialize() {
-        // Load CSS file
-        modulesTable.getStylesheets().add(getClass().getResource("/css/DesignDashboardHedy.css").toExternalForm());
-
         configureTable();
         loadModules();
 
@@ -45,7 +45,7 @@ public class AffichageModuleDashboardController {
 
         // Clear focus from the search bar when the page loads
         Platform.runLater(() -> {
-            searchField.getParent().requestFocus(); // Set focus to the parent container
+            searchField.getParent().requestFocus();
         });
 
         // Add listener to open AffichageCours when a module title is clicked
@@ -103,18 +103,16 @@ public class AffichageModuleDashboardController {
 
         // Add "Actions" column with buttons
         TableColumn<Module, Void> actionColumn = new TableColumn<>("Actions");
-        actionColumn.setPrefWidth(180);
+        actionColumn.setPrefWidth(220);
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Modifier");
-            private final Button deleteButton = new Button("Supprimer");
+            private final Button editButton = new Button();
+            private final Button deleteButton = new Button();
 
             {
-                // Apply CSS classes to buttons
-                editButton.getStyleClass().add("button-modifier");
-                deleteButton.getStyleClass().add("button-supprimer");
+                setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Edit Module");
+                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Module");
 
-                // Set action for the edit button
                 editButton.setOnAction(event -> {
                     Module module = getTableView().getItems().get(getIndex());
                     if (module != null) {
@@ -122,7 +120,6 @@ public class AffichageModuleDashboardController {
                     }
                 });
 
-                // Set action for the delete button
                 deleteButton.setOnAction(event -> {
                     Module module = getTableView().getItems().get(getIndex());
                     if (module != null) {
@@ -146,6 +143,35 @@ public class AffichageModuleDashboardController {
 
         // Add all columns to the table
         modulesTable.getColumns().addAll(titleColumn, descriptionColumn, coursesColumn, levelColumn, actionColumn);
+
+        // Configure addButton with icon
+        Platform.runLater(() -> {
+            Button addButton = (Button) modulesTable.getScene().lookup("#addButton");
+            if (addButton != null) {
+                setupButton(addButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Add Module");
+            }
+        });
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     private void deleteModule(Module module) {
@@ -196,7 +222,7 @@ public class AffichageModuleDashboardController {
             Parent root = loader.load();
 
             AffichageCoursDashboardHedy controller = loader.getController();
-            controller.setModule(module);  // Pass the selected module to the controller
+            controller.setModule(module);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -220,20 +246,11 @@ public class AffichageModuleDashboardController {
         }
     }
 
-    /**
-     * Filters the modules in the TableView based on the search text.
-     *
-     * @param searchText The text entered by the user in the search field.
-     */
     private void filterModules(String searchText) {
-        List<Module> allModules = moduleService.readAll(); // Fetch all modules from the database
-
-        // Filter modules whose title contains the search text (case-insensitive)
+        List<Module> allModules = moduleService.readAll();
         List<Module> filteredModules = allModules.stream()
                 .filter(module -> module.getTitle().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toList());
-
-        // Update the TableView with the filtered modules
         modulesTable.getItems().setAll(filteredModules);
     }
 }

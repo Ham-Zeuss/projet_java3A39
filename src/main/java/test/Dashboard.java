@@ -3,6 +3,7 @@ package test;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
@@ -25,6 +27,11 @@ public class Dashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth() * 0.8; // Use 80% of screen width
+        double screenHeight = screenBounds.getHeight() * 0.8; // Use 80% of screen height
+
         // Create a Consumer<String> that wraps loadFXML with the current stage
         Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(primaryStage, fxmlPath);
 
@@ -35,8 +42,8 @@ public class Dashboard extends Application {
                 () -> loadDashboard(primaryStage), // Dashboard action
                 () -> loadFXML(primaryStage, "/User/index_user.fxml"), // Utilisateurs action
                 () -> loadFXML(primaryStage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
-                () -> System.out.println("Logout clicked (implement logout logic here)") ,// Logout action
-        (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
+                () -> System.out.println("Logout clicked (implement logout logic here)"), // Logout action
+                (fxmlPath) -> loadFXML(primaryStage, fxmlPath)
         );
 
         // Main layout
@@ -47,14 +54,23 @@ public class Dashboard extends Application {
         root.setUserData(this); // Set userData to this Dashboard instance
 
         // Scene and stage
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         primaryStage.setScene(scene);
+        // Manually center the stage
+        primaryStage.setX((screenBounds.getWidth() - screenWidth) / 2);
+        primaryStage.setY((screenBounds.getHeight() - screenHeight) / 2);
+        primaryStage.centerOnScreen(); // Fallback centering
         primaryStage.setTitle("Analytics Dashboard");
         primaryStage.show();
     }
 
     private void loadDashboard(Stage stage) {
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth() * 0.8; // Use 80% of screen width
+        double screenHeight = screenBounds.getHeight() * 0.8; // Use 80% of screen height
+
         // Create a Consumer<String> that wraps loadFXML with the current stage
         Consumer<String> loadFXMLConsumer = fxmlPath -> loadFXML(stage, fxmlPath);
 
@@ -68,20 +84,29 @@ public class Dashboard extends Application {
                 () -> loadFXML(stage, "/User/index_user.fxml"),
                 () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                 () -> System.out.println("Logout clicked (implement logout logic here)"),
-        (fxmlPath) -> loadFXML(stage, fxmlPath)
+                (fxmlPath) -> loadFXML(stage, fxmlPath)
         );
 
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
         root.setUserData(this); // Set userData to this Dashboard instance
 
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
+        // Manually center the stage
+        stage.setX((screenBounds.getWidth() - screenWidth) / 2);
+        stage.setY((screenBounds.getHeight() - screenHeight) / 2);
+        stage.centerOnScreen(); // Fallback centering
     }
 
     void loadFXML(Stage stage, String fxmlPath) {
         try {
+            // Get screen dimensions
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double screenWidth = screenBounds.getWidth() * 0.8; // Use 80% of screen width
+            double screenHeight = screenBounds.getHeight() * 0.8; // Use 80% of screen height
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent fxmlContent = loader.load(); // Load as Parent, not BorderPane
 
@@ -98,16 +123,20 @@ public class Dashboard extends Application {
                     () -> loadFXML(stage, "/User/index_user.fxml"),
                     () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
                     () -> System.out.println("Logout clicked (implement logout logic here)"),
-            (fxmlPathInner) -> loadFXML(stage, fxmlPathInner)
+                    (fxmlPathInner) -> loadFXML(stage, fxmlPathInner)
             );
 
             root.setLeft(sidebar);
             root.setCenter(fxmlContent); // Set the loaded FXML content as center
             root.setUserData(this); // Set userData to this Dashboard instance
 
-            Scene scene = new Scene(root, 1000, 600);
+            Scene scene = new Scene(root, screenWidth, screenHeight);
             scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
             stage.setScene(scene);
+            // Manually center the stage
+            stage.setX((screenBounds.getWidth() - screenWidth) / 2);
+            stage.setY((screenBounds.getHeight() - screenHeight) / 2);
+            stage.centerOnScreen(); // Fallback centering
         } catch (IOException e) {
             System.err.println("Failed to load FXML: " + fxmlPath + " - " + e.getMessage());
         }

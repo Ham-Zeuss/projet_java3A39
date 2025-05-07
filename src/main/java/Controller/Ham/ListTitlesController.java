@@ -14,6 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
 
 public class ListTitlesController {
 
@@ -56,28 +61,43 @@ public class ListTitlesController {
         loadTitles();
     }
 
-    private void loadTitles() {
+    // Add setupButton method before addActionButtons
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
         try {
-            ObservableList<Title> titles = FXCollections.observableArrayList(titleService.readAll());
-            titlesTable.setItems(titles);
-            errorLabel.setText("");
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
         } catch (Exception e) {
-            errorLabel.setText("Error loading titles: " + e.getMessage());
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
         }
     }
 
+    // Replace addActionButtons method
     private void addActionButtons() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Delete");
-            private final Button updateButton = new Button("Update");
+            private final Button deleteButton = new Button();
+            private final Button updateButton = new Button();
             private final HBox hbox = new HBox(10, updateButton, deleteButton);
 
             {
+                setupButton(updateButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Update Title");
+                setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Title");
+
                 deleteButton.setOnAction(event -> {
                     Title selectedTitle = getTableView().getItems().get(getIndex());
                     try {
                         titleService.delete(selectedTitle);
-                        loadTitles(); // Refresh table
+                        loadTitles();
                     } catch (Exception e) {
                         errorLabel.setText("Error deleting title: " + e.getMessage());
                     }
@@ -95,10 +115,9 @@ public class ListTitlesController {
                         Stage stage = new Stage();
                         stage.setTitle("Update Title");
                         stage.setScene(new Scene(root));
-                        stage.showAndWait(); // Wait until window closes
+                        stage.showAndWait();
 
-                        loadTitles(); // Refresh table after update
-
+                        loadTitles();
                     } catch (IOException e) {
                         e.printStackTrace();
                         errorLabel.setText("Error opening update window.");
@@ -117,4 +136,15 @@ public class ListTitlesController {
             }
         });
     }
+
+    private void loadTitles() {
+        try {
+            ObservableList<Title> titles = FXCollections.observableArrayList(titleService.readAll());
+            titlesTable.setItems(titles);
+            errorLabel.setText("");
+        } catch (Exception e) {
+            errorLabel.setText("Error loading titles: " + e.getMessage());
+        }
+    }
+
 }

@@ -99,3 +99,26 @@
     -fx-font-size: 14;
     -fx-font-weight: bold;
 }
+
+
+
+
+
+/* Styling for icon buttons */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-padding: 5px;
+}
+
+.icon-button:hover {
+    -fx-background-color: #a0a8d6;
+}
+
+.icon-button:pressed {
+    -fx-background-color: #858dc1;
+}
+
+
+

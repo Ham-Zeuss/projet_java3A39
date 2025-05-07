@@ -2,39 +2,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.Hedy.Dahsboard.AffichageCoursDashboardHedy"
-            style="-fx-background-color: #f5f5f5;"
-            prefHeight="600.0" prefWidth="1000.0">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Hedy.Dahsboard.AffichageCoursDashboardHedy"
+      prefHeight="600" prefWidth="1000">
+    <stylesheets>
+        <URL value="@/css/displayprofilesback.css"/>
+    </stylesheets>
 
     <!-- Header with Module Title -->
-    <VBox spacing="10" style="-fx-padding: 15;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label fx:id="moduleTitleLabel"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-
-        <!-- 🔥 Add This Line Below 🔥 -->
-        <Label fx:id="courseCountLabel"
-               style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
+    <VBox spacing="10">
+        <Label fx:id="moduleTitleLabel"/>
+        <Label fx:id="courseCountLabel"/>
     </VBox>
 
     <!-- Button to Add Course -->
-    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 15;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Button text="Ajouter Cours" onAction="#goToAjoutCours"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;"/>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Button fx:id="addButton" styleClass="icon-button" onAction="#goToAjoutCours"/>
     </HBox>
 
-    <!-- Grid for Course Cards -->
-    <GridPane fx:id="coursGrid"
-              AnchorPane.topAnchor="80"
-              AnchorPane.bottomAnchor="60"
-              AnchorPane.leftAnchor="0"
-              AnchorPane.rightAnchor="0">
-        <padding>
-            <Insets top="20" bottom="20" left="20" right="20"/>
-        </padding>
-        <hgap>20</hgap>
-        <vgap>20</vgap>
-    </GridPane>
-</AnchorPane>
+    <!-- TableView to display course list -->
+    <TableView fx:id="coursTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="Titre" fx:id="titleCol" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            <TableColumn text="PDF" fx:id="pdfCol" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            <TableColumn text="Dernière Modification" fx:id="updatedAtCol" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            <TableColumn text="Actions" fx:id="actionsCol" prefWidth="220"/>
+        </columns>
+    </TableView>
+
+</VBox>

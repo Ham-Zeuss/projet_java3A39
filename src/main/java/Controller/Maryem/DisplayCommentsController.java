@@ -10,6 +10,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
@@ -82,7 +84,11 @@ public class DisplayCommentsController {
             reportedColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isReported()));
 
             actionColumn.setCellFactory(param -> new TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
+                private final Button deleteButton = new Button();
+
+                {
+                    setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Comment");
+                }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
@@ -102,6 +108,27 @@ public class DisplayCommentsController {
         } catch (Exception e) {
             e.printStackTrace();
             errorLabel.setText("Error initializing comments: " + e.getMessage());
+        }
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
         }
     }
 

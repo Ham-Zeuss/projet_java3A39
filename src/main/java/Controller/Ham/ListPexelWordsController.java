@@ -13,7 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import javafx.application.Platform;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 import java.io.IOException;
 
 public class ListPexelWordsController {
@@ -44,43 +47,49 @@ public class ListPexelWordsController {
 
     private PexelWordService pexelWordService;
 
+
+
+
+    private void setupButton(Button button, String iconUrl, String tooltipText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText("");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(60, 60);
+            button.getStyleClass().add("icon-button");
+        }
+    }
+
     @FXML
     public void initialize() {
-        // Initialize PexelWordService
         pexelWordService = new PexelWordService();
 
-        // Set up table columns
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
         difficultyColumn.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
 
-        // Enable/disable buttons based on selection
         pexelWordsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             updateButton.setDisable(newSelection == null);
             deleteButton.setDisable(newSelection == null);
         });
 
-        // Load data into table
-        loadPexelWords();
+        Platform.runLater(() -> {
+            setupButton(createButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Create New Word");
+            setupButton(updateButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Update Selected Word");
+            setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Delete Selected Word");
+        });
 
-        // Optional: Add sidebar in controller (uncomment if needed)
-        /*
-        Stage stage = (Stage) pexelWordsTable.getScene().getWindow();
-        test.Sidebar sidebarCreator = new test.Sidebar();
-        ScrollPane sidebar = sidebarCreator.createSidebar(
-            stage,
-            () -> loadFXML(stage, "/test/Dashboard.fxml"), // Adjust path if Dashboard is FXML
-            () -> loadFXML(stage, "/User/index_user.fxml"),
-            () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"),
-            () -> System.out.println("Logout clicked")
-        );
-        BorderPane root = new BorderPane();
-        root.setLeft(sidebar);
-        root.setCenter(pexelWordsTable.getScene().getRoot());
-        Scene scene = new Scene(root, 1000, 600);
-        scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
-        stage.setScene(scene);
-        */
+        loadPexelWords();
     }
 
     private void loadPexelWords() {
