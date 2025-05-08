@@ -40,8 +40,8 @@
         <ComboBox fx:id="courseComboBox" promptText="Sélectionnez un cours" styleClass="combo-box" prefWidth="500.0"/>
 
         <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="option-container">
-            <Button fx:id="updateButton" text="Enregistrer" styleClass="quiz-button" prefWidth="120.0"/>
-            <Button fx:id="returnButton" text="Retour" styleClass="return-button" onAction="#returnToAffichageQuiz" prefWidth="120.0"/>
+            <Button fx:id="updateButton" prefWidth="120.0"/>
+            <Button fx:id="returnButton" onAction="#returnToAffichageQuiz" prefWidth="120.0"/>
         </HBox>
     </VBox>
 </AnchorPane>

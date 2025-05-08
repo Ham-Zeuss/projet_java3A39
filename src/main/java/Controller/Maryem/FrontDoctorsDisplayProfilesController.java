@@ -76,9 +76,7 @@ public class FrontDoctorsDisplayProfilesController {
                 profileCard.setPadding(new Insets(10));
                 profileCard.setPrefWidth(220);
                 profileCard.setMaxWidth(220);
-                profileCard.setPrefHeight(300); // ou ajuste à ton goût
-
-
+                profileCard.setPrefHeight(300);
 
                 User user = profile.getUserId();
                 String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
@@ -99,6 +97,15 @@ public class FrontDoctorsDisplayProfilesController {
 
                 Button resourcesButton = new Button("Voir PDF");
                 resourcesButton.getStyleClass().add("button");
+                try {
+                    ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=115637&format=png&color=000000"));
+                    iconView.setFitWidth(55);
+                    iconView.setFitHeight(55);
+                    iconView.setPreserveRatio(true);
+                    resourcesButton.setGraphic(iconView);
+                } catch (Exception e) {
+                    System.err.println("Error loading resources button icon: " + e.getMessage());
+                }
                 resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
                 profileCard.getChildren().addAll(
@@ -276,7 +283,7 @@ public class FrontDoctorsDisplayProfilesController {
                 System.err.println("Failed to load DoctorConsultations.fxml: " + e.getMessage());
                 throw e;
             }
-            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 2000; -fx-max-height: 5000;-fx-background-color: #DCE6D7FF;");
+            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 500; -fx-max-height: 5000;-fx-background-color: #DCE6D7FF;");
             mainContent.getChildren().add(bodyContent);
 
             // Footer image
@@ -338,9 +345,7 @@ public class FrontDoctorsDisplayProfilesController {
                 profileCard.setPadding(new Insets(10));
                 profileCard.setPrefWidth(220);
                 profileCard.setMaxWidth(220);
-                profileCard.setPrefHeight(300); // ou ajuste à ton goût
-
-
+                profileCard.setPrefHeight(300);
 
                 User user = profile.getUserId();
                 String fullName = (user.getNom() != null ? user.getNom() : "") + " " +
@@ -361,6 +366,15 @@ public class FrontDoctorsDisplayProfilesController {
 
                 Button resourcesButton = new Button("View PDF");
                 resourcesButton.getStyleClass().add("button");
+                try {
+                    ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=115637&format=png&color=000000"));
+                    iconView.setFitWidth(55);
+                    iconView.setFitHeight(55);
+                    iconView.setPreserveRatio(true);
+                    resourcesButton.setGraphic(iconView);
+                } catch (Exception e) {
+                    System.err.println("Error loading resources button icon: " + e.getMessage());
+                }
                 resourcesButton.setOnAction(event -> openPDF(profile.getRessources()));
 
                 profileCard.getChildren().addAll(

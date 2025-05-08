@@ -1,47 +1,61 @@
 package Controller.Hedy;
-
 import Controller.Hedy.Dahsboard.*;
+import entite.Session;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import service.ModuleService;
 import entite.Cours;
 import entite.Module;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import service.CoursService;
 import service.DropboxService;
-import service.ModuleService;
-
 import java.io.File;
 import java.io.IOException;
+import javafx.stage.FileChooser;
+import javafx.scene.control.Alert.AlertType;
+
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+
 
 public class AjoutCoursController {
 
     @FXML private TextField titleField;
     @FXML private TextField pdfNameField;
+
+
     @FXML private Button retourButton;
     @FXML private Button selectPdfButton;
     @FXML private Button saveButton;
 
+
+
     private Module currentModule;
     private final CoursService coursService = new CoursService();
-    private Integer currentUserId;
-
+    private Integer currentUserId; // Store the ID of the currently logged-in user
+    Session session = Session.getInstance();
+    String userRole = session.getRole();
     public void setCurrentModule(Module module) {
         this.currentModule = module;
     }
 
     public void setCurrentUserId(Integer userId) {
         this.currentUserId = userId;
-        System.out.println("Current User ID set to: " + currentUserId);
+        System.out.println("Current User ID set to: " + currentUserId); // Debugging log
     }
 
     @FXML
@@ -52,6 +66,7 @@ public class AjoutCoursController {
             setupButton(saveButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Add Course", true);
         });
     }
+
 
     private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
         try {
@@ -99,30 +114,114 @@ public class AjoutCoursController {
                 return;
             }
 
-            Cours newCours = new Cours(
-                    title,
-                    currentModule,
-                    pdfUrl,
-                    currentUserId
-            );
-
+            Cours newCours = new Cours(title, currentModule, pdfUrl, currentUserId);
             coursService.createPst(newCours);
 
-            // Increment module's course count and update DB
             ModuleService moduleService = new ModuleService();
             currentModule.setNombreCours(currentModule.getNombreCours() + 1);
             moduleService.update(currentModule);
 
             showAlert(AlertType.INFORMATION, "Succès", "Le cours a été ajouté avec succès!");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
+            // 🔁 Determine target FXML based on role
+            Session session = Session.getInstance();
+            String userRole = session.getRole();
+
+            String fxmlPath;
+            if ("ROLE_ENSEIGNANT".equals(userRole)) {
+                fxmlPath = "/HedyFXML/AffichageCoursFront.fxml";
+            } else if ("ROLE_ADMIN".equals(userRole)) {
+                fxmlPath = "/HedyFXML/AffichageCoursDashboard.fxml";
+            } else {
+                showAlert(AlertType.ERROR, "Accès refusé", "Vous n'avez pas les droits nécessaires pour accéder à cette page.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            AffichageCoursDashboardHedy controller = loader.getController();
-            controller.setModule(currentModule);
+            Object controller = loader.getController();
+            if (controller instanceof AffichageCoursDashboardHedy) {
+                ((AffichageCoursDashboardHedy) controller).setModule(currentModule);
+            } else if (controller instanceof AffichageCoursController) {
+                ((AffichageCoursController) controller).setModule(currentModule);
+            }
+
+            // Wrap content in VBox with header and footer if it's front view
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load header image
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150);
+                fallbackHeader.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+
+            // Add header
+            mainContent.getChildren().add(headerImageView);
+
+            // Style the loaded FXML content
+            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(root);
+
+            // Load footer image
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100);
+                fallbackFooter.setFill(Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+
+            // Add footer
+            mainContent.getChildren().add(footerImageView);
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Load CSS files if needed
+            try {
+                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
+                scene.getStylesheets().add(storeCardsCss);
+            } catch (Exception e) {
+                System.err.println("Error loading store-cards.css: " + e.getMessage());
+            }
+
+            try {
+                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
+                scene.getStylesheets().add(navBarCss);
+            } catch (Exception e) {
+                System.err.println("Error loading navbar.css: " + e.getMessage());
+            }
 
             Stage stage = (Stage) titleField.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.setTitle("Cours: " + currentModule.getTitle());
 
         } catch (Exception e) {
@@ -136,7 +235,8 @@ public class AjoutCoursController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
 
-            AffichageCoursDashboardHedy controller = loader.getController();
+            // Use the correct controller class
+            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
             controller.setModule(currentModule);
 
             Stage stage = (Stage) titleField.getScene().getWindow();
@@ -150,17 +250,102 @@ public class AjoutCoursController {
     @FXML
     private void retourCours() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
+            Session session = Session.getInstance();
+            String userRole = session.getRole();
+
+            String fxmlPath;
+            if ("ROLE_ENSEIGNANT".equals(userRole)) {
+                fxmlPath = "/HedyFXML/AffichageCoursFront.fxml";
+            } else if ("ROLE_ADMIN".equals(userRole)) {
+                fxmlPath = "/HedyFXML/AffichageCoursDashboard.fxml";
+            } else {
+                showAlert(AlertType.ERROR, "Accès refusé", "Vous n'avez pas les droits nécessaires pour accéder à cette page.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            AffichageCoursDashboardHedy controller = loader.getController();
-            controller.setModule(currentModule);
+            // Set module in controller if applicable
+            Object controller = loader.getController();
+            if (controller instanceof AffichageCoursDashboardHedy) {
+                ((AffichageCoursDashboardHedy) controller).setModule(currentModule);
+            } else if (controller instanceof AffichageCoursController) {
+                ((AffichageCoursController) controller).setModule(currentModule);
+            }
+
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Only wrap in header/footer if it's front view
+            if ("ROLE_ENSEIGNANT".equals(userRole)) {
+                // Load and add header
+                ImageView headerImageView = loadImageView("/header.png", 1500, 150);
+                mainContent.getChildren().add(headerImageView);
+
+                // Style content
+                root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080;");
+                mainContent.getChildren().add(root);
+
+                // Load and add footer
+                ImageView footerImageView = loadImageView("/footer.png", 1500, 100);
+                mainContent.getChildren().add(footerImageView);
+            } else {
+                mainContent.getChildren().add(root); // Admin doesn't need header/footer
+            }
+
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Add CSS if available
+            addStylesheet(scene, "/css/store-cards.css");
+            addStylesheet(scene, "/navbar.css");
 
             Stage stage = (Stage) titleField.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.setTitle("Cours: " + currentModule.getTitle());
+
         } catch (IOException e) {
-            System.err.println("Error loading AffichageCoursDashboard.fxml: " + e.getMessage());
+            System.err.println("Error loading FXML: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Impossible de charger la page demandée.");
+        }
+    }
+
+    // Helper to load images safely
+    private ImageView loadImageView(String imagePath, double fitWidth, double height) {
+        ImageView imageView = new ImageView();
+        try {
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            imageView.setImage(image);
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(fitWidth);
+            imageView.setSmooth(true);
+            imageView.setCache(true);
+        } catch (Exception e) {
+            Rectangle fallback = new Rectangle(1000, height);
+            fallback.setFill(Color.LIGHTGRAY);
+            Label errorLabel = new Label("Image not found: " + imagePath);
+            errorLabel.setStyle("-fx-font-size: 14; -fx-text-fill: red;");
+            VBox fallbackBox = new VBox(errorLabel, fallback);
+            VBox.setMargin(fallbackBox, new Insets(10));
+            VBox container = new VBox(fallbackBox);
+            container.setAlignment(Pos.CENTER);
+            ((Pane) imageView.getParent()).getChildren().add(container);
+            return null;
+        }
+        return imageView;
+    }
+
+    // Helper to add stylesheets
+    private void addStylesheet(Scene scene, String cssPath) {
+        try {
+            scene.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        } catch (Exception e) {
+            System.err.println("Error loading CSS: " + e.getMessage());
         }
     }
 
@@ -175,11 +360,11 @@ public class AjoutCoursController {
         if (selectedFile != null) {
             try {
                 // Initialize Dropbox Service
-                String dropboxAccessToken = "sl.u.AFswQNc9Py4NNONbvPJBke9NvJnfa_-7W5x3K-TMACnReyhGTflOrdQF1SC0LpC5gHXuCOUQ6MugX20AZVGq24ZW7V2HwWzGFaRK8UFiMAgQE6WBeOA9irJRJWu2phQHdvB9eQ8mhbCUXlEvd5k1DqNDZx3-n2dEh0xQozIDncV7QNx19AGn0LoHKYS_vYiPGzYl-lC3Jvo0nP8dU6mmQDfpKEB_jDIpMUXDj-en0xRTYVxRCw35ROiMKbVz-pznI4YxWFm94XSfdNeAOXx7DPSvWDa6zIjgt_B7N9OEK5IJxzO8i6uIKNUJdef7LNY5kDGZCgHDQBKpQs5YchbLE2Oq09-SFpPio2hK9QhTFxzt2gBB-I1yLZD5tLlwYtRUps2Nkhx6ykVfPcQTbXIMyxFM15Vu6ArwBxiYcs5-_IjBJ55H5Ozrz7XIClnhmL-tNRR4FhtCdkWuJ8O6Wqm2QfxlbQRHOaNix6OGa5bqERoUcMNwvFR-cdZQW-dG7WUXARAgXyqkVwCXFaqTmYnaq-dA6fTG1Mk-1V-rgOIRaf40550VOJiHWJOlhZT1wMZo63j1FuEtACFHrFL_suOuGSpc83wwp5JRAv5LztDfv7vuoXc14uQJSRQt8S1mXcEg5IrtDct34ncGG0kq1LexFPYtlsnIkGb6Qz_kwnHWAeZifD18kdfjulwKH9eCWBznM-A4jYBQ1QCLfqMrXLvpKJLgoZOCRCl9vAg-aL4iZYubdJHf5C9iMPCE8V0Y0aUrLPAmIyxAeLJhhS0aFFOqT3nTirXG2iOMAJ_Xh4i8e4T5DFa7cKEjE-H_4cOCWOT-S_hNmTYe0Vb4iJqap9Qv9Ie3gJ5F6htUxr-9pf9Xr6kb9Mq3rFLWPHfOSmsWdi4aBM_Qfrt-YwBRINRejgdJgbBe0yWtLhmenT9bN7AS_qoLQKtqE7ACN42Odp0-QO2YvQeLP3lPq9mWYWkt3uZ7hGw1gTOOtRTslhICpcycFlus03Jh5cJe1H9TVrdVkj62tNMA5w8wpYJ2aoKlRnFK9X4fQJJDoM9DT7DYBaeeY8lflyoYh3dfW22OQ4zU_Q36xSGquX_RTny1N_hf12I_j1inZ-cl3svJnnAUpUsiwRbJ3Cm__k1vKCSzQ3_sW5dFh01JWFp6fXeAvYLmn7T7SrkgimbYQbX-NLaBfI8FsVMwn4NkiMJdiYJKJCehB10ILiv96j8QWKSwJNEHpm0BigES1gg96g7ga4MK7SyoggWcObjRGNT8LhTLwXZTtiM4KC4eKMnOxw7fNqAo1xTN-oCi";
+                String dropboxAccessToken = "sl.u.AFuC7lPdssE1XoZRpfrqND2gsMRCTSh8WmMIMXGzZdEBucYnNYHm6_urgX3uNIbiD0emrJ5tW2rmJXuv5P9CnGk9RkdqRYQfK_XKphIQ091oykxiDj0JdemLCxXTKMD4gImClxgPiYHdzR4Doej0ESOWndv82C16jisMmVrtKwNFgHQWZx8g28NftudxLATymmkiDusRintaIzHZD_WLE4S2dtcEeu9Lmzt8vcamHXfYY0zRTvrJmc-Hs36FOumVxtVlUAQTQ3pZm6aU3Y79rn2C6Aak8erlz6Zfq24hl6YwNfNKY_BV8-I5oC3dbQCW1wXGCzOeiio5JBoS_Msd-We9W_qWhm4GU6t7O459lVkHuPATsI5uSovo0dkhbQ4Rnf3lV0JpgtrvNFUlpvnHC9EBSn7EGxagHsbzjzuMCGHE56QUp4STJX_jgDeDKb9CwOVrW0DCofLFD4H1JhV2j8fDkAP8F-WcxpyDYdOydawplD6J1Ggdg97fgI4bugtKCsV6jWi8A1lYh05eUrZh-X66Yfu2tXC-r81Qn-HFsNbo6AQtnzkFcv_SO0WIyUfQSkIucFhVDoO00ZolZG0jNtvbd2xY62d_anH7FeSHeXk_9q4uRBRo44BmJU-Rt9ZJKUT4BZTaOPeO_bBlakdR2zU4j28WTpNp_Gx6CIZCYE2cK4oe8BtTNbiiJMUH8LNenOouZ2ysadpo1rVx3lcQyscxsHkobdP3lKXcMA2mVHqNmjMaYPSBr6F5saFnW9v2j7Cqwj-R3TtXKYy8Isc0fGFLvIg_Y9TR_7ECo4HBT5xjKnH3B-dzWM6taeoxglGf0moWmHfs6tNC8KuNJHHm5gt5I26yRqLG5Sy72od9CAPrw9tKeBQP-f4WGU_jjFdmCrkgO4TEUELRb8bDIrLdtIFqauCk7YfpVJfJK3tOIqbbCFJl-5sELL2crt56NZV4HzXeaNt1rNCmdkOGBW6rAIiAQjLxDa83xLZd52vNKdZKWwIeFZJi6VxlgNB80-FTmcYlvsgAq7D_5h73DWhO30aEB5ap338CdplkLzZNt0jQsN5u1c988VGTH0Pp44Q9n9zphsEZ_YEKZka-x1WgnWlt26t1CE3Ud11JUSvIrALpRLzChgHiD0Js4T07xdH6F3uJo4XdPumgcBm2olvsrO8OD7VS8eUivJVZ67YmfSWwzPKKPCetH_Mlp_hloDmOL88wphR73QbsXnex8KIsAJqs_1Vw8azezYIAbq42_PAXUNbK2DmqLGbhkjacpEK6oqerM11N1BA4Aap7yPUz99hx"; // Replace with your Dropbox access token
                 DropboxService dropboxService = new DropboxService(dropboxAccessToken);
 
                 // Define the destination path in Dropbox
-                String dropboxPath = "/pdfs/" + selectedFile.getName();
+                String dropboxPath = "/pdfs/" + selectedFile.getName(); // Destination path in Dropbox
 
                 // Upload the selected PDF file to Dropbox
                 dropboxService.uploadFile(selectedFile.getAbsolutePath(), dropboxPath);
@@ -207,8 +392,8 @@ public class AjoutCoursController {
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(null);
+        alert.setHeaderText(null); // No header text
         alert.setContentText(content);
-        alert.showAndWait();
+        alert.showAndWait(); // Show the alert and wait for user response
     }
 }

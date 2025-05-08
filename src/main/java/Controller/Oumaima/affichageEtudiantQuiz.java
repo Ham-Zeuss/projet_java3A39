@@ -1,6 +1,8 @@
 package Controller.Oumaima;
 
 import entite.Oumaima.Quiz;
+import entite.Session;
+import entite.Oumaima.QuizResult;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,10 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,12 +18,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import service.Oumaima.QuizService;
+import service.Oumaima.QuizResultService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.scene.control.ScrollPane;
 
 public class affichageEtudiantQuiz implements Initializable {
 
@@ -32,27 +32,58 @@ public class affichageEtudiantQuiz implements Initializable {
     private TextField searchField;
 
     @FXML
+    private Button returnButton;
+
+    @FXML
     private FlowPane quizContainer;
 
+
+
+
+
     private QuizService quizService;
+    private QuizResultService quizResultService;
+    private int courseId = -1; // Variable pour stocker le courseId
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         quizService = new QuizService();
+        quizResultService = new QuizResultService();
         setupQuizContainer();
-        displayQuizzes(quizService.readAll());
+
+        // Afficher les quiz en fonction du courseId
+        List<Quiz> quizzes;
+        if (courseId != -1) {
+            quizzes = quizService.readByCourseId(courseId); // Méthode à implémenter dans QuizService
+        } else {
+            quizzes = quizService.readAll(); // Fallback si courseId n'est pas défini
+        }
+        displayQuizzes(quizzes);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterQuizzes(newValue);
         });
+
+        // Configure returnButton with icon and text
+        setupButton(returnButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Retour", true);
+
+    }
+
+
+
+
+
+
+    // Méthode pour définir le courseId
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     private void setupQuizContainer() {
-        // Configuration pour 4 cartes par ligne
         quizContainer.setHgap(20);
         quizContainer.setVgap(30);
         quizContainer.setAlignment(Pos.TOP_CENTER);
-        quizContainer.setPrefWrapLength(1260); // (290*4) + (20*3) = 1160 + 60 = 1220 (avec marge)
+        quizContainer.setPrefWrapLength(1260);
     }
 
     private void displayQuizzes(List<Quiz> quizzes) {
@@ -61,6 +92,37 @@ public class affichageEtudiantQuiz implements Initializable {
             quizContainer.getChildren().add(createQuizCard(quiz));
         }
     }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        }
+    }
+
+
+
+
+
+
 
     private VBox createQuizCard(Quiz quiz) {
         VBox card = new VBox(15);
@@ -83,9 +145,11 @@ public class affichageEtudiantQuiz implements Initializable {
         Label descLabel = new Label(description);
         descLabel.getStyleClass().add("para");
 
+
         // Bouton visible maintenant
-        Button takeQuizButton = new Button("Passer Quiz");
-        takeQuizButton.getStyleClass().add("quiz-button"); // Utilisez la nouvelle classe CSS
+        Button takeQuizButton = new Button();
+        // Configure button with icon and text
+        setupButton(takeQuizButton, "https://img.icons8.com/?size=100&id=112158&format=png&color=000000", "Passer Quiz", true);
         takeQuizButton.setOnAction(event -> goToQuestionList(quiz.getId()));
 
         content.getChildren().addAll(titleLabel, descLabel, takeQuizButton);
@@ -98,7 +162,12 @@ public class affichageEtudiantQuiz implements Initializable {
     }
 
     private void filterQuizzes(String searchText) {
-        List<Quiz> allQuizzes = quizService.readAll();
+        List<Quiz> allQuizzes;
+        if (courseId != -1) {
+            allQuizzes = quizService.readByCourseId(courseId);
+        } else {
+            allQuizzes = quizService.readAll();
+        }
         List<Quiz> filteredQuizzes = allQuizzes.stream()
                 .filter(quiz -> quiz.getTitle().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toList());
@@ -109,6 +178,25 @@ public class affichageEtudiantQuiz implements Initializable {
         try {
             if (quizId <= 0) {
                 throw new IllegalArgumentException("ID de quiz invalide");
+            }
+
+            // Vérifier si l'utilisateur est un étudiant et s'il a déjà passé le quiz
+            Session session = Session.getInstance();
+            String userRole = session.getRole();
+            int currentUserId = session.getUserId();
+
+            if ("ROLE_PARENT".equals(userRole)) {
+                // Vérifier si un QuizResult existe pour cet utilisateur et ce quiz
+                List<QuizResult> quizResults = quizResultService.readAll();
+                boolean hasTakenQuiz = quizResults.stream()
+                        .anyMatch(result -> result.getQuiz().getId() == quizId && result.getUser().getId() == currentUserId);
+
+                if (hasTakenQuiz) {
+                    // Si l'étudiant a déjà passé le quiz, afficher une alerte et arrêter
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Vous avez déjà passé ce quiz.");
+                    alert.showAndWait();
+                    return;
+                }
             }
 
             // Load the FXML for the question list
@@ -123,7 +211,14 @@ public class affichageEtudiantQuiz implements Initializable {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // 1. Add header image
+            // 1. Load and add navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // 2. Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
@@ -143,11 +238,11 @@ public class affichageEtudiantQuiz implements Initializable {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // 2. Add body content
+            // 3. Add body content
             root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
             mainContent.getChildren().add(root);
 
-            // 3. Add footer image
+            // 4. Add footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
@@ -170,11 +265,6 @@ public class affichageEtudiantQuiz implements Initializable {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            // Calculate required height
-            double totalHeight = headerImageView.getFitHeight() +
-                    root.prefHeight(-1) +
-                    footerImageView.getFitHeight();
-
             // Set scene to specified size
             Scene scene = new Scene(scrollPane, 1500, 700);
 
@@ -196,6 +286,112 @@ public class affichageEtudiantQuiz implements Initializable {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void goToCoursFront() {
+        try {
+            System.out.println("Début de goToCoursFront");
+            Stage stage = (Stage) returnButton.getScene().getWindow();
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load and add header.fxml (Navbar)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Chargement de l'en-tête (header image)
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Erreur lors du chargement de l'image d'en-tête : " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Image d'en-tête introuvable");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // Chargement du contenu principal (FXML)
+            URL fxmlUrl = getClass().getResource("/HedyFXML/AffichageModule.fxml");
+            if (fxmlUrl == null) {
+                throw new IllegalStateException("Fichier /HedyFXML/AffichageCoursFront.fxml introuvable");
+            }
+            System.out.println("Chargement de /HedyFXML/AffichageCoursFront.fxml");
+            FXMLLoader bodyLoader = new FXMLLoader(fxmlUrl);
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Chargement du pied de page (footer image)
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Erreur lors du chargement de l'image de pied de page : " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Image de pied de page introuvable");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Configuration du ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            // Création de la scène
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Charger le CSS pour le navbar
+            try {
+                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
+                scene.getStylesheets().add(navBarCss);
+            } catch (Exception e) {
+                System.err.println("Erreur lors du chargement de navbar.css : " + e.getMessage());
+            }
+
+            // Chargement du CSS personnalisé
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            } else {
+                System.err.println("Fichier CSS introuvable à /OumaimaFXML/oumaimastyle.css");
+            }
+
+            // Affichage de la scène
+            stage.setScene(scene);
+            stage.setTitle("Cours");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page des cours : " + e.getMessage() + "\nCause: " + e.getCause());
+            alert.showAndWait();
+        }
+    }
+
+    public void displayQuizzes1(List<Quiz> quizzes) {
+        quizContainer.getChildren().clear();
+        for (Quiz quiz : quizzes) {
+            quizContainer.getChildren().add(createQuizCard(quiz));
         }
     }
 }

@@ -19,13 +19,14 @@
             <Insets top="40" right="40" bottom="40" left="40"/>
         </padding>
 
-        <!-- Barre de recherche avec icône -->
+        <!-- Barre de recherche avec icône et bouton Retour -->
         <HBox alignment="CENTER" spacing="15" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #fae6e7; -fx-border-width: 2; -fx-padding: 15 25 15 25;">
             <ImageView fitHeight="30" fitWidth="30">
                 <Image url="@../imagesouma/search-icon.png" />
             </ImageView>
             <TextField fx:id="searchField" promptText="Rechercher un quiz par titre..."
-                       styleClass="search-field" prefWidth="650" prefHeight="40"/>
+                       styleClass="search-field" prefWidth="450" prefHeight="40"/>
+            <Button fx:id="returnButton" prefWidth="200" onAction="#goToCoursFront"/>
         </HBox>
 
         <!-- Conteneur des cartes de quiz - 4 par ligne -->

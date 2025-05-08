@@ -90,16 +90,17 @@
 }
 
 .button {
-    -fx-background-color: #28a745;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-background-color: invisible;
+    -fx-text-fill: Black;
+    -fx-font-size: 18px;
     -fx-padding: 10 20;
     -fx-background-radius: 5;
 }
 
-.button:hover {
-    -fx-background-color: #218838;
-}
+
+
+
+
 
 .error-label {
     -fx-text-fill: #dc3545;

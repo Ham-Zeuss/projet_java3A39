@@ -5,18 +5,23 @@ import entite.Profile;
 import entite.Session;
 import entite.User;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import service.ConsultationService;
 import service.UserService;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ResourceBundle;
 
-public class FrontAddConsultationController {
+public class FrontAddConsultationController implements Initializable {
 
     @FXML
     private DatePicker consultationDatePicker;
@@ -37,8 +42,58 @@ public class FrontAddConsultationController {
     private UserService userService;
     private Profile profile;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Configure buttons with icons and text
+        if (saveButton != null) {
+            setupButton(saveButton, "https://img.icons8.com/?size=100&id=113573&format=png&color=000000", "Book", true);
+            saveButton.setOnAction(e -> saveConsultation());
+        }
+
+        if (cancelButton != null) {
+            setupButton(cancelButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Cancel", true);
+            cancelButton.setOnAction(e -> cancel());
+        }
+    }
+
+
     public void initialize(Profile profile) {
         System.out.println("Entering FrontAddConsultationController.initialize with Profile ID: " + profile.getId());
+        this.profile = profile;
+        try {
+            consultationService = new ConsultationService();
+            userService = new UserService();
+            consultationTimeField.setPromptText("HH:mm (e.g., 14:30)");
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorLabel.setText("Error initializing form: " + e.getMessage());
+        }
+    }
+
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(55);
+            icon.setFitHeight(55);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            button.getStyleClass().add("icon-button");
+        }
+    }
+
+    public void setProfile(Profile profile) {
+        System.out.println("Entering FrontAddConsultationController.setProfile with Profile ID: " + profile.getId());
         this.profile = profile;
         try {
             consultationService = new ConsultationService();

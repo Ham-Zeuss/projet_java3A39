@@ -8,6 +8,7 @@ import util.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuizService implements IService<Quiz> {
 
@@ -138,5 +139,12 @@ public class QuizService implements IService<Quiz> {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public List<Quiz> readByCourseId(int courseId) {
+        List<Quiz> allQuizzes = readAll(); // Méthode existante
+        return allQuizzes.stream()
+                .filter(quiz -> quiz.getCourse() != null && quiz.getCourse().getId() == courseId)
+                .collect(Collectors.toList());
     }
 }

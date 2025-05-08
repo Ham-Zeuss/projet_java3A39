@@ -136,52 +136,10 @@ Label {
     -fx-opacity: 1;
 }
 
-/* Button styling */
-.back-button {
-    -fx-background-color: #e2e8f0;
-    -fx-text-fill: #2d3748;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 6 16;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.3), 5, 0, 0, 1);
-    -fx-transition: all 0.3s ease;
-}
 
-.back-button:hover {
-    -fx-background-color: #cbd5e1;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.4), 8, 0, 0, 2);
-}
 
-.back-button:pressed {
-    -fx-background-color: #b0bec5;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.2), 3, 0, 0, 1);
-}
 
-.submit-button {
-    -fx-background-color: #441151;
-    -fx-text-fill: #ffffff;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-padding: 8 24;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.3), 5, 0, 0, 1);
-    -fx-transition: all 0.3s ease;
-}
 
-.submit-button:hover {
-    -fx-background-color: #a74482;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.4), 8, 0, 0, 2);
-}
-
-.submit-button:pressed {
-    -fx-background-color: #a74482;
-    -fx-effect: dropshadow(gaussian, rgba(164, 68, 130, 0.2), 3, 0, 0, 1);
-}
 
 /* ScrollPane styling */
 ScrollPane {
@@ -191,4 +149,27 @@ ScrollPane {
 
 ScrollPane .viewport {
     -fx-background-color: transparent;
+}
+
+
+
+.back-button, .submit-button {
+    -fx-background-color: transparent; /* Remove default background */
+    -fx-border-color: #2d3748; /* Border color to match theme */
+    -fx-border-radius: 5;
+    -fx-padding: 5; /* Reduced padding for icon-only buttons */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.back-button:hover, .submit-button:hover {
+    -fx-background-color: #2d3748; /* Dark background on hover */
+    -fx-border-color: #2d3748;
+}
+
+.back-button .image-view, .submit-button .image-view {
+    -fx-preserve-ratio: true; /* Maintain icon aspect ratio */
+}
+
+.back-button:hover .image-view, .submit-button:hover .image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Optional shadow on hover */
 }

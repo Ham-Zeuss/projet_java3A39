@@ -46,18 +46,7 @@
     -fx-padding: 5 0 0 0;
 }
 
-.save-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-padding: 5 10;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-}
 
-.save-button:hover {
-    -fx-background-color: #45a049;
-}
 
 .cancel-button {
     -fx-background-color: #f44336;

@@ -11,6 +11,7 @@ import com.gluonhq.maps.MapPoint;
 import com.gluonhq.maps.MapView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -21,8 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ProfileDetailsController {
+public class ProfileDetailsController implements Initializable {
 
     private static final double DEFAULT_ZOOM = 15.0;
 
@@ -51,6 +54,9 @@ public class ProfileDetailsController {
     private Button backButton;
 
     @FXML
+    private Button addCommentButton;
+
+    @FXML
     private VBox commentsContainer;
 
     @FXML
@@ -71,7 +77,62 @@ public class ProfileDetailsController {
     private CustomMarkerLayer markerLayer;
     private MapPoint markerPosition;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Configure buttons with icons and text
+        if (backButton != null) {
+            setupButton(backButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Retour", true);
+            backButton.setOnAction(e -> goBack());
+        }
+
+        if (resourcesButton != null) {
+            setupButton(resourcesButton, "https://img.icons8.com/?size=100&id=115637&format=png&color=000000", "Voir Resources", true);
+            resourcesButton.setOnAction(e -> openResources());
+        }
+
+        if (addCommentButton != null) {
+            setupButton(addCommentButton, "https://img.icons8.com/?size=100&id=114252&format=png&color=000000", "Envoyer", true);
+            addCommentButton.setOnAction(e -> addComment());
+        }
+
+
+
+    }
+
+
+
     public void initialize(Profile profile) {
+        this.profile = profile;
+        this.commentaireService = new CommentaireService();
+        this.userService = new UserService();
+        populateProfileDetails();
+        initializeMap();
+        loadComments();
+    }
+
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            button.getStyleClass().add("icon-button");
+        }
+    }
+
+    public void setProfile(Profile profile) {
         this.profile = profile;
         this.commentaireService = new CommentaireService();
         this.userService = new UserService();

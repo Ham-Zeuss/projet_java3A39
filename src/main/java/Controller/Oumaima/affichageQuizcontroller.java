@@ -41,28 +41,78 @@ public class affichageQuizcontroller implements Initializable {
     private Button addQuizButton;
 
     @FXML
+    private Button returnButton;
+
+
+    @FXML
+    private Button viewStatsButton;
+
+    @FXML
+    private Button viewQuestionsButton;
+
+    @FXML
+    private Button updateButton;
+
+
+    @FXML
     private FlowPane quizContainer;
 
     private QuizService quizService;
     private QuizResultService quizResultService;
+    private Quiz currentQuiz;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         quizService = new QuizService();
         quizResultService = new QuizResultService();
         setupQuizContainer();
-        displayQuizzes(quizService.readAll());
+        List<Quiz> quizzes = quizService.readAll();
+        displayQuizzes(quizzes);
+        // Sélectionner le premier quiz par défaut si la liste n'est pas vide
+        if (!quizzes.isEmpty()) {
+            currentQuiz = quizzes.get(0);
+            System.out.println("Quiz par défaut sélectionné: " + currentQuiz.getTitle());
+        }
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterQuizzes(newValue);
         });
+
+        // Configure buttons with icons and text
+        setupButton(addQuizButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Ajouter Quiz", true);
+        setupButton(returnButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Retour", true);
+
+    }
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(55);
+            icon.setFitHeight(55);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        }
     }
 
     private void setupQuizContainer() {
         quizContainer.setHgap(25);
         quizContainer.setVgap(35);
         quizContainer.setAlignment(Pos.TOP_CENTER);
-        quizContainer.setPrefWrapLength(1900); // Pour 3 cartes : (600*3) + (25*2) = 1850, arrondi à 1900
+        quizContainer.setPrefWrapLength(1900);
     }
 
     private void displayQuizzes(List<Quiz> quizzes) {
@@ -96,27 +146,26 @@ public class affichageQuizcontroller implements Initializable {
         buttonContainer.getStyleClass().add("button-container");
         buttonContainer.setAlignment(Pos.CENTER); // Centrer les boutons
 
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.getStyleClass().add("delete-button");
-        deleteButton.setPrefWidth(120); // Largeur augmentée
+        Button deleteButton = new Button();
+        Button updateButton = new Button();
+        Button viewQuestionsButton = new Button();
+        Button viewStatsButton = new Button();
+
+        // Configure buttons with icons and text
+        setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Supprimer", false);
+        setupButton(updateButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Modifier", false);
+        setupButton(viewQuestionsButton, "https://img.icons8.com/?size=100&id=114917&format=png&color=000000", "Questions", false);
+        setupButton(viewStatsButton, "https://img.icons8.com/?size=100&id=110187&format=png&color=000000", "Statistiques", false);
+
         deleteButton.setOnAction(event -> {
             quizService.delete(quiz);
             quizContainer.getChildren().remove(card);
         });
 
-        Button updateButton = new Button("Modifier");
-        updateButton.getStyleClass().add("update-button");
-        updateButton.setPrefWidth(120);
         updateButton.setOnAction(event -> goToUpdateQuiz(quiz));
 
-        Button viewQuestionsButton = new Button("Questions");
-        viewQuestionsButton.getStyleClass().add("view-button");
-        viewQuestionsButton.setPrefWidth(120);
         viewQuestionsButton.setOnAction(event -> goToQuestionList(quiz.getId()));
 
-        Button viewStatsButton = new Button("Statistiques");
-        viewStatsButton.getStyleClass().add("view-button");
-        viewStatsButton.setPrefWidth(120);
         viewStatsButton.setOnAction(event -> viewStatistics(quiz));
 
         buttonContainer.getChildren().addAll(updateButton, deleteButton, viewQuestionsButton, viewStatsButton);
@@ -152,18 +201,15 @@ public class affichageQuizcontroller implements Initializable {
             statsStage.initModality(Modality.APPLICATION_MODAL);
             statsStage.setTitle("Statistiques du Quiz : " + quiz.getTitle());
 
-            // Conteneur principal avec style de carte
             VBox statsContainer = new VBox(20);
             statsContainer.setPadding(new Insets(20));
-            statsContainer.getStyleClass().add("card"); // Appliquer le style des cartes
-            statsContainer.setPrefWidth(600); // Largeur raisonnable pour le popup
+            statsContainer.getStyleClass().add("card");
+            statsContainer.setPrefWidth(600);
             statsContainer.setAlignment(Pos.CENTER);
 
-            // Titre avec style heading
             Label titleLabel = new Label("Statistiques pour " + quiz.getTitle());
             titleLabel.getStyleClass().add("heading");
 
-            // Conteneur de contenu avec style content
             VBox statsContent = new VBox(15);
             statsContent.getStyleClass().add("content");
 
@@ -180,12 +226,11 @@ public class affichageQuizcontroller implements Initializable {
                     .distinct()
                     .count();
 
-            // Carte interne pour les stats textuelles
             VBox quizStatsCard = new VBox(10);
             quizStatsCard.getStyleClass().add("stats-card");
 
             Label quizLabel = new Label("Quiz : " + quiz.getTitle());
-            quizLabel.getStyleClass().add("para"); // Style para pour cohérence
+            quizLabel.getStyleClass().add("para");
 
             HBox attemptsRow = new HBox(8);
             attemptsRow.getStyleClass().add("stats-row");
@@ -216,7 +261,6 @@ public class affichageQuizcontroller implements Initializable {
             quizStatsCard.getChildren().addAll(quizLabel, attemptsRow, averageRow, distributionRow, studentsRow);
             statsContent.getChildren().add(quizStatsCard);
 
-            // Graphique en barres
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();
             xAxis.setLabel("Note");
@@ -237,7 +281,6 @@ public class affichageQuizcontroller implements Initializable {
             barChart.getData().add(series);
             barChart.setLegendVisible(false);
 
-            // Graphique circulaire
             PieChart pieChart = new PieChart();
             pieChart.setTitle("Répartition des notes (Circulaire)");
             pieChart.setPrefHeight(200);
@@ -269,12 +312,18 @@ public class affichageQuizcontroller implements Initializable {
         }
     }
 
-
     private void goToUpdateQuiz(Quiz quiz) {
         try {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
 
             ImageView headerImageView = new ImageView();
             try {
@@ -333,6 +382,10 @@ public class affichageQuizcontroller implements Initializable {
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
+            }
 
             stage.setScene(scene);
             stage.setTitle("Modifier le Quiz");
@@ -350,6 +403,13 @@ public class affichageQuizcontroller implements Initializable {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
 
             ImageView headerImageView = new ImageView();
             try {
@@ -405,6 +465,10 @@ public class affichageQuizcontroller implements Initializable {
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
+            }
 
             stage.setScene(scene);
             stage.setTitle("Ajouter un Quiz");
@@ -421,6 +485,13 @@ public class affichageQuizcontroller implements Initializable {
             Stage stage = (Stage) addQuizButton.getScene().getWindow();
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
 
             ImageView headerImageView = new ImageView();
             try {
@@ -479,6 +550,10 @@ public class affichageQuizcontroller implements Initializable {
             if (cssUrl != null) {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
+            }
 
             stage.setScene(scene);
             stage.setTitle("Questions du Quiz");
@@ -486,6 +561,100 @@ public class affichageQuizcontroller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement des questions : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void goToCoursFront() {
+        try {
+            Stage stage = (Stage) returnButton.getScene().getWindow();
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(1500, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Load header image
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(1500);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // Load body content (module list)
+            FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageModule.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /HedyFXML/AffichageModule.fxml introuvable");
+            }
+            Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            mainContent.getChildren().add(bodyContent);
+
+            // Load footer image
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(1500);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Configure ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, 1500, 700);
+
+            // Load CSS files
+            URL cssUrl = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) {
+                scene.getStylesheets().add(navBarCss.toExternalForm());
+            }
+            URL storeCardsCss = getClass().getResource("/css/store-cards.css");
+            if (storeCardsCss != null) {
+                scene.getStylesheets().add(storeCardsCss.toExternalForm());
+            }
+
+            // Display scene
+            stage.setScene(scene);
+            stage.setTitle("Modules");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page des modules : " + e.getMessage());
             alert.showAndWait();
         }
     }

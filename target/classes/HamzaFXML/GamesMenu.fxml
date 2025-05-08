@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.Pane?>
@@ -27,41 +27,54 @@
     </rowConstraints>
 
     <!-- Card 1: Word Scramble Game -->
-    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
-        <Label text="Word Scramble Game" styleClass="timestamp"/>
-        <ImageView fitWidth="200" fitHeight="150">
+    <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+
+        <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
                 <Image url="/Images/word_scramble.png"/>
             </image>
+            <clip>
+                <Circle centerX="125" centerY="125" radius="125"/>
+            </clip>
         </ImageView>
-        <Label text="" styleClass="game-title"/>
-        <Label text="" styleClass="game-creator"/>
+        <Label text="Word Scramble" styleClass="game-title"  style="-fx-text-fill: black; -fx-font-size: 18px;"/>
+        <Label text="GameMaster" styleClass="game-creator" style="-fx-text-fill: black; -fx-font-size: 15px;"/>
         <Pane fx:id="scrambleButtonPane" prefWidth="550" prefHeight="50">
             <Button fx:id="playScrambleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playScrambleGame"/>
         </Pane>
     </VBox>
 
     <!-- Card 2: Pixel Games -->
-    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
-        <Label text="Pixel Games" styleClass="timestamp"/>
-        <ImageView fitWidth="200" fitHeight="150">
+    <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+        <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
                 <Image url="/Images/Pixel.png"/>
             </image>
+            <clip>
+                <Circle centerX="125" centerY="125" radius="175"/>
+            </clip>
         </ImageView>
-        <Label text="" styleClass="game-title"/>
-        <Label text="" styleClass="game-creator"/>
+        <Label text="Pixel Match" styleClass="game-title"  style="-fx-text-fill: black; -fx-font-size: 18px;"/>
+        <Label text="PixelPro" styleClass="game-creator"  style="-fx-text-fill: black; -fx-font-size: 15px;"/>
         <Pane fx:id="pexelleButtonPane" prefWidth="550" prefHeight="50">
             <Button fx:id="playPexelleGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#playPexelleGame"/>
         </Pane>
     </VBox>
 
-    <!-- Card 3: Placeholder 2 -->
-    <VBox alignment="CENTER" spacing="10" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
-        <Label text="5 days ago" styleClass="timestamp"/>
-        <Rectangle width="200" height="150" styleClass="game-image"/>
-        <Label text="Placeholder Game 2" styleClass="game-title"/>
-        <Label text="Creator2" styleClass="game-creator"/>
+    <!-- Card 3: Placeholder Game -->
+    <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
+        
+        <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
+            <image>
+                <Image url="/Images/kidslogo.png"/>
+            </image>
+            <clip>
+                <Circle centerX="125" centerY="125" radius="125"/>
+            </clip>
+        </ImageView>
+        <Label text="Mystery Game" styleClass="game-title"  style="-fx-text-fill: black; -fx-font-size: 18px;"/>
+        <Label text="CreatorX" styleClass="game-creator"  style="-fx-text-fill: black; -fx-font-size: 15px;"/>
         <Pane fx:id="placeholderButtonPane" prefWidth="550" prefHeight="50">
             <Button fx:id="playPlaceholderGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button"/>
         </Pane>

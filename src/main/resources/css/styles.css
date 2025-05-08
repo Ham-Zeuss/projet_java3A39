@@ -163,31 +163,6 @@
     -fx-background-color: #138496;
 }
 
-.back-button {
-    -fx-background-color: #6c757d;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 5 15 5 15;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-}
-
-.back-button:hover {
-    -fx-background-color: #5a6268;
-}
-
-.submit-button {
-    -fx-background-color: #28a745;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 8 15 8 15;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-}
-
-.submit-button:hover {
-    -fx-background-color: #218838;
-}
 
 /* Style pour les cartes de quiz (non utilisé dans le backend actuel, conservé pour compatibilité) */
 .quiz-card {
@@ -281,41 +256,4 @@
 
 
 
-
-
-.update-button {
-    -fx-background-color: #007bff;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 5 15 5 15;
-    -fx-pref-width: 120px; /* Ajouté pour afficher "Modifier" en entier */
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
-
-.delete-button {
-    -fx-background-color: #dc3545;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 5 15 5 15;
-    -fx-pref-width: 120px; /* Ajouté pour afficher "Supprimer" en entier */
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
-
-.view-button {
-    -fx-background-color: #17a2b8;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 5 15 5 15;
-    -fx-pref-width: 120px; /* Ajouté pour afficher "Voir les questions" en entier */
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
 

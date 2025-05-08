@@ -4,17 +4,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.AddCommentController" spacing="10">
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Maryem.AddCommentController" spacing="10" stylesheets="@/css/styles.css">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
 
     <Label text="Add Comment"/>
 
-
     <Label text="Comment:"/>
     <TextArea fx:id="commentTextArea" prefHeight="100" wrapText="true"/>
-
 
     <Label text="Report Reason (optional):"/>
     <TextField fx:id="reportReasonField"/>
@@ -23,13 +22,12 @@
     <CheckBox fx:id="reportedCheckBox"/>
 
     <HBox spacing="10">
-        <Button text="Save" onAction="#saveComment"/>
-        <Button text="Cancel" onAction="#cancel"/>
+        <Button fx:id="saveButton" onAction="#saveComment"/>
+        <Button fx:id="cancelButton" onAction="#cancel"/>
     </HBox>
+    <stylesheets>
+        <URL value="@/css/CommentsStyle.css"/>
 
+    </stylesheets>
     <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
-
 </VBox>
-
-
-

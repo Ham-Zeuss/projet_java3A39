@@ -44,15 +44,14 @@ public class AfficherQuestionsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Set "Retour" text and action for backButton
+        // Configure buttons with icons and text
         if (backButton != null) {
-            backButton.setText("Retour");
+            setupButton(backButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Retour", true);
             backButton.setOnAction(e -> goBackToQuizList());
         }
 
-        // Set "Enregistrer" text and action for submitAllButton
         if (submitAllButton != null) {
-            submitAllButton.setText("Enregistrer");
+            setupButton(submitAllButton, "https://img.icons8.com/?size=100&id=94194&format=png&color=000000", "Enregistrer", true);
             submitAllButton.setOnAction(e -> submitAllAnswers());
         }
     }
@@ -131,13 +130,16 @@ public class AfficherQuestionsController implements Initializable {
             box.getChildren().add(errorLabel);
         }
 
-        // 3. Boutons "Modifier" et "Supprimer"
-        Button updateButton = new Button("Modifier");
-        updateButton.getStyleClass().add("update-button");
+// 3. Boutons "Modifier" et "Supprimer"
+        Button updateButton = new Button();
+        Button deleteButton = new Button();
+
+// Configure buttons with icons and text
+        setupButton(updateButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Modifier", true);
+        setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Supprimer", true);
+
         updateButton.setOnAction(e -> goToUpdateQuestion(question));
 
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.getStyleClass().add("delete-button");
         deleteButton.setOnAction(e -> {
             questionService.delete(question);
             questionCheckBoxes.remove(question);
@@ -155,7 +157,30 @@ public class AfficherQuestionsController implements Initializable {
 
         return box;
     }
-
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        }
+    }
     private void goToUpdateQuestion(Question question) {
         try {
             Stage stage = (Stage) questionContainer.getScene().getWindow();

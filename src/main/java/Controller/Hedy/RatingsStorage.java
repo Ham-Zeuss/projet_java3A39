@@ -1,8 +1,10 @@
 package Controller.Hedy;
+
 import com.google.gson.*;
 import java.io.*;
 import java.util.*;
 import entite.Rating;
+
 public class RatingsStorage {
 
     private static final String FILE_PATH = "ratings.json"; // Path to the JSON file
@@ -15,57 +17,62 @@ public class RatingsStorage {
 
     // Load ratings from the JSON file
     public static void loadRatings() {
+        ratings.clear(); // Clear old data before reload
         try (Reader reader = new FileReader(FILE_PATH)) {
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            JsonObject jsonObject = new Gson().fromJson(reader, JsonObject.class);
             JsonArray ratingsArray = jsonObject.getAsJsonArray("ratings");
 
-            for (JsonElement element : ratingsArray) {
-                Rating rating = gson.fromJson(element, Rating.class);
-                ratings.add(rating);
+            if (ratingsArray != null) {
+                for (JsonElement element : ratingsArray) {
+                    ratings.add(new Gson().fromJson(element, Rating.class));
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | JsonSyntaxException e) {
+            System.out.println("No valid ratings found. Starting fresh.");
         }
     }
 
     // Save ratings to the JSON file
     public static void saveRatings() {
-        try (Writer writer = new FileWriter(FILE_PATH)) {
-            Gson gson = new Gson();
-            JsonObject jsonObject = new JsonObject();
-            JsonArray ratingsArray = new JsonArray();
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) file.createNewFile(); // Create file if missing
 
-            for (Rating rating : ratings) {
-                JsonElement ratingElement = gson.toJsonTree(rating);
-                ratingsArray.add(ratingElement);
+            try (Writer writer = new FileWriter(FILE_PATH)) {
+                Gson gson = new Gson();
+                JsonObject jsonObject = new JsonObject();
+                JsonArray ratingsArray = new JsonArray();
+
+                for (Rating rating : ratings) {
+                    ratingsArray.add(gson.toJsonTree(rating));
+                }
+
+                jsonObject.add("ratings", ratingsArray);
+                gson.toJson(jsonObject, writer);
             }
-
-            jsonObject.add("ratings", ratingsArray);
-            gson.toJson(jsonObject, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Add or update a rating
-    public static void addOrUpdateRating(int courseId, int userId, int rating) {
-        // Check if a rating already exists for the given courseId and userId
-        for (Rating r : ratings) {
-            if (r.getCourseId() == courseId && r.getUserId() == userId) {
-                r.setRating(rating); // Update the rating if it exists
-                saveRatings();
-                return;
-            }
+    // Add a rating only if it doesn't already exist
+    public static boolean addRatingIfNotExists(int courseId, int userId, int rating) {
+        // Check if user has already rated this course
+        boolean alreadyRated = ratings.stream()
+                .anyMatch(r -> r.getCourseId() == courseId && r.getUserId() == userId);
+
+        if (alreadyRated) {
+            return false; // Already rated, do not allow again
         }
-        // If no existing rating is found, add a new one
+
+        // Add new rating
         ratings.add(new Rating(courseId, userId, rating));
         saveRatings();
+        return true;
     }
 
-    // Optionally, get all ratings
+    // Get all stored ratings
     public static List<Rating> getRatings() {
         return ratings;
     }
 }
-

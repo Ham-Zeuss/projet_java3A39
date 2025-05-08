@@ -105,33 +105,43 @@
                     </font>
                 </Label>
 
-            <Hyperlink fx:id="inscritlink" layoutX="294.0" layoutY="454.0" onAction="#createAccountFormin" prefHeight="26.0" prefWidth="79.0" text="s'inscrire" textFill="#0a6375">
+                <Hyperlink fx:id="inscritlink" layoutX="294.0" layoutY="454.0" onAction="#createAccountFormin" prefHeight="26.0" prefWidth="79.0" text="s'inscrire" textFill="#0a6375">
 
-               <font>
-                  <Font name="Ebrima Bold" size="13.0" />
-               </font>
-            </Hyperlink>
-            <Label alignment="CENTER" layoutX="60.0" layoutY="459.0" opacity="0.73" text="Vous n'avez pas un compte inscrit ici ?" textFill="#0a6375">
-               <font>
-                  <Font name="Ebrima Bold" size="13.0" />
-               </font>
-            </Label>
-            <Hyperlink fx:id="resetlink" layoutX="57.0" layoutY="432.0" onAction="#resetAccountFormin" prefHeight="26.0" prefWidth="173.0" text="Mot de passe oublier ?" textFill="#0a6375">
-               <font>
-                  <Font name="Ebrima Bold" size="13.0" />
-               </font>
-            </Hyperlink>
-            <CheckBox layoutX="62.0" layoutY="408.0" mnemonicParsing="false" opacity="0.75" prefHeight="18.0" prefWidth="128.0" text="Rester connectée" textFill="#0a6375" />
-            <Label layoutX="107.0" layoutY="253.0" text="*" textFill="RED">
-               <font>
-                  <Font name="Ebrima Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="162.0" layoutY="333.0" text="*" textFill="RED">
-               <font>
-                  <Font name="Ebrima Bold" size="14.0" />
-               </font>
-            </Label>
+                    <font>
+                        <Font name="Ebrima Bold" size="13.0" />
+                    </font>
+                </Hyperlink>
+                <Label alignment="CENTER" layoutX="60.0" layoutY="459.0" opacity="0.73" text="Vous n'avez pas un compte inscrit ici ?" textFill="#0a6375">
+                    <font>
+                        <Font name="Ebrima Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Hyperlink fx:id="resetlink" layoutX="57.0" layoutY="432.0" onAction="#resetAccountFormin" prefHeight="26.0" prefWidth="173.0" text="Mot de passe oublier ?" textFill="#0a6375">
+                    <font>
+                        <Font name="Ebrima Bold" size="13.0" />
+                    </font>
+                </Hyperlink>
+                <CheckBox layoutX="62.0" layoutY="408.0" mnemonicParsing="false" opacity="0.75" prefHeight="18.0" prefWidth="128.0" text="Rester connectée" textFill="#0a6375" />
+                <Label layoutX="107.0" layoutY="253.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="162.0" layoutY="333.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                    </font>
+                </Label>
+                <ImageView fitHeight="27.0" fitWidth="34.0" layoutX="145.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/icons8-login-100.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="160.0" layoutY="556.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/icons8-undo-64.png" />
+                    </image>
+                </ImageView>
             </children>
         </AnchorPane>
     </right>

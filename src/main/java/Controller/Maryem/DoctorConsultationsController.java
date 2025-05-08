@@ -34,8 +34,7 @@ public class DoctorConsultationsController {
     @FXML
     private Text title;
 
-    @FXML
-    private Button closeButton;
+
 
     @FXML
     private Button backButton;
@@ -119,11 +118,7 @@ public class DoctorConsultationsController {
         System.out.println("Exiting DoctorConsultationsController.initialize");
     }
 
-    @FXML
-    private void close() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
-    }
+
 
     @FXML
     private void goBack() {

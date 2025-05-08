@@ -80,15 +80,3 @@
     -fx-fill: #ff0000; /* Red for cross */
 }
 
-.close-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-padding: 5 10;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
-}
-
-.close-button:hover {
-    -fx-background-color: #45a049;
-}

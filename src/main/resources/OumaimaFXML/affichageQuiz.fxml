@@ -23,11 +23,12 @@
             <Insets top="40" right="40" bottom="40" left="40"/>
         </padding>
 
-        <!-- Barre de recherche et bouton Ajouter -->
+        <!-- Barre de recherche, bouton Ajouter, et bouton Retour -->
         <HBox alignment="CENTER" spacing="15" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #fae6e7; -fx-border-width: 2; -fx-padding: 15 25 15 25;">
             <TextField fx:id="searchField" promptText="Rechercher un quiz par titre..."
-                       styleClass="search-field" prefWidth="1000" prefHeight="40"/>
-            <Button fx:id="addQuizButton" text="Ajouter Quiz" styleClass="quiz-button" prefWidth="200" onAction="#goToAddQuiz"/>
+                       styleClass="search-field" prefWidth="800" prefHeight="40"/>
+            <Button fx:id="addQuizButton" prefWidth="200" onAction="#goToAddQuiz"/>
+            <Button fx:id="returnButton" prefWidth="200" onAction="#goToCoursFront"/>
         </HBox>
 
         <!-- Conteneur des cartes de quiz - 3 par ligne -->

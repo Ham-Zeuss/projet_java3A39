@@ -47,44 +47,16 @@
     -fx-font-size: 14;
 }
 
-/* Resource Button */
-.resource-button {
-    -fx-background-color: #036666;
-    -fx-text-fill: white;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-color: white;
-    -fx-border-width: 1;
-    -fx-padding: 5 20;
-    -fx-cursor: hand;
-}
 
-.resource-button:hover {
-    -fx-background-color: #036666;
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-}
-
-/* Icon Buttons Container */
-.button-container {
-    -fx-spacing: 10;
-    -fx-alignment: center;
-}
-
-/* Icon Buttons */
+/* Styling for icon buttons */
 .icon-button {
-    -fx-background-color: #036666;
-    -fx-text-fill: white;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-color: white;
-    -fx-border-width: 1;
-    -fx-padding: 5 10;
-    -fx-cursor: hand;
+    -fx-background-color: transparent;
+
 }
 
-.icon-button:hover {
-    -fx-background-color: #036666;
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
+/* Styling for icon buttons */
+.button {
+    -fx-background-color: transparent;
+
 }
+

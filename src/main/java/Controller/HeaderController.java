@@ -1,11 +1,14 @@
 package Controller;
 
+import Controller.Boubaker.MainBoubakerController;
 import Controller.Maryem.FrontDisplayProfilesController;
 import entite.Session;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,20 +17,19 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.web.WebView;
-import Controller.Boubaker.MainBoubakerController;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
+import javafx.stage.Screen;
 
 public class HeaderController {
 
@@ -41,9 +43,9 @@ public class HeaderController {
     @FXML private ImageView doctorsIcon;
     @FXML private ImageView gamesIcon;
     @FXML private ImageView packsIcon;
+    private MainBoubakerController mainBoubakerController;
+
     private Popup currentPopup;
-
-
 
     @FXML
     public void initialize() {
@@ -66,7 +68,6 @@ public class HeaderController {
         learnIcon.setFitWidth(20);
         learnIcon.setFitHeight(20);
 
-
         doctorsIcon.setPreserveRatio(true);
         doctorsIcon.setFitWidth(20);
         doctorsIcon.setFitHeight(20);
@@ -80,25 +81,40 @@ public class HeaderController {
         packsIcon.setFitHeight(20);
     }
 
-
-
-
-
-
-
-
-
-    // Navigation method updated to accept Button parameter
+    // Navigation method updated with condition for login page
     private void navigateToPage(Button sourceButton, String fxmlPath, String title) {
         try {
+            // Get the stage from the source button
+            Stage stage = (Stage) sourceButton.getScene().getWindow();
+
+            // Special case for login page
+            if (fxmlPath.equals("User/login.fxml")) {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/" + fxmlPath)));
+                Scene scene = new Scene(root, 828, 629); // Match Main.java size
+                // Skip initStyle to avoid IllegalStateException
+                stage.setScene(scene);
+                stage.setTitle(title);
+                stage.setResizable(true);
+                stage.centerOnScreen();
+                stage.show();
+                return;
+            }
+
+            // Default navigation for other pages
+            // Use 90% of screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
-            mainContent.setAlignment(Pos.TOP_CENTER); // Align all content to top center
+            mainContent.setAlignment(Pos.TOP_CENTER);
 
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
+            headerFxmlContent.setPrefSize(width, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
             // 2. Add header image
@@ -107,13 +123,13 @@ public class HeaderController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -139,7 +155,7 @@ public class HeaderController {
                     controller.setUserId(session.getUserId());
                 }
             }
-            bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
             bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
@@ -149,10 +165,10 @@ public class HeaderController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -166,8 +182,8 @@ public class HeaderController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            // Set scene
-            Scene scene = new Scene(scrollPane, 1920, 1080);
+            // Set scene with screen size
+            Scene scene = new Scene(scrollPane, width, height);
 
             // Add CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
@@ -182,31 +198,28 @@ public class HeaderController {
             if (NavBar != null) {
                 scene.getStylesheets().add(NavBar.toExternalForm());
             }
-URL userconsultation = getClass().getResource("/css/appointments.css");
-if (userconsultation != null) {
-    scene.getStylesheets().add(userconsultation.toExternalForm());
-}
-
+            URL userconsultation = getClass().getResource("/css/appointments.css");
+            if (userconsultation != null) {
+                scene.getStylesheets().add(userconsultation.toExternalForm());
+            }
             URL gooButton = getClass().getResource("/css/GooButton.css");
             if (gooButton != null) {
                 scene.getStylesheets().add(gooButton.toExternalForm());
             } else {
                 System.err.println("CSS file not found: /css/GooButton.css");
             }
-
             URL GamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
             if (GamesMenuStyling != null) {
                 scene.getStylesheets().add(GamesMenuStyling.toExternalForm());
                 System.err.println("CSS loaded: /css/GamesMenuStyling.css");
             } else {
                 System.err.println("CSS file not found: /css/GamesMenuStyling.css");
-
             }
 
-            // Get the Stage from the source button
-            Stage stage = (Stage) sourceButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle(title);
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Error loading resources for path: " + fxmlPath);
@@ -214,7 +227,45 @@ if (userconsultation != null) {
         }
     }
 
-    // Restored onAction methods
+
+    public void setMainBoubakerController(MainBoubakerController controller) {
+        this.mainBoubakerController = controller;
+    }
+
+    @FXML
+    @SuppressWarnings("unused")
+    private void goToChatbot() {
+        System.out.println("goToChatbot: Checking access for user");
+        if (mainBoubakerController == null) {
+            System.err.println("goToChatbot: MainBoubakerController is not initialized");
+            // Lazy initialization if not injected
+            Session session = Session.getInstance();
+            if (session.getUserId() > 0) {
+                mainBoubakerController = new MainBoubakerController();
+                mainBoubakerController.initialize(); // Ensure initialization
+                System.out.println("goToChatbot: MainBoubakerController initialized for userId=" + session.getUserId());
+            } else {
+                showAlert("Erreur", "Impossible de vérifier l'accès au chatbot. Session invalide.");
+                return;
+            }
+        }
+        if (mainBoubakerController.hasChatbotAccess()) {
+            System.out.println("goToChatbot: Access granted");
+            navigateToPage(packsButton, "Boubaker/chatbot.fxml", "ChatBot");
+        } else {
+            System.out.println("goToChatbot: Access denied");
+            showAlert("Accès Refusé", "Vous devez acheter le pack Premium pour accéder au chatbot.");
+        }
+    }
+    private void showAlert(String title, String content) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.getDialogPane().setMinWidth(400);
+        alert.showAndWait();
+    }
+    // Navigation methods
     @FXML
     @SuppressWarnings("unused")
     private void goToPacks() {
@@ -227,12 +278,6 @@ if (userconsultation != null) {
         navigateToPage(packsButton, "Boubaker/orders.fxml", "Orders");
     }
 
-
-    @FXML
-    @SuppressWarnings("unused")
-    private void goToChatbot() {
-        navigateToPage(packsButton, "Boubaker/chatbot.fxml", "ChatBot");
-    }
 
 
     @FXML
@@ -251,8 +296,8 @@ if (userconsultation != null) {
     @SuppressWarnings("unused")
     private void goToAppointments() {
         navigateToPage(doctorsButton, "MaryemFXML/UserConsultations.fxml", "My Appointments");
-
     }
+
     @FXML
     private void goToStore() {
         navigateToPage(gamesButton, "HamzaFXML/ListStoreItemsFront.fxml", "Store");
@@ -262,8 +307,8 @@ if (userconsultation != null) {
     @SuppressWarnings("unused")
     private void goToListDoctors() {
         navigateToPage(doctorsButton, "MaryemFXML/FrontDisplayProfiles.fxml", "List Doctors");
-
     }
+
     @FXML
     private void goToLeaderboard() {
         navigateToPage(gamesButton, "HamzaFXML/Leaderboard.fxml", "Leaderboard");
@@ -282,9 +327,14 @@ if (userconsultation != null) {
     }
 
     @FXML
+    @SuppressWarnings("unused")
+    private void goToHome() {
+        navigateToPage(gamesButton, "User/Home.fxml", "Home");
+    }
+
+    @FXML
     private void handleHome() {
         System.out.println("Home button clicked");
-        // Placeholder: Replace with actual navigation if needed
         navigateToPage(homeButton, "Home.fxml", "Home");
     }
 
@@ -312,15 +362,21 @@ if (userconsultation != null) {
     private void showHomeDropdown() {
         String[] iconUrls = {
                 "https://img.icons8.com/?size=100&id=109681&format=png&color=000000", // Home
-                "https://img.icons8.com/?size=100&id=82422&format=png&color=000000"          // Profile
+                "https://img.icons8.com/?size=100&id=114607&format=png&color=000000"  // Quit
         };
 
         toggleDropdownWithIcons(homeButton,
-                new String[]{"Dashboard", "Profile"},
-                new String[]{"View your dashboard", "Edit your profile"},
+                new String[]{"Dashboard", "Disconnect"},
+                new String[]{"View your dashboard", "Change your account"},
                 iconUrls,
-                new Runnable[]{this::handleHome, this::handleHome}
+                new Runnable[]{this::goToHome, this::logout}
         );
+    }
+
+    private void logout() {
+        // Clear the session and navigate to login page
+        Session.getInstance().clearSession();
+        navigateToPage(homeButton, "User/login.fxml", "Login");
     }
 
     @FXML
@@ -374,29 +430,18 @@ if (userconsultation != null) {
     @FXML
     private void showPacksDropdown() {
         String[] iconUrls = {
-                "https://img.icons8.com/?size=100&id=113642&format=png&color=000000", // Packs
-                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000",  // bot
-                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000"  // Change it
+                "https://img.icons8.com/?size= Ismail100&id=113642&format=png&color=000000", // Packs
+                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000", // Orders
+                "https://img.icons8.com/?size=100&id=j11I22jYGwW5&format=png&color=000000" // Chatbot
         };
 
         toggleDropdownWithIcons(packsButton,
-                new String[]{"Premium Packs","Orders", "Chat Bot"},
-                new String[]{"Unlock premium features","See your Orders", "Chat with Our little one"},
+                new String[]{"Premium Packs", "Orders", "Chat Bot"},
+                new String[]{"Unlock premium features", "See your Orders", "Chat with Our little one"},
                 iconUrls,
                 new Runnable[]{this::goToPacks, this::goToOrders, this::goToChatbot}
         );
     }
-
-
-
-
-
-
-
-
-
-
-
 
     private void toggleDropdownWithIcons(Button button, String[] titles, String[] subTexts,
                                          String[] iconUrls, Runnable[] actions) {
@@ -415,7 +460,7 @@ if (userconsultation != null) {
         menuContent.setAlignment(Pos.TOP_LEFT);
         menuContent.setStyle("-fx-background-color: white; -fx-background-radius: 10; " +
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 2); " +
-                "-fx-min-width: 270;"); // Increased min-width to accommodate larger icons
+                "-fx-min-width: 270;");
 
         // Add menu items
         for (int i = 0; i < titles.length; i++) {
@@ -430,7 +475,7 @@ if (userconsultation != null) {
         Stage stage = (Stage) button.getScene().getWindow();
 
         // Calculate center alignment accounting for larger content
-        double dropdownWidth = 270; // Match this with your -fx-min-width
+        double dropdownWidth = 270;
         double dropdownX = stage.getX() + buttonBounds.getMinX() +
                 (button.getWidth()/2 - dropdownWidth/2);
 
@@ -440,7 +485,7 @@ if (userconsultation != null) {
         dropdown.show(stage, dropdownX, dropdownY);
         dropdown.setAutoHide(true);
 
-        // Hover behavior remains the same
+        // Hover behavior
         final boolean[] mouseInButton = {false};
         final boolean[] mouseInDropdown = {false};
 
@@ -462,32 +507,32 @@ if (userconsultation != null) {
     }
 
     private HBox createMenuItemWithIcon(String iconUrl, String title, String subText, Runnable action) {
-        HBox item = new HBox(15); // Increased spacing to accommodate larger icons
+        HBox item = new HBox(15);
         item.getStyleClass().add("app-nav-menu-item");
         item.setAlignment(Pos.CENTER_LEFT);
-        item.setPadding(new Insets(10, 0, 10, 5)); // Adjusted padding for larger icons
+        item.setPadding(new Insets(10, 0, 10, 5));
 
         // Create icon from URL
         ImageView iconView = new ImageView(new Image(iconUrl, true));
-        iconView.setFitWidth(50); // Set to your preferred size
+        iconView.setFitWidth(50);
         iconView.setFitHeight(50);
         iconView.getStyleClass().add("app-nav-menu-icon");
 
         // Text content
-        VBox textContent = new VBox(5); // Increased vertical spacing
+        VBox textContent = new VBox(5);
         Label titleLabel = new Label(title);
         titleLabel.getStyleClass().add("app-nav-menu-title");
-        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16)); // Slightly larger font
+        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
 
         Label subTextLabel = new Label(subText);
         subTextLabel.getStyleClass().add("app-nav-menu-subtext");
-        subTextLabel.setFont(Font.font("System", FontWeight.NORMAL, 13)); // Slightly larger font
+        subTextLabel.setFont(Font.font("System", FontWeight.NORMAL, 13));
 
         // Right arrow
         Label arrow = new Label("→");
         arrow.getStyleClass().add("app-nav-menu-arrow");
-        arrow.setFont(Font.font("System", FontWeight.NORMAL, 14)); // Slightly larger arrow
-        arrow.setPadding(new Insets(0, 0, 0, 10)); // Increased padding
+        arrow.setFont(Font.font("System", FontWeight.NORMAL, 14));
+        arrow.setPadding(new Insets(0, 0, 0, 10));
 
         textContent.getChildren().addAll(titleLabel, subTextLabel);
         item.getChildren().addAll(iconView, textContent, arrow);
@@ -503,8 +548,6 @@ if (userconsultation != null) {
 
         return item;
     }
-
-
 
     private void toggleDropdown(Button button, String[] titles, String[] subTexts, String[] icons, Runnable[] actions) {
         if (currentPopup != null && currentPopup.isShowing()) {
@@ -538,19 +581,17 @@ if (userconsultation != null) {
         // Get the stage (window) position
         Stage stage = (Stage) button.getScene().getWindow();
 
-        // Calculate the dropdown's X position:
-        // Stage X + button's scene X + (button width/2 - dropdown width/2)
+        // Calculate the dropdown's X position
         double dropdownX = stage.getX() + buttonBounds.getMinX() +
                 (button.getWidth()/1 - menuContent.getPrefWidth()/10);
 
-        // Calculate the dropdown's Y position:
-        // Stage Y + button's scene Y + button height
+        // Calculate the dropdown's Y position
         double dropdownY = stage.getY() + buttonBounds.getMaxY();
 
         // Show the dropdown at the calculated position
         dropdown.show(stage, dropdownX, dropdownY);
 
-        // Auto-hide and hover behavior (from previous improvements)
+        // Auto-hide and hover behavior
         dropdown.setAutoHide(true);
 
         final boolean[] mouseInButton = {false};
@@ -613,4 +654,5 @@ if (userconsultation != null) {
         });
 
         return item;
-    }}
+    }
+}

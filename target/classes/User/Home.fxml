@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="483.0" prefWidth="625.0" spacing="20" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.HomeController">
-    <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" />
-    <Button fx:id="logoutButton" onAction="#logout" text="Déconnexion" />
-</VBox>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1920.0" style="-fx-background-color: #FEF3C7FF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Text lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu le petit explorateur ...            Chez Kids" textAlignment="CENTER" wrappingWidth="908.5366411209106" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Barlow ExtraBold" size="64.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.9200000166893005" green="0.0828000009059906" blue="0.32000666856765747" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.9200000166893005" green="0.6724522709846497" blue="0.0828000009059906" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+   </top>
+   <center>
+      <ImageView fitHeight="823.0" fitWidth="555.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../Images/infra_bycycle_girl.png" />
+         </image>
+      </ImageView>
+   </center>
+   <left>
+      <ImageView fitHeight="873.0" fitWidth="650.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../Images/cycle-play.png" />
+         </image>
+      </ImageView>
+   </left>
+   <right>
+      <ImageView fitHeight="804.0" fitWidth="742.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../Images/studys.png" />
+         </image>
+      </ImageView>
+   </right>
+</BorderPane>

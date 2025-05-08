@@ -49,18 +49,11 @@
 
 /* Style pour le bouton View PDF */
 .profile-card .button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
+    -fx-background-color: invisible;
+    -fx-text-fill: Black;
+    -fx-font-size: 16px;
     -fx-padding: 5px 10px;
     -fx-background-radius: 5px;
     -fx-cursor: hand;
 }
 
-.profile-card .button:hover {
-    -fx-background-color: #45a049;
-}
-
-.profile-card .button:pressed {
-    -fx-background-color: #3d8b40;
-}

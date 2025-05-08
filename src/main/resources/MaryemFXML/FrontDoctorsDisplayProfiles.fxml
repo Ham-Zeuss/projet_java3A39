@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox alignment="CENTER" spacing="20.0" prefWidth="800" prefHeight="600" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.FrontDoctorsDisplayProfilesController" >
-
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -18,7 +19,13 @@
 
     <!-- Button to view consultations -->
     <Button fx:id="viewConsultationsButton" text="Voir Mes Consultations" onAction="#showConsultationsPage"
-            style="-fx-font-size: 14; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            style="-fx-font-size: 16; -fx-background-color: invisible; -fx-text-fill: Black;">
+        <graphic>
+            <ImageView fitWidth="55" fitHeight="55" preserveRatio="true">
+                <Image url="https://img.icons8.com/?size=100&amp;id=113573&amp;format=png&amp;color=000000"/>
+            </ImageView>
+        </graphic>
+    </Button>
 
     <!-- Container for profile cards -->
     <FlowPane fx:id="profilesContainer"
@@ -26,12 +33,8 @@
               alignment="CENTER"
               prefWidth="920"
               maxWidth="920"
-              style="-fx-background-color: #B8DAB8FF;">  <!-- here -->
-
-
-
+              style="-fx-background-color: #B8DAB8FF;">
     </FlowPane>
-
 
     <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>
 </VBox>

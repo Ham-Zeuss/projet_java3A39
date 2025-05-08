@@ -4,8 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox alignment="CENTER" spacing="20.0" styleClass="consultations-container" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controller.Maryem.DoctorConsultationsController">
@@ -13,7 +16,11 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Text fx:id="title" text="My Consultations" styleClass="consultations-title"/>
+    <HBox alignment="CENTER" spacing="10" styleClass="header">
+
+        <Text fx:id="title" text="My Consultations" styleClass="consultations-title" style="-fx-background-color: transparent; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+    </HBox>
 
     <ScrollPane fitToWidth="true" styleClass="consultations-scroll-pane">
         <content>
@@ -22,9 +29,12 @@
             </VBox>
         </content>
     </ScrollPane>
-
-    <Button fx:id="closeButton" text="Close" onAction="#close" styleClass="close-button"/>
-    <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"/>
-
-
+    <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="back-button"
+            style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold;">
+        <graphic>
+            <ImageView fitWidth="55" fitHeight="55" preserveRatio="true">
+                <Image url="https://img.icons8.com/?size=100&amp;id=113571&amp;format=png&amp;color=000000"/>
+            </ImageView>
+        </graphic>
+    </Button>
 </VBox>

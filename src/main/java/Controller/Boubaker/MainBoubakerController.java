@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -167,7 +169,7 @@ public class MainBoubakerController {
         card.setPadding(new Insets(20));
         card.setSpacing(15);
         card.setMinWidth(250);
-        card.setPrefWidth(250); // Fixed typo: setPrefWidth -> card.setPrefWidth
+        card.setPrefWidth(250);
         card.setMaxWidth(300);
 
         Text nameText = new Text(pack.getName());
@@ -193,6 +195,16 @@ public class MainBoubakerController {
 
         Button button = new Button("Commander");
         button.getStyleClass().add("order-button");
+        // Add icon to the button
+        try {
+            ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=116993&format=png&color=000000"));
+            iconView.setFitWidth(60);
+            iconView.setFitHeight(60);
+            iconView.setPreserveRatio(true);
+            button.setGraphic(iconView);
+        } catch (Exception e) {
+            System.err.println("Error loading order icon: " + e.getMessage());
+        }
         button.setOnAction(event -> orderPack(pack));
 
         card.getChildren().addAll(nameText, priceText, featuresText, button);
@@ -206,13 +218,36 @@ public class MainBoubakerController {
             return;
         }
 
-        // Step 1: Prompt for payment code with validation
         Dialog<String> codeDialog = new Dialog<>();
         codeDialog.setTitle("Méthode de Paiement");
         codeDialog.setHeaderText("Entrez votre code de paiement");
 
         ButtonType confirmButtonType = new ButtonType("Confirmer", ButtonBar.ButtonData.OK_DONE);
         codeDialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, ButtonType.CANCEL);
+
+        // Customize Confirm button with icon
+        Button confirmButton = (Button) codeDialog.getDialogPane().lookupButton(confirmButtonType);
+        try {
+            ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=94194&format=png&color=000000"));
+            iconView.setFitWidth(55);
+            iconView.setFitHeight(55);
+            iconView.setPreserveRatio(true);
+            confirmButton.setGraphic(iconView);
+        } catch (Exception e) {
+            System.err.println("Error loading confirm button icon: " + e.getMessage());
+        }
+
+        // Customize Cancel button with icon
+        Button cancelButton = (Button) codeDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        try {
+            ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=97745&format=png&color=000000"));
+            iconView.setFitWidth(55);
+            iconView.setFitHeight(55);
+            iconView.setPreserveRatio(true);
+            cancelButton.setGraphic(iconView);
+        } catch (Exception e) {
+            System.err.println("Error loading cancel button icon: " + e.getMessage());
+        }
 
         TextField codeField = new TextField();
         codeField.setPromptText("Entrez un code de paiement à 14 chiffres");
@@ -229,7 +264,6 @@ public class MainBoubakerController {
         codeContent.getChildren().addAll(new Label("Code de paiement (14 chiffres):"), codeField);
         codeDialog.getDialogPane().setContent(codeContent);
 
-        // Apply CSS style
         codeDialog.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         codeDialog.getDialogPane().getStyleClass().add("dialog-pane");
 
@@ -258,13 +292,23 @@ public class MainBoubakerController {
             return;
         }
 
-        // Step 2: Prompt for amount
         TextInputDialog amountDialog = new TextInputDialog();
         amountDialog.setTitle("Ajouter Solde");
         amountDialog.setHeaderText("Paiement via " + paymentMethod + "\nEntrez le montant à ajouter (TND)");
         amountDialog.setContentText("Montant :");
 
-        // Apply CSS style
+        // Customize OK button with icon
+        Button okButton = (Button) amountDialog.getDialogPane().lookupButton(ButtonType.OK);
+        try {
+            ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=97745&format=png&color=000000"));
+            iconView.setFitWidth(20);
+            iconView.setFitHeight(20);
+            iconView.setPreserveRatio(true);
+            okButton.setGraphic(iconView);
+        } catch (Exception e) {
+            System.err.println("Error loading OK button icon: " + e.getMessage());
+        }
+
         amountDialog.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         amountDialog.getDialogPane().getStyleClass().add("dialog-pane");
 
@@ -314,7 +358,6 @@ public class MainBoubakerController {
     }
 
     private boolean processPayment(double amount, String paymentMethod) {
-        // Simulate payment success (since Stripe already works in the background)
         System.out.println("Simulation de paiement réussie : Méthode=" + paymentMethod +
                 ", montant=" + amount + " USD (equivalent à " + amount + " TND), statut=succeeded");
         return mockStripePayment(amount);
@@ -381,7 +424,7 @@ public class MainBoubakerController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date currentDate = new Date();
             for (Commande cmd : commandes) {
-                if (cmd.getUserId() == userId && "Pending".equals(cmd.getStatus())) {
+                if (cmd.getUserId() == userId && "Active".equals(cmd.getStatus())) {
                     try {
                         Date expiryDate = sdf.parse(cmd.getExpiryDate());
                         if (expiryDate.before(currentDate)) {
@@ -513,7 +556,6 @@ public class MainBoubakerController {
                 return;
             }
 
-            // If balance is sufficient, skip payment method prompt and deduct directly
             String paymentMethod = "Balance";
 
             List<String> currentFeaturesList = new ArrayList<>();
@@ -572,14 +614,12 @@ public class MainBoubakerController {
                         sdf.format(currentDate),
                         paymentMethod,
                         expiryDateStr,
-                        "Pending"
+                        "Active"
                 );
                 commandeService.addCommande(commande);
                 pdfService.generatePurchaseReceipt(commande);
 
-                // Save chat history
                 saveChatHistory(userId, pack.getName(), priceToPayTND, paymentMethod, sdf.format(currentDate), expiryDateStr);
-                // Reload chat history after saving
                 loadChatHistory(userId);
             } catch (Exception e) {
                 userService.addBalance(userId, priceToPayTND);
@@ -653,7 +693,6 @@ public class MainBoubakerController {
         double currentBalance = currentUser.getBalance() != null ? currentUser.getBalance() : 0.0;
         double neededAmount = requiredAmount - currentBalance;
 
-        // Step 1: Prompt for payment code with validation
         Dialog<String> codeDialog = new Dialog<>();
         codeDialog.setTitle("Méthode de Paiement");
         codeDialog.setHeaderText("Solde insuffisant. Ajoutez au moins " + neededAmount + " TND.");
@@ -676,7 +715,6 @@ public class MainBoubakerController {
         codeContent.getChildren().addAll(new Label("Code de paiement (14 chiffres):"), codeField);
         codeDialog.getDialogPane().setContent(codeContent);
 
-        // Apply CSS style
         codeDialog.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         codeDialog.getDialogPane().getStyleClass().add("dialog-pane");
 
@@ -705,14 +743,12 @@ public class MainBoubakerController {
             return;
         }
 
-        // Step 2: Prompt for amount
         TextInputDialog amountDialog = new TextInputDialog();
         amountDialog.setTitle("Ajouter Solde pour Pack");
         amountDialog.setHeaderText("Paiement via " + paymentMethod + "\nAjoutez au moins " + neededAmount + " TND pour atteindre " + requiredAmount + " TND.");
         amountDialog.setContentText("Montant :");
         amountDialog.getEditor().setText(String.format("%.2f", neededAmount));
 
-        // Apply CSS style
         amountDialog.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         amountDialog.getDialogPane().getStyleClass().add("dialog-pane");
 
@@ -769,11 +805,11 @@ public class MainBoubakerController {
     }
 
     private List<Commande> getActiveCommandes(int userId) {
-        List<Commande> commandes = commandeService.getAllCommandes();
+        List<Commande> commandes = commandeService.getAllCommandes(); // Force fresh fetch
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date currentDate = new Date();
         return commandes.stream()
-                .filter(c -> c.getUserId() == userId && "Pending".equals(c.getStatus()))
+                .filter(c -> c.getUserId() == userId && "Active".equals(c.getStatus()))
                 .filter(c -> {
                     try {
                         Date expiryDate = sdf.parse(c.getExpiryDate());
@@ -793,7 +829,6 @@ public class MainBoubakerController {
         alert.setContentText(content);
         alert.getDialogPane().setMinWidth(400);
 
-        // Apply CSS style
         alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialog-pane");
 
@@ -808,23 +843,22 @@ public class MainBoubakerController {
         UserService userService = new UserService();
         if (userService.isAdmin(currentUser)) {
             System.out.println("hasChatbotAccess: User " + currentUser.getId() + " is an admin, granting access");
-            // Display chat history when accessing chatbot
             System.out.println("Chatbot accédé. Historique de l'utilisateur :\n" + userChatHistory);
             return true;
         }
-        List<Commande> activeCommandes = getActiveCommandes(currentUser.getId());
+        List<Commande> activeCommandes = getActiveCommandes(currentUser.getId()); // Use fresh list
         System.out.println("hasChatbotAccess: Found " + activeCommandes.size() + " active commandes for user " + currentUser.getId());
         boolean hasAccess = activeCommandes.stream().anyMatch(c -> {
             Pack p = packService.getPackById(c.getPackId());
-            boolean hasPremium = p != null && p.getName().equals("PREMIUM");
-            boolean hasChatbotFeature = p != null && p.getFeatures() != null && p.getFeatures().contains("chatbot");
-            System.out.println("hasChatbotAccess: Commande ID=" + c.getId() + ", Pack=" + (p != null ? p.getName() : "null") +
+            if (p == null) return false;
+            boolean hasPremium = p.getName().equals("PREMIUM");
+            boolean hasChatbotFeature = p.getFeatures() != null && p.getFeatures().contains("chatbot");
+            System.out.println("hasChatbotAccess: Commande ID=" + c.getId() + ", Pack=" + p.getName() +
                     ", Has Premium=" + hasPremium + ", Has Chatbot Feature=" + hasChatbotFeature + ", Expiry=" + c.getExpiryDate());
-            return hasPremium || hasChatbotFeature;
+            return hasPremium || (hasChatbotFeature && p.getName().equals("PREMIUM"));
         });
         System.out.println("hasChatbotAccess: Final result for user " + currentUser.getId() + ": " + hasAccess);
         if (hasAccess) {
-            // Display chat history when accessing chatbot
             System.out.println("Chatbot accédé. Historique de l'utilisateur :\n" + userChatHistory);
         }
         return hasAccess;

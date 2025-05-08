@@ -177,6 +177,110 @@ public class SecurityController {
             }
         }
 
+
+        if (_username.getText().trim().equals("h") && _password.getText().trim().equals("h")) {
+            try {
+                // Set default session for backdoor (ID=14)
+                Session session = Session.getInstance();
+                session.setUser(46, "abir@gmail.com", "ROLE_MEDECIN");
+
+                // Create a VBox to stack header, body, and footer
+                VBox mainContent = new VBox();
+                mainContent.setAlignment(Pos.TOP_CENTER);
+
+
+
+                // 2. Load header.png
+                ImageView headerImageView = new ImageView();
+                try {
+                    Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                    headerImageView.setImage(headerImage);
+                    headerImageView.setPreserveRatio(true);
+                    headerImageView.setFitWidth(1920);
+                    headerImageView.setSmooth(true);
+                    headerImageView.setCache(true);
+                    VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+                } catch (Exception e) {
+                    System.err.println("Error loading header image: " + e.getMessage());
+                    Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                    Label errorLabel = new Label("Header image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                    mainContent.getChildren().add(fallbackBox);
+                }
+                mainContent.getChildren().add(headerImageView);
+
+                // 3. Load body (ListStoreItemsFront.fxml)
+                Parent bodyContent;
+                String fxmlPath = "MaryemFXML/FrontDoctorsDisplayProfiles.fxml";
+                URL resourceUrl = getClass().getResource("/" + fxmlPath);
+                if (resourceUrl == null) {
+                    throw new Exception("Resource not found: /" + fxmlPath);
+                }
+                FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
+                bodyContent = bodyLoader.load();
+                bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+                mainContent.getChildren().add(bodyContent);
+
+                // 4. Load footer.png
+                ImageView footerImageView = new ImageView();
+                try {
+                    Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                    footerImageView.setImage(footerImage);
+                    footerImageView.setPreserveRatio(true);
+                    footerImageView.setFitWidth(1920);
+                } catch (Exception e) {
+                    System.err.println("Error loading footer image: " + e.getMessage());
+                    Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                    Label errorLabel = new Label("Footer image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                    mainContent.getChildren().add(fallbackBox);
+                }
+                mainContent.getChildren().add(footerImageView);
+
+                // Wrap in ScrollPane
+                ScrollPane scrollPane = new ScrollPane(mainContent);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+                // Create scene
+                Scene scene = new Scene(scrollPane, 1920, 1080);
+                // Add CSS files
+                String[] cssFiles = {
+                        "/css/store-cards.css",
+                        "/navbar.css",
+                        "/css/styles.css",
+                        "/css/UserTitlesStyle.css",
+                        "/css/leaderboard.css"
+                };
+                for (String cssPath : cssFiles) {
+                    URL cssUrl = getClass().getResource(cssPath);
+                    if (cssUrl != null) {
+                        scene.getStylesheets().add(cssUrl.toExternalForm());
+                    }
+                }
+
+                // Set stage
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentStage.setScene(scene);
+                currentStage.setTitle("Store");
+                currentStage.setWidth(1920);
+                currentStage.setHeight(1080);
+                currentStage.setResizable(true);
+                currentStage.setFullScreen(false);
+                currentStage.centerOnScreen();
+                currentStage.show();
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page du magasin : " + e.getMessage());
+                return;
+            }
+        }
+
+
         // Backdoor: Check if email and password are both "y"
         if (_username.getText().trim().equals("y") && _password.getText().trim().equals("y")) {
             try {

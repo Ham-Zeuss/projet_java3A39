@@ -204,6 +204,15 @@ public class ProfileDoctorsDetailsController {
                 // Report Button
                 Button reportButton = new Button("Report");
                 reportButton.getStyleClass().add("button");
+                try {
+                    ImageView iconView = new ImageView(new Image("https://img.icons8.com/?size=100&id=113581&format=png&color=000000"));
+                    iconView.setFitWidth(55);
+                    iconView.setFitHeight(55);
+                    iconView.setPreserveRatio(true);
+                    reportButton.setGraphic(iconView);
+                } catch (Exception e) {
+                    System.err.println("Error loading report button icon: " + e.getMessage());
+                }
                 reportButton.setDisable(comment.isReported());
                 reportButton.setVisible(isProfileOwnerDoctor);
                 reportButton.setOnAction(event -> openReportPopup(comment));

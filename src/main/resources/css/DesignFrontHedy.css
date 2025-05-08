@@ -140,3 +140,11 @@
     -fx-padding: 0;
     -fx-border-width: 0;
 }
+
+
+#moduleTitleLabel {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-translate-x: 600px; /* or adjust to 60px, 100px, etc. */
+}

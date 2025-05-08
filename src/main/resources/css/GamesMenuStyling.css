@@ -1,8 +1,6 @@
-/* Games Menu Styling for a modern, engaging look */
-
 /* GridPane Styling */
 .grid-pane {
-    -fx-background-color: linear-gradient(to bottom right, #BAD5C0FF, #BAD5C0FF);
+    -fx-background-color: white; /* Black base for modern look */
     -fx-background-radius: 15;
     -fx-border-radius: 15;
     -fx-padding: 20;
@@ -11,68 +9,67 @@
 
 /* Game Card Styling */
 .game-card {
-    -fx-background-color: #354671FF;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0, 0, 3);
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #d0c1ec); /* Dark gradient */
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 5);
     -fx-alignment: center;
     -fx-transition: all 0.3s ease;
 }
 
 .game-card:hover {
-    -fx-scale-y: 1.05;
+    -fx-background-color: linear-gradient(to bottom, #7e5aec, #857ffb);
+    -fx-effect: dropshadow(gaussian, rgba(230,57,70,0.3), 15, 0, 0, 5); /* Red glow */
     -fx-scale-x: 1.05;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 12, 0, 0, 5);
-    -fx-background-color: #3a3a5a;
+    -fx-scale-y: 1.05;
 }
 
 /* Image Styling */
-ImageView {
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
-    -fx-transition: transform 0.3s ease;
-}
-
-
-
-/* Placeholder Rectangle Styling */
-.game-image {
-    -fx-fill: #4a4a6a;
-    -fx-arc-width: 8;
-    -fx-arc-height: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+.game-card .image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    -fx-border-color: #ffffff; /* White border */
+    -fx-border-width: 3;
+    -fx-border-radius: 125; /* Match circular clip */
 }
 
 /* Label Styling */
 .timestamp {
-    -fx-font-family: "Arial";
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
     -fx-font-size: 14px;
-    -fx-text-fill: #a0a0c0;
     -fx-font-weight: bold;
-    -fx-padding: 5;
-    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-text-fill: #e63946; /* Red accent */
+    -fx-background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
     -fx-background-radius: 5;
+    -fx-padding: 5;
 }
 
 .game-title {
-    -fx-font-family: "Arial";
-    -fx-font-size: 18px;
-    -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-padding: 5 0;
+    -fx-text-fill: #ffffff; /* White */
+    -fx-padding: 10 0 5 0;
 }
 
 .game-creator {
-    -fx-font-family: "Arial";
-    -fx-font-size: 14px;
-    -fx-text-fill: #c0c0e0;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #d1d1d1; /* Light gray */
     -fx-padding: 0 0 10 0;
 }
 
-/* Button Pane Styling */
+/* Button Pane Styling (Unchanged) */
 Pane {
     -fx-background-color: transparent;
 }
 
+/* Gooey Button Styling (Unchanged) */
+.gooey-button {
+    /* Existing styles preserved */
+}
+
+/* Hover effect for gooey button (Unchanged) */
+.gooey-button-hover {
+    /* Existing styles preserved */
+}

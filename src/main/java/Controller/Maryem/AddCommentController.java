@@ -5,6 +5,8 @@ import entite.Profile;
 import entite.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import service.CommentaireService;
 
@@ -20,6 +22,15 @@ public class AddCommentController {
     private CheckBox reportedCheckBox;
 
     @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button setupButton;
+
+    @FXML
     private Label errorLabel;
 
     private Profile profile;
@@ -33,7 +44,38 @@ public class AddCommentController {
         if (!session.isActive()) {
             errorLabel.setText("No active session. Please log in.");
         }
+
+        // Configure buttons with icons and text
+        if (saveButton != null) {
+            setupButton(saveButton, "https://img.icons8.com/?size=100&id=94194&format=png&color=000000", "Save", true);
+            saveButton.setOnAction(e -> saveComment());
+        }
+
+        if (cancelButton != null) {
+            setupButton(cancelButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Cancel", true);
+            cancelButton.setOnAction(e -> cancel());
+        }
     }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(48);
+            icon.setFitHeight(48);
+            button.setGraphic(icon);
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            button.getStyleClass().add("icon-button");
+        }
+    }
+
 
     @FXML
     private void saveComment() {

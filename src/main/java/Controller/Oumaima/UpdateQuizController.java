@@ -69,12 +69,12 @@ public class UpdateQuizController implements Initializable {
             }
         });
 
-        // Set "Enregistrer" text and action for updateButton
-        updateButton.setText("Enregistrer");
-        updateButton.setOnAction(event -> updateQuiz());
+        // Configure buttons with icons and text
+        setupButton(updateButton, "https://img.icons8.com/?size=100&id=94194&format=png&color=000000", "Enregistrer", false);
+        setupButton(returnButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Retour", false);
 
-        // Ensure returnButton triggers returnToAffichageQuiz
-        returnButton.setText("Retour");
+        // Set actions for buttons
+        updateButton.setOnAction(event -> updateQuiz());
         returnButton.setOnAction(event -> returnToAffichageQuiz());
     }
 
@@ -87,6 +87,31 @@ public class UpdateQuizController implements Initializable {
 
         if (quiz.getCourse() != null) {
             courseComboBox.getSelectionModel().select(quiz.getCourse());
+        }
+    }
+
+    private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
+        try {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(70);
+            icon.setFitHeight(70);
+            button.setGraphic(icon);
+            // Show text only if showText is true
+            button.setText(showText ? tooltipText : "");
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
+            // Apply specified style
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
+        } catch (Exception e) {
+            System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
+            // Fallback: Set text if icon fails to load
+            button.setText(tooltipText);
+            button.setTooltip(new Tooltip(tooltipText));
+            button.setMinSize(showText ? 150 : 60, 60);
+            // Apply same style in fallback case
+            button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
+            button.getStyleClass().add("icon-button");
         }
     }
 

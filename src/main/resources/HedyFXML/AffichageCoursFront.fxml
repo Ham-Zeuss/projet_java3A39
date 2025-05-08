@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.Hedy.AffichageCoursController"
-            style="-fx-background-color: #f5f5f5;"
-            prefHeight="600.0" prefWidth="1000.0"
-            stylesheets="@/css/DesignFrontHedy.css">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Hedy.AffichageCoursController"
+      style="-fx-background-color: #f5f5f5;"
+      prefHeight="600.0" prefWidth="1000.0"
+      stylesheets="@/css/DesignFrontHedy.css">
 
     <!-- Header with Back, Filter, and Add Buttons -->
     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label fx:id="moduleTitleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+        <Label fx:id="moduleTitleLabel"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+               HBox.hgrow="ALWAYS"
+               alignment="CENTER" />
 
         <Region HBox.hgrow="ALWAYS" />
 
         <ComboBox fx:id="filterComboBox" prefWidth="150" promptText="Filter Courses" styleClass="search-field"/>
 
         <Button fx:id="ajouterCoursButton"
-                text="Ajouter Cours"
-                onAction="#goToAjoutCours"
-                styleClass="button-Enregistrer"/>    </HBox>
+                onAction="#goToAjoutCours"/>
+    </HBox>
+
+    <!-- Retour Modules Button -->
+    <Button fx:id="retourModulesButton"
+            onAction="#retourModules"
+            prefWidth="160"/>
 
     <!-- Scrollable Centered Grid for Course Cards -->
     <ScrollPane fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
@@ -39,4 +46,4 @@
             </GridPane>
         </VBox>
     </ScrollPane>
-</AnchorPane>
+</VBox>
