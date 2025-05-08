@@ -10,7 +10,7 @@
             fx:controller="Controller.Oumaima.affichageEtudiantQuiz" prefHeight="700.0" prefWidth="1300.0"
             style="-fx-background-color: white;">
     <stylesheets>
-        <URL value="@../css/affichagequizcard.css" />
+        <URL value="@/DesignFull.css" />
     </stylesheets>
 
     <!-- Conteneur principal -->

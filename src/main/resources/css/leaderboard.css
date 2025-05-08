@@ -100,7 +100,7 @@
     -fx-padding: 10px 20px;
     -fx-max-width: 850px;
     -fx-alignment: center-left;
-    -fx-background-color: #4ecca3;
+    -fx-background-color: #93C572;
     -fx-background-radius: 10px;
 }
 
@@ -114,13 +114,13 @@
 
 .leaderboard-row {
     -fx-padding: 12px 20px;
-    -fx-background-color: #a8e6cf;
+    -fx-background-color: #93C572;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
     -fx-max-width: 850px;
     -fx-alignment: center-left;
     -fx-spacing: 10;
-    -fx-border-color: #ffffff;
+    -fx-border-color: #93C572;
     -fx-border-width: 1px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
 }

@@ -71,7 +71,7 @@ public class UserTitlesController implements Initializable {
 
     private VBox createTitleCard(Title title, int userId) {
         VBox card = new VBox();
-        card.getStyleClass().add("title-card");
+        card.getStyleClass().add("pack-card");
         card.setPadding(new Insets(10));
         card.setSpacing(5);
         card.setAlignment(javafx.geometry.Pos.CENTER);

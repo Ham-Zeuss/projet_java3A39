@@ -54,9 +54,8 @@ public class FrontDoctorsDisplayProfilesController {
             javafx.application.Platform.runLater(() -> {
                 Scene scene = profilesContainer.getScene();
                 if (scene != null) {
-                    scene.getStylesheets().add(
-                            getClass().getResource("/css/profile-card.css").toExternalForm()
-                    );
+                    scene.getStylesheets().add(getClass().getResource("/css/profile-card.css").toExternalForm());
+                    scene.getStylesheets().add(getClass().getResource("/DesignFull.css").toExternalForm());
                 }
             });
 
@@ -70,7 +69,7 @@ public class FrontDoctorsDisplayProfilesController {
 
             for (Profile profile : profiles) {
                 VBox profileCard = new VBox();
-                profileCard.getStyleClass().add("profile-card");
+                profileCard.getStyleClass().add("pack-card");
                 profileCard.setSpacing(5);
                 profileCard.setAlignment(Pos.CENTER);
                 profileCard.setPadding(new Insets(10));
@@ -283,7 +282,7 @@ public class FrontDoctorsDisplayProfilesController {
                 System.err.println("Failed to load DoctorConsultations.fxml: " + e.getMessage());
                 throw e;
             }
-            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 500; -fx-max-height: 5000;-fx-background-color: #DCE6D7FF;");
+            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 500; -fx-max-height: 5000;");
             mainContent.getChildren().add(bodyContent);
 
             // Footer image

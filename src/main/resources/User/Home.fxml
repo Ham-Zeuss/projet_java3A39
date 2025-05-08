@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1920.0" style="-fx-background-color: #FEF3C7FF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1530.0" style="-fx-background-color: #FEF3C7FF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Text lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu le petit explorateur ...            Chez Kids" textAlignment="CENTER" wrappingWidth="908.5366411209106" BorderPane.alignment="CENTER">
          <font>

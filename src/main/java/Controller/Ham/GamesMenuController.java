@@ -22,6 +22,8 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 import java.net.URL;
@@ -118,6 +120,11 @@ public class GamesMenuController {
     @FXML
     private void playScrambleGame(ActionEvent event) {
         try {
+            // Get screen dimensions
+            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+            double screenWidth = screenBounds.getWidth();
+            double screenHeight = screenBounds.getHeight();
+
             // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
@@ -125,7 +132,7 @@ public class GamesMenuController {
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
+            headerFxmlContent.setPrefSize(screenWidth * 0.6, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
             // 2. Add header image
@@ -134,13 +141,13 @@ public class GamesMenuController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920);
+                headerImageView.setFitWidth(screenWidth);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -151,7 +158,7 @@ public class GamesMenuController {
             // 3. Load ScrambleGame content
             PexelController.GameController gameController = new PexelController.GameController();
             Parent gameContent = gameController.getView();
-            gameContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-background-color: #f0f4f8;");
+            gameContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-background-color: #f0f4f8;");
             mainContent.getChildren().add(gameContent);
 
             // 4. Load footer
@@ -160,10 +167,10 @@ public class GamesMenuController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(screenWidth);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -178,7 +185,7 @@ public class GamesMenuController {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
             // Create scene
-            Scene scene = new Scene(scrollPane, 1920, 1080);
+            Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
 
             // Add CSS files
             addCommonStylesheets(scene);
@@ -193,6 +200,9 @@ public class GamesMenuController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Word Scramble Game");
+            stage.setResizable(true);
+
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Error launching Word Scramble Game: " + e.getMessage());
@@ -203,6 +213,11 @@ public class GamesMenuController {
     @FXML
     private void playPexelleGame(ActionEvent event) {
         try {
+            // Get screen dimensions
+            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+            double screenWidth = screenBounds.getWidth();
+            double screenHeight = screenBounds.getHeight();
+
             // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
@@ -210,7 +225,7 @@ public class GamesMenuController {
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(1000, 100);
+            headerFxmlContent.setPrefSize(screenWidth * 0.6, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
             // 2. Add header image
@@ -219,13 +234,13 @@ public class GamesMenuController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920);
+                headerImageView.setFitWidth(screenWidth);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -236,7 +251,7 @@ public class GamesMenuController {
             // 3. Load PexelGame content
             FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/HamzaFXML/PexelGame.fxml"));
             Parent gameContent = gameLoader.load();
-            gameContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            gameContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-max-height: 2000;");
             mainContent.getChildren().add(gameContent);
 
             // 4. Load footer
@@ -245,10 +260,10 @@ public class GamesMenuController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(screenWidth);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -263,7 +278,7 @@ public class GamesMenuController {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
             // Create scene
-            Scene scene = new Scene(scrollPane, 1920, 1080);
+            Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
 
             // Add CSS files
             addCommonStylesheets(scene);
@@ -278,6 +293,9 @@ public class GamesMenuController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Pexels Matching Game");
+            stage.setResizable(true);
+
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Error launching Pexel Game: " + e.getMessage());
@@ -293,7 +311,6 @@ public class GamesMenuController {
                 getClass().getResource("/OumaimaFXML/styles.css"),
                 getClass().getResource("/css/UserTitlesStyle.css"),
                 getClass().getResource("/css/leaderboard.css"),
-
         };
 
         for (URL cssUrl : cssFiles) {

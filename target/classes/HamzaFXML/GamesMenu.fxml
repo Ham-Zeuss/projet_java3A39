@@ -28,7 +28,7 @@
 
     <!-- Card 1: Word Scramble Game -->
     <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
-
+        <Label text="Word Scramble Game" styleClass="timestamp"/>
         <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
                 <Image url="/Images/word_scramble.png"/>
@@ -46,7 +46,7 @@
 
     <!-- Card 2: Pixel Games -->
     <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
-
+        <Label text="Pixel Games" styleClass="timestamp"/>
         <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
                 <Image url="/Images/Pixel.png"/>
@@ -64,7 +64,7 @@
 
     <!-- Card 3: Placeholder Game -->
     <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
-        
+        <Label text="New Game" styleClass="timestamp"/>
         <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
                 <Image url="/Images/kidslogo.png"/>

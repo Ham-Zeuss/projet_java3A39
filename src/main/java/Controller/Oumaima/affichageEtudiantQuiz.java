@@ -129,7 +129,7 @@ public class affichageEtudiantQuiz implements Initializable {
         card.setPrefSize(320, 300); // Augmentez légèrement la hauteur pour le bouton
         card.setMaxSize(320, 300);
         card.setPadding(new Insets(20));
-        card.getStyleClass().add("card");
+        card.getStyleClass().add("pack-card");
 
         // Content VBox
         VBox content = new VBox(15);

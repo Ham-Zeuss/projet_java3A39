@@ -160,7 +160,6 @@ public class DoctorConsultationsController {
             Parent bodyContent;
             try {
                 bodyContent = loader.load();
-                bodyContent.setStyle("-fx-background-color: #B8DAB8FF;");  // Set background after loading
             } catch (IOException e) {
                 System.err.println("Failed to load FrontDoctorsDisplayProfiles.fxml: " + e.getMessage());
                 throw e;

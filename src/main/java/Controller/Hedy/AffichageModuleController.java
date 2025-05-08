@@ -45,7 +45,7 @@ public class AffichageModuleController {
 
         for (Module module : modules) {
             VBox card = createModuleCard(module);
-            card.getStyleClass().add("module-card");
+            card.getStyleClass().add("pack-card");
             GridPane.setMargin(card, new Insets(10));
             modulesGrid.add(card, column, row);
 

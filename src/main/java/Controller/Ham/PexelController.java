@@ -29,6 +29,13 @@ import entite.PexelWord;
 import entite.User;
 import test.Ham.WordScrambleGame;
 import util.DataSource;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,11 +46,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class PexelController {
     private static final String PEXELS_API_KEY = "M2NUFDmgYXzCAulwxY9W0MtYFE4oIjgmQeSPLxkPtA3EBd59yrShuOqr";
@@ -496,6 +498,11 @@ public class PexelController {
 
         private void navigateToMainMenu(Stage stage) {
             try {
+                // Get screen dimensions
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenWidth = screenBounds.getWidth();
+                double screenHeight = screenBounds.getHeight();
+
                 // Create a VBox to stack the header, header image, body, and footer
                 VBox mainContent = new VBox();
                 mainContent.setAlignment(Pos.TOP_CENTER);
@@ -503,7 +510,7 @@ public class PexelController {
                 // 1. Load header.fxml
                 FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                 VBox headerFxmlContent = headerFxmlLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
+                headerFxmlContent.setPrefSize(screenWidth * 0.6, 100);
                 mainContent.getChildren().add(headerFxmlContent);
 
                 // 2. Add header image
@@ -512,13 +519,13 @@ public class PexelController {
                     Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                     headerImageView.setImage(headerImage);
                     headerImageView.setPreserveRatio(true);
-                    headerImageView.setFitWidth(1920);
+                    headerImageView.setFitWidth(screenWidth);
                     headerImageView.setSmooth(true);
                     headerImageView.setCache(true);
                     VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
                 } catch (Exception e) {
                     System.err.println("Error loading header image: " + e.getMessage());
-                    Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                    Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Header image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -534,7 +541,7 @@ public class PexelController {
                 }
                 FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
                 Parent bodyContent = bodyLoader.load();
-                bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1000; -fx-max-height: 2000;");
+                bodyContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-max-height: 2000;");
                 mainContent.getChildren().add(bodyContent);
 
                 // 4. Load footer as ImageView
@@ -543,10 +550,10 @@ public class PexelController {
                     Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                     footerImageView.setImage(footerImage);
                     footerImageView.setPreserveRatio(true);
-                    footerImageView.setFitWidth(1920);
+                    footerImageView.setFitWidth(screenWidth);
                 } catch (Exception e) {
-                    System.err.println(" Tolkien loading footer image: " + e.getMessage());
-                    Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                    System.err.println("Error loading footer image: " + e.getMessage());
+                    Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Footer image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -561,7 +568,7 @@ public class PexelController {
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
                 // Create a Scene
-                Scene scene = new Scene(scrollPane, 1920, 1080);
+                Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
 
                 // Add CSS files
                 URL storeCards = getClass().getResource("/css/store-cards.css");
@@ -584,6 +591,9 @@ public class PexelController {
                 // Set the scene and show the stage
                 stage.setScene(scene);
                 stage.setTitle("Games Menu");
+                stage.setResizable(true);
+
+                stage.centerOnScreen();
                 stage.show();
             } catch (IOException e) {
                 System.err.println("Error loading resources for path: HamzaFXML/GamesMenu.fxml");

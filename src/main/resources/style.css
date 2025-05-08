@@ -220,7 +220,7 @@
 /* Balance and Buttons */
 .balance-label {
     -fx-font-size: 16px;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: black;
 }
 
 .hero-button {

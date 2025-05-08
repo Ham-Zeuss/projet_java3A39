@@ -193,7 +193,7 @@ public class AffichageCoursController {
         card.setAlignment(Pos.TOP_LEFT);
         card.setPrefSize(300, 180);
 
-        card.getStyleClass().add("module-card");
+        card.getStyleClass().add("pack-card");
 
         Label titleLabel = new Label(cours.getTitle());
         titleLabel.getStyleClass().add("heading");

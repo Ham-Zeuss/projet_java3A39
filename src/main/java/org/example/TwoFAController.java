@@ -30,6 +30,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import service.TwoFactorAuthService;
 import test.Sidebar;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -65,7 +67,6 @@ public class TwoFAController {
             e.printStackTrace();
         }
     }
-
     @FXML
     private void verifyCode(ActionEvent event) {
         try {
@@ -84,6 +85,11 @@ public class TwoFAController {
                     return;
                 }
 
+                // Get screen dimensions
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenWidth = screenBounds.getWidth();
+                double screenHeight = screenBounds.getHeight();
+
                 Map<String, String> roleToFxmlMap = new HashMap<>();
                 roleToFxmlMap.put("ROLE_MEDECIN", "/MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
                 roleToFxmlMap.put("ROLE_ENSEIGNANT", "/HedyFXML/AffichageModule.fxml");
@@ -95,15 +101,15 @@ public class TwoFAController {
                 VBox mainContent = new VBox();
                 mainContent.setAlignment(Pos.TOP_CENTER);
 
+                // Load header image
                 ImageView headerImageView = new ImageView();
                 try {
                     Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                     headerImageView.setImage(headerImage);
                     headerImageView.setPreserveRatio(true);
-                    headerImageView.setFitWidth(1920);
+                    headerImageView.setFitWidth(screenWidth);
                     headerImageView.setSmooth(true);
                     VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
-                    mainContent.getChildren().add(headerImageView);
                 } catch (Exception e) {
                     Label errorLabel = new Label("Header image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
@@ -118,19 +124,22 @@ public class TwoFAController {
                 Parent bodyContent = loader.load();
 
                 if ("ROLE_MEDECIN".equals(role)) {
-                    bodyContent.setStyle("-fx-background-color: #B8DAB8FF; -fx-pref-width: 1920; -fx-pref-height: 1080;");
+                    bodyContent.setStyle("-fx-background-color: #B8DAB8FF; -fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + ";");
                 }
 
                 if ("ROLE_PARENT".equals(role)) {
                     FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                     VBox headerFxmlContent = headerFxmlLoader.load();
-                    headerFxmlContent.setPrefSize(1000, 100);
+                    headerFxmlContent.setPrefSize(screenWidth * 0.6, 100);
                     mainContent.getChildren().add(headerFxmlContent);
+                    mainContent.getChildren().add(headerImageView); // Add header image after navbar
 
                     HomeController homeController = loader.getController();
                     if (homeController != null) {
                         homeController.setWelcomeMessage("Bienvenue ID: " + session.getUserId());
                     }
+                } else {
+                    mainContent.getChildren().add(headerImageView); // Add header image for non-parent roles
                 }
 
                 mainContent.getChildren().add(bodyContent);
@@ -140,7 +149,7 @@ public class TwoFAController {
                     Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                     footerImageView.setImage(footerImage);
                     footerImageView.setPreserveRatio(true);
-                    footerImageView.setFitWidth(1920);
+                    footerImageView.setFitWidth(screenWidth);
                     footerImageView.setSmooth(true);
                     mainContent.getChildren().add(footerImageView);
                 } catch (Exception e) {
@@ -154,19 +163,21 @@ public class TwoFAController {
                 scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-                Scene scene = new Scene(scrollPane, 1920, 1080);
+                Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
                 scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
                 scene.getStylesheets().add(getClass().getResource("/css/UserTitlesStyle.css").toExternalForm());
+                URL navbarCss = getClass().getResource("/navbar.css");
+                if (navbarCss != null) {
+                    scene.getStylesheets().add(navbarCss.toExternalForm());
+                } else {
+                    System.err.println("CSS file not found: /navbar.css");
+                }
 
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.setScene(scene);
                 currentStage.setTitle("Dashboard - " + role);
-                currentStage.setFullScreen(false);
-                currentStage.setWidth(1920);
-                currentStage.setHeight(1080);
-                currentStage.setX(0); // Start at top-left
-                currentStage.setY(0); // Start at top-left
                 currentStage.setResizable(true);
+                currentStage.centerOnScreen();
                 currentStage.show();
             }
         } catch (NumberFormatException e) {
@@ -179,6 +190,11 @@ public class TwoFAController {
 
     private void loadDashboardLayout(ActionEvent event) throws IOException {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
 
         Consumer<String> loadFXMLConsumer = fxmlPath -> {
             try {
@@ -221,20 +237,22 @@ public class TwoFAController {
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
 
-        Scene scene = new Scene(root, 1920, 1080);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         currentStage.setScene(scene);
         currentStage.setTitle("Admin Dashboard");
-        currentStage.setFullScreen(false);
-        currentStage.setWidth(1920);
-        currentStage.setHeight(1080);
-        currentStage.setX(0); // Start at top-left
-        currentStage.setY(0); // Start at top-left
         currentStage.setResizable(true);
+
+        currentStage.centerOnScreen();
         currentStage.show();
     }
 
     private void loadDashboard(Stage stage) throws IOException {
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
         Consumer<String> loadFXMLConsumer = fxmlPath -> {
             try {
                 loadFXML(stage, fxmlPath);
@@ -277,20 +295,22 @@ public class TwoFAController {
         root.setLeft(sidebar);
         root.setCenter(createMainContent());
 
-        Scene scene = new Scene(root, 1920, 1080);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Admin Dashboard");
-        stage.setFullScreen(false);
-        stage.setWidth(1920);
-        stage.setHeight(1080);
-        stage.setX(0); // Start at top-left
-        stage.setY(0); // Start at top-left
         stage.setResizable(true);
+
+        stage.centerOnScreen();
         stage.show();
     }
 
     void loadFXML(Stage stage, String fxmlPath) throws IOException {
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent fxmlContent = loader.load();
 
@@ -336,16 +356,13 @@ public class TwoFAController {
         root.setLeft(sidebar);
         root.setCenter(fxmlContent);
 
-        Scene scene = new Scene(root, 1920, 1080);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Admin Dashboard");
-        stage.setFullScreen(false);
-        stage.setWidth(1920);
-        stage.setHeight(1080);
-        stage.setX(0); // Start at top-left
-        stage.setY(0); // Start at top-left
         stage.setResizable(true);
+
+        stage.centerOnScreen();
         stage.show();
     }
 

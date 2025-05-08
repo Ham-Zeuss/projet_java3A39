@@ -33,7 +33,7 @@
               alignment="CENTER"
               prefWidth="920"
               maxWidth="920"
-              style="-fx-background-color: #B8DAB8FF;">
+              >
     </FlowPane>
 
     <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;"/>

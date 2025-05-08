@@ -127,7 +127,7 @@ public class affichageQuizcontroller implements Initializable {
         card.setPrefSize(600, 400); // Taille rectangulaire horizontale
         card.setMaxSize(600, 400);
         card.setPadding(new Insets(20));
-        card.getStyleClass().add("card");
+        card.getStyleClass().add("pack-card");
 
         VBox content = new VBox(15);
         content.getStyleClass().add("content");

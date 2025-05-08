@@ -101,7 +101,7 @@ public class HeaderController {
             }
 
             // Default navigation for other pages
-            // Use 90% of screen size
+            // Use screen size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
             double width = bounds.getWidth();
@@ -114,7 +114,7 @@ public class HeaderController {
             // 1. Load header.fxml
             FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerFxmlLoader.load();
-            headerFxmlContent.setPrefSize(width, 100);
+            headerFxmlContent.setPrefSize(width * 0.6, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
             // 2. Add header image
@@ -129,7 +129,7 @@ public class HeaderController {
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(width, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -168,7 +168,7 @@ public class HeaderController {
                 footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(width, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);

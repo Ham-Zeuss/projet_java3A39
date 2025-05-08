@@ -42,6 +42,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 
+
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
+
 public class SecurityController {
 
     @FXML
@@ -71,11 +75,18 @@ public class SecurityController {
 
     public void validateloginButtonClicked(ActionEvent event) throws SQLException {
         // Backdoor: Check if email and password are both "x"
+
+
         if (_username.getText().trim().equals("x") && _password.getText().trim().equals("x")) {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
                 session.setUser(42, "66damm.mmad66@gmail.com", "ROLE_PARENT");
+
+                // Get screen dimensions
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenWidth = screenBounds.getWidth();
+                double screenHeight = screenBounds.getHeight();
 
                 // Create a VBox to stack header, body, and footer
                 VBox mainContent = new VBox();
@@ -84,7 +95,7 @@ public class SecurityController {
                 // 1. Load header.fxml
                 FXMLLoader headerFxmlLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                 VBox headerFxmlContent = headerFxmlLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
+                headerFxmlContent.setPrefSize(screenWidth * 0.6, 100); // Scale header width (e.g., 60% of screen width)
                 mainContent.getChildren().add(headerFxmlContent);
 
                 // 2. Load header.png
@@ -93,13 +104,13 @@ public class SecurityController {
                     Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                     headerImageView.setImage(headerImage);
                     headerImageView.setPreserveRatio(true);
-                    headerImageView.setFitWidth(1920);
+                    headerImageView.setFitWidth(screenWidth); // Use screen width
                     headerImageView.setSmooth(true);
                     headerImageView.setCache(true);
                     VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
                 } catch (Exception e) {
                     System.err.println("Error loading header image: " + e.getMessage());
-                    Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                    Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY); // Scale fallback
                     Label errorLabel = new Label("Header image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -116,7 +127,7 @@ public class SecurityController {
                 }
                 FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
                 bodyContent = bodyLoader.load();
-                bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+                bodyContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-max-height: 2000;"); // Use screen dimensions
                 mainContent.getChildren().add(bodyContent);
 
                 // 4. Load footer.png
@@ -125,10 +136,10 @@ public class SecurityController {
                     Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                     footerImageView.setImage(footerImage);
                     footerImageView.setPreserveRatio(true);
-                    footerImageView.setFitWidth(1920);
+                    footerImageView.setFitWidth(screenWidth); // Use screen width
                 } catch (Exception e) {
                     System.err.println("Error loading footer image: " + e.getMessage());
-                    Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                    Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY); // Scale fallback
                     Label errorLabel = new Label("Footer image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -142,8 +153,8 @@ public class SecurityController {
                 scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-                // Create scene
-                Scene scene = new Scene(scrollPane, 1920, 1080);
+                // Create scene with dynamic size
+                Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
                 // Add CSS files
                 String[] cssFiles = {
                         "/css/store-cards.css",
@@ -163,10 +174,7 @@ public class SecurityController {
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.setScene(scene);
                 currentStage.setTitle("Store");
-                currentStage.setWidth(1920);
-                currentStage.setHeight(1080);
                 currentStage.setResizable(true);
-                currentStage.setFullScreen(false);
                 currentStage.centerOnScreen();
                 currentStage.show();
                 return;
@@ -182,13 +190,16 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(46, "abir@gmail.com", "ROLE_MEDECIN");
+                session.setUser(16, "abir@gmail.com", "ROLE_MEDECIN");
+
+                // Get screen dimensions
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenWidth = screenBounds.getWidth();
+                double screenHeight = screenBounds.getHeight();
 
                 // Create a VBox to stack header, body, and footer
                 VBox mainContent = new VBox();
                 mainContent.setAlignment(Pos.TOP_CENTER);
-
-
 
                 // 2. Load header.png
                 ImageView headerImageView = new ImageView();
@@ -196,13 +207,13 @@ public class SecurityController {
                     Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                     headerImageView.setImage(headerImage);
                     headerImageView.setPreserveRatio(true);
-                    headerImageView.setFitWidth(1920);
+                    headerImageView.setFitWidth(screenWidth);
                     headerImageView.setSmooth(true);
                     headerImageView.setCache(true);
                     VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
                 } catch (Exception e) {
                     System.err.println("Error loading header image: " + e.getMessage());
-                    Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                    Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Header image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -219,7 +230,7 @@ public class SecurityController {
                 }
                 FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
                 bodyContent = bodyLoader.load();
-                bodyContent.setStyle("-fx-pref-width: 1920; -fx-pref-height: 1080; -fx-max-height: 2000;");
+                bodyContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-max-height: 2000;");
                 mainContent.getChildren().add(bodyContent);
 
                 // 4. Load footer.png
@@ -228,10 +239,10 @@ public class SecurityController {
                     Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                     footerImageView.setImage(footerImage);
                     footerImageView.setPreserveRatio(true);
-                    footerImageView.setFitWidth(1920);
+                    footerImageView.setFitWidth(screenWidth);
                 } catch (Exception e) {
                     System.err.println("Error loading footer image: " + e.getMessage());
-                    Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                    Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY);
                     Label errorLabel = new Label("Footer image not found");
                     errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                     VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -246,7 +257,7 @@ public class SecurityController {
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
                 // Create scene
-                Scene scene = new Scene(scrollPane, 1920, 1080);
+                Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
                 // Add CSS files
                 String[] cssFiles = {
                         "/css/store-cards.css",
@@ -266,10 +277,8 @@ public class SecurityController {
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.setScene(scene);
                 currentStage.setTitle("Store");
-                currentStage.setWidth(1920);
-                currentStage.setHeight(1080);
                 currentStage.setResizable(true);
-                currentStage.setFullScreen(false);
+
                 currentStage.centerOnScreen();
                 currentStage.show();
                 return;
@@ -339,6 +348,11 @@ public class SecurityController {
     private void loadAdminDashboard(ActionEvent event) throws Exception {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
         // Create sidebar
         Consumer<String> loadFXMLConsumer = fxmlPath -> {
             try {
@@ -362,7 +376,6 @@ public class SecurityController {
                 () -> loadFXMLConsumer.accept("/User/index_user.fxml"),
                 () -> loadFXMLConsumer.accept("/HamzaFXML/ListPexelWords.fxml"),
                 () -> {
-
                     loadFXMLConsumer.accept("/User/login.fxml");
                 },
                 loadFXMLConsumer
@@ -377,8 +390,8 @@ public class SecurityController {
         root.setLeft(sidebar);
         root.setCenter(mainContent);
 
-        // Create scene
-        Scene scene = new Scene(root, 1920, 1080);
+        // Create scene with dynamic size
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         URL cssUrl = getClass().getResource("/css/dashboard-sidebar.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
@@ -387,16 +400,18 @@ public class SecurityController {
         // Configure stage
         currentStage.setScene(scene);
         currentStage.setTitle("Admin Dashboard");
-        currentStage.setFullScreen(false);
-        currentStage.setWidth(1920);
-        currentStage.setHeight(1080);
-        currentStage.setX(0);
-        currentStage.setY(0);
         currentStage.setResizable(true);
+
+        currentStage.centerOnScreen();
         currentStage.show();
     }
 
     private void loadFXML(Stage stage, String fxmlPath) throws Exception {
+        // Get screen dimensions
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent fxmlContent = loader.load();
 
@@ -422,7 +437,6 @@ public class SecurityController {
                 () -> loadFXMLConsumer.accept("/User/index_user.fxml"),
                 () -> loadFXMLConsumer.accept("/HamzaFXML/ListPexelWords.fxml"),
                 () -> {
-
                     loadFXMLConsumer.accept("/User/login.fxml");
                 },
                 loadFXMLConsumer
@@ -433,7 +447,7 @@ public class SecurityController {
         root.setLeft(sidebar);
         root.setCenter(fxmlContent);
 
-        Scene scene = new Scene(root, 1920, 1080);
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         URL cssUrl = getClass().getResource("/css/dashboard-sidebar.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
@@ -441,15 +455,11 @@ public class SecurityController {
 
         stage.setScene(scene);
         stage.setTitle("Admin Dashboard");
-        stage.setFullScreen(false);
-        stage.setWidth(1920);
-        stage.setHeight(1080);
-        stage.setX(0);
-        stage.setY(0);
         stage.setResizable(true);
+
+        stage.centerOnScreen();
         stage.show();
     }
-
     private VBox createMainContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(20));

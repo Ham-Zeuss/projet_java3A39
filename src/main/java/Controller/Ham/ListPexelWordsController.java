@@ -17,6 +17,8 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Tooltip;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 import java.io.IOException;
 
 public class ListPexelWordsController {
@@ -46,9 +48,6 @@ public class ListPexelWordsController {
     private Label errorLabel;
 
     private PexelWordService pexelWordService;
-
-
-
 
     private void setupButton(Button button, String iconUrl, String tooltipText) {
         try {
@@ -147,10 +146,13 @@ public class ListPexelWordsController {
         }
     }
 
-
-
     private void loadFXML(Stage stage, String fxmlPathh) {
         try {
+            // Get screen dimensions
+            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+            double screenWidth = screenBounds.getWidth();
+            double screenHeight = screenBounds.getHeight();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPathh));
             Parent fxmlContent = loader.load();
             BorderPane root = new BorderPane();
@@ -162,17 +164,19 @@ public class ListPexelWordsController {
                     () -> loadFXML(stage, "/User/index_user.fxml"), // Utilisateurs action
                     () -> loadFXML(stage, "/HamzaFXML/ListPexelWords.fxml"), // Pixel Words action
                     () -> System.out.println("Logout clicked"), // Logout action
-
                     fxmlPath -> loadFXML(stage, fxmlPathh) // Consumer for loadFXML
             );
             root.setLeft(sidebar);
             root.setCenter(fxmlContent);
-            Scene scene = new Scene(root, 1000, 600);
+            Scene scene = new Scene(root, screenWidth, screenHeight);
             scene.getStylesheets().add(getClass().getResource("/css/dashboard-sidebar.css").toExternalForm());
             stage.setScene(scene);
+            stage.setResizable(true);
+
+            stage.centerOnScreen();
+            stage.show();
         } catch (IOException e) {
             errorLabel.setText("Error loading FXML: " + e.getMessage());
         }
     }
-
 }

@@ -556,7 +556,7 @@ public class MainBoubakerController {
                 return;
             }
 
-            String paymentMethod = "Balance";
+            String paymentMethod = "Carte de Credit";
 
             List<String> currentFeaturesList = new ArrayList<>();
             String currentFeatures = currentUser.getFeaturesUnlocked();
