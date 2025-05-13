@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,10 +22,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.ConsultationService;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import javafx.stage.Screen;
 
 public class DoctorConsultationsController {
 
@@ -33,8 +34,6 @@ public class DoctorConsultationsController {
 
     @FXML
     private Text title;
-
-
 
     @FXML
     private Button backButton;
@@ -118,29 +117,35 @@ public class DoctorConsultationsController {
         System.out.println("Exiting DoctorConsultationsController.initialize");
     }
 
-
-
     @FXML
     private void goBack() {
         try {
             System.out.println("Attempting to navigate back to FrontDoctorsDisplayProfiles");
 
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // 1. Add header image
+
+
+            // 2. Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1920);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1920, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -148,7 +153,7 @@ public class DoctorConsultationsController {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // 2. Load body (FrontDoctorsDisplayProfiles.fxml)
+            // 3. Load body (FrontDoctorsDisplayProfiles.fxml)
             URL fxmlResource = getClass().getResource("/MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
             if (fxmlResource == null) {
                 throw new IOException("Could not find FrontDoctorsDisplayProfiles.fxml at /MaryemFXML/FrontDoctorsDisplayProfiles.fxml");
@@ -164,18 +169,20 @@ public class DoctorConsultationsController {
                 System.err.println("Failed to load FrontDoctorsDisplayProfiles.fxml: " + e.getMessage());
                 throw e;
             }
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
-            // 3. Load footer
+            // 4. Load footer
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1920);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1920, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -190,24 +197,40 @@ public class DoctorConsultationsController {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
             // Scene
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            Scene scene = new Scene(scrollPane, width, height);
 
             // CSS
-            URL storeCards = getClass().getResource("/css/profile-card.css.css");
-            if (storeCards != null) {
-                scene.getStylesheets().add(storeCards.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) {
+                scene.getStylesheets().add(profileCard.toExternalForm());
             }
-
             URL navBar = getClass().getResource("/navbar.css");
             if (navBar != null) {
                 scene.getStylesheets().add(navBar.toExternalForm());
+            }
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) {
+                scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            }
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) {
+                scene.getStylesheets().add(appointments.toExternalForm());
+            }
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) {
+                scene.getStylesheets().add(gooButton.toExternalForm());
+            }
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) {
+                scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
             }
 
             // Stage
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Doctors Profiles");
-            stage.setResizable(false);
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
 
             System.out.println("FrontDoctorsDisplayProfiles page loaded with headers and footer");
@@ -219,5 +242,4 @@ public class DoctorConsultationsController {
             consultationsList.getChildren().add(new Label("Unexpected error navigating back: " + e.getMessage()));
         }
     }
-
 }

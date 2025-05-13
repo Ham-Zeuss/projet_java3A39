@@ -186,11 +186,118 @@ public class SecurityController {
         }
 
 
+
+        if (_username.getText().trim().equals("d") && _password.getText().trim().equals("d")) {
+            try {
+                // Set default session for backdoor (ID=14)
+                Session session = Session.getInstance();
+                session.setUser(44, "hwaneb.hamzaa@esprit.tn", "ROLE_MEDECIN");
+
+                // Get screen dimensions
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenWidth = screenBounds.getWidth();
+                double screenHeight = screenBounds.getHeight();
+
+                // Create a VBox to stack header, body, and footer
+                VBox mainContent = new VBox();
+                mainContent.setAlignment(Pos.TOP_CENTER);
+
+
+
+                // 2. Load header.png
+                ImageView headerImageView = new ImageView();
+                try {
+                    Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                    headerImageView.setImage(headerImage);
+                    headerImageView.setPreserveRatio(true);
+                    headerImageView.setFitWidth(screenWidth); // Use screen width
+                    headerImageView.setSmooth(true);
+                    headerImageView.setCache(true);
+                    VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+                } catch (Exception e) {
+                    System.err.println("Error loading header image: " + e.getMessage());
+                    Rectangle fallbackHeader = new Rectangle(screenWidth * 0.6, 150, Color.LIGHTGRAY); // Scale fallback
+                    Label errorLabel = new Label("Header image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                    mainContent.getChildren().add(fallbackBox);
+                }
+                mainContent.getChildren().add(headerImageView);
+
+                // 3. Load body (ListStoreItemsFront.fxml)
+                Parent bodyContent;
+                String fxmlPath = "MaryemFXML/FrontDoctorsDisplayProfiles.fxml";
+                URL resourceUrl = getClass().getResource("/" + fxmlPath);
+                if (resourceUrl == null) {
+                    throw new Exception("Resource not found: /" + fxmlPath);
+                }
+                FXMLLoader bodyLoader = new FXMLLoader(resourceUrl);
+                bodyContent = bodyLoader.load();
+                bodyContent.setStyle("-fx-pref-width: " + screenWidth + "; -fx-pref-height: " + screenHeight + "; -fx-max-height: 2000;"); // Use screen dimensions
+                mainContent.getChildren().add(bodyContent);
+
+                // 4. Load footer.png
+                ImageView footerImageView = new ImageView();
+                try {
+                    Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                    footerImageView.setImage(footerImage);
+                    footerImageView.setPreserveRatio(true);
+                    footerImageView.setFitWidth(screenWidth); // Use screen width
+                } catch (Exception e) {
+                    System.err.println("Error loading footer image: " + e.getMessage());
+                    Rectangle fallbackFooter = new Rectangle(screenWidth * 0.6, 100, Color.LIGHTGRAY); // Scale fallback
+                    Label errorLabel = new Label("Footer image not found");
+                    errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                    VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                    mainContent.getChildren().add(fallbackBox);
+                }
+                mainContent.getChildren().add(footerImageView);
+
+                // Wrap in ScrollPane
+                ScrollPane scrollPane = new ScrollPane(mainContent);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+                // Create scene with dynamic size
+                Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
+                // Add CSS files
+                String[] cssFiles = {
+                        "/css/store-cards.css",
+                        "/navbar.css",
+                        "/css/styles.css",
+                        "/css/UserTitlesStyle.css",
+                        "/css/leaderboard.css"
+                };
+                for (String cssPath : cssFiles) {
+                    URL cssUrl = getClass().getResource(cssPath);
+                    if (cssUrl != null) {
+                        scene.getStylesheets().add(cssUrl.toExternalForm());
+                    }
+                }
+
+                // Set stage
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentStage.setScene(scene);
+                currentStage.setTitle("Store");
+                currentStage.setResizable(true);
+                currentStage.centerOnScreen();
+                currentStage.show();
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page du magasin : " + e.getMessage());
+                return;
+            }
+        }
+
+
+
         if (_username.getText().trim().equals("h") && _password.getText().trim().equals("h")) {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(16, "abir@gmail.com", "ROLE_MEDECIN");
+                session.setUser(47, "hamzama4466@gmail.com", "ROLE_ENSEIGNANT");
 
                 // Get screen dimensions
                 Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -223,7 +330,7 @@ public class SecurityController {
 
                 // 3. Load body (ListStoreItemsFront.fxml)
                 Parent bodyContent;
-                String fxmlPath = "MaryemFXML/FrontDoctorsDisplayProfiles.fxml";
+                String fxmlPath = "HedyFXML/AffichageModule.fxml";
                 URL resourceUrl = getClass().getResource("/" + fxmlPath);
                 if (resourceUrl == null) {
                     throw new Exception("Resource not found: /" + fxmlPath);

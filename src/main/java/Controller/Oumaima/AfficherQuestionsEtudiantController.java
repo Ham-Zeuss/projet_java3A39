@@ -33,6 +33,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 public class AfficherQuestionsEtudiantController {
 
@@ -164,6 +166,7 @@ public class AfficherQuestionsEtudiantController {
         box.getChildren().addAll(questionText, optionsContainer);
         return box;
     }
+
     @FXML
     private void submitAllAnswers() {
         int correctAnswersCount = 0;
@@ -331,22 +334,36 @@ public class AfficherQuestionsEtudiantController {
     @FXML
     private void goBackToQuizList() {
         try {
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             Stage stage = (Stage) backButton.getScene().getWindow();
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
+            // Load navbar (header.fxml)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(width * 0.6, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -354,20 +371,26 @@ public class AfficherQuestionsEtudiantController {
             }
             mainContent.getChildren().add(headerImageView);
 
+            // Load body content
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
+            if (bodyLoader.getLocation() == null) {
+                throw new IllegalStateException("Fichier /OumaimaFXML/affichageEtudiantQuiz.fxml introuvable");
+            }
             Parent bodyContent = bodyLoader.load();
-            bodyContent.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
+            // Add footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -375,29 +398,41 @@ public class AfficherQuestionsEtudiantController {
             }
             mainContent.getChildren().add(footerImageView);
 
+            // Wrap the VBox in a ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            double totalHeight = headerImageView.getFitHeight() +
-                    bodyContent.prefHeight(-1) +
-                    footerImageView.getFitHeight();
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
 
-            Scene scene = new Scene(scrollPane, 1500, 700);
-
+            // Add CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
-            if (storeCards != null) {
-                scene.getStylesheets().add(storeCards.toExternalForm());
-            }
-
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
             URL navBarCss = getClass().getResource("/navbar.css");
-            if (navBarCss != null) {
-                scene.getStylesheets().add(navBarCss.toExternalForm());
-            }
+            if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
 
             stage.setScene(scene);
             stage.setTitle("Liste des Quiz");
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -27,16 +28,12 @@ import service.ProfileService;
 import javafx.scene.shape.Circle;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
 import javafx.geometry.Insets;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-
 import javafx.scene.shape.Rectangle;
 
 public class FrontDisplayProfilesController {
@@ -251,9 +248,22 @@ public class FrontDisplayProfilesController {
         try {
             System.out.println("Attempting to open profile details for profile ID: " + profile.getId());
 
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             // Create a VBox to stack header, header image, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load header FXML (navbar)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(width * 0.6, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
 
             // Add header image
             ImageView headerImageView = new ImageView();
@@ -261,13 +271,13 @@ public class FrontDisplayProfilesController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1500, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -288,13 +298,10 @@ public class FrontDisplayProfilesController {
                 bodyContent = bodyLoader.load();
             } catch (IOException e) {
                 System.err.println("Failed to load ProfileDetails.fxml: " + e.getMessage());
-                if (e.getCause() != null) {
-                    System.err.println("Caused by: " + e.getCause().getMessage());
-                    e.getCause().printStackTrace();
-                }
                 throw e;
             }
-            bodyContent.setStyle("-fx-pref-width: 1000; -fx-pref-height: 2000; -fx-max-height: 5000;");
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: 2000; -fx-max-height: 10000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
             // Load footer as ImageView
@@ -303,10 +310,10 @@ public class FrontDisplayProfilesController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1500, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -318,34 +325,39 @@ public class FrontDisplayProfilesController {
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-            // Get screen dimensions
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            double screenWidth = bounds.getWidth();
-            double screenHeight = bounds.getHeight();
-
-            // Set scene to fit screen dimensions
-            Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
 
             // Add CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
-            if (storeCards != null) {
-                scene.getStylesheets().add(storeCards.toExternalForm());
-            }
-
-            URL NavBar = getClass().getResource("/navbar.css");
-            if (NavBar != null) {
-                scene.getStylesheets().add(NavBar.toExternalForm());
-            }
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
+            URL navBar = getClass().getResource("/navbar.css");
+            if (navBar != null) scene.getStylesheets().add(navBar.toExternalForm());
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
 
             // Create and configure the new stage
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.setTitle("Profile Details");
             newStage.setResizable(true);
-            newStage.setMaximized(false);
+            newStage.centerOnScreen();
             newStage.show();
 
             // Initialize the ProfileDetailsController
@@ -355,12 +367,7 @@ public class FrontDisplayProfilesController {
             System.out.println("Profile details page loaded in new window with headers and footer");
         } catch (IOException e) {
             e.printStackTrace();
-            StringBuilder errorMessage = new StringBuilder("Could not open profile details page: ");
-            errorMessage.append(e.getMessage());
-            if (e.getCause() != null) {
-                errorMessage.append("\nCaused by: ").append(e.getCause().getMessage());
-            }
-            showAlert("Error", errorMessage.toString());
+            showAlert("Error", "Could not open profile details page: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Unexpected error opening profile details page: " + e.getMessage());
@@ -370,21 +377,69 @@ public class FrontDisplayProfilesController {
     private void openCommentsWindow(Profile profile) {
         try {
             System.out.println("Attempting to open comments window for profile ID: " + profile.getId());
+
+            // Use fixed size for modal window
+            double width = 500;
+            double height = 400;
+
+            // Create a VBox to stack body content
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load body (FrontDisplayComments.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/FrontDisplayComments.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("FXML file not found: /FrontDisplayComments.fxml");
+                throw new IOException("FXML file not found: /MaryemFXML/FrontDisplayComments.fxml");
             }
+            Parent bodyContent = loader.load();
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: 2000; -fx-max-height: 10000;");
+            bodyContent.getStyleClass().add("body-content");
+            mainContent.getChildren().add(bodyContent);
+
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
+
+            // Add CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
+            URL navBar = getClass().getResource("/navbar.css");
+            if (navBar != null) scene.getStylesheets().add(navBar.toExternalForm());
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
+
+            // Create and configure stage
             Stage stage = new Stage();
-            Scene scene = new Scene(loader.load(), 500, 400);
-            scene.getStylesheets().add(getClass().getResource("/css/CommentsStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Comments for Profile");
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.showAndWait();
 
+            // Initialize controller
             FrontDisplayCommentsController controller = loader.getController();
             controller.initialize(profile);
 
-            stage.showAndWait();
             System.out.println("Comments window opened successfully");
         } catch (IOException e) {
             e.printStackTrace();
@@ -398,19 +453,69 @@ public class FrontDisplayProfilesController {
     private void openAddCommentWindow(Profile profile) {
         try {
             System.out.println("Attempting to open add comment window for profile ID: " + profile.getId());
+
+            // Use fixed size for modal window
+            double width = 500;
+            double height = 400;
+
+            // Create a VBox to stack body content
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load body (AddComment.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/AddComment.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("FXML file not found: /AddComment.fxml");
+                throw new IOException("FXML file not found: /MaryemFXML/AddComment.fxml");
             }
+            Parent bodyContent = loader.load();
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: 2000; -fx-max-height: 10000;");
+            bodyContent.getStyleClass().add("body-content");
+            mainContent.getChildren().add(bodyContent);
+
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
+
+            // Add CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
+            URL navBar = getClass().getResource("/navbar.css");
+            if (navBar != null) scene.getStylesheets().add(navBar.toExternalForm());
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
+
+            // Create and configure stage
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(scene);
             stage.setTitle("Add Comment for Profile");
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.showAndWait();
 
+            // Initialize controller
             AddCommentController controller = loader.getController();
             controller.initialize(profile);
 
-            stage.showAndWait();
             System.out.println("Add comment window closed");
         } catch (IOException e) {
             e.printStackTrace();
@@ -424,19 +529,69 @@ public class FrontDisplayProfilesController {
     private void openBookConsultationWindow(Profile profile) {
         try {
             System.out.println("Attempting to open book consultation window for profile ID: " + profile.getId());
+
+            // Use fixed size for modal window
+            double width = 500;
+            double height = 400;
+
+            // Create a VBox to stack body content
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load body (FrontAddConsultation.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/FrontAddConsultation.fxml"));
             if (loader.getLocation() == null) {
-                throw new IOException("FXML file not found: /FrontAddConsultation.fxml");
+                throw new IOException("FXML file not found: /MaryemFXML/FrontAddConsultation.fxml");
             }
+            Parent bodyContent = loader.load();
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: 2000; -fx-max-height: 10000;");
+            bodyContent.getStyleClass().add("body-content");
+            mainContent.getChildren().add(bodyContent);
+
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
+
+            // Add CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
+            URL navBar = getClass().getResource("/navbar.css");
+            if (navBar != null) scene.getStylesheets().add(navBar.toExternalForm());
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
+
+            // Create and configure stage
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(scene);
             stage.setTitle("Book Consultation");
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.showAndWait();
 
+            // Initialize controller
             FrontAddConsultationController controller = loader.getController();
             controller.initialize(profile);
 
-            stage.showAndWait();
             System.out.println("Book consultation window closed");
         } catch (IOException e) {
             e.printStackTrace();
@@ -470,26 +625,110 @@ public class FrontDisplayProfilesController {
         }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     public void showProfilesPage() {
         try {
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
+            // Create a VBox to stack content
+            VBox mainContent = new VBox();
+            mainContent.setAlignment(Pos.TOP_CENTER);
+
+            // Load header FXML (navbar)
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+            VBox headerFxmlContent = headerLoader.load();
+            headerFxmlContent.setPrefSize(width * 0.6, 100);
+            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
+            mainContent.getChildren().add(headerFxmlContent);
+
+            // Add header image
+            ImageView headerImageView = new ImageView();
+            try {
+                Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
+                headerImageView.setImage(headerImage);
+                headerImageView.setPreserveRatio(true);
+                headerImageView.setFitWidth(width);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
+                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
+            } catch (Exception e) {
+                System.err.println("Error loading header image: " + e.getMessage());
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Header image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(headerImageView);
+
+            // Load body (FrontDisplayProfiles.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MaryemFXML/FrontDisplayProfiles.fxml"));
             if (loader.getLocation() == null) {
                 throw new IOException("FXML file not found: /MaryemFXML/FrontDisplayProfiles.fxml");
             }
-            Scene scene = new Scene(loader.load(), 1485, 800);
-            scene.getStylesheets().add(getClass().getResource("/css/affichageprofilefront.css").toExternalForm());
+            Parent bodyContent = loader.load();
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: 2000; -fx-max-height: 10000;");
+            bodyContent.getStyleClass().add("body-content");
+            mainContent.getChildren().add(bodyContent);
 
+            // Load footer image
+            ImageView footerImageView = new ImageView();
+            try {
+                Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
+                footerImageView.setImage(footerImage);
+                footerImageView.setPreserveRatio(true);
+                footerImageView.setFitWidth(width);
+            } catch (Exception e) {
+                System.err.println("Error loading footer image: " + e.getMessage());
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
+                Label errorLabel = new Label("Footer image not found");
+                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
+                mainContent.getChildren().add(fallbackBox);
+            }
+            mainContent.getChildren().add(footerImageView);
+
+            // Wrap in ScrollPane
+            ScrollPane scrollPane = new ScrollPane(mainContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            // Create scene
+            Scene scene = new Scene(scrollPane, width, height);
+
+            // Add CSS files
+            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
+            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
+            URL navBar = getClass().getResource("/navbar.css");
+            if (navBar != null) scene.getStylesheets().add(navBar.toExternalForm());
+            URL appointments = getClass().getResource("/css/appointments.css");
+            if (appointments != null) scene.getStylesheets().add(appointments.toExternalForm());
+            URL gooButton = getClass().getResource("/css/GooButton.css");
+            if (gooButton != null) scene.getStylesheets().add(gooButton.toExternalForm());
+            URL gamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStyling != null) scene.getStylesheets().add(gamesMenuStyling.toExternalForm());
+            URL profileCard = getClass().getResource("/css/profile-card.css");
+            if (profileCard != null) scene.getStylesheets().add(profileCard.toExternalForm());
+            URL designFull = getClass().getResource("/DesignFull.css");
+            if (designFull != null) scene.getStylesheets().add(designFull.toExternalForm());
+            URL commentsStyle = getClass().getResource("/css/CommentsStyle.css");
+            if (commentsStyle != null) scene.getStylesheets().add(commentsStyle.toExternalForm());
+            URL oumaimaStyle = getClass().getResource("/OumaimaFXML/oumaimastyle.css");
+            if (oumaimaStyle != null) scene.getStylesheets().add(oumaimaStyle.toExternalForm());
+
+            // Configure stage
             Stage currentStage = (Stage) profilesContainer.getScene().getWindow();
             currentStage.setScene(scene);
             currentStage.setTitle("Public Profiles");
+            currentStage.setResizable(true);
+            currentStage.centerOnScreen();
+            currentStage.show();
 
             System.out.println("Profiles page loaded");
         } catch (IOException e) {
@@ -499,5 +738,13 @@ public class FrontDisplayProfilesController {
             e.printStackTrace();
             showAlert("Error", "Unexpected error loading profiles page: " + e.getMessage());
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

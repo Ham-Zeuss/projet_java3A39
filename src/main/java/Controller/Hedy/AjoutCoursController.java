@@ -4,6 +4,7 @@ import entite.Session;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,32 +24,27 @@ import service.CoursService;
 import service.DropboxService;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert.AlertType;
-
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-
+import javafx.stage.Screen;
 
 public class AjoutCoursController {
 
     @FXML private TextField titleField;
     @FXML private TextField pdfNameField;
 
-
     @FXML private Button retourButton;
     @FXML private Button selectPdfButton;
     @FXML private Button saveButton;
-
-
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
     private Integer currentUserId; // Store the ID of the currently logged-in user
     Session session = Session.getInstance();
     String userRole = session.getRole();
+
     public void setCurrentModule(Module module) {
         this.currentModule = module;
     }
@@ -67,27 +63,22 @@ public class AjoutCoursController {
         });
     }
 
-
     private void setupButton(Button button, String iconUrl, String tooltipText, boolean showText) {
         try {
             ImageView icon = new ImageView(new Image(iconUrl));
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            // Show text only if showText is true
             button.setText(showText ? tooltipText : "");
             button.setTooltip(new javafx.scene.control.Tooltip(tooltipText));
-            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
-            // Apply specified style
+            button.setMinSize(showText ? 150 : 60, 60);
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
-            // Fallback: Set text if icon fails to load
             button.setText(tooltipText);
             button.setTooltip(new javafx.scene.control.Tooltip(tooltipText));
             button.setMinSize(showText ? 150 : 60, 60);
-            // Apply same style in fallback case
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         }
@@ -123,10 +114,9 @@ public class AjoutCoursController {
 
             showAlert(AlertType.INFORMATION, "Succès", "Le cours a été ajouté avec succès!");
 
-            // 🔁 Determine target FXML based on role
+            // Determine target FXML based on role
             Session session = Session.getInstance();
             String userRole = session.getRole();
-
             String fxmlPath;
             if ("ROLE_ENSEIGNANT".equals(userRole)) {
                 fxmlPath = "/HedyFXML/AffichageCoursFront.fxml";
@@ -136,6 +126,12 @@ public class AjoutCoursController {
                 showAlert(AlertType.ERROR, "Accès refusé", "Vous n'avez pas les droits nécessaires pour accéder à cette page.");
                 return;
             }
+
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
@@ -147,82 +143,60 @@ public class AjoutCoursController {
                 ((AffichageCoursController) controller).setModule(currentModule);
             }
 
-            // Wrap content in VBox with header and footer if it's front view
+            // Wrap content in VBox with header and footer for front view
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header image
-            ImageView headerImageView = new ImageView();
-            try {
-                Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
-                headerImageView.setImage(headerImage);
-                headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
-                headerImageView.setSmooth(true);
-                headerImageView.setCache(true);
-                VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
-            } catch (Exception e) {
-                System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150);
-                fallbackHeader.setFill(Color.LIGHTGRAY);
-                Label errorLabel = new Label("Header image not found");
-                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
-                mainContent.getChildren().add(fallbackBox);
+            if ("ROLE_ENSEIGNANT".equals(userRole)) {
+                // Load header FXML (navbar)
+                FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                VBox headerFxmlContent = headerLoader.load();
+                headerFxmlContent.setPrefSize(width * 0.6, 100);
+                mainContent.getChildren().add(headerFxmlContent);
+
+                // Load header image
+                ImageView headerImageView = loadImageView("/header.png", width, 150);
+                if (headerImageView != null) {
+                    mainContent.getChildren().add(headerImageView);
+                }
+
+                // Style the loaded FXML content
+                root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+                root.getStyleClass().add("body-content");
+                mainContent.getChildren().add(root);
+
+                // Load footer image
+                ImageView footerImageView = loadImageView("/footer.png", width, 100);
+                if (footerImageView != null) {
+                    mainContent.getChildren().add(footerImageView);
+                }
+            } else {
+                // Admin view: no header/footer
+                root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+                mainContent.getChildren().add(root);
             }
-
-            // Add header
-            mainContent.getChildren().add(headerImageView);
-
-            // Style the loaded FXML content
-            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
-            mainContent.getChildren().add(root);
-
-            // Load footer image
-            ImageView footerImageView = new ImageView();
-            try {
-                Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
-                footerImageView.setImage(footerImage);
-                footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
-            } catch (Exception e) {
-                System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100);
-                fallbackFooter.setFill(Color.LIGHTGRAY);
-                Label errorLabel = new Label("Footer image not found");
-                errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
-                mainContent.getChildren().add(fallbackBox);
-            }
-
-            // Add footer
-            mainContent.getChildren().add(footerImageView);
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            Scene scene = new Scene(scrollPane, width, height);
 
-            // Load CSS files if needed
-            try {
-                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
-                scene.getStylesheets().add(storeCardsCss);
-            } catch (Exception e) {
-                System.err.println("Error loading store-cards.css: " + e.getMessage());
-            }
-
-            try {
-                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
-                scene.getStylesheets().add(navBarCss);
-            } catch (Exception e) {
-                System.err.println("Error loading navbar.css: " + e.getMessage());
-            }
+            // Load CSS files
+            addStylesheet(scene, "/css/store-cards.css");
+            addStylesheet(scene, "/navbar.css");
+            addStylesheet(scene, "/css/affichageprofilefront.css");
+            addStylesheet(scene, "/css/appointments.css");
+            addStylesheet(scene, "/css/GooButton.css");
+            addStylesheet(scene, "/css/GamesMenuStyling.css");
 
             Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Cours: " + currentModule.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
+            stage.show();
 
         } catch (Exception e) {
             showAlert(AlertType.ERROR, "Erreur inattendue", "Une erreur s'est produite lors de l'ajout du cours: " + e.getMessage());
@@ -232,18 +206,28 @@ public class AjoutCoursController {
     @FXML
     private void cancel() {
         try {
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageCoursDashboard.fxml"));
             Parent root = loader.load();
 
-            // Use the correct controller class
-            AffichageCoursDashboardHedy controller = loader.getController(); // Correct controller
+            AffichageCoursDashboardHedy controller = loader.getController();
             controller.setModule(currentModule);
 
+            Scene scene = new Scene(root, width, height);
             Stage stage = (Stage) titleField.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.setTitle("Cours: " + currentModule.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
+            stage.show();
         } catch (IOException e) {
             System.err.println("Error loading AffichageCoursDashboard.fxml: " + e.getMessage());
+            showAlert(AlertType.ERROR, "Erreur de chargement", "Impossible de charger la page demandée: " + e.getMessage());
         }
     }
 
@@ -263,10 +247,15 @@ public class AjoutCoursController {
                 return;
             }
 
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            // Set module in controller if applicable
             Object controller = loader.getController();
             if (controller instanceof AffichageCoursDashboardHedy) {
                 ((AffichageCoursDashboardHedy) controller).setModule(currentModule);
@@ -277,21 +266,33 @@ public class AjoutCoursController {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Only wrap in header/footer if it's front view
             if ("ROLE_ENSEIGNANT".equals(userRole)) {
-                // Load and add header
-                ImageView headerImageView = loadImageView("/header.png", 1500, 150);
-                mainContent.getChildren().add(headerImageView);
+                // Load header FXML (navbar)
+                FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
+                VBox headerFxmlContent = headerLoader.load();
+                headerFxmlContent.setPrefSize(width * 0.6, 100);
+                mainContent.getChildren().add(headerFxmlContent);
+
+                // Load header image
+                ImageView headerImageView = loadImageView("/header.png", width, 150);
+                if (headerImageView != null) {
+                    mainContent.getChildren().add(headerImageView);
+                }
 
                 // Style content
-                root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080;");
+                root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+                root.getStyleClass().add("body-content");
                 mainContent.getChildren().add(root);
 
-                // Load and add footer
-                ImageView footerImageView = loadImageView("/footer.png", 1500, 100);
-                mainContent.getChildren().add(footerImageView);
+                // Load footer image
+                ImageView footerImageView = loadImageView("/footer.png", width, 100);
+                if (footerImageView != null) {
+                    mainContent.getChildren().add(footerImageView);
+                }
             } else {
-                mainContent.getChildren().add(root); // Admin doesn't need header/footer
+                // Admin view: no header/footer
+                root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+                mainContent.getChildren().add(root);
             }
 
             ScrollPane scrollPane = new ScrollPane(mainContent);
@@ -299,19 +300,26 @@ public class AjoutCoursController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            Scene scene = new Scene(scrollPane, width, height);
 
-            // Add CSS if available
+            // Add CSS files
             addStylesheet(scene, "/css/store-cards.css");
             addStylesheet(scene, "/navbar.css");
+            addStylesheet(scene, "/css/affichageprofilefront.css");
+            addStylesheet(scene, "/css/appointments.css");
+            addStylesheet(scene, "/css/GooButton.css");
+            addStylesheet(scene, "/css/GamesMenuStyling.css");
 
             Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Cours: " + currentModule.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
+            stage.show();
 
         } catch (IOException e) {
             System.err.println("Error loading FXML: " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Impossible de charger la page demandée.");
+            showAlert(AlertType.ERROR, "Erreur de chargement", "Impossible de charger la page demandée: " + e.getMessage());
         }
     }
 
@@ -340,12 +348,16 @@ public class AjoutCoursController {
         return imageView;
     }
 
-    // Helper to add stylesheets
     private void addStylesheet(Scene scene, String cssPath) {
         try {
-            scene.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+            URL cssUrl = getClass().getResource(cssPath);
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            } else {
+                System.err.println("CSS file not found: " + cssPath);
+            }
         } catch (Exception e) {
-            System.err.println("Error loading CSS: " + e.getMessage());
+            System.err.println("Error loading CSS: " + cssPath + " - " + e.getMessage());
         }
     }
 
@@ -359,17 +371,11 @@ public class AjoutCoursController {
 
         if (selectedFile != null) {
             try {
-                // Initialize Dropbox Service
-                String dropboxAccessToken = "sl.u.AFuC7lPdssE1XoZRpfrqND2gsMRCTSh8WmMIMXGzZdEBucYnNYHm6_urgX3uNIbiD0emrJ5tW2rmJXuv5P9CnGk9RkdqRYQfK_XKphIQ091oykxiDj0JdemLCxXTKMD4gImClxgPiYHdzR4Doej0ESOWndv82C16jisMmVrtKwNFgHQWZx8g28NftudxLATymmkiDusRintaIzHZD_WLE4S2dtcEeu9Lmzt8vcamHXfYY0zRTvrJmc-Hs36FOumVxtVlUAQTQ3pZm6aU3Y79rn2C6Aak8erlz6Zfq24hl6YwNfNKY_BV8-I5oC3dbQCW1wXGCzOeiio5JBoS_Msd-We9W_qWhm4GU6t7O459lVkHuPATsI5uSovo0dkhbQ4Rnf3lV0JpgtrvNFUlpvnHC9EBSn7EGxagHsbzjzuMCGHE56QUp4STJX_jgDeDKb9CwOVrW0DCofLFD4H1JhV2j8fDkAP8F-WcxpyDYdOydawplD6J1Ggdg97fgI4bugtKCsV6jWi8A1lYh05eUrZh-X66Yfu2tXC-r81Qn-HFsNbo6AQtnzkFcv_SO0WIyUfQSkIucFhVDoO00ZolZG0jNtvbd2xY62d_anH7FeSHeXk_9q4uRBRo44BmJU-Rt9ZJKUT4BZTaOPeO_bBlakdR2zU4j28WTpNp_Gx6CIZCYE2cK4oe8BtTNbiiJMUH8LNenOouZ2ysadpo1rVx3lcQyscxsHkobdP3lKXcMA2mVHqNmjMaYPSBr6F5saFnW9v2j7Cqwj-R3TtXKYy8Isc0fGFLvIg_Y9TR_7ECo4HBT5xjKnH3B-dzWM6taeoxglGf0moWmHfs6tNC8KuNJHHm5gt5I26yRqLG5Sy72od9CAPrw9tKeBQP-f4WGU_jjFdmCrkgO4TEUELRb8bDIrLdtIFqauCk7YfpVJfJK3tOIqbbCFJl-5sELL2crt56NZV4HzXeaNt1rNCmdkOGBW6rAIiAQjLxDa83xLZd52vNKdZKWwIeFZJi6VxlgNB80-FTmcYlvsgAq7D_5h73DWhO30aEB5ap338CdplkLzZNt0jQsN5u1c988VGTH0Pp44Q9n9zphsEZ_YEKZka-x1WgnWlt26t1CE3Ud11JUSvIrALpRLzChgHiD0Js4T07xdH6F3uJo4XdPumgcBm2olvsrO8OD7VS8eUivJVZ67YmfSWwzPKKPCetH_Mlp_hloDmOL88wphR73QbsXnex8KIsAJqs_1Vw8azezYIAbq42_PAXUNbK2DmqLGbhkjacpEK6oqerM11N1BA4Aap7yPUz99hx"; // Replace with your Dropbox access token
+                String dropboxAccessToken = "sl.u.AFuC7lPdssE1XoZRpfrqND2gsMRCTSh8WmMIMXGzZdEBucYnNYHm6_urgX3uNIbiD0emrJ5tW2rmJXuv5P9CnGk9RkdqRYQfK_XKphIQ091oykxiDj0JdemLCxXTKMD4gImClxgPiYHdzR4Doej0ESOWndv82C16jisMmVrtKwNFgHQWZx8g28NftudxLATymmkiDusRintaIzHZD_WLE4S2dtcEeu9Lmzt8vcamHXfYY0zRTvrJmc-Hs36FOumVxtVlUAQTQ3pZm6aU3Y79rn2C6Aak8erlz6Zfq24hl6YwNfNKY_BV8-I5oC3dbQCW1wXGCzOeiio5JBoS_Msd-We9W_qWhm4GU6t7O459lVkHuPATsI5uSovo0dkhbQ4Rnf3lV0JpgtrvNFUlpvnHC9EBSn7EGxagHsbzjzuMCGHE56QUp4STJX_jgDeDKb9CwOVrW0DCofLFD4H1JhV2j8fDkAP8F-WcxpyDYdOydawplD6J1Ggdg97fgI4bugtKCsV6jWi8A1lYh05eUrZh-X66Yfu2tXC-r81Qn-HFsNbo6AQtnzkFcv_SO0WIyUfQSkIucFhVDoO00ZolZG0jNtvbd2xY62d_anH7FeSHeXk_9q4uRBRo44BmJU-Rt9ZJKUT4BZTaOPeO_bBlakdR2zU4j28WTpNp_Gx6CIZCYE2cK4oe8BtTNbiiJMUH8LNenOouZ2ysadpo1rVx3lcQyscxsHkobdP3lKXcMA2mVHqNmjMaYPSBr6F5saFnW9v2j7Cqwj-R3TtXKYy8Isc0fGFLvIg_Y9TR_7ECo4HBT5xjKnH3B-dzWM6taeoxglGf0moWmHfs6tNC8KuNJHHm5gt5I26yRqLG5Sy72od9CAPrw9tKeBQP-f4WGU_jjFdmCrkgO4TEUELRb8bDIrLdtIFqauCk7YfpVJfJK3tOIqbbCFJl-5sELL2crt56NZV4HzXeaNt1rNCmdkOGBW6rAIiAQds52vNKdZKWwIeFZJi6VxlgNB80-FTmcYlvsgAq7D_5h73DWhO30aEB5ap338CdplkLzZNt0jQsN5u1c988VGTH0Pp44Q9n9zphsEZ_YEKZka-x1WgnWlt26t1CE3Ud11JUSvIrALpRLzChgHiD0Js4T07xdH6F3uJo4XdPumgcBm2olvsrO8OD7VS8eUivJVZ67YmfSWwzPKKPCetH_Mlp_hloDmOL88wphR73QbsXnex8KIsAJqs_1Vw8azezYIAbq42_PAXUNbK2DmqLGbhkjacpEK6oqerM11N1BA4Aap7yPUz99hx"; // Replace with your Dropbox access token
                 DropboxService dropboxService = new DropboxService(dropboxAccessToken);
 
-                // Define the destination path in Dropbox
-                String dropboxPath = "/pdfs/" + selectedFile.getName(); // Destination path in Dropbox
-
-                // Upload the selected PDF file to Dropbox
+                String dropboxPath = "/pdfs/" + selectedFile.getName();
                 dropboxService.uploadFile(selectedFile.getAbsolutePath(), dropboxPath);
-
-                // Retrieve the public URL of the uploaded file
                 String fileUrl = dropboxService.getFileUrl(dropboxPath);
 
                 if (fileUrl == null) {
@@ -377,10 +383,7 @@ public class AjoutCoursController {
                     return;
                 }
 
-                // Update the pdfNameField with the public URL of the uploaded file
                 pdfNameField.setText(fileUrl);
-
-                // Show success message
                 showAlert(AlertType.INFORMATION, "Succès", "Le fichier PDF a été uploadé avec succès!");
             } catch (Exception e) {
                 showAlert(AlertType.ERROR, "Erreur d'upload", "Une erreur s'est produite lors de l'upload du fichier PDF: " + e.getMessage());
@@ -388,12 +391,11 @@ public class AjoutCoursController {
         }
     }
 
-    // Helper method to show alerts
     private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(null); // No header text
+        alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait(); // Show the alert and wait for user response
+        alert.showAndWait();
     }
 }

@@ -211,7 +211,7 @@ public class HeaderController {
             URL GamesMenuStyling = getClass().getResource("/css/GamesMenuStyling.css");
             if (GamesMenuStyling != null) {
                 scene.getStylesheets().add(GamesMenuStyling.toExternalForm());
-                System.err.println("CSS loaded: /css/GamesMenuStyling.css");
+
             } else {
                 System.err.println("CSS file not found: /css/GamesMenuStyling.css");
             }

@@ -25,6 +25,8 @@ import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 public class AffichageModuleController {
 
@@ -63,18 +65,25 @@ public class AffichageModuleController {
                 throw new IllegalArgumentException("Module invalide");
             }
 
+            // Get the stage
             Stage stage = (Stage) modulesGrid.getScene().getWindow();
+
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
+            // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // 🔐 Check Role Before Loading Navbar
-            String userRole = getCurrentUserRole();
-
             // 1. Conditionally Load header.fxml (Navbar)
+            String userRole = getCurrentUserRole();
             if ("ROLE_PARENT".equals(userRole)) {
                 FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                 VBox headerFxmlContent = headerLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
+                headerFxmlContent.setPrefSize(width * 0.6, 100);
                 mainContent.getChildren().add(headerFxmlContent);
             }
 
@@ -84,13 +93,13 @@ public class AffichageModuleController {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1400);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -105,7 +114,8 @@ public class AffichageModuleController {
             AffichageCoursController coursController = loader.getController();
             coursController.setModule(module); // Pass selected module to controller
 
-            bodyContent.setStyle("-fx-pref-width: 1400; -fx-pref-height: 800; -fx-max-height: 2000;");
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
             // 4. Load footer image
@@ -114,10 +124,10 @@ public class AffichageModuleController {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1400);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -131,7 +141,8 @@ public class AffichageModuleController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 1400, 800);
+            // Set scene with screen size
+            Scene scene = new Scene(scrollPane, width, height);
 
             // Load CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
@@ -155,6 +166,8 @@ public class AffichageModuleController {
             // Set scene
             stage.setScene(scene);
             stage.setTitle("Cours: " + module.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
 
         } catch (IOException e) {
