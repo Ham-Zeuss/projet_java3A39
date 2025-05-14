@@ -81,7 +81,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(42, "66damm.mmad66@gmail.com", "ROLE_PARENT");
+                session.setUser(48, "slim@gmail.com", "ROLE_PARENT");
 
                 // Get screen dimensions
                 Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -191,7 +191,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(44, "hwaneb.hamzaa@esprit.tn", "ROLE_MEDECIN");
+                session.setUser(40, "johnwick@gmail.com", "ROLE_MEDECIN");
 
                 // Get screen dimensions
                 Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -297,7 +297,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(47, "hamzama4466@gmail.com", "ROLE_ENSEIGNANT");
+                session.setUser(45, "hedyene@esprit.tn", "ROLE_ENSEIGNANT");
 
                 // Get screen dimensions
                 Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -402,7 +402,7 @@ public class SecurityController {
             try {
                 // Set admin session for backdoor
                 Session session = Session.getInstance();
-                session.setUser(1, "admin@example.com", "ROLE_ADMIN");
+                session.setUser(42, "admin@gmail.com", "ROLE_ADMIN");
 
                 // Load admin dashboard
                 loadAdminDashboard(event);
