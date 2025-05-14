@@ -151,12 +151,7 @@ public class UpdateQuizController implements Initializable {
                 VBox mainContent = new VBox();
                 mainContent.setAlignment(Pos.TOP_CENTER);
 
-                // Load navbar (header.fxml)
-                FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-                VBox headerFxmlContent = headerLoader.load();
-                headerFxmlContent.setPrefSize(width * 0.6, 100);
-                VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
-                mainContent.getChildren().add(headerFxmlContent);
+
 
                 // Add header image
                 ImageView headerImageView = new ImageView();
@@ -262,12 +257,7 @@ public class UpdateQuizController implements Initializable {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load navbar (header.fxml)
-            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerLoader.load();
-            headerFxmlContent.setPrefSize(width * 0.6, 100);
-            VBox.setMargin(headerFxmlContent, new Insets(0, 0, 10, 0));
-            mainContent.getChildren().add(headerFxmlContent);
+
 
             // Add header image
             ImageView headerImageView = new ImageView();

@@ -3,6 +3,7 @@ package Controller.Hedy.Dahsboard;
 import Controller.Hedy.*;
 import entite.Cours;
 import entite.Module;
+import entite.Session;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.CoursService;
 
@@ -28,8 +30,8 @@ public class AffichageCoursDashboardHedy {
     @FXML private TableView<Cours> coursTable;
     @FXML private TableColumn<Cours, String> titleCol;
     @FXML private TableColumn<Cours, String> pdfCol;
-    @FXML private TableColumn<Cours, String> updatedAtCol;
     @FXML private TableColumn<Cours, Void> actionsCol;
+    @FXML private TableColumn<Cours, String> updatedAtCol;
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
@@ -122,20 +124,16 @@ public class AffichageCoursDashboardHedy {
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            // Show text only if showText is true
             button.setText(showText ? tooltipText : "");
             button.setTooltip(new Tooltip(tooltipText));
-            button.setMinSize(showText ? 120 : 60, 60); // Larger width for buttons with text
-            // Apply specified style
+            button.setMinSize(showText ? 120 : 60, 60);
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
-            // Fallback: Set text if icon fails to load
             button.setText(tooltipText);
             button.setTooltip(new Tooltip(tooltipText));
             button.setMinSize(showText ? 120 : 60, 60);
-            // Apply same style in fallback case
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         }
@@ -156,19 +154,14 @@ public class AffichageCoursDashboardHedy {
 
     @FXML
     private void goToAjoutCours() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AjoutCours.fxml"));
-            Parent root = loader.load();
-
-            AjoutCoursController controller = loader.getController();
-            controller.setCurrentModule(currentModule);
-
-            Stage stage = (Stage) coursTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Ajouter un Cours");
-        } catch (IOException e) {
-            System.err.println("Error loading AjoutCours.fxml: " + e.getMessage());
-        }
+        Session session = Session.getInstance();
+        int currentUserId = session.getUserId();
+        AjoutCoursController.showPopup(
+                (Stage) coursTable.getScene().getWindow(),
+                currentModule,
+                currentUserId
+        );
+        loadCoursCards(); // Refresh table after popup closes
     }
 
     private void editCours(Cours cours) {
@@ -177,11 +170,23 @@ public class AffichageCoursDashboardHedy {
             Parent root = loader.load();
             EditCoursController controller = loader.getController();
             controller.setCoursToEdit(cours);
-            Stage stage = (Stage) coursTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Modifier un Cours");
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(coursTable.getScene().getWindow());
+            popupStage.setTitle("Modifier un Cours");
+
+            Scene scene = new Scene(root);
+            popupStage.setScene(scene);
+            popupStage.setResizable(false);
+            popupStage.centerOnScreen();
+
+            popupStage.showAndWait();
+            loadCoursCards(); // Refresh table after popup closes
         } catch (IOException e) {
             System.err.println("Error loading EditCours.fxml: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page de modification : " + e.getMessage());
+            alert.showAndWait();
         }
     }
 }

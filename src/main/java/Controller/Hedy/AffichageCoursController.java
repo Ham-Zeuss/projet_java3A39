@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 import service.CoursService;
 import service.Oumaima.QuizService;
 
@@ -31,23 +33,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AffichageCoursController {
 
-    @FXML
-    private Label moduleTitleLabel;
-    @FXML
-    private GridPane coursGrid;
-    @FXML
-    private ComboBox<String> filterComboBox;
-
-    @FXML
-    private Button ajouterCoursButton;
-
-    @FXML
-    private Button retourModulesButton;
+    @FXML private Label moduleTitleLabel;
+    @FXML private GridPane coursGrid;
+    @FXML private ComboBox<String> filterComboBox;
+    @FXML private Button ajouterCoursButton;
+    @FXML private Button retourModulesButton;
 
     private Module currentModule;
     private final CoursService coursService = new CoursService();
@@ -90,7 +86,6 @@ public class AffichageCoursController {
             filterComboBox.setOnAction(event -> applyFilter());
         }
 
-        // Configure buttons with icons and text
         setupButton(ajouterCoursButton, "https://img.icons8.com/?size=100&id=91226&format=png&color=000000", "Ajouter Cours", true);
         setupButton(retourModulesButton, "https://img.icons8.com/?size=100&id=113571&format=png&color=000000", "Return", true);
     }
@@ -101,20 +96,16 @@ public class AffichageCoursController {
             icon.setFitWidth(48);
             icon.setFitHeight(48);
             button.setGraphic(icon);
-            // Show text only if showText is true
             button.setText(showText ? tooltipText : "");
             button.setTooltip(new Tooltip(tooltipText));
-            button.setMinSize(showText ? 150 : 60, 60); // Larger width for buttons with text
-            // Apply specified style
+            button.setMinSize(showText ? 150 : 60, 60);
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-graphic-text-gap: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         } catch (Exception e) {
             System.out.println("Failed to load icon from " + iconUrl + ": " + e.getMessage());
-            // Fallback: Set text if icon fails to load
             button.setText(tooltipText);
             button.setTooltip(new Tooltip(tooltipText));
             button.setMinSize(showText ? 150 : 60, 60);
-            // Apply same style in fallback case
             button.setStyle("-fx-background-color: transparent; -fx-padding: 8; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-text-fill: black; -fx-border-color: transparent;");
             button.getStyleClass().add("icon-button");
         }
@@ -231,7 +222,7 @@ public class AffichageCoursController {
                 final int ratingValue = i + 1;
 
                 if (alreadyRated) {
-                    star.setDisable(true); // Disable interaction
+                    star.setDisable(true);
                     star.setCursor(Cursor.DEFAULT);
                 } else {
                     star.setOnMouseClicked(event -> {
@@ -248,12 +239,10 @@ public class AffichageCoursController {
                             return;
                         }
 
-                        // Update UI after successful rating
                         for (int j = 0; j < 5; j++) {
                             starLabels[j].setText(j < ratingValue ? "★" : "☆");
                         }
 
-                        // Optionally disable stars after rating
                         for (Label s : starLabels) {
                             s.setDisable(true);
                             s.setCursor(Cursor.DEFAULT);
@@ -271,7 +260,6 @@ public class AffichageCoursController {
         Button deleteButton = new Button();
         Button viewQuizButton = new Button();
 
-        // Configure buttons with icons and text
         setupButton(viewQuizButton, "https://img.icons8.com/?size=100&id=114917&format=png&color=000000", "Voir", false);
         setupButton(editButton, "https://img.icons8.com/?size=100&id=7z7iEsDReQvk&format=png&color=000000", "Modifier", false);
         setupButton(deleteButton, "https://img.icons8.com/?size=100&id=97745&format=png&color=000000", "Supprimer", false);
@@ -314,22 +302,16 @@ public class AffichageCoursController {
             EditCoursController controller = loader.getController();
             controller.setCoursToEdit(cours);
 
-            // Create a new stage for the popup
             Stage popupStage = new Stage();
-            popupStage.initModality(Modality.APPLICATION_MODAL); // Make it modal
-            popupStage.initOwner(coursGrid.getScene().getWindow()); // Set the owner to the current window
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(coursGrid.getScene().getWindow());
             popupStage.setTitle("Modifier un Cours");
 
-            // Create scene for the popup
             Scene scene = new Scene(root);
             popupStage.setScene(scene);
 
-            // Center the popup on the screen
             popupStage.centerOnScreen();
-
-            // Show the popup and wait for it to close
             popupStage.showAndWait();
-
         } catch (IOException e) {
             System.err.println("Error loading EditCours.fxml: " + e.getMessage());
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page de modification : " + e.getMessage());
@@ -340,31 +322,42 @@ public class AffichageCoursController {
     @FXML
     private void retourModules() {
         try {
+            // Get the stage
+            Stage stage = (Stage) coursGrid.getScene().getWindow();
+
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
+            // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
+            // 1. Conditionally load header.fxml (Navbar)
             Session session = Session.getInstance();
             String userRole = session.getRole();
-
-            // Load header only if not ROLE_ENSEIGNANT
             if (!"ROLE_ENSEIGNANT".equals(userRole)) {
                 FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
                 VBox headerFxmlContent = headerLoader.load();
-                headerFxmlContent.setPrefSize(1000, 100);
+                headerFxmlContent.setPrefSize(width * 0.6, 100);
                 mainContent.getChildren().add(headerFxmlContent);
             }
 
-            // Load header image (banner)
+            // 2. Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResourceAsStream("/header.png"));
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1400);
+                headerImageView.setFitWidth(width);
+                headerImageView.setSmooth(true);
+                headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150, Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -372,21 +365,23 @@ public class AffichageCoursController {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // Load body content (module list)
+            // 3. Load body content
             FXMLLoader bodyLoader = new FXMLLoader(getClass().getResource("/HedyFXML/AffichageModule.fxml"));
             Parent bodyContent = bodyLoader.load();
+            bodyContent.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            bodyContent.getStyleClass().add("body-content");
             mainContent.getChildren().add(bodyContent);
 
-            // Load footer image
+            // 4. Load footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResourceAsStream("/footer.png"));
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1400);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100, Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -400,21 +395,18 @@ public class AffichageCoursController {
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            // Create scene
-            Scene scene = new Scene(scrollPane, 1400, 800);
+            // Set scene with screen size
+            Scene scene = new Scene(scrollPane, width, height);
 
             // Load CSS files
             URL storeCards = getClass().getResource("/css/store-cards.css");
             if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
 
-            // Load navbar.css only if not ROLE_ENSEIGNANT
-            if (!"ROLE_ENSEIGNANT".equals(userRole)) {
-                URL navBarCss = getClass().getResource("/navbar.css");
-                if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
-            }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
 
-            URL affichageprofilefront = getClass().getResource("/css/affichageprofilefront.css");
-            if (affichageprofilefront != null) scene.getStylesheets().add(affichageprofilefront.toExternalForm());
+            URL otherCss = getClass().getResource("/css/affichageprofilefront.css");
+            if (otherCss != null) scene.getStylesheets().add(otherCss.toExternalForm());
 
             URL appointmentsCss = getClass().getResource("/css/appointments.css");
             if (appointmentsCss != null) scene.getStylesheets().add(appointmentsCss.toExternalForm());
@@ -425,10 +417,11 @@ public class AffichageCoursController {
             URL gamesMenuStylingCss = getClass().getResource("/css/GamesMenuStyling.css");
             if (gamesMenuStylingCss != null) scene.getStylesheets().add(gamesMenuStylingCss.toExternalForm());
 
-            // Set scene on stage
-            Stage stage = (Stage) coursGrid.getScene().getWindow();
+            // Set scene
             stage.setScene(scene);
             stage.setTitle("Liste des Modules");
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
 
         } catch (IOException e) {
@@ -438,25 +431,44 @@ public class AffichageCoursController {
         }
     }
 
+    private List<String> loadStylesheets() {
+        List<String> stylesheets = new ArrayList<>();
+        String[] cssFiles = {
+                "/css/store-cards.css",
+                "/css/affichageprofilefront.css",
+                "/css/appointments.css",
+                "/css/GooButton.css",
+                "/css/GamesMenuStyling.css"
+        };
+
+        Session session = Session.getInstance();
+        String userRole = session.getRole();
+        if (!"ROLE_ENSEIGNANT".equals(userRole)) {
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) stylesheets.add(navBarCss.toExternalForm());
+        }
+
+        for (String cssFile : cssFiles) {
+            URL cssUrl = getClass().getResource(cssFile);
+            if (cssUrl != null) {
+                stylesheets.add(cssUrl.toExternalForm());
+            } else {
+                System.err.println("Error loading CSS: " + cssFile);
+            }
+        }
+        return stylesheets;
+    }
+
     @FXML
     private void goToAjoutCours() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HedyFXML/AjoutCours" +
-                    ".fxml"));
-            Parent root = loader.load();
-            AjoutCoursController controller = loader.getController();
-            controller.setCurrentModule(currentModule);
-
-            Session session = Session.getInstance();
-            int currentUserId = session.getUserId();
-            controller.setCurrentUserId(currentUserId);
-
-            Stage stage = (Stage) coursGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Ajouter un Cours");
-        } catch (IOException e) {
-            System.err.println("Error loading AjoutCours.fxml: " + e.getMessage());
-        }
+        Session session = Session.getInstance();
+        int currentUserId = session.getUserId();
+        AjoutCoursController.showPopup(
+                (Stage) coursGrid.getScene().getWindow(),
+                currentModule,
+                currentUserId
+        );
+        loadCoursCards();
     }
 
     @FXML
@@ -491,6 +503,16 @@ public class AffichageCoursController {
                 throw new IllegalArgumentException("Cours invalide");
             }
 
+            // Get the stage
+            Stage stage = (Stage) coursGrid.getScene().getWindow();
+
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
+            // Load quiz content
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageQuiz.fxml"));
             Parent root = loader.load();
             affichageQuizcontroller controller = loader.getController();
@@ -500,80 +522,87 @@ public class AffichageCoursController {
                     .collect(Collectors.toList());
             controller.displayQuizzes1(filteredQuizzes);
 
-            Stage stage = (Stage) coursGrid.getScene().getWindow();
+            // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
+            // Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150);
-                fallbackHeader.setFill(Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox();
-                fallbackBox.getChildren().addAll(errorLabel, fallbackHeader);
+                VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
                 mainContent.getChildren().add(fallbackBox);
             }
             mainContent.getChildren().add(headerImageView);
 
-            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            // Add body content
+            root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            root.getStyleClass().add("body-content");
             mainContent.getChildren().add(root);
 
+            // Add footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100);
-                fallbackFooter.setFill(Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
-                VBox fallbackBox = new VBox();
-                fallbackBox.getChildren().addAll(errorLabel, fallbackFooter);
+                VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
                 mainContent.getChildren().add(fallbackBox);
             }
             mainContent.getChildren().add(footerImageView);
 
+            // Wrap in ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            double headerHeight = headerImageView.getImage() != null ? headerImageView.getImage().getHeight() : 150;
-            double footerHeight = footerImageView.getImage() != null ? footerImageView.getImage().getHeight() : 100;
-            double totalHeight = headerHeight + root.prefHeight(-1) + footerHeight;
+            // Set scene with screen size
+            Scene scene = new Scene(scrollPane, width, height);
 
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            // Load CSS files
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
 
-            try {
-                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
-                scene.getStylesheets().add(storeCardsCss);
-            } catch (Exception e) {
-                System.err.println("Error loading store-cards.css: " + e.getMessage());
-            }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
 
-            try {
-                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
-                scene.getStylesheets().add(navBarCss);
-            } catch (Exception e) {
-                System.err.println("Error loading navbar.css: " + e.getMessage());
-            }
+            URL otherCss = getClass().getResource("/css/affichageprofilefront.css");
+            if (otherCss != null) scene.getStylesheets().add(otherCss.toExternalForm());
 
+            URL appointmentsCss = getClass().getResource("/css/appointments.css");
+            if (appointmentsCss != null) scene.getStylesheets().add(appointmentsCss.toExternalForm());
+
+            URL gooButtonCss = getClass().getResource("/css/GooButton.css");
+            if (gooButtonCss != null) scene.getStylesheets().add(gooButtonCss.toExternalForm());
+
+            URL gamesMenuStylingCss = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStylingCss != null) scene.getStylesheets().add(gamesMenuStylingCss.toExternalForm());
+
+            // Set scene
             stage.setScene(scene);
             stage.setTitle("Quizzes du Cours: " + cours.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur: " + e.getMessage());
@@ -587,6 +616,16 @@ public class AffichageCoursController {
                 throw new IllegalArgumentException("Cours invalide");
             }
 
+            // Get the stage
+            Stage stage = (Stage) coursGrid.getScene().getWindow();
+
+            // Use screen size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            double width = bounds.getWidth();
+            double height = bounds.getHeight();
+
+            // Load quiz content
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OumaimaFXML/affichageEtudiantQuiz.fxml"));
             Parent root = loader.load();
 
@@ -603,30 +642,29 @@ public class AffichageCoursController {
 
             controller.displayQuizzes1(filteredQuizzes);
 
-            Stage stage = (Stage) coursGrid.getScene().getWindow();
+            // Create a VBox to stack the header, body, and footer
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load and add header.fxml (Navbar)
+            // Load header.fxml (Navbar)
             FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
             VBox headerFxmlContent = headerLoader.load();
-            headerFxmlContent.setPrefSize(1500, 100); // Adjust size as needed
+            headerFxmlContent.setPrefSize(width * 0.6, 100);
             mainContent.getChildren().add(headerFxmlContent);
 
-            // Load Header Image
+            // Add header image
             ImageView headerImageView = new ImageView();
             try {
                 Image headerImage = new Image(getClass().getResource("/header.png").toExternalForm());
                 headerImageView.setImage(headerImage);
                 headerImageView.setPreserveRatio(true);
-                headerImageView.setFitWidth(1500);
+                headerImageView.setFitWidth(width);
                 headerImageView.setSmooth(true);
                 headerImageView.setCache(true);
                 VBox.setMargin(headerImageView, new Insets(0, 0, 10, 0));
             } catch (Exception e) {
                 System.err.println("Error loading header image: " + e.getMessage());
-                Rectangle fallbackHeader = new Rectangle(1000, 150);
-                fallbackHeader.setFill(Color.LIGHTGRAY);
+                Rectangle fallbackHeader = new Rectangle(width * 0.6, 150, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Header image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackHeader);
@@ -634,21 +672,21 @@ public class AffichageCoursController {
             }
             mainContent.getChildren().add(headerImageView);
 
-            // Load Content
-            root.setStyle("-fx-pref-width: 1500; -fx-pref-height: 1080; -fx-max-height: 2000;");
+            // Add body content
+            root.setStyle("-fx-pref-width: " + width + "; -fx-pref-height: " + height + "; -fx-max-height: 2000;");
+            root.getStyleClass().add("body-content");
             mainContent.getChildren().add(root);
 
-            // Load Footer Image
+            // Add footer image
             ImageView footerImageView = new ImageView();
             try {
                 Image footerImage = new Image(getClass().getResource("/footer.png").toExternalForm());
                 footerImageView.setImage(footerImage);
                 footerImageView.setPreserveRatio(true);
-                footerImageView.setFitWidth(1500);
+                footerImageView.setFitWidth(width);
             } catch (Exception e) {
                 System.err.println("Error loading footer image: " + e.getMessage());
-                Rectangle fallbackFooter = new Rectangle(1000, 100);
-                fallbackFooter.setFill(Color.LIGHTGRAY);
+                Rectangle fallbackFooter = new Rectangle(width * 0.6, 100, Color.LIGHTGRAY);
                 Label errorLabel = new Label("Footer image not found");
                 errorLabel.setStyle("-fx-font-size: 16; -fx-text-fill: red;");
                 VBox fallbackBox = new VBox(errorLabel, fallbackFooter);
@@ -656,30 +694,39 @@ public class AffichageCoursController {
             }
             mainContent.getChildren().add(footerImageView);
 
+            // Wrap in ScrollPane
             ScrollPane scrollPane = new ScrollPane(mainContent);
             scrollPane.setFitToWidth(true);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 1500, 700);
+            // Set scene with screen size
+            Scene scene = new Scene(scrollPane, width, height);
 
             // Load CSS files
-            try {
-                String storeCardsCss = getClass().getResource("/css/store-cards.css").toExternalForm();
-                scene.getStylesheets().add(storeCardsCss);
-            } catch (Exception e) {
-                System.err.println("Error loading store-cards.css: " + e.getMessage());
-            }
+            URL storeCards = getClass().getResource("/css/store-cards.css");
+            if (storeCards != null) scene.getStylesheets().add(storeCards.toExternalForm());
 
-            try {
-                String navBarCss = getClass().getResource("/navbar.css").toExternalForm();
-                scene.getStylesheets().add(navBarCss);
-            } catch (Exception e) {
-                System.err.println("Error loading navbar.css: " + e.getMessage());
-            }
+            URL navBarCss = getClass().getResource("/navbar.css");
+            if (navBarCss != null) scene.getStylesheets().add(navBarCss.toExternalForm());
 
+            URL otherCss = getClass().getResource("/css/affichageprofilefront.css");
+            if (otherCss != null) scene.getStylesheets().add(otherCss.toExternalForm());
+
+            URL appointmentsCss = getClass().getResource("/css/appointments.css");
+            if (appointmentsCss != null) scene.getStylesheets().add(appointmentsCss.toExternalForm());
+
+            URL gooButtonCss = getClass().getResource("/css/GooButton.css");
+            if (gooButtonCss != null) scene.getStylesheets().add(gooButtonCss.toExternalForm());
+
+            URL gamesMenuStylingCss = getClass().getResource("/css/GamesMenuStyling.css");
+            if (gamesMenuStylingCss != null) scene.getStylesheets().add(gamesMenuStylingCss.toExternalForm());
+
+            // Set scene
             stage.setScene(scene);
             stage.setTitle("Quizzes du Cours: " + cours.getTitle());
+            stage.setResizable(true);
+            stage.centerOnScreen();
             stage.show();
 
         } catch (IOException e) {

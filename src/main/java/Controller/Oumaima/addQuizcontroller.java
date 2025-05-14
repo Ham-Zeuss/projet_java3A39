@@ -253,11 +253,7 @@ public class addQuizcontroller {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header FXML (navbar)
-            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerLoader.load();
-            headerFxmlContent.setPrefSize(width * 0.6, 100);
-            mainContent.getChildren().add(headerFxmlContent);
+
 
             // Add header image
             ImageView headerImageView = new ImageView();
@@ -375,11 +371,7 @@ public class addQuizcontroller {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header FXML (navbar)
-            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerLoader.load();
-            headerFxmlContent.setPrefSize(width * 0.6, 100);
-            mainContent.getChildren().add(headerFxmlContent);
+
 
             // Add header image
             ImageView headerImageView = new ImageView();
@@ -479,11 +471,7 @@ public class addQuizcontroller {
             VBox mainContent = new VBox();
             mainContent.setAlignment(Pos.TOP_CENTER);
 
-            // Load header FXML (navbar)
-            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            VBox headerFxmlContent = headerLoader.load();
-            headerFxmlContent.setPrefSize(width * 0.6, 100);
-            mainContent.getChildren().add(headerFxmlContent);
+
 
             // Add header image
             ImageView headerImageView = new ImageView();

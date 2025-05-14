@@ -238,7 +238,8 @@
       <workItem from="1746635578102" duration="36663000" />
       <workItem from="1746692053934" duration="10522000" />
       <workItem from="1747124997421" duration="12155000" />
-      <workItem from="1747216712975" duration="3429000" />
+      <workItem from="1747216712975" duration="3785000" />
+      <workItem from="1747227688135" duration="6124000" />
     </task>
     <servers />
   </component>
@@ -257,6 +258,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/test/Ham/LeaderboardMain.java</url>
           <line>47</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Controller/Hedy/AffichageCoursController.java</url>
+          <line>321</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
