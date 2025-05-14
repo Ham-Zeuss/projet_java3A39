@@ -81,7 +81,7 @@ public class SecurityController {
             try {
                 // Set default session for backdoor (ID=14)
                 Session session = Session.getInstance();
-                session.setUser(48, "slim@gmail.com", "ROLE_PARENT");
+                session.setUser(47, "hanen@gmail.com", "ROLE_PARENT");
 
                 // Get screen dimensions
                 Rectangle2D screenBounds = Screen.getPrimary().getBounds();

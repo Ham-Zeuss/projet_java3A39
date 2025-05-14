@@ -17,6 +17,7 @@
         <okhttp.version>4.12.0</okhttp.version>
         <gluon-maps.version>2.0.0-ea+6</gluon-maps.version>
         <gluon-attach.version>4.0.11</gluon-attach.version>
+        <jackson.version>2.17.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -62,7 +63,15 @@
             <groupId>com.dropbox.core</groupId>
             <artifactId>dropbox-core-sdk</artifactId>
             <version>6.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+
 
         <!-- PDFBox for PDF handling -->
         <dependency>
@@ -76,6 +85,12 @@
             <groupId>com.gluonhq</groupId>
             <artifactId>maps</artifactId>
             <version>${gluon-maps.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
@@ -89,7 +104,7 @@
             <version>${gluon-attach.version}</version>
         </dependency>
 
-        <!-- Gluon Charm Glisten (for TextField) -->
+        <!-- Gluon Charm Glisten -->
         <dependency>
             <groupId>com.gluonhq</groupId>
             <artifactId>charm-glisten</artifactId>
@@ -110,7 +125,7 @@
             <version>0.10.2</version>
         </dependency>
 
-        <!-- JavaMail (for colleague's Gmail integration) -->
+        <!-- JavaMail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
@@ -143,6 +158,12 @@
             <groupId>com.stripe</groupId>
             <artifactId>stripe-java</artifactId>
             <version>25.3.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- iText for PDF generation -->
@@ -167,6 +188,22 @@
             <version>${okhttp.version}</version>
         </dependency>
 
+        <!-- Jackson Dependencies -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
         <!-- Azure Speech SDK -->
         <dependency>
@@ -199,6 +236,12 @@
             <groupId>com.lynden</groupId>
             <artifactId>GMapsFX</artifactId>
             <version>2.12.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Caffeine for caching -->
