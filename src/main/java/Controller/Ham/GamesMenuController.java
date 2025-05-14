@@ -20,6 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.effect.GaussianBlur;
 import javafx.animation.TranslateTransition;
+import javafx.stage.Modality;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
@@ -319,6 +320,42 @@ public class GamesMenuController {
             } else {
                 System.err.println("CSS file not found: " + cssUrl);
             }
+        }
+    }
+
+    @FXML
+    private void Parrot(ActionEvent event) {
+        try {
+            // Load the PronunciationCoach FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HamzaFXML/PronunciationCoach.fxml"));
+            Parent root = loader.load();
+
+            // Create a new modal stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Makes the popup modal
+            popupStage.initOwner(((Node) event.getSource()).getScene().getWindow()); // Sets the parent window
+
+            // Create and configure the scene
+            Scene scene = new Scene(root, 1000, 750);
+            popupStage.setScene(scene);
+            popupStage.setTitle("Pronunciation Coach");
+            popupStage.setMinWidth(900);
+            popupStage.setMinHeight(700);
+            popupStage.setResizable(true);
+            popupStage.centerOnScreen();
+
+            // Optionally, add CSS if PronunciationCoach has specific styles
+            URL cssUrl = getClass().getResource("/css/PronunciationCoach.css"); // Adjust path if you have a CSS file
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
+            // Show the popup and wait for it to be closed
+            popupStage.showAndWait();
+
+        } catch (IOException e) {
+            System.err.println("Error launching Pronunciation Coach: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

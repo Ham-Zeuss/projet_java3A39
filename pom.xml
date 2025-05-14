@@ -167,6 +167,14 @@
             <version>${okhttp.version}</version>
         </dependency>
 
+
+        <!-- Azure Speech SDK -->
+        <dependency>
+            <groupId>com.microsoft.cognitiveservices.speech</groupId>
+            <artifactId>client-sdk</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+
         <!-- 2FA TOTP -->
         <dependency>
             <groupId>com.warrenstrange</groupId>

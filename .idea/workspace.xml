@@ -14,9 +14,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="FxmlFile" />
         <option value="CSS File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -55,6 +55,7 @@
     &quot;Application.LeaderboardMain.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.Mainx.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Pro.executor&quot;: &quot;Run&quot;,
     &quot;Application.UserTitlesMain.executor&quot;: &quot;Run&quot;,
     &quot;Application.mes_rendezvous.executor&quot;: &quot;Run&quot;,
     &quot;Application.test.hedy.Mainx.executor&quot;: &quot;Run&quot;,
@@ -85,11 +86,11 @@
       <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources\Images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources\Images" />
+      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources\assets\images" />
       <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Hedy" />
       <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources" />
       <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources\User" />
-      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\resources\HedyFXML" />
-      <recent name="C:\Users\hamza\OneDrive\Desktop\projet_java3A39\src\main\java\Controller\Oumaima" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="entite" />
@@ -130,20 +131,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FXMLAffichageEtudianrQuizFrront" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.Oumaima.FXMLAffichageEtudianrQuizFrront" />
-      <module name="projet_java_gestion_evaluation" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.Oumaima.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="FXMLDoctorsFrontDisplayProfile" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.Maryem.FXMLDoctorsFrontDisplayProfile" />
       <module name="projet_java_gestion_evaluation" />
@@ -172,6 +159,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Pro" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Ham.Pro" />
+      <module name="projet_java_gestion_evaluation" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.Ham.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="projet_java_gestion_evaluation" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.web" />
@@ -180,8 +181,8 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Pro" />
       <item itemvalue="Application.FXMLDoctorsFrontDisplayProfile" />
-      <item itemvalue="Application.FXMLAffichageEtudianrQuizFrront" />
       <item itemvalue="Application.Dashboard" />
       <item itemvalue="Application.BoubakerMain" />
       <item itemvalue="Application.Main" />
@@ -189,10 +190,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Pro" />
         <item itemvalue="Application.Dashboard" />
         <item itemvalue="Application.FXMLDoctorsFrontDisplayProfile" />
         <item itemvalue="Application.BoubakerMain" />
-        <item itemvalue="Application.FXMLAffichageEtudianrQuizFrront" />
       </list>
     </recent_temporary>
   </component>
@@ -240,6 +241,8 @@
       <workItem from="1747124997421" duration="12155000" />
       <workItem from="1747216712975" duration="3785000" />
       <workItem from="1747227688135" duration="6124000" />
+      <workItem from="1747249964978" duration="5977000" />
+      <workItem from="1747256477978" duration="5712000" />
     </task>
     <servers />
   </component>

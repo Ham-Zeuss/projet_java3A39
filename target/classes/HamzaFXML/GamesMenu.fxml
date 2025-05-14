@@ -64,19 +64,19 @@
 
     <!-- Card 3: Placeholder Game -->
     <VBox alignment="CENTER" spacing="15" styleClass="game-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
-        <Label text="New Game" styleClass="timestamp"/>
+        <Label text="Prontp" styleClass="timestamp"/>
         <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
             <image>
-                <Image url="/Images/kidslogo.png"/>
+                <Image url="/Images/parrot.jpg"/>
             </image>
             <clip>
                 <Circle centerX="125" centerY="125" radius="125"/>
             </clip>
         </ImageView>
-        <Label text="Mystery Game" styleClass="game-title"  style="-fx-text-fill: black; -fx-font-size: 18px;"/>
-        <Label text="CreatorX" styleClass="game-creator"  style="-fx-text-fill: black; -fx-font-size: 15px;"/>
+        <Label text="Pronto the Parrot!" styleClass="game-title"  style="-fx-text-fill: black; -fx-font-size: 18px;"/>
+        <Label text="Prontooo" styleClass="game-creator"  style="-fx-text-fill: black; -fx-font-size: 15px;"/>
         <Pane fx:id="placeholderButtonPane" prefWidth="550" prefHeight="50">
-            <Button fx:id="playPlaceholderGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button"/>
+            <Button fx:id="playPlaceholderGameButton" prefWidth="150" prefHeight="50" text="Play" styleClass="gooey-button" onAction="#Parrot"/>
         </Pane>
     </VBox>
 </GridPane>

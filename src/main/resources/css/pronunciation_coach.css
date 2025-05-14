@@ -1,0 +1,198 @@
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+#root {
+    -fx-background-color: #1a1a1a;
+}
+
+#background-effects {
+    -fx-opacity: 1;
+}
+
+#glow-layer1 {
+    -fx-fill: linear-gradient(to right, #ff6f61, #4a90e2, #ffd700, #00ffcc, #ff6f61);
+    -fx-background-size: 600% 600%;
+    -fx-animation: glowAnimation 10s ease infinite;
+}
+
+#glow-layer2 {
+    -fx-fill: linear-gradient(to left, #00ffcc, #ffd700, #4a90e2, #ff6f61, #00ffcc);
+    -fx-background-size: 600% 600%;
+    -fx-animation: glowAnimation 13s ease infinite reverse;
+}
+
+#glow-layer3 {
+    -fx-fill: linear-gradient(to bottom, #4a90e2, #ff6f61, #00ffcc, #ffd700, #4a90e2);
+    -fx-background-size: 600% 600%;
+    -fx-animation: glowAnimation 16s ease infinite;
+}
+
+@-fx-keyframes glowAnimation {
+    0% { -fx-background-position: 0% 50%; }
+    50% { -fx-background-position: 100% 50%; }
+    100% { -fx-background-position: 0% 50%; }
+}
+
+
+
+
+
+#crystal-container {
+    -fx-alignment: center;
+}
+
+#content-box {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-background-radius: 35;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 0);
+    -fx-transition: transform 0.3s ease;
+}
+
+#content-box:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+#coach-title {
+    -fx-text-fill: #ff6f61;
+    -fx-font-size: 3.2em;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Poppins';
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0, 2, 2);
+}
+
+#mascot {
+    -fx-transition: transform 0.4s ease-in-out;
+}
+
+#mascot.talking {
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
+    -fx-rotate: 7;
+}
+
+#coach-intro {
+    -fx-text-fill: #4a90e2;
+    -fx-font-size: 1.5em;
+    -fx-font-family: 'Poppins';
+}
+
+#chat-box {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-radius: 20;
+    -fx-padding: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-transition: transform 0.3s ease;
+}
+
+#chat-box.active {
+    -fx-scale-x: 1.04;
+    -fx-scale-y: 1.04;
+}
+
+#chatMessage {
+    -fx-background-color: #b3e5fc;
+    -fx-padding: 16;
+    -fx-background-radius: 16;
+    -fx-text-fill: #333;
+    -fx-font-size: 1.3em;
+    -fx-font-family: 'Poppins';
+}
+
+.bouncy-word {
+    -fx-text-fill: #ff6f61;
+    -fx-font-weight: bold;
+    -fx-font0style: italic;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 1, 1);
+    -fx-animation: bounce 0.5s infinite alternate;
+}
+
+@-fx-keyframes bounce {
+    0% { -fx-translate-y: 0; }
+    100% { -fx-translate-y: -7; }
+}
+
+#input-area {
+    -fx-spacing: 25;
+}
+
+#wordInput {
+    -fx-border-color: #4a90e2;
+    -fx-border-width: 1;
+
+    -fx-padding: 16;
+    -fx-font-size: 1.2em;
+    -fx-font-family: 'Poppins';
+    -fx-transition: border-color 0.3s ease, effect 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Coach Button Styles */
+.coach-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: Black;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-padding: 10 32; /* Approx 0.6em 2em */
+    -fx-border-width: 2; /* Approx 0.15em */
+    -fx-border-color: mediumspringgreen;
+    -fx-border-radius: 4; /* Approx 0.25em */
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: null;
+}
+
+/* Text styling */
+.coach-btn .text {
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-text-fill: inherit;
+}
+
+/* Hover effect: simulate circles with background image */
+.coach-btn:hover {
+    -fx-text-fill: red;
+    -fx-background-color: transparent;
+    -fx-background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='200' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='20' r='20' fill='rgba(0,250,154,0.5)'/%3E%3Ccircle cx='160' cy='20' r='20' fill='rgba(0,250,154,0.5)'/%3E%3C/svg%3E");
+    -fx-background-position: -100% center, 200% center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 200 40;
+    -fx-animation: slideCircles 0.5s ease-in-out forwards;
+}
+
+/* Pressed state */
+.coach-btn:pressed {
+    -fx-border-color: teal;
+    -fx-text-fill: #212121;
+    -fx-background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='200' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='20' r='20' fill='rgba(0,128,128,0.5)'/%3E%3Ccircle cx='160' cy='20' r='20' fill='rgba(0,128,128,0.5)'/%3E%3C/svg%3E");
+    -fx-background-position: 0% center, 100% center;
+}
+
+/* Focus state for accessibility */
+.coach-btn:focused {
+    -fx-border-color: mediumspringgreen;
+    -fx-effect: dropshadow(gaussian, rgba(0, 250, 154, 0.7), 12, 0.5, 0, 0);
+}
+
+/* Keyframe animation for sliding circles */
+@-fx-keyframes slideCircles {
+    0% {
+        -fx-background-position: -100% center, 200% center;
+    }
+    100% {
+        -fx-background-position: 0% center, 100% center;
+    }
+}

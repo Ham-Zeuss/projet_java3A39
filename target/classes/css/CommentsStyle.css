@@ -90,7 +90,7 @@
 }
 
 .button {
-    -fx-background-color: transparent;
+    -fx-background-color: invisible;
     -fx-text-fill: Black;
     -fx-font-size: 18px;
     -fx-padding: 10 20;

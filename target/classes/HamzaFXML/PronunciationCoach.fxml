@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.Rectangle?>
+
+<Pane id="root" prefWidth="1000" prefHeight="750" stylesheets="@../css/pronunciation_coach.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Ham.PronunciationCoachController">
+    <!-- Background Effects -->
+    <Pane id="background-effects">
+        <Rectangle id="glow-layer1" width="1000" height="750" fill="transparent" opacity="0.95">
+            <effect>
+                <javafx.scene.effect.GaussianBlur radius="60"/>
+            </effect>
+        </Rectangle>
+        <Rectangle id="glow-layer2" width="1000" height="750" fill="transparent" opacity="0.75">
+            <effect>
+                <javafx.scene.effect.GaussianBlur radius="80"/>
+            </effect>
+        </Rectangle>
+        <Rectangle id="glow-layer3" width="1000" height="750" fill="transparent" opacity="0.55">
+            <effect>
+                <javafx.scene.effect.GaussianBlur radius="100"/>
+            </effect>
+        </Rectangle>
+        <!-- Balloons -->
+        <Rectangle fx:id="balloon1" width="20" height="30" styleClass="balloon balloon1"/>
+        <Rectangle fx:id="balloon2" width="20" height="30" styleClass="balloon balloon2"/>
+        <Rectangle fx:id="balloon3" width="20" height="30" styleClass="balloon balloon3"/>
+        <!-- Stars -->
+        <Rectangle fx:id="star1" width="10" height="10" styleClass="star star1"/>
+        <Rectangle fx:id="star2" width="10" height="10" styleClass="star star2"/>
+        <Rectangle fx:id="star3" width="10" height="10" styleClass="star star3"/>
+        <Rectangle fx:id="star4" width="10" height="10" styleClass="star star4"/>
+        <Rectangle fx:id="star5" width="10" height="10" styleClass="star star5"/>
+        <Rectangle fx:id="star6" width="10" height="10" styleClass="star star6"/>
+        <Rectangle fx:id="star7" width="10" height="10" styleClass="star star7"/>
+        <Rectangle fx:id="star8" width="10" height="10" styleClass="star star8"/>
+        <Rectangle fx:id="star9" width="10" height="10" styleClass="star star9"/>
+        <Rectangle fx:id="star10" width="10" height="10" styleClass="star star10"/>
+        <!-- Confetti -->
+        <Rectangle fx:id="confetti1" width="8" height="8" styleClass="confetti" translateX="100"/>
+        <Rectangle fx:id="confetti2" width="8" height="8" styleClass="confetti" translateX="300"/>
+        <Rectangle fx:id="confetti3" width="8" height="8" styleClass="confetti" translateX="500"/>
+    </Pane>
+
+    <!-- Main Content -->
+    <VBox id="crystal-container" alignment="CENTER" prefWidth="1000" prefHeight="750" spacing="30">
+        <VBox id="content-box" alignment="CENTER" spacing="25" prefWidth="800" maxWidth="800">
+            <Label id="coach-title" text="Pronunciation Coach"/>
+            <ImageView fx:id="mascot" fitWidth="180" fitHeight="180"/>
+            <Label id="coach-intro" text="Hi, I’m Pronto the Parrot! Let’s practice some words together!"/>
+            <VBox fx:id="chatBox" id="chat-box" minHeight="180" prefWidth="750" alignment="TOP_LEFT">
+                <Label fx:id="chatMessage" text="Squawk! Type a word to start!" wrapText="true"/>
+            </VBox>
+            <HBox id="input-area" spacing="25" alignment="CENTER">
+                <TextField fx:id="wordInput" promptText="Type a word!" prefWidth="250"/>
+                <Button fx:id="listenBtn" text="Listen" styleClass="coach-btn" onAction="#handleListen"/>
+                <Button fx:id="recordBtn" text="Record My Try" styleClass="coach-btn" onAction="#handleRecord"/>
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <!-- Audio Player (Hidden) -->
+    <MediaView fx:id="audioPlayer" visible="false"/>
+</Pane>
