@@ -191,7 +191,7 @@ public class RegistrationController implements Initializable {
         age.textProperty().addListener((obs, oldValue, newValue) -> {
             try {
                 int ageValue = Integer.parseInt(newValue);
-                if (ageValue < 6 || ageValue > 12) {
+                if (ageValue < 6 || ageValue > 100) {
                     age.setStyle("-fx-border-color: red;");
                 } else {
                     age.setStyle("");
@@ -234,7 +234,7 @@ public class RegistrationController implements Initializable {
 
         try {
             int ageValue = Integer.parseInt(age.getText());
-            isValid = isValid && (ageValue >= 6 && ageValue <= 12);
+            isValid = isValid && (ageValue >= 6 && ageValue <= 100);
         } catch (NumberFormatException e) {
             isValid = false;
         }
@@ -328,8 +328,8 @@ public class RegistrationController implements Initializable {
             default -> "[\"ROLE_USER\"]";
         };
 
-        String insertQuery = "INSERT INTO user (nom, prenom, email, roles, password, is_verified, age, gouvernorat, numero, photo, is_active) " +
-                "VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?, 1)";
+        String insertQuery = "INSERT INTO user (nom, prenom, email, roles, password, is_verified, age, gouvernorat, numero, photo, is_active, balance, score_total) " +
+                "VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?, 1, 0.0, 5000)";
 
         try {
             PreparedStatement preparedStatement = connectDB.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
@@ -364,6 +364,8 @@ public class RegistrationController implements Initializable {
                 newUser.setNumero(numeroTel);
                 newUser.setPhoto(photoPath == null ? "" : photoPath);
                 newUser.setActive(true);
+                newUser.setBalance(0.0); // Set balance to 0
+                newUser.setScoreTotal(5000); // Set score_total to 5000
 
                 // Retrieve the generated ID
                 ResultSet rs = preparedStatement.getGeneratedKeys();

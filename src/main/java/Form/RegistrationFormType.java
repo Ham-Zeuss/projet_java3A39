@@ -30,7 +30,7 @@ public class RegistrationFormType {
     public static boolean isValidAge(String ageStr) {
         try {
             int age = Integer.parseInt(ageStr);
-            return age >= 6 && age <= 12;
+            return age >= 6 && age <= 100;
         } catch (NumberFormatException e) {
             return false;
         }
